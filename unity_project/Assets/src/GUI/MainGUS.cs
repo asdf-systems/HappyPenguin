@@ -19,17 +19,16 @@ public class MainGUS : GUIState {
 	
 	protected override void loadMenu(){
 		
-		GUI.depth = 0;
-		GeneralScreenGUI.Box(mGUIManager, new Rect(448,0,512,512), "", mGUIManager.menuTop_style);
-		GeneralScreenGUI.Box(mGUIManager, new Rect(852,132,512,512), "", mGUIManager.menuRight_style);
-		if (GeneralScreenGUI.Button (mGUIManager, new Rect (595,132,256,256), "", mGUIManager.newGame_btn_style)) {
+		//GUI.depth = 0;
+		
+		/*if (GeneralScreenGUI.Button((mGUIManager, new Rect (595,132,256,256), "", mGUIManager.newGame_btn_style)) {
 			//mGUIManager.pushGUIState(new StartGUS(mGUIManager, mCamera));
 		}
 		GUI.depth = 1;
 		if (GeneralScreenGUI.Button (mGUIManager, new Rect (639,221,256,256), "", mGUIManager.options_btn_style)) {
 			//mGUIManager.pushGUIState(new StartGUS(mGUIManager, mCamera));
 		}
-		/*if (GeneralScreenGUI.Button (mGUIManager, new Rect (529,333,256,256), "", mGUIManager.highscore_btn_style)) {
+		if (GeneralScreenGUI.Button (mGUIManager, new Rect (529,333,256,256), "", mGUIManager.highscore_btn_style)) {
 			//mGUIManager.pushGUIState(new StartGUS(mGUIManager, mCamera));
 		}
 		if (GeneralScreenGUI.Button (mGUIManager, new Rect (602,413,256,256), "", mGUIManager.credits_btn_style)) {

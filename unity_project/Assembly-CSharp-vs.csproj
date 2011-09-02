@@ -44,10 +44,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\src\GUI\GUIElement.cs" />
      <Compile Include="Assets\src\GUI\GUIManager.cs" />
      <Compile Include="Assets\src\GUI\GUIState.cs" />
      <Compile Include="Assets\src\GUI\GeneralScreenGUI.cs" />
      <Compile Include="Assets\src\GUI\MainGUS.cs" />
+     <Compile Include="Assets\src\GUI\menu_background.cs" />
+     <Compile Include="Assets\src\GUI\menu_playBtn.cs" />
      <Compile Include="Assets\src\GameManager.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

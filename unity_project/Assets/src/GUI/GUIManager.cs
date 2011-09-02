@@ -15,8 +15,8 @@ public class GUIManager :MonoBehaviour {
 	
 	// Button Styles
 	public GUIStyle newGame_btn_style;
-	public GUIStyle menuTop_style;
-	public GUIStyle menuRight_style;
+	
+	
 	public GUIStyle credits_btn_style;
 	public GUIStyle options_btn_style;
 	public GUIStyle highscore_btn_style;
