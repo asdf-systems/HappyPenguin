@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class menu_playBtn : GUIBaseElement {
+public class menu_optionsBtn: GUIBaseElement {
 		
 	
 	protected override void showElements(){
@@ -10,6 +10,6 @@ public class menu_playBtn : GUIBaseElement {
 	
 	protected override void hit(){
 		// start Game
-		Debug.Log("Start Game");
+		Debug.Log("Options");
 	}
 }

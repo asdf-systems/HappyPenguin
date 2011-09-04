@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		manager.pushGUIState(new MainGUS(manager, manager.PlayerCam));
+		
 	}
 	
 	// Update is called once per frame

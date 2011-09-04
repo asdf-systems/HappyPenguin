@@ -46,10 +46,9 @@
   <ItemGroup>
      <Compile Include="Assets\src\GUI\GUIBaseElement.cs" />
      <Compile Include="Assets\src\GUI\GUIManager.cs" />
-     <Compile Include="Assets\src\GUI\GUIState.cs" />
      <Compile Include="Assets\src\GUI\GeneralScreenGUI.cs" />
-     <Compile Include="Assets\src\GUI\MainGUS.cs" />
      <Compile Include="Assets\src\GUI\menu_background.cs" />
+     <Compile Include="Assets\src\GUI\menu_optionsBtn.cs" />
      <Compile Include="Assets\src\GUI\menu_playBtn.cs" />
      <Compile Include="Assets\src\GameManager.cs" />
   </ItemGroup>
