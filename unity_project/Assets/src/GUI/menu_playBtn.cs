@@ -1,13 +1,15 @@
 using UnityEngine;
 using System.Collections;
 
-public class menu_playBtn : GUIElement {
+public class menu_playBtn : GUIBaseElement {
+		
 	
-	public GUIStyle play_btn_style;
+	protected override void showElements(){
+		GeneralScreenGUI.Box(guiManager, new Rect (positionX,positionY,256,256), "", currentStyle);
+	}
 	
-	void OnGUI(){
-		if(GeneralScreenGUI.Button(mGUIManager, new Rect (595,132,256,256), "", play_btn_style)){
-			//mGUIManager.pushGUIState(new StartGUS(mGUIManager, mCamera));
-		}
+	protected override void hit(){
+		// start Game
+		Debug.Log("Start Game");
 	}
 }

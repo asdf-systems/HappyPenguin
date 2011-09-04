@@ -71,12 +71,17 @@ public class GeneralScreenGUI : GUI
 		// Get the right Hight and Width proportional to screen
 		float factorY = (float)(Screen.height) / (float)(gui.TargetScreenHeight); 
 		float factorX = (float)(Screen.width) / (float)(gui.TargetScreenWidth);
-		//Debug.Log("FactorX: " + factorX + " FactorY: " + factorY);
-		//Debug.Log("Screen:" + Screen.height + " " + Screen.width);
-		//Debug.Log("Camera: " + cam.name + ":" + cam.transform.parent.name + " Rect: " + rect + " cam Position: " + camPosition.x + " " + camPosition.y);
-		//Debug.Log("Camera: " + cam.name + ":" + cam.transform.parent.name + " CAmSize: " + cam.pixelHeight + " " + cam.pixelWidth);
 		return new Rect ((camPosition.x+rect.x)*factorX  ,(camPosition.y +  rect.y)*factorY ,rect.width*factorX,rect.height*factorY);
-		//return new Rect (camPosition.x ,camPosition.y ,rect.width,rect.height);
+	} 
+	
+	public static Vector3 normalizeMouse(GUIManager gui, Vector3 vec){
+		float factorY = (float)(Screen.height) / (float)(gui.TargetScreenHeight); 
+		float factorX = (float)(Screen.width) / (float)(gui.TargetScreenWidth);
+		//Debug.Log("Normalize: " + vec.y + " "+ Screen.height + "Factor: " + factorX + " " + factorY);
+		vec.y = Screen.height - vec.y;
+		vec.x /= factorX;
+		vec.y /= factorY;
+		return vec;
 	}
 }
 
