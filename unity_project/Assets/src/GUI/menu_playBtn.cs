@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class menu_playBtn : GUIElement {
+public class menu_playBtn : GUIBaseElement {
 	
 	/*public GUIStyle play_btn_style;
 	

@@ -3,8 +3,7 @@ using System.Collections;
 
 public class MainGUS : GUIState {
 
-	private int newGame_buttonWidth; 
-	private int newGame_buttonHeight; 
+ 
 	
 	public MainGUS(GUIManager gm, Camera cam) 
 		: base(gm, cam){
@@ -13,8 +12,8 @@ public class MainGUS : GUIState {
 	}
 	
 	private void init(){
-		newGame_buttonHeight = 90;
-		newGame_buttonWidth = 228;
+		//newGame_buttonHeight = 90;
+		//newGame_buttonWidth = 228;
 	}
 	
 	protected override void loadMenu(){

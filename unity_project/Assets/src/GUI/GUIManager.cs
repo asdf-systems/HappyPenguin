@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class GUIManager :MonoBehaviour {
 	
 	public Camera PlayerCam;
-	public bool active{get;set;}
 	
 	// This means the Resolution what all absolute Values setuped for (like Button positions etc.)
 	public int TargetScreenHeight;
@@ -32,12 +31,12 @@ public class GUIManager :MonoBehaviour {
 	void Awake(){
 		mGUIStates = new Stack<GUIState>();	
 		mGUIStates.Push(new MainGUS(this, PlayerCam));
-		active = true;
+		enabled = true;
 		
 	}
 	void OnGUI(){
 		GUI.skin = guiSkin;
-		if(mGUIStates.Count > 0 && active)
+		if(mGUIStates.Count > 0 && enabled)
 			mGUIStates.Peek().OnGUI();	
 		
 	}

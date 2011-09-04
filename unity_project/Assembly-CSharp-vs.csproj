@@ -44,7 +44,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\src\GUI\GUIElement.cs" />
+     <Compile Include="Assets\src\GUI\GUIBaseElement.cs" />
      <Compile Include="Assets\src\GUI\GUIManager.cs" />
      <Compile Include="Assets\src\GUI\GUIState.cs" />
      <Compile Include="Assets\src\GUI\GeneralScreenGUI.cs" />
