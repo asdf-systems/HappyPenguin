@@ -52,6 +52,7 @@
      <Compile Include="Assets\src\GUI\menu_playBtn.cs" />
      <Compile Include="Assets\src\GameManager.cs" />
      <Compile Include="Assets\src\MovieTexture.cs" />
+     <Compile Include="Assets\src\penguin_animation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
