@@ -1,1 +1,1 @@
-Assets/assets/water/textures/pPlane_81.jpg
+Assets/assets/interface/menu_top.png
