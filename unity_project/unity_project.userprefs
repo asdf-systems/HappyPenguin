@@ -1,8 +1,27 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Editor/PopulateMultiTexture.js">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/src/Collections/ListChangedEventArgs.cs">
     <Files>
-      <File FileName="Assets/Editor/PopulateMultiTexture.js" Line="3" Column="29" />
+      <File FileName="Assets/src/Entities/EntityBehaviour.cs" Line="37" Column="4" />
+      <File FileName="Assets/src/Entities/AnimationFinishedEventArgs.cs" Line="4" Column="15" />
+      <File FileName="Assets/src/Entities/EnvironmentEntityBehaviour.cs" Line="7" Column="4" />
+      <File FileName="Assets/src/Entities/TargetableEntityBehaviour.cs" Line="5" Column="49" />
+      <File FileName="Assets/src/Entities/CreatureBehaviour.cs" Line="10" Column="13" />
+      <File FileName="Assets/src/Effects/Effect.cs" Line="10" Column="3" />
+      <File FileName="Assets/src/Entities/PerkBehaviour.cs" Line="8" Column="3" />
+      <File FileName="Assets/src/GameWorldManager.cs" Line="10" Column="33" />
+      <File FileName="Assets/src/ButtonRotationRequestedEventArgs.cs" Line="2" Column="1" />
+      <File FileName="Assets/src/Spawning/Spawner.cs" Line="12" Column="18" />
+      <File FileName="Assets/src/Spawning/EntitySpawnedEventArgs.cs" Line="6" Column="95" />
+      <File FileName="Assets/src/Spawning/CreatureSpawner.cs" Line="14" Column="1" />
+      <File FileName="Assets/src/MovieTexture.cs" Line="1" Column="1" />
+      <File FileName="Assets/src/Entities/EntityManager.cs" Line="11" Column="46" />
+      <File FileName="Assets/src/Controller.cs" Line="5" Column="34" />
+      <File FileName="Assets/src/Effects/EffectManager.cs" Line="10" Column="22" />
+      <File FileName="Assets/src/Spawning/PerkSpawner.cs" Line="6" Column="57" />
+      <File FileName="Assets/src/State.cs" Line="3" Column="1" />
+      <File FileName="Assets/src/Collections/BindingList.cs" Line="16" Column="31" />
+      <File FileName="Assets/src/Collections/ListChangedEventArgs.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

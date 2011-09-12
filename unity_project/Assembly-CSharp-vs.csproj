@@ -44,14 +44,33 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\src\ButtonRotationRequestedEventArgs.cs" />
+     <Compile Include="Assets\src\Collections\BindingList.cs" />
+     <Compile Include="Assets\src\Collections\ListChangedEventArgs.cs" />
+     <Compile Include="Assets\src\Collections\ListChangedType.cs" />
+     <Compile Include="Assets\src\Controller.cs" />
+     <Compile Include="Assets\src\Effects\Effect.cs" />
+     <Compile Include="Assets\src\Effects\EffectManager.cs" />
+     <Compile Include="Assets\src\Entities\AnimationFinishedEventArgs.cs" />
+     <Compile Include="Assets\src\Entities\CreatureBehaviour.cs" />
+     <Compile Include="Assets\src\Entities\EntityBehaviour.cs" />
+     <Compile Include="Assets\src\Entities\EntityManager.cs" />
+     <Compile Include="Assets\src\Entities\EnvironmentEntityBehaviour.cs" />
+     <Compile Include="Assets\src\Entities\PerkBehaviour.cs" />
+     <Compile Include="Assets\src\Entities\TargetableEntityBehaviour.cs" />
      <Compile Include="Assets\src\GUI\GUIBaseElement.cs" />
      <Compile Include="Assets\src\GUI\GUIManager.cs" />
      <Compile Include="Assets\src\GUI\GeneralScreenGUI.cs" />
      <Compile Include="Assets\src\GUI\menu_background.cs" />
      <Compile Include="Assets\src\GUI\menu_optionsBtn.cs" />
      <Compile Include="Assets\src\GUI\menu_playBtn.cs" />
-     <Compile Include="Assets\src\GameManager.cs" />
+     <Compile Include="Assets\src\GameWorldManager.cs" />
      <Compile Include="Assets\src\MovieTexture.cs" />
+     <Compile Include="Assets\src\Spawning\CreatureSpawner.cs" />
+     <Compile Include="Assets\src\Spawning\EntitySpawnedEventArgs.cs" />
+     <Compile Include="Assets\src\Spawning\PerkSpawner.cs" />
+     <Compile Include="Assets\src\Spawning\Spawner.cs" />
+     <Compile Include="Assets\src\State.cs" />
      <Compile Include="Assets\src\penguin_animation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
