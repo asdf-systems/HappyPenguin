@@ -4,7 +4,7 @@ using System.Collections;
 public class GUIBaseElement : MonoBehaviour {
 
 	public int guiDepth;
-	public GUIManager guiManager;
+	public GUIStatics guiStatics;
 	
 	// Active Rectangle 
 	public int height;
@@ -124,7 +124,7 @@ public class GUIBaseElement : MonoBehaviour {
 		bool flagY = false;
 		bool flagZ = false;
 		
-		mousePos = GeneralScreenGUI.normalizeMouse(guiManager , mousePos);
+		mousePos = GeneralScreenGUI.normalizeMouse(guiStatics , mousePos);
 		
 		if(mousePos.x >= elemPos.x && ( mousePos.x <= ( elemPos.x + elemSize.x ) ) )
 			flagX = true;

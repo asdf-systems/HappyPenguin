@@ -7,7 +7,7 @@ using HappyPenguin;
 
 public sealed class GameWorldManager : MonoBehaviour
 {
-	private readonly GUIManager guiManager;
+	private readonly GUIStatics guiManager;
 	private readonly EffectManager effectManager;
 	private readonly CreatureSpawner creatureSpawner;
 	private readonly PerkSpawner perkSpawner;

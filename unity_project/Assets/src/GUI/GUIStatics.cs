@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class GUIManager : MonoBehaviour {
+public class GUIStatics : MonoBehaviour {
 	
 	public Camera PlayerCam;
 	
