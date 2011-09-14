@@ -1,11 +1,11 @@
+using UnityEngine;
 using System;
 using HappyPenguin.Entities;
 using HappyPenguin.Effects;
 using HappyPenguin.Spawning;
+using HappyPenguin;
 
-namespace HappyPenguin
-{
-	public sealed class GameWorldManager
+	public sealed class GameWorldManager : MonoBehaviour
 	{
 		private GUIManager guiManager;
 		private EffectManager effectManager;
@@ -31,8 +31,10 @@ namespace HappyPenguin
 		private void OnCreatureSpawned (object sender, EntitySpawnedEventArgs<CreatureBehaviour> e) {
 			
 		}
-		
-		
+	
+	public void Update()
+	{
+		creatureSpawner.Update();
 	}
 	
 }

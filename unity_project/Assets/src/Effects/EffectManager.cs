@@ -7,7 +7,7 @@ namespace HappyPenguin.Effects
 	public sealed class EffectManager
 	{
 		public EffectManager () {
-			Effects = new BindingList<Effect>();
+			Effects = new ObservableList<Effect>();
 			//Effects.ListChanged += OnEffectsListChanged;
 		}
 		
@@ -16,10 +16,6 @@ namespace HappyPenguin.Effects
 			private set;
 		}
 		
-		private void OnEffectsListChanged(object sender, ListChangedEventArgs e)
-		{
-			
-		}
 	}
 }
 

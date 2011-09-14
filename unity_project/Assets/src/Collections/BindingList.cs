@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace HappyPenguin.Collections
 {
-	public sealed class BindingList<T> : List<T>
+	public sealed class ObservableList<T> : List<T>
 	{
 
 		public new void Add (T item) {
@@ -15,17 +15,11 @@ namespace HappyPenguin.Collections
 			return base.Remove (item);
 			
 		}
+		
+		public event EventHandler ItemRemoved;
 
-		public event EventHandler ListChanged;
-		private void InvokeListChanged () {
-			var handler = ListChanged;
-			if (handler == null) {
-				return;
-			}
-			
-			var e = new ListChangedEventArgs ();
-			ListChanged (this, e);
-		}
+		public event EventHandler ItemAdded;
+		
 	}
 	
 }
