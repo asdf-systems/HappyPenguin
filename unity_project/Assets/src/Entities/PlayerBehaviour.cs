@@ -1,12 +1,11 @@
 using System;
 using UnityEngine;
+using HappyPenguin.Entities;
 
-namespace AssemblyCSharp
+public sealed class PlayerBehaviour : EntityBehaviour
 {
-	public sealed class PlayerBehaviour : MonoBehaviour
-	{
-		public PlayerBehaviour() {
-		}
+	public PlayerBehaviour() {
 	}
 }
+
 

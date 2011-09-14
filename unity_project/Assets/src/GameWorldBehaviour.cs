@@ -15,18 +15,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private readonly EntityManager entityManager;
 
 	public string GamePlayFunction;
-	
-	public void Awake()
-	{
-		InitPlayer();
-	}
-	
-	private void InitPlayer()
-	{
-		
-	}
-	
+
 	public GameWorldBehaviour() {
+		entityManager = new EntityManager();
+		
 		effectManager = new EffectManager();
 		
 		creatureSpawner = new CreatureSpawner();
@@ -35,6 +27,22 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		perkSpawner = new PerkSpawner();
 		//perkSpawner.PerkSpawned += OnPerkSpawned;
 	}
+
+	public void Awake() {
+		InitPlayer();
+		
+	}
+	
+	private void InitPlayer() {
+		var player = gameObject.GetComponentInChildren<PlayerBehaviour>();
+		if (player == null) {
+			throw new ApplicationException("player component not found");
+		}
+		
+		entityManager.SetPlayer(player);
+	}
+
+
 
 	private void OnCreatureGenerated(object sender, EntityGeneratedEventArgs<CreatureBehaviour> e) {
 		entityManager.SpawnCreature(e.Entity);
