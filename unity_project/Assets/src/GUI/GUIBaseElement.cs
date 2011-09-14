@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class GUIBaseElement : MonoBehaviour {
+public class GUIBaseElement<T>  : MonoBehaviour where T : GUIStatics {
 
 	public int guiDepth;
-	public GUIManager guiManager;
+	public T guiStatics;
 	
 	// Active Rectangle 
 	public int height;
@@ -124,7 +124,7 @@ public class GUIBaseElement : MonoBehaviour {
 		bool flagY = false;
 		bool flagZ = false;
 		
-		mousePos = GeneralScreenGUI.normalizeMouse(guiManager , mousePos);
+		mousePos = GeneralScreenGUI.normalizeMouse(guiStatics , mousePos);
 		
 		if(mousePos.x >= elemPos.x && ( mousePos.x <= ( elemPos.x + elemSize.x ) ) )
 			flagX = true;

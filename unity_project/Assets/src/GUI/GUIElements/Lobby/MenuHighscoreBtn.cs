@@ -1,11 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class menu_highscoreBtn: GUIBaseElement {
+public class MenuHighscoreBtn: GUIBaseElement<GUIStatics> {
 		
 	
 	protected override void showElements(){
-		GeneralScreenGUI.Box(guiManager, new Rect (positionX,positionY,256,256), "", currentStyle);
+		GeneralScreenGUI.Box(guiStatics, new Rect (positionX,positionY,256,256), "", currentStyle);
 	}
 	
 	protected override void hit(){
