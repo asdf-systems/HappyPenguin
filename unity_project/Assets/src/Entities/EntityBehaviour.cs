@@ -12,17 +12,16 @@ namespace HappyPenguin.Entities
 			
 		}
 		
-		// Use this for initialization
-		void Start () {
+		public Vector3 Position {
+			get { return gameObject.transform.position; }
 			
 		}
-
-		// Update is called once per frame
-		void Update () {
-			
+		
+		public Quaternion Orientation {
+			get { return gameObject.transform.rotation; }
 		}
 	
-		public State State {
+		public State CurrentState {
 			get;
 			set;
 		}

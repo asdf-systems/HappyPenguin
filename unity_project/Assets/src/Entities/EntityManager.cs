@@ -1,24 +1,23 @@
 using System;
 using System.Linq;
-using HappyPenguin.Collections;
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace HappyPenguin.Entities
 {
 	public sealed class EntityManager
 	{
+		private readonly SpawnPointGenerator spawnPointGenerator;
 		private readonly SymbolManager symbolManager;
-		private readonly ObservableList<EntityBehaviour> entities;
+		private readonly List<EntityBehaviour> entities;
 
 		public EntityManager () {
-			entities = new ObservableList<EntityBehaviour> ();
-			entities.ItemRemoved += (sender, e) => OnItemRemoved (e.Item);
-			entities.ItemAdded += (sender, e) => OnItemAdded (e.Item);
-			
+			spawnPointGenerator = new SpawnPointGenerator();
+			entities = new List<EntityBehaviour>();
 			symbolManager = new SymbolManager();
 		}
 
-		public IList<EntityBehaviour> Entities {
+		public IEnumerable<EntityBehaviour> Entities {
 			get { return entities; }
 		}
 
@@ -34,33 +33,15 @@ namespace HappyPenguin.Entities
 			return Entities.Where (x => x is TargetableEntityBehaviour).Select (x => x as TargetableEntityBehaviour).ToList ();
 		}
 
-		private void OnItemAdded (EntityBehaviour entity) {
-			if (entity is CreatureBehaviour) {
-				VoidCreature (entity as CreatureBehaviour);
-			}
-			
-			if (entity is PerkBehaviour) {
-				VoidPerk (entity as PerkBehaviour);
-			}
+		public void SpawnCreature (CreatureBehaviour creature) {
+			var position = spawnPointGenerator.CreateNext();
+			entities.Add(creature);
+			DisplayEntity(creature, position);
 		}
-
-		private void OnItemRemoved (EntityBehaviour entity) {
-			if (entity is CreatureBehaviour) {
-				SpawnCreature (entity as CreatureBehaviour);
-				return;
-			}
-			
-			if (entity is PerkBehaviour) {
-				SpawnPerk (entity as PerkBehaviour);
-			}
-		}
-
-		private void SpawnCreature (CreatureBehaviour creature) {
-			var symbols = symbolManager.GenerateSymbolChain(0, 5);
-			
-		}
-
-		private void SpawnPerk (PerkBehaviour perk) {
+		
+		
+		
+		public void SpawnPerk (PerkBehaviour perk) {
 			
 		}
 
@@ -75,6 +56,13 @@ namespace HappyPenguin.Entities
 		public void Update()
 		{
 			
+		}
+		
+		private void DisplayEntity(EntityBehaviour entity, Vector3 position)
+		{
+			var quaternion = new Quaternion();
+			var resource = Resources.Load("shark");
+			GameObject.Instantiate(resource, position, quaternion);
 		}
 	}
 }

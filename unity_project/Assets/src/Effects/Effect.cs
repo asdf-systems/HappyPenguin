@@ -9,7 +9,7 @@ namespace HappyPenguin.Effects
 		}
 		
 		public abstract void Start();
-		public abstract void Update(GameWorldManager world);
+		public abstract void Update(GameWorldBehaviour world);
 		public abstract void Stop();
 		
 		public TimeSpan TimeRemaining {

@@ -5,7 +5,7 @@ using HappyPenguin.Effects;
 using HappyPenguin.Spawning;
 using HappyPenguin;
 
-public sealed class GameWorldManager : MonoBehaviour
+public sealed class GameWorldBehaviour : MonoBehaviour
 {
 	private readonly GUIManager guiManager;
 	private readonly EffectManager effectManager;
@@ -15,27 +15,33 @@ public sealed class GameWorldManager : MonoBehaviour
 	private readonly EntityManager entityManager;
 
 	public string GamePlayFunction;
-
-	public GameWorldManager () {
-		effectManager = new EffectManager ();
+	
+	public void Awake()
+	{
+		InitPlayer();
+	}
+	
+	private void InitPlayer()
+	{
 		
-		creatureSpawner = new CreatureSpawner ();
+	}
+	
+	public GameWorldBehaviour() {
+		effectManager = new EffectManager();
+		
+		creatureSpawner = new CreatureSpawner();
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
 		
-		perkSpawner = new PerkSpawner ();
+		perkSpawner = new PerkSpawner();
 		//perkSpawner.PerkSpawned += OnPerkSpawned;
 	}
 
-	private void OnCreatureGenerated (object sender, EntityGeneratedEventArgs<CreatureBehaviour> e) {
-		
+	private void OnCreatureGenerated(object sender, EntityGeneratedEventArgs<CreatureBehaviour> e) {
+		entityManager.SpawnCreature(e.Entity);
 	}
 
-	private void OnPerkGenerated (object sender, EntityGeneratedEventArgs<PerkBehaviour> e) {
-		
+	public void Update() {
+		creatureSpawner.Update();
+		entityManager.Update();
 	}
-
-	public void Update () {
-		creatureSpawner.Update ();
-	}
-	
 }

@@ -15,17 +15,18 @@ namespace HappyPenguin
 		
 		public void RegisterTargetable(TargetableEntityBehaviour entity)
 		{
-			
+			entity.SymbolChain = GenerateSymbolChain(entity.SymbolRange);
+			targets.Add(entity.SymbolChain, entity);
 		}
 		
 		public void VoidTargetable(TargetableEntityBehaviour entity)
 		{
-			
+			targets.Remove(entity.SymbolChain);
 		}
 		
-		public string GenerateSymbolChain(int min, int max)
+		private string GenerateSymbolChain(Range range)
 		{
-			return string.Empty;
+			return "QEYC";
 		}
 	}
 }
