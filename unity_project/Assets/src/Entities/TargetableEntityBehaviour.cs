@@ -8,6 +8,11 @@ namespace HappyPenguin.Entities
 			
 		}
 		
+		public Range SymbolRange {
+			get;
+			internal set;
+		}
+		
 		public string SymbolChain {
 			get;
 			set;

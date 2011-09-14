@@ -3,9 +3,9 @@ using HappyPenguin.Entities;
 
 namespace HappyPenguin.Spawning
 {
-	public sealed class EntitySpawnedEventArgs<T> : EventArgs where T : TargetableEntityBehaviour
+	public sealed class EntityGeneratedEventArgs<T> : EventArgs where T : TargetableEntityBehaviour
 	{
-		public EntitySpawnedEventArgs (T entity) {
+		public EntityGeneratedEventArgs (T entity) {
 			Entity = entity;
 		}
 		

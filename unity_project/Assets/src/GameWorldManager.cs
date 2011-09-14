@@ -14,8 +14,9 @@ public sealed class GameWorldManager : MonoBehaviour
 	private readonly SymbolManager symbolManager;
 	private readonly EntityManager entityManager;
 
-	public GameWorldManager ()
-	{
+	public string GamePlayFunction;
+
+	public GameWorldManager () {
 		effectManager = new EffectManager ();
 		
 		creatureSpawner = new CreatureSpawner ();
@@ -25,18 +26,15 @@ public sealed class GameWorldManager : MonoBehaviour
 		//perkSpawner.PerkSpawned += OnPerkSpawned;
 	}
 
-	private void OnCreatureGenerated (object sender, EntitySpawnedEventArgs<CreatureBehaviour> e)
-	{
-		
-	}
-	
-	private void OnPerkGenerated(object sender, EntitySpawnedEventArgs<PerkBehaviour> e)
-	{
+	private void OnCreatureGenerated (object sender, EntityGeneratedEventArgs<CreatureBehaviour> e) {
 		
 	}
 
-	public void Update ()
-	{
+	private void OnPerkGenerated (object sender, EntityGeneratedEventArgs<PerkBehaviour> e) {
+		
+	}
+
+	public void Update () {
 		creatureSpawner.Update ();
 	}
 	

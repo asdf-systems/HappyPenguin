@@ -18,14 +18,14 @@ namespace HappyPenguin.Spawning
 			
 		}
 
-		public event EventHandler<EntitySpawnedEventArgs<T>> EntitySpawned;
+		public event EventHandler<EntityGeneratedEventArgs<T>> EntitySpawned;
 		protected void InvokeEntitySpawned (T entity) {
 			var handler = EntitySpawned;
 			if (handler == null) {
 				return;
 			}
 			
-			var e = new EntitySpawnedEventArgs<T> (entity);
+			var e = new EntityGeneratedEventArgs<T> (entity);
 			EntitySpawned (this, e);
 		}
 		

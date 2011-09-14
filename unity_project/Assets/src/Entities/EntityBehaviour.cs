@@ -21,17 +21,6 @@ namespace HappyPenguin.Entities
 		void Update () {
 			
 		}
-
-		public event EventHandler<AnimationFinishedEventArgs> AnimationFinished;
-		private void InvokeAnimationFinished (string animationName) {
-			var handler = AnimationFinished;
-			if (handler == null) {
-				return;
-			}
-			
-			var e = new AnimationFinishedEventArgs (animationName);
-			this.AnimationFinished (this, e);
-		}
 	
 		public State State {
 			get;

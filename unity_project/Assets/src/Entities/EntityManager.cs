@@ -7,12 +7,15 @@ namespace HappyPenguin.Entities
 {
 	public sealed class EntityManager
 	{
+		private readonly SymbolManager symbolManager;
 		private readonly ObservableList<EntityBehaviour> entities;
 
 		public EntityManager () {
 			entities = new ObservableList<EntityBehaviour> ();
 			entities.ItemRemoved += (sender, e) => OnItemRemoved (e.Item);
 			entities.ItemAdded += (sender, e) => OnItemAdded (e.Item);
+			
+			symbolManager = new SymbolManager();
 		}
 
 		public IList<EntityBehaviour> Entities {
@@ -53,6 +56,7 @@ namespace HappyPenguin.Entities
 		}
 
 		private void SpawnCreature (CreatureBehaviour creature) {
+			var symbols = symbolManager.GenerateSymbolChain(0, 5);
 			
 		}
 
@@ -65,6 +69,11 @@ namespace HappyPenguin.Entities
 		}
 
 		private void VoidPerk (PerkBehaviour perk) {
+			
+		}
+		
+		public void Update()
+		{
 			
 		}
 	}
