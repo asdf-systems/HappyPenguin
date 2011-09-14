@@ -7,30 +7,37 @@ namespace HappyPenguin.Entities
 {
 	public sealed class EntityManager
 	{
+		private readonly ObservableList<EntityBehaviour> entities;
+
 		public EntityManager () {
-			Entities = new ObservableList<EntityBehaviour> ();
-			//Entities.ListChanged += OnListChanged;
+			entities = new ObservableList<EntityBehaviour> ();
+			entities.ItemRemoved += (sender, e) => OnItemRemoved (e.Item);
+			entities.ItemAdded += (sender, e) => OnItemAdded (e.Item);
 		}
 
-		public IList<EntityBehaviour> Entities { get; private set; }
+		public IList<EntityBehaviour> Entities {
+			get { return entities; }
+		}
 
-		public IEnumerable<CreatureBehaviour> GetCreatures () {
+		public IEnumerable<CreatureBehaviour> FindCreatures () {
 			return Entities.Where (x => x is CreatureBehaviour).Select (x => x as CreatureBehaviour).ToList ();
 		}
 
-		public IEnumerable<PerkBehaviour> GetPerks () {
+		public IEnumerable<PerkBehaviour> FindPerks () {
 			return Entities.Where (x => x is PerkBehaviour).Select (x => x as PerkBehaviour).ToList ();
 		}
 
-	
+		public IEnumerable<TargetableEntityBehaviour> FindTargetables () {
+			return Entities.Where (x => x is TargetableEntityBehaviour).Select (x => x as TargetableEntityBehaviour).ToList ();
+		}
 
 		private void OnItemAdded (EntityBehaviour entity) {
 			if (entity is CreatureBehaviour) {
-				DeleteCreature(entity as CreatureBehaviour);
+				VoidCreature (entity as CreatureBehaviour);
 			}
 			
 			if (entity is PerkBehaviour) {
-				DeletePerk(entity as PerkBehaviour);
+				VoidPerk (entity as PerkBehaviour);
 			}
 		}
 
@@ -52,14 +59,12 @@ namespace HappyPenguin.Entities
 		private void SpawnPerk (PerkBehaviour perk) {
 			
 		}
-		
-		private void DeleteCreature(CreatureBehaviour creature)
-		{
+
+		private void VoidCreature (CreatureBehaviour creature) {
 			
 		}
-		
-		private void DeletePerk(PerkBehaviour perk)
-		{
+
+		private void VoidPerk (PerkBehaviour perk) {
 			
 		}
 	}

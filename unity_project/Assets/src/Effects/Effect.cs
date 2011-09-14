@@ -16,7 +16,6 @@ namespace HappyPenguin.Effects
 			get;
 			private set;
 		}
-			
 	}
 }
 

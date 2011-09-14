@@ -6,8 +6,13 @@ namespace HappyPenguin
 {
 	public class State
 	{
-		public State () {
-			
+		public State (string name) {
+			Name = name;
+		}
+		
+		public string Name {
+			get;
+			private set;
 		}
 		
 		public IEnumerable<string> AnimationNames {

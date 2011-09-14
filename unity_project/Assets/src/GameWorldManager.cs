@@ -5,36 +5,39 @@ using HappyPenguin.Effects;
 using HappyPenguin.Spawning;
 using HappyPenguin;
 
-	public sealed class GameWorldManager : MonoBehaviour
+public sealed class GameWorldManager : MonoBehaviour
+{
+	private readonly GUIManager guiManager;
+	private readonly EffectManager effectManager;
+	private readonly CreatureSpawner creatureSpawner;
+	private readonly PerkSpawner perkSpawner;
+	private readonly SymbolManager symbolManager;
+	private readonly EntityManager entityManager;
+
+	public GameWorldManager ()
 	{
-		private GUIManager guiManager;
-		private EffectManager effectManager;
-		private CreatureSpawner creatureSpawner;
+		effectManager = new EffectManager ();
+		
+		creatureSpawner = new CreatureSpawner ();
+		creatureSpawner.EntitySpawned += OnCreatureGenerated;
+		
+		perkSpawner = new PerkSpawner ();
+		//perkSpawner.PerkSpawned += OnPerkSpawned;
+	}
 
-		public GameWorldManager () {
-			effectManager = new EffectManager ();
-			creatureSpawner = new CreatureSpawner ();
-			creatureSpawner.EntitySpawned += OnCreatureSpawned;
-		}
-
-		public event EventHandler<ButtonRotationRequestedEventArgs> ButtonRotationRequested;
-		private void InvokeButtonRotationRequested () {
-			var handler = ButtonRotationRequested;
-			if (handler == null) {
-				return;
-			}
-			
-			var e = new ButtonRotationRequestedEventArgs ();
-			ButtonRotationRequested (this, e);
-		}
-
-		private void OnCreatureSpawned (object sender, EntitySpawnedEventArgs<CreatureBehaviour> e) {
-			
-		}
+	private void OnCreatureGenerated (object sender, EntitySpawnedEventArgs<CreatureBehaviour> e)
+	{
+		
+	}
 	
-	public void Update()
+	private void OnPerkGenerated(object sender, EntitySpawnedEventArgs<PerkBehaviour> e)
 	{
-		creatureSpawner.Update();
+		
+	}
+
+	public void Update ()
+	{
+		creatureSpawner.Update ();
 	}
 	
 }
