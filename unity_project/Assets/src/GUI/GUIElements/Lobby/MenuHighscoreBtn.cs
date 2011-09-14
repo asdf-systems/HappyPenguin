@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class menu_optionsBtn: GUIBaseElement {
+public class MenuHighscoreBtn: GUIBaseElement<GUIStatics> {
 		
 	
 	protected override void showElements(){
@@ -9,7 +9,6 @@ public class menu_optionsBtn: GUIBaseElement {
 	}
 	
 	protected override void hit(){
-		// start Game
-		Debug.Log("Options");
+		Debug.Log("Highscore not implemented yet!");
 	}
 }

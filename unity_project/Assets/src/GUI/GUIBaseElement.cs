@@ -1,10 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class GUIBaseElement : MonoBehaviour {
+public class GUIBaseElement<T>  : MonoBehaviour where T : GUIStatics {
 
 	public int guiDepth;
-	public GUIStatics guiStatics;
+	public T guiStatics;
 	
 	// Active Rectangle 
 	public int height;
