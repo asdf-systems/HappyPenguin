@@ -8,7 +8,7 @@ namespace HappyPenguin.Entities
 	public sealed class EntityManager
 	{
 		public EntityManager () {
-			Entities = new BindingList<EntityBehaviour> ();
+			Entities = new ObservableList<EntityBehaviour> ();
 			//Entities.ListChanged += OnListChanged;
 		}
 
@@ -22,26 +22,7 @@ namespace HappyPenguin.Entities
 			return Entities.Where (x => x is PerkBehaviour).Select (x => x as PerkBehaviour).ToList ();
 		}
 
-		private void OnListChanged (object sender, ListChangedEventArgs e) {
-			switch (e.ListChangedType) {
-			case ListChangedType.ItemAdded:
-				
-				{
-					var entity = Entities[e.NewIndex];
-					OnItemAdded (entity);
-					break;
-				}
-
-			case ListChangedType.ItemDeleted:
-				
-				{
-					var entity = Entities[e.NewIndex];
-					OnItemRemoved (entity);
-					break;
-				}
-
-			}
-		}
+	
 
 		private void OnItemAdded (EntityBehaviour entity) {
 			if (entity is CreatureBehaviour) {
