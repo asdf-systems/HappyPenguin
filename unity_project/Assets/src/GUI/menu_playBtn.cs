@@ -10,7 +10,7 @@ public class menu_playBtn : GUIBaseElement {
 	
 	protected override void hit(){
 		// start Game
-		Debug.Log("Start Game");
+		//Debug.Log("Start Game");
 		Application.LoadLevel(1);
 	}
 }

@@ -18,8 +18,13 @@ public class GUIBaseElement : MonoBehaviour {
 	
 	protected GUIStyle currentStyle;
 	
+	protected bool buttonDown;
+	protected bool iPhoneTap;
+	protected bool androidTap;
+	
 	void Start(){
 		resetElement();
+		resetButtons("all");
 		
 	}
 	
@@ -43,23 +48,46 @@ public class GUIBaseElement : MonoBehaviour {
 		Vector3 mousePos = Input.mousePosition;
 		if(cursorInside(mousePos, new Vector3 (positionX, positionY, 0), new Vector3(this.width, this.height, 0))){
 			preHover();
-			//! TODO entprellen
-			if(Input.GetMouseButton(0))
-				preHit();
+			if(Input.GetMouseButton(0)){
+				if(!buttonDown){
+					buttonDown = true;
+					preHit();
+				}
+			} else if(buttonDown)
+				resetButtons("mouse");	
 		} else
 			resetElement();
 	}
 	
 	private void checkiPhoneTap(){
-		//! TODO  entprellen
 		Touch[] touches = Input.touches;
+		bool down = false;
 		foreach(Touch touch in touches){
-			if(cursorInside(new Vector3(touch.position.x, touch.position.y, 0) , new Vector3(positionX, positionY, 0), new Vector3(this.width, this.height, 0) ))
-				preHit();
-			else 
+			down = true;
+			if(cursorInside(new Vector3(touch.position.x, touch.position.y, 0) , new Vector3(positionX, positionY, 0), new Vector3(this.width, this.height, 0) )){
+				if(!iPhoneTap){
+					iPhoneTap = true;
+					preHit();
+				}
+			} else 
 				resetElement();
 		}
+		if(!down && iPhoneTap)
+			resetButtons("iPhoneTap");
 		
+	}
+	
+	private void resetButtons(string state){
+		
+		if(state == "mouse" || state == "all"){
+			Debug.Log("Reset Buttons");
+			buttonDown = false;
+		}
+			
+		if(state == "iPhoneTap" || state == "all")
+			iPhoneTap = false;
+		if(state == "androidTap" || state == "all")
+			androidTap = false;
 	}
 	
 	protected void resetElement(){
@@ -75,6 +103,7 @@ public class GUIBaseElement : MonoBehaviour {
 	}
 	private void preHit(){
 		currentStyle = activeStyle;
+		buttonDown = true;
 		hit();
 	}
 	
