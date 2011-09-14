@@ -6,7 +6,7 @@ namespace HappyPenguin.Entities
 {
 	public sealed class CreatureBehaviour : TargetableEntityBehaviour
 	{
-		public CreatureBehaviour () {
+		public CreatureBehaviour (string meshName) {
 			AttackEffects = new List<Effect>();
 			KillEffects = new List<Effect>();
 		}
