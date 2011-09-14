@@ -2,3 +2,6 @@ build
 Temp
 graphic
 tools
+Assembly-*
+*.sln
+*.userprefs
