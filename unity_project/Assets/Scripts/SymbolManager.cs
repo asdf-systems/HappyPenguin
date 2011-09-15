@@ -1,6 +1,7 @@
 using System;
 using HappyPenguin.Entities;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace HappyPenguin
 {
@@ -24,10 +25,33 @@ namespace HappyPenguin
 			targets.Remove(entity.SymbolChain);
 		}
 		
-		private string GenerateSymbolChain(Range range)
+		internal string GenerateSymbolChain(Range range)
 		{
-			return "QEYC";
+			string chain;
+			int rnd1;
+			do {
+				chain = "";
+				rnd1 = UnityEngine.Random.Range((int)range.From, (int)range.To+1);
+				for (int i = 1; i <= rnd1; i++) {
+					int rnd = UnityEngine.Random.Range(1, 5);
+					switch (rnd) {
+						case(1):
+							chain+= "Q";
+							break;
+						case(2):
+							chain+= "E";
+							break;
+						case(3):
+							chain+= "Y";
+							break;
+						case(4):
+							chain+= "C";
+							break;
+					}
+				}
+			} while (targets.ContainsKey(chain));
+			Debug.Log(chain);
+			return chain;	
 		}
 	}
 }
-
