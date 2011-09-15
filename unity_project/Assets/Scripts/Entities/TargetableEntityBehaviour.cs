@@ -12,14 +12,20 @@ namespace HappyPenguin.Entities
 		}
 
 		public Range SymbolRange { get; set; }
-
 		public string SymbolChain { get; set; }
 
-		public override void AwakeOverride() {
-			//InitBillboardNode();
-		}
-
 		public void HighlightSymbols(int count) {
+			
+		}
+		
+		public override void AwakeOverride ()
+		{
+			base.AwakeOverride();
+			FindBillboardNode();
+		}
+		
+		private void FindBillboardNode()
+		{
 			
 		}
 
@@ -29,13 +35,6 @@ namespace HappyPenguin.Entities
 
 		public void HideSymbols() {
 			  
-		}
-
-		private void InitBillboardNode() {
-			var resource = Resources.Load("Symbols/BillboardNode");
-			billboardNode = resource as GameObject; 
-			billboardNode.transform.parent = gameObject.transform;
-			GameObject.Instantiate(billboardNode, Vector3.up * 20, Quaternion.identity);
 		}
 
 		public GameObject GetBillboardNode() {
