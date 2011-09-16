@@ -8,6 +8,7 @@ namespace HappyPenguin
 			From = @from;
 			To = to;
 		}
+		
 		public float From;
 		public float To;
 	}

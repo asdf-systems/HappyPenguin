@@ -10,28 +10,9 @@ public class Symbol : MonoBehaviour {
 	
 	private TimeSpan timeSinceLightUp = TimeSpan.Zero;
 	
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-//		if (changed) {
-//			transform.Rotate(Vector3.right * Time.deltaTime * 50);
-//		}
-	}
-	
-	public void LightUp(bool lightUpState){
-		if (lightUpState) {
-			LightUpSymbols();
-			changed = true;
-		}
-		else {
-			SetDefaultSymbols();
-			changed = false;
-		}
+	public bool IsHighlighted {
+		get;
+		set;
 	}
 	
 	private void LightUpSymbols(){

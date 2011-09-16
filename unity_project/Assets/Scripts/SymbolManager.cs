@@ -27,8 +27,10 @@ namespace HappyPenguin
 			targets.Remove(entity.SymbolChain);
 		}
 		
+		private static string f = string.Empty;
 		internal string GenerateSymbolChain(Range range)
 		{
+			return f += "@";
 			string chain; 
 			int rnd1;
 			do {
