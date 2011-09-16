@@ -18,6 +18,11 @@ public class GUIManager : GUIStatics {
 	private Vector2 buttonQpos;
 	private Vector2 buttonYpos;
 	
+	private AlertTextBehaviour textEntity;
+	
+	private Time textTimer;
+	
+	
 	private List<Vector2> positions;
 	
 	public event EventHandler<SymbolEventArgs> SymbolsChanged;
@@ -37,6 +42,7 @@ public class GUIManager : GUIStatics {
 	
 	private void init(){
 		positions = new List<Vector2>();
+		textEntity = gameObject.GetComponentInChildren<AlertTextBehaviour>();
 	}
 	private void reset(){
 		buttonC.positionX = (int)buttonCpos.x;
@@ -106,7 +112,7 @@ public class GUIManager : GUIStatics {
 	}
 	
 	public void alert(string value){
-		Debug.Log("Not Implemented Yet");
+		textEntity.showText(value);
 	}
 	
 	

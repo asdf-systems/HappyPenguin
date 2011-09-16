@@ -15,7 +15,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private readonly PerkSpawner perkSpawner;
 	private readonly SymbolManager symbolManager;
 	private readonly EntityManager entityManager;
-	private readonly TextGenerator textGenerator;
 	
 	public string GamePlayFunction;
 
@@ -27,7 +26,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		creatureSpawner = new CreatureSpawner();
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
 		
-		textGenerator = new TextGenerator();
 		
 		perkSpawner = new PerkSpawner();
 		//perkSpawner.PerkSpawned += OnPerkSpawned;
@@ -64,6 +62,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public void Update() {
 		creatureSpawner.Update();
 		entityManager.Update();
-		textGenerator.Update();
+		
 	}
 }
