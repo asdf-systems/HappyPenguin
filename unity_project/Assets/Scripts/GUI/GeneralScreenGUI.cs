@@ -51,6 +51,16 @@ public class GeneralScreenGUI : GUI
 		
 	}
 	
+	public static string Text(GUIStatics gui, Rect rect, string text){
+		return UnityEngine.GUI.Text(GetRelativePosition(gui,rect), text);
+		
+	}
+	
+	public static string Text(GUIStatics gui, Rect rect, string text, GUIStyle style){
+		return UnityEngine.GUI.Text(GetRelativePosition(gui,rect), text, style );
+		
+	}
+	
 	public static bool Toggle(GUIStatics gui, Rect rect, bool flag, string text){
 		return UnityEngine.GUI.Toggle(GetRelativePosition(gui,rect), flag, text);
 		
@@ -60,6 +70,7 @@ public class GeneralScreenGUI : GUI
 		return UnityEngine.GUI.Toggle(GetRelativePosition(gui,rect), flag, text, style );
 		
 	}
+	
 	
 	private static Rect GetRelativePosition(GUIStatics gui, Rect rect){
 		Camera cam = gui.PlayerCam;
