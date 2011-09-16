@@ -27,20 +27,17 @@ namespace HappyPenguin
 			targets.Remove(entity.SymbolChain);
 		}
 		
-		private static string f = string.Empty;
+	
 		internal string GenerateSymbolChain(Range range)
 		{
-			return f += "@";
-			string chain; 
+			string chain = string.Empty; 
 			int rnd1;
 			do {
-				Debug.Log("do");
-
-				chain = "";
+				chain = string.Empty;
 				rnd1 = random.Next((int)range.From, (int)range.To+1);
 				for (int i = 1; i <= rnd1; i++) {
 					int rnd = random.Next(1, 5);
-				Debug.Log("for");
+				
 					switch (rnd) {
 						case(1):
 							chain+= "Q";

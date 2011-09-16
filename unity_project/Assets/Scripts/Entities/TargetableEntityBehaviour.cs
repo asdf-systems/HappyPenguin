@@ -8,7 +8,7 @@ namespace HappyPenguin.Entities
 		private GameObject billboardNode;
 		private SymbolProjector projector;
 
-		public TargetableEntityBehaviour() {
+		void Awake() {
 			SymbolRange = new Range(1, 4);
 			projector = new SymbolProjector(this);
 		}
