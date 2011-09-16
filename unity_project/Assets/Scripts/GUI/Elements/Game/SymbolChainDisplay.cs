@@ -9,8 +9,6 @@ public class SymbolChainDisplay: UIElementBehaviour<GUIManager>{
 	}
 	
 	protected override void hit(){
-		guiStatics.buttonCHit();
 		
-
 	}
 }
