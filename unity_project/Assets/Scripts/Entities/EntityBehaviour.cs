@@ -14,20 +14,10 @@ namespace HappyPenguin.Entities
 		
 		public Vector3 Position {
 			get { return gameObject.transform.position; }
-			
 		}
 		
 		public Quaternion Orientation {
 			get { return gameObject.transform.rotation; }
-		}
-		
-		public void InitCamera(Camera camera)
-		{
-			var component = gameObject.GetComponentInChildren<BillboardBehaviour>();
-			if (component == null) {
-				throw new ApplicationException("billboard component not found");
-			}
-			component.PlayerCamera = camera;
 		}
 		
 		public void Awake()
@@ -38,7 +28,7 @@ namespace HappyPenguin.Entities
 		
 		public virtual void AwakeOverride()
 		{
-			
+			// nothing here
 		}
 	
 		public EntityState CurrentState {
@@ -49,8 +39,6 @@ namespace HappyPenguin.Entities
 		public float Speed {
 			get;
 			set;
-		}
-		
-		
+		}	
 	}
 }

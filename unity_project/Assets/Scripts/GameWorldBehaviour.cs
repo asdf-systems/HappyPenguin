@@ -17,17 +17,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private readonly EntityManager entityManager;
 	private readonly TextGenerator textGenerator;
 	
-	public Camera PlayerCamera {
-		get {return _playerCamera;}
-		set
-		{
-			_playerCamera = value;
-			if (entityManager != null) {
-				entityManager.PlayerCamera = value;
-			}
-		}
-	}
-	
 	public string GamePlayFunction;
 
 	public GameWorldBehaviour() {
@@ -45,14 +34,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	public void Awake() {
-		InitCamera();
 		InitPlayer();
 		InitSpawnPoint();
-	}
-	
-	private void InitCamera()
-	{
-		PlayerCamera = GameObject.Find("Player Camera").camera;
 	}
 	
 	private void InitPlayer() {

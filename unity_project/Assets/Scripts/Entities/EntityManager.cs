@@ -33,15 +33,10 @@ namespace HappyPenguin.Entities
 		public IEnumerable<TargetableEntityBehaviour> FindTargetables() {
 			return Entities.Where(x => x is TargetableEntityBehaviour).Select(x => x as TargetableEntityBehaviour).ToList();
 		}
-		
-		public Camera PlayerCamera {
-			get;
-			set;
-		}
 
 		public void SpawnCreature(CreatureTypes type) {
-			
 			var creature = DisplayCreature(type, spawnPoint.Position);
+			symbolManager.RegisterTargetable(creature);
 			entities.Add(creature);
 		}
 
@@ -77,9 +72,6 @@ namespace HappyPenguin.Entities
 			var quaternion = Quaternion.LookRotation(direction, Vector3.up);
 			var resource = Resources.Load("Creatures/Shark");
 			var gameObject = GameObject.Instantiate(resource, position, quaternion) as GameObject;
-			
-			var component = gameObject.GetComponentInChildren<BillboardBehaviour>();
-			component.PlayerCamera = PlayerCamera;
 			return gameObject.GetComponentInChildren<CreatureBehaviour>();
 		}
 	}

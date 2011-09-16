@@ -3,16 +3,6 @@ using System.Collections;
 
 public sealed class BillboardBehaviour : MonoBehaviour
 {
-	public Camera PlayerCamera {
-		get;
-		set;
-	}
-	
-	// Use this for initialization
-	void Awake() {
-		
-	}
-
 	// Update is called once per frame
 	void Update() {
 		if (PlayerCamera == null) {
@@ -20,10 +10,7 @@ public sealed class BillboardBehaviour : MonoBehaviour
 		}
 		
 		transform.LookAt(Camera.main.transform);
-		
-		var cross = Vector3.Cross(Camera.main.transform.forward, Camera.main.transform.up);
-		cross.Normalize();
-		transform.RotateAround(cross, 90);
+		transform.RotateAround(transform.right, 90);
 	}
 }
 
