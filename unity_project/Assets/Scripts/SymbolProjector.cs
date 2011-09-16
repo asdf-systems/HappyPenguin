@@ -26,6 +26,8 @@ namespace HappyPenguin.Entities
 				var character = symbolChain[i];
 				var gameObject = CreateGameObjectFromSymbol(character, i);
 				gameObject.transform.parent = node.transform;
+				gameObject.transform.localPosition = Vector3.zero;
+				
 			}
 		}
 		
@@ -47,28 +49,11 @@ namespace HappyPenguin.Entities
 			targetable.BillboardNode.active = true;
 		}
 		
-		private void AttachSymbolChainToParent(){
-			var symbolChain = targetable.SymbolChain;
-			
-			for (int i = 0; i < symbolChain.Length; i++) {
-				var character = symbolChain[i];
-				var gameObject = CreateGameObjectFromSymbol(character, i);
-				gameObject.transform.parent = targetable.BillboardNode.transform;
-			}
-		}
-		
 		private GameObject CreateGameObjectFromSymbol(char symbol, int symbolPosition)
 		{
-			var node = targetable.BillboardNode;
-			
-			var right = node.transform.right;
-			right.Normalize();
-			var position = right * 9;
-			var orientation = Quaternion.identity;
-			
-			var name = string.Format("Media/Interface/arrow{0}", symbol);
+			var name = string.Format("Symbols/Symbol{0}", symbol);
 			var resource = Resources.Load(name);
-			var gameObject = GameObject.Instantiate(resource, position, orientation) as GameObject;
+			var gameObject = GameObject.Instantiate(resource, Vector3.zero, Quaternion.identity) as GameObject;
 			
 			StoreBehaviour(gameObject);
 			
@@ -78,7 +63,7 @@ namespace HappyPenguin.Entities
 		private void StoreBehaviour(GameObject gameObject)
 		{
 			var symbol = gameObject.GetComponentInChildren<Symbol>();
-			if (symbol != null) {
+			if (symbol == null) {
 				throw new ApplicationException("symbol behaviour not found in targetable");
 			}
 			

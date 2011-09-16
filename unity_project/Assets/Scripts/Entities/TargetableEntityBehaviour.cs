@@ -8,11 +8,6 @@ namespace HappyPenguin.Entities
 		private GameObject billboardNode;
 		private SymbolProjector projector;
 
-		void Awake() {
-			SymbolRange = new Range(1, 4);
-			projector = new SymbolProjector(this);
-		}
-
 		public Range SymbolRange { get; set; }
 		
 		private string symbolChain;
@@ -35,6 +30,8 @@ namespace HappyPenguin.Entities
 		public override void AwakeOverride ()
 		{
 			base.AwakeOverride();
+			SymbolRange = new Range(1, 4);
+			projector = new SymbolProjector(this);
 			FindBillboardNode();
 		}
 		
