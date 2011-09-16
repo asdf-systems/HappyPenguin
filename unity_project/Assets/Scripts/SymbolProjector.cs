@@ -14,8 +14,9 @@ namespace HappyPenguin.Entities
 		private Camera camera;
 		private string symbolChain;
 		private BillboardBehaviour billBoard;
-		public SymbolProjector (TargetableEntityBehaviour entity ,  Camera camera)
-		{
+		
+		
+		public SymbolProjector (TargetableEntityBehaviour entity ,  Camera camera){
 			this.entity = entity;
 			this.camera = camera;
 			this.symbolChain = entity.SymbolChain;
@@ -27,25 +28,30 @@ namespace HappyPenguin.Entities
 		}
 		
 		void Update(){
+			
     	}
 		
-		private void InterpreteSymbolChain(){
+		private void AttachSymbolchainToParent(){
 			for (int i = 0; i < symbolChain.Length; i++) {
 				var character = symbolChain[i];
-				var gameObject = CreateBillboard(character, i);
-				//gameObject.transform.parent = billBoard;
+				var gameObject = InterpreteSymbolChain(character, i);
+				gameObject.transform.parent = billBoard.transform;
 			}
 		}
 		
-		private GameObject CreateBillboard(char symbol, int symbolPosition)
+		private GameObject InterpreteSymbolChain(char symbol, int symbolPosition)
 		{
 			var position = Vector3.up*10 + Vector3.left*9;
 			var orientation = Quaternion.identity;
 			
-			var name = string.Format("SymbolBillboard{0}", symbol);
-			var resource = Resources.Load(name);
-			return GameObject.Instantiate(resource, position, orientation) as GameObject;
+			var name = string.Format("arrow{0}", symbol);
+			var resource = Resources.Load("Media/Interface"+name);
+			var gameObject = GameObject.Instantiate(resource, position, orientation) as GameObject;
+			return gameObject;
+			
 		}
+		
+		
 	}
 }
 
