@@ -8,10 +8,12 @@ namespace HappyPenguin
 	public sealed class SymbolManager
 	{
 		private Dictionary<string, TargetableEntityBehaviour> targets;
+		private readonly System.Random random;
 		
 		public SymbolManager ()
 		{
 			targets = new Dictionary<string, TargetableEntityBehaviour>();
+			random = new System.Random();
 		}
 		
 		public void RegisterTargetable(TargetableEntityBehaviour entity)
@@ -27,13 +29,16 @@ namespace HappyPenguin
 		
 		internal string GenerateSymbolChain(Range range)
 		{
-			string chain;
+			string chain; 
 			int rnd1;
 			do {
+				Debug.Log("do");
+
 				chain = "";
-				rnd1 = UnityEngine.Random.Range((int)range.From, (int)range.To+1);
+				rnd1 = random.Next((int)range.From, (int)range.To+1);
 				for (int i = 1; i <= rnd1; i++) {
-					int rnd = UnityEngine.Random.Range(1, 5);
+					int rnd = random.Next(1, 5);
+				Debug.Log("for");
 					switch (rnd) {
 						case(1):
 							chain+= "Q";

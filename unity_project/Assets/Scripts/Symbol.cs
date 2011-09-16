@@ -20,8 +20,6 @@ public class Symbol : MonoBehaviour {
 	void Update () {
 //		if (changed) {
 //			transform.Rotate(Vector3.right * Time.deltaTime * 50);
-//			transform.Rotate(Vector3.left * Time.deltaTime * 100);
-//			transform.Rotate(Vector3.right * Time.deltaTime * 50);
 //		}
 	}
 	
