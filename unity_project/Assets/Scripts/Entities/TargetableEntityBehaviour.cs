@@ -6,7 +6,7 @@ namespace HappyPenguin.Entities
 	public abstract class TargetableEntityBehaviour : EntityBehaviour
 	{
 		private GameObject billboardNode;
-		private SymbolProjector projector;
+		private TargetableSymbolProjector projector;
 
 		public Range SymbolRange { get; set; }
 		
@@ -27,11 +27,11 @@ namespace HappyPenguin.Entities
 			projector.HighlightSymbols(count);
 		}
 		
-		public override void AwakeOverride ()
+		protected override void AwakeOverride ()
 		{
 			base.AwakeOverride();
 			SymbolRange = new Range(1, 4);
-			projector = new SymbolProjector(this);
+			projector = new TargetableSymbolProjector(this);
 			FindBillboardNode();
 		}
 		

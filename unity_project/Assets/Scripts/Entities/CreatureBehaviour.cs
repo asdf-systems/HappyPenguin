@@ -6,7 +6,7 @@ using HappyPenguin;
 
 public sealed class CreatureBehaviour : TargetableEntityBehaviour
 {
-	public override void AwakeOverride()
+	protected override void AwakeOverride()
 	{
 		base.AwakeOverride();
 		AttackEffects = new List<Effect>();

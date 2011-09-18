@@ -7,7 +7,6 @@ namespace HappyPenguin.Spawning
 {
 	public abstract class Spawner<T> 
 	{
-
 		// Use this for initialization
 		public virtual void Start () {
 			

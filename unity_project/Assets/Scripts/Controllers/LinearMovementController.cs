@@ -1,34 +1,42 @@
 using System;
 using UnityEngine;
+using HappyPenguin.Unity;
 using HappyPenguin.Entities;
 
 namespace HappyPenguin.Controllers
 {
-	public sealed class LinearMovementController : Controller<EntityBehaviour>
+	public sealed class LinearMovementController : MovementController
 	{
-		private Vector3 target;
-		private TimeSpan duration;
+		private TimeSpan elapsedTime;
+		private readonly Vector3 targetPosition;
 		
-		public LinearMovementController(Vector3 target, TimeSpan duration) {
-			this.target = target;
-			this.duration = duration;
+		public LinearMovementController(Vector3 targetPosition) {
+		 	this.targetPosition = targetPosition;	
 		}
 		
-		public override void Start()
+		public override void Update (EntityBehaviour entity)
 		{
+			var isCloseEnough = entity.Position.IsCloseEnoughTo(targetPosition);
+			if (isCloseEnough) {
+				return;
+			}
 			
-		}
-		
-		public override void Update(EntityBehaviour entity)
-		{
+			elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
 			
-		}
-		
-		public override void Stop()
-		{
+			// v = s / t
+			// s = v * t
+			var currentPosition = entity.transform.position;
 			
+			var direction = targetPosition - currentPosition;
+			
+			var normalizedDirection = direction;
+			normalizedDirection.Normalize();
+			
+			var offset = entity.Speed * Time.deltaTime;
+			var movementVector = normalizedDirection * offset;
+			
+			entity.transform.position = entity.transform.position + movementVector; 
 		}
-		
 	}
 }
 

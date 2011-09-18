@@ -3,7 +3,7 @@ using System.Collections;
 
 public class AlertTextBehaviour : UIElementBehaviour<GUIManager> {
 	
-	private string text;
+	//private string text;
 	private bool show;
 	
 	
@@ -16,7 +16,7 @@ public class AlertTextBehaviour : UIElementBehaviour<GUIManager> {
 	}
 	
 	public void showText(string value){
-		text = value;
+		//text = value; 
 		show = true;
 	}
 	

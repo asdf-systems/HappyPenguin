@@ -1,9 +1,10 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using HappyPenguin.Entities;
 using HappyPenguin.Controllers;
 
-namespace HappyPenguin
+namespace HappyPenguin.Entities
 {
 	public class EntityState
 	{	
@@ -31,6 +32,14 @@ namespace HappyPenguin
 		public void Update(EntityBehaviour entity){
 			foreach (var controller in Controllers) {
 				controller.Update(entity);
+			}
+		}
+		
+		public void RemoveControllersByType<T>() where T : Controller<EntityBehaviour>
+		{
+			var controllers = Controllers.Where(x => x is T).ToList();
+			foreach (var  c in controllers) {
+				Controllers.Remove(c);
 			}
 		}
 	}

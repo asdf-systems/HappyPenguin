@@ -10,10 +10,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private Camera _playerCamera;
 	
 	private readonly GUIManager guiManager;
-	private readonly EffectManager effectManager;
+	//private readonly EffectManager effectManager;
 	private readonly CreatureSpawner creatureSpawner;
-	private readonly PerkSpawner perkSpawner;
-	private readonly SymbolManager symbolManager;
+	//private readonly PerkSpawner perkSpawner;
+	private readonly TargetableSymbolManager symbolManager;
 	private readonly EntityManager entityManager;
 	
 	public string GamePlayFunction;
@@ -21,13 +21,13 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public GameWorldBehaviour() {
 		entityManager = new EntityManager();
 		
-		effectManager = new EffectManager();
+		//effectManager = new EffectManager();
 		
 		creatureSpawner = new CreatureSpawner();
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
 		
 		
-		perkSpawner = new PerkSpawner();
+		//perkSpawner = new PerkSpawner();
 		//perkSpawner.PerkSpawned += OnPerkSpawned;
 	}
 
@@ -61,7 +61,5 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	public void Update() {
 		creatureSpawner.Update();
-		entityManager.Update();
-		
 	}
 }

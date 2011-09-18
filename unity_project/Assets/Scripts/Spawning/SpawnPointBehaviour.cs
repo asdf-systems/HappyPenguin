@@ -1,14 +1,10 @@
 using System;
-using UnityEngine;
 using HappyPenguin.Entities;
+using UnityEngine;
 
 public sealed class SpawnPointBehaviour : EntityBehaviour
 {
 	public SpawnPointBehaviour() {
-		
-	}
-	
-	public void Update() {
 		
 	}
 }

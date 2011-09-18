@@ -4,13 +4,11 @@ namespace HappyPenguin.Controllers
 {
 	public abstract class Controller<T>
 	{
-		public Controller () {
+		protected Controller () {
 			
 		}
 		
-		public abstract void Start();
-		public abstract void Update(T controlledObject);
-		public abstract void Stop();
+		public abstract void Update(T entity);
 	}
 }
 
