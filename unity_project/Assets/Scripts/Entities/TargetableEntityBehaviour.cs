@@ -7,7 +7,7 @@ namespace HappyPenguin.Entities
 	{
 		private GameObject billboardNode;
 
-		public TargetableEntityBehaviour() {
+		void Awake() {
 			SymbolRange = new Range(1, 4);
 		}
 
