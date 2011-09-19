@@ -9,7 +9,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 {
 	private Camera _playerCamera;
 	
-	private readonly GUIManager guiManager;
+	public GUIManager guiManager;
 	//private readonly EffectManager effectManager;
 	private readonly CreatureSpawner creatureSpawner;
 	//private readonly PerkSpawner perkSpawner;
@@ -35,7 +35,19 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	
 	void Start(){
 		attackZone.EnemyEnteredAttackZone += OnEnemyEnterAttackZone; 
+		guiManager.SwipeCommitted += OnSwipeCommitted;
 	}
+
+		void OnSwipeCommitted(object sender, SwipeEventArgs e)
+		{
+			TargetableEntityBehaviour target = entityManager.FindFittingTargetable(e.symbolChain);
+			if (target == null) {
+				return;
+			}
+			// TODO implement
+			Debug.Log("Swipe Commit - TODO: Implement Stuff");
+
+		}
 
 	void OnEnemyEnterAttackZone(object sender, AttackZoneEventArgs e){
 		// TODO implement

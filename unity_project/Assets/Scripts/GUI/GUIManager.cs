@@ -22,11 +22,12 @@ public class GUIManager : GUIStatics {
 	
 	private Time textTimer;
 	
-	
+	public enum Directions{Left , Right};
 	private List<Vector2> positions;
 	
 	public event EventHandler<SymbolEventArgs> SymbolsChanged;
 	public event EventHandler<SymbolEventArgs> SymbolsCommited;
+	public event EventHandler<SwipeEventArgs> SwipeCommitted;
 	
 	// Use this for initialization
 	void Start () {
@@ -144,6 +145,11 @@ public class GUIManager : GUIStatics {
 		InvokeSymbolsCommited();
 	}
 	
+	public void PreSwipeCommitted(Directions direction){
+		InvokeSwipeCommitted(direction);
+		Debug.Log("Swipe nach " +direction);
+	}
+	
 	private void InvokeSymbolsChanged(){
 		var handler = SymbolsChanged;
 		if (handler == null) {
@@ -162,5 +168,15 @@ public class GUIManager : GUIStatics {
 			
 		var e = new SymbolEventArgs(symbolChain);
 		SymbolsCommited(this, e);
+	}
+	
+	private void InvokeSwipeCommitted(Directions direction){
+		var handler = SwipeCommitted;
+		if (handler == null) {
+				return;
+		}
+			
+		var e = new SwipeEventArgs(direction , symbolChain);
+		SwipeCommitted(this, e);
 	}
 }

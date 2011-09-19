@@ -22,17 +22,51 @@ public class UIElementBehaviour<T>  : MonoBehaviour where T : GUIStatics {
 	protected bool iPhoneTap;
 	protected bool androidTap;
 	
+	private Vector2 startingPosition;
+	private Vector2 endingPosition;
+	
+	
 	void Start(){
 		resetElement();
 		resetButtons("all");
 		
 	}
 	
+	void Update(){
+		checkForSwipes();
+	}
+	
+	
 	void OnGUI(){
 		GUI.depth = guiDepth;
 		showElements();
 		hitTest();
+		
 	}
+	
+	private void  checkForSwipes(){
+			if (Input.GetKeyDown("return")){
+				Debug.Log("Enter gedrückt");
+				swipe(GUIManager.Directions.Right);
+			}
+		
+			if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began){
+				startingPosition = Input.GetTouch(0).position;
+				return;
+			}
+			else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Ended) {
+				endingPosition = Input.GetTouch(0).position;
+				
+				if (endingPosition.x > startingPosition.x) {
+					swipe(GUIManager.Directions.Right);
+				}
+				else {
+					swipe(GUIManager.Directions.Left);
+				}
+			}
+		}
+	
+	
 	
 	void hitTest(){
 		// check Mouse Position against size
@@ -105,6 +139,10 @@ public class UIElementBehaviour<T>  : MonoBehaviour where T : GUIStatics {
 		currentStyle = activeStyle;
 		buttonDown = true;
 		hit();
+	}
+	
+	protected virtual void swipe(GUIManager.Directions direction){
+		// override in child classes
 	}
 	
 	protected virtual void showElements(){
