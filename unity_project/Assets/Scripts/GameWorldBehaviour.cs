@@ -29,14 +29,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
 		
 		
-<<<<<<< HEAD
 		//perkSpawner = new PerkSpawner();
-=======
-		
-		
-		perkSpawner = new PerkSpawner();
->>>>>>> bundle/develop
-		//perkSpawner.PerkSpawned += OnPerkSpawned;
+
 	}
 	
 	void Start(){

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class MenuCreditsButtonBehaviour : UIElementBehaviour<GUIStatics> {
+public class MenuButtonCreditsBehaviour : UIElementBehaviour<GUIStatics> {
 		
 	
 	protected override void showElements(){
