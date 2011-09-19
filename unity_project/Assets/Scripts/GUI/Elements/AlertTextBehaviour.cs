@@ -13,7 +13,7 @@ public class AlertTextBehaviour : UIElementBehaviour<GUIManager> {
 
 	
 	private int myTextWidth = 600;
-	private int myTextHeight = 90;
+	private int myTextHeight = 110;
 	private TimeSpan timeSinceTextSpawn = TimeSpan.Zero;
 	
 	protected override void showElements(){

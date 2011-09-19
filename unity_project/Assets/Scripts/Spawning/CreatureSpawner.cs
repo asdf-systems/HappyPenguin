@@ -13,18 +13,19 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	public static int MAX_CREATURE_COUNT = 10;
 	
 //	Fields & Properties
-//	private double spawn = 1.999;
 	public double Difficulty;
 	public int CreditsTotal = 6;	// init
 	private TimeSpan timeSinceLastCreditGift = TimeSpan.Zero;
 	private TimeSpan timeSinceLastSpawn = TimeSpan.Zero;
+	
+	private readonly System.Random random;
 	
 	private int spawnCounter = 0;	// How many Spawns are on the Battlefield?
 	
 //	Constructor
 	public CreatureSpawner ()
 	{
-		
+		random = new System.Random();
 	}
 	
 	
@@ -40,13 +41,6 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 		SpawnCreatures();
 	}
 
-//	private bool SpawnReady ()
-//	{
-//		if (Difficulty>=spawn) {
-//			return true;
-//		}
-//		return false;
-//	}	// wird grad nicht gebraucht
 	
 //	Insert Difficulty-Curve here
 	private double CalculateDifficulty(float time){
@@ -66,7 +60,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	private void SpawnCreatures(){
 		if (spawnCounter < MAX_CREATURE_COUNT && 
 		    timeSinceLastSpawn.TotalSeconds >= (DEFAULT_CREATURE_SPAWN_TIME - Difficulty)) {
-			int rnd = UnityEngine.Random.Range(1, 10);
+			int rnd = random.Next(1, 10);
 			
 			if (1 <= rnd && rnd <=4) {
 				SpawnPike();
@@ -86,7 +80,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 		int spawningPrice = 3;
 		if (CreditsTotal >= spawningPrice) {
 			InvokeEntitySpawned(CreatureTypes.Pike);
-			Debug.Log("Pike spawned. Credits lost: " + spawningPrice + " after " + Time.timeSinceLevelLoad);
+//			Debug.Log("Pike spawned. Credits lost: " + spawningPrice + " after " + Time.timeSinceLevelLoad);
 			CreditsTotal -= spawningPrice;
 			++spawnCounter;
 		}
@@ -97,7 +91,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 		int spawningPrice = 6;
 		if (CreditsTotal >= spawningPrice) {
 			InvokeEntitySpawned(CreatureTypes.Shark);
-			Debug.Log("Shark spawned. Credits lost: " + spawningPrice + " after " + Time.timeSinceLevelLoad);
+//			Debug.Log("Shark spawned. Credits lost: " + spawningPrice + " after " + Time.timeSinceLevelLoad);
 			CreditsTotal -= spawningPrice;
 			++spawnCounter;
 		}
@@ -108,7 +102,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 		int spawningPrice =10;
 		if (CreditsTotal >= spawningPrice) {
 			InvokeEntitySpawned(CreatureTypes.Whale);
-			Debug.Log("Whale spawned. Credits lost: " + spawningPrice + " after " + Time.timeSinceLevelLoad);
+//			Debug.Log("Whale spawned. Credits lost: " + spawningPrice + " after " + Time.timeSinceLevelLoad);
 			CreditsTotal -= spawningPrice;
 			++spawnCounter;
 		}
