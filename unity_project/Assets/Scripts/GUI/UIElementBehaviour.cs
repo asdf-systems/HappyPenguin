@@ -7,8 +7,8 @@ public class UIElementBehaviour<T>  : MonoBehaviour where T : GUIStatics {
 	public T guiStatics;
 	
 	// Active Rectangle 
-	public int height;
-	public int width;
+	public int textHeight;
+	public int textWidth;
 	public int positionX;
 	public int positionY;
 	
@@ -46,7 +46,7 @@ public class UIElementBehaviour<T>  : MonoBehaviour where T : GUIStatics {
 	
 	private void checkMouse(){
 		Vector3 mousePos = Input.mousePosition;
-		if(cursorInside(mousePos, new Vector3 (positionX, positionY, 0), new Vector3(this.width, this.height, 0))){
+		if(cursorInside(mousePos, new Vector3 (positionX, positionY, 0), new Vector3(this.textWidth, this.textHeight, 0))){
 			preHover();
 			if(Input.GetMouseButton(0)){
 				if(!buttonDown){
@@ -64,7 +64,7 @@ public class UIElementBehaviour<T>  : MonoBehaviour where T : GUIStatics {
 		bool down = false;
 		foreach(Touch touch in touches){
 			down = true;
-			if(cursorInside(new Vector3(touch.position.x, touch.position.y, 0) , new Vector3(positionX, positionY, 0), new Vector3(this.width, this.height, 0) )){
+			if(cursorInside(new Vector3(touch.position.x, touch.position.y, 0) , new Vector3(positionX, positionY, 0), new Vector3(this.textWidth, this.textHeight, 0) )){
 				if(!iPhoneTap){
 					iPhoneTap = true;
 					preHit();
