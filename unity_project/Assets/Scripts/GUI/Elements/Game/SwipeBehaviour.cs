@@ -1,6 +1,5 @@
 using System;
-namespace AssemblyCSharp
-{
+
 	public class SwipeBehaviour: UIElementBehaviour<GUIManager>
 	{
 		
@@ -10,8 +9,13 @@ namespace AssemblyCSharp
 		}
 		
 		protected override void swipe(GUIManager.Directions direction){
-			guiStatics.PreSwipeCommitted(direction);
+			if (direction == GUIManager.Directions.Left) {
+				guiStatics.clearSymbols();
+			}
+			else {
+				guiStatics.PreSwipeCommitted(direction);
+			}
 		}
 	}
-}
+
 

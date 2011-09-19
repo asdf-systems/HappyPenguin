@@ -56,10 +56,19 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.SwipeCommitted += OnSwipeCommitted;
 	}
 
-	void OnSwipeCommitted(object sender, SwipeEventArgs e){
-		TargetableEntityBehaviour target = entityManager.FindFittingTargetable(e.symbolChain);
-		if (target == null) {
-			return;
+
+		void OnSwipeCommitted(object sender, SwipeEventArgs e)
+		{
+			TargetableEntityBehaviour target = entityManager.FindFittingTargetable(e.symbolChain);
+			Debug.Log("committed: " + e.symbolChain);
+			if (target == null) {
+				return;
+			}
+			List<Effect> killEffects = target.KillEffects;
+			foreach(Effect effect in killEffects){
+				effectManager.RegisterEffect(effect);		
+			}
+			
 		}
 		// TODO implement
 		Debug.Log("Swipe Commit - TODO: Implement Stuff");

@@ -24,7 +24,6 @@ public class CreatureBehaviour : TargetableEntityBehaviour{
 
 	public List<Effect> AttackEffects { get; protected set; }
 
-	public List<Effect> KillEffects { get; protected set; }
 }
 
 
