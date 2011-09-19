@@ -54,25 +54,25 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.SwipeCommitted += OnSwipeCommitted;
 	}
 
-		void OnSwipeCommitted(object sender, SwipeEventArgs e)
-		{
-			TargetableEntityBehaviour target = entityManager.FindFittingTargetable(e.symbolChain);
-			if (target == null) {
-				return;
-			}
-			// TODO implement
-			Debug.Log("Swipe Commit - TODO: Implement Stuff");
-
+	void OnSwipeCommitted(object sender, SwipeEventArgs e){
+		TargetableEntityBehaviour target = entityManager.FindFittingTargetable(e.symbolChain);
+		if (target == null) {
+			return;
 		}
+		// TODO implement
+		Debug.Log("Swipe Commit - TODO: Implement Stuff");
+
+	}
 
 	void OnEnemyEnterAttackZone(object sender, AttackZoneEventArgs e){
-		// TODO implement
-		//Debug.Log("Creature Attacks! - TODO: Implement Stuff");
 		CreatureBehaviour creature = e.enemy.GetComponent<CreatureBehaviour>();
 		if(creature != null){
-			List<Effect> killEffects = creature.KillEffects;
-			foreach(Effect effect in killEffects){
+			List<Effect> attackEffects = creature.AttackEffects;
+			Debug.Log("Creature Found");
+			foreach(Effect effect in attackEffects){
+				Debug.Log("Register Effect");
 				effectManager.RegisterEffect(effect);		
+				// TODO: Implement Retreat
 			}
 			
 		}
@@ -111,13 +111,15 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	
 	public void ChangePlayerHealth (float lifeChange){
 		player.life += lifeChange;
+		Debug.Log("Health modified: " + lifeChange);
 		if(player.isDead()){
 			Debug.Log("YOU SUCK!!");
-			// TODO implement suck
+			Application.LoadLevel(2);
 		}
 	}
 	
 	public void ChangePlayerPoints(float pointsChange){
+		Debug.Log("points modified: " + pointsChange);
 		player.points += pointsChange;
 	}
 		

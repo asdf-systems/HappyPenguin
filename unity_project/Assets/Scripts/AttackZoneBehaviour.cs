@@ -18,17 +18,18 @@ public class AttackZoneBehaviour : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider c){
-		
+		//Debug.Log("Trigger AttackZone");
 		TargetableEntityBehaviour creature = c.GetComponent<TargetableEntityBehaviour>();
 		InvokeEnemyEnteredAttackZone(creature);
 	}
 	
 	private void InvokeEnemyEnteredAttackZone(TargetableEntityBehaviour creature){
+		//Debug.Log("Invoke AttackZone");
 		var handler = EnemyEnteredAttackZone;
 		if (handler == null) {
 				return;
 		}
-			
+		//Debug.Log("Invoke AttackZone");	
 		var e = new AttackZoneEventArgs(creature);
 		EnemyEnteredAttackZone(this, e);
 	}

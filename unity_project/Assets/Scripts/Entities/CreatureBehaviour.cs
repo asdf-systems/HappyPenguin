@@ -14,6 +14,7 @@ public class CreatureBehaviour : TargetableEntityBehaviour{
 		base.AwakeOverride();
 		AttackEffects = new List<Effect>();
 		KillEffects = new List<Effect>();
+		init();
 	}
 	
 	private void init(){

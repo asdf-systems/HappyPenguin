@@ -13,13 +13,17 @@ namespace HappyPenguin.Effects
 		}
 		
 		public void Update(GameWorldBehaviour gameWorld){
+			List<Effect> todelete = new List<Effect>();
 			foreach(Effect e in Effects){
 				e.Update(gameWorld);
 				if(e.TimeRemaining == TimeSpan.Zero){
 					e.Stop();
-					Effects.Remove(e);
+					todelete.Add(e);
 				}
-			}	
+			}
+			foreach(Effect e in todelete){
+				Effects.Remove(e);
+			}
 		}
 		
 		public void RegisterEffect(Effect e){
