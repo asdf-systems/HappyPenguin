@@ -3,14 +3,14 @@ using System.Collections;
 using System;
 public class AlertTextBehaviour : UIElementBehaviour<GUIManager> {
 	
-<<<<<<< HEAD
+
 	//private string text;
-	private bool show;
+	//private bool show;
 	
-=======
+
 	private string text = "Hallo Welt";
 	private bool textShow = true;
->>>>>>> origin/feature/spawner
+
 	
 	private int myTextWidth = 600;
 	private int myTextHeight = 90;
@@ -30,13 +30,10 @@ public class AlertTextBehaviour : UIElementBehaviour<GUIManager> {
 	}
 	
 	public void showText(string value){
-<<<<<<< HEAD
-		//text = value; 
-		show = true;
-=======
+
 		text = value;
 		textShow = true;
->>>>>>> origin/feature/spawner
+
 	}
 	
 	
