@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 using HappyPenguin.Entities;
 using HappyPenguin.Effects;
 using HappyPenguin.Spawning;
@@ -7,23 +8,27 @@ using HappyPenguin;
 
 public sealed class GameWorldBehaviour : MonoBehaviour
 {
+
+	
+
 	private Camera _playerCamera;
 	
 	private readonly GUIManager guiManager;
-	//private readonly EffectManager effectManager;
+	private readonly EffectManager effectManager;
 	private readonly CreatureSpawner creatureSpawner;
 	//private readonly PerkSpawner perkSpawner;
 	private readonly TargetableSymbolManager symbolManager;
 	private readonly EntityManager entityManager;
 	
-	public AttackZoneBehaviour attackZone;
+	
+	private AttackZoneBehaviour attackZone;
+	private PlayerBehaviour player;
 	
 	public string GamePlayFunction;
 
 	public GameWorldBehaviour() {
 		entityManager = new EntityManager();
-		
-		//effectManager = new EffectManager();
+		effectManager = new EffectManager();
 		
 		creatureSpawner = new CreatureSpawner();
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
@@ -34,12 +39,31 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 	
 	void Start(){
+		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
+		if(attackZone == null){
+			Debug.LogError("No AttackZone found under Gameworld");
+		}
+		player = gameObject.GetComponentInChildren<PlayerBehaviour>();
+		if(player == null){
+			Debug.LogError("No Player found under Gameworld");
+		}
+		
 		attackZone.EnemyEnteredAttackZone += OnEnemyEnterAttackZone; 
 	}
 
 	void OnEnemyEnterAttackZone(object sender, AttackZoneEventArgs e){
 		// TODO implement
-		Debug.Log("Creature Attacks! - TODO: Implement Stuff");
+		//Debug.Log("Creature Attacks! - TODO: Implement Stuff");
+		CreatureBehaviour creature = e.enemy.GetComponent<CreatureBehaviour>();
+		if(creature != null){
+			List<Effect> killEffects = creature.KillEffects;
+			foreach(Effect effect in killEffects){
+				effectManager.RegisterEffect(effect);		
+			}
+			
+		}
+		
+		                             
 		
 	}
 
@@ -70,8 +94,21 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private void OnCreatureGenerated(object sender, EntityGeneratedEventArgs<CreatureTypes> e) {
 		entityManager.SpawnCreature(e.EntityType);
 	}
-
+	
+	public void ChangePlayerHealth (float lifeChange){
+		player.life += lifeChange;
+		if(player.isDead()){
+			Debug.Log("YOU SUCK!!");
+			// TODO implement suck
+		}
+	}
+	
+	public void ChangePlayerPoints(float pointsChange){
+		player.points += pointsChange;
+	}
+		
 	public void Update() {
 		creatureSpawner.Update();
+		effectManager.Update(this);
 	}
 }

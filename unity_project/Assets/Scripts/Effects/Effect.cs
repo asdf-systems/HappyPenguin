@@ -14,7 +14,7 @@ namespace HappyPenguin.Effects
 		
 		public TimeSpan TimeRemaining {
 			get;
-			private set;
+			protected set;
 		}
 	}
 }
