@@ -25,13 +25,24 @@ namespace HappyPenguin.Entities
 		public IEnumerable<CreatureBehaviour> FindCreatures() {
 			return Entities.Where(x => x is CreatureBehaviour).Select(x => x as CreatureBehaviour).ToList();
 		}
-
+		
 		public IEnumerable<PerkBehaviour> FindPerks() {
 			return Entities.Where(x => x is PerkBehaviour).Select(x => x as PerkBehaviour).ToList();
 		}
 
 		public IEnumerable<TargetableEntityBehaviour> FindTargetables() {
 			return Entities.Where(x => x is TargetableEntityBehaviour).Select(x => x as TargetableEntityBehaviour).ToList();
+		}
+		
+		public TargetableEntityBehaviour FindFittingTargetable(string symbolChain){
+			IEnumerable<TargetableEntityBehaviour> target = FindTargetables();
+			
+			foreach (TargetableEntityBehaviour item in target) {
+				if (item.SymbolChain == symbolChain){
+					return item;
+				}
+			}
+			return null;
 		}
 
 		public void SpawnCreature(CreatureTypes type) {
