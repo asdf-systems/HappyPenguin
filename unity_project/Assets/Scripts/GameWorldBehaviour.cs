@@ -16,6 +16,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private readonly TargetableSymbolManager symbolManager;
 	private readonly EntityManager entityManager;
 	
+	public AttackZoneBehaviour attackZone;
+	
 	public string GamePlayFunction;
 
 	public GameWorldBehaviour() {
@@ -27,8 +29,24 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
 		
 		
+<<<<<<< HEAD
 		//perkSpawner = new PerkSpawner();
+=======
+		
+		
+		perkSpawner = new PerkSpawner();
+>>>>>>> bundle/develop
 		//perkSpawner.PerkSpawned += OnPerkSpawned;
+	}
+	
+	void Start(){
+		attackZone.EnemyEnteredAttackZone += OnEnemyEnterAttackZone; 
+	}
+
+	void OnEnemyEnterAttackZone(object sender, AttackZoneEventArgs e){
+		// TODO implement
+		Debug.Log("Creature Attacks! - TODO: Implement Stuff");
+		
 	}
 
 	public void Awake() {
