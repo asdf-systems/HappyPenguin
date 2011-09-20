@@ -7,7 +7,7 @@ public sealed class PlayerBehaviour : EntityBehaviour
 	public float StartLife;
 	public float StartPoints;
 	
-	public float Life{
+	public float Life {
 		get;
 		set;
 	}
@@ -17,13 +17,14 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		set;
 	}
 	
-	void Start(){
+	protected override void AwakeOverride() {
+		base.AwakeOverride();
 		Life = StartLife;
 		Points = StartPoints;
 	}
 	
 	public bool IsDead {
-		get {return Life == 0;}
+		get {return Life < 1;}
 	}
 }
 

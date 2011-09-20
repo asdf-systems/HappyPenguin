@@ -5,7 +5,7 @@ using HappyPenguin.Entities;
 
 namespace HappyPenguin.Controllers
 {
-	public sealed class LinearMovementController : MovementController
+	public class LinearMovementController : MovementController
 	{
 		private TimeSpan elapsedTime;
 		private readonly Vector3 targetPosition;
@@ -37,6 +37,8 @@ namespace HappyPenguin.Controllers
 			
 			entity.transform.position = entity.transform.position + movementVector; 
 		}
+		
+		
 	}
 }
 

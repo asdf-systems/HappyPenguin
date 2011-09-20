@@ -18,6 +18,11 @@ namespace HappyPenguin
 		
 		public void RegisterTargetable(TargetableEntityBehaviour entity)
 		{
+			if (entity == null) {
+				Debug.Log("perk still null");
+				return;
+			}
+			
 			entity.SymbolChain = GenerateSymbolChain(entity.SymbolRange);
 			targets.Add(entity.SymbolChain, entity);
 		}

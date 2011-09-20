@@ -11,13 +11,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private Camera _playerCamera;
 	public GUIManager guiManager;
 	private readonly EffectManager effectManager;
-	
+
 	private readonly CreatureSpawner creatureSpawner;
 	private readonly PerkSpawner perkSpawner;
 	private readonly TargetableSymbolManager symbolManager;
 	private readonly EntityManager entityManager;
 
-	
 	private AttackZoneBehaviour attackZone;
 
 	public GameWorldBehaviour() {
@@ -31,48 +30,52 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		perkSpawner.EntitySpawned += OnPerkGenerated;
 	}
 
-void OnSwipeCommitted(object sender, SwipeEventArgs e)
-		{
-			TargetableEntityBehaviour target = entityManager.FindFittingTargetable(e.symbolChain);
-			Debug.Log("committed: " + e.symbolChain);
-			if (target == null) {
-				return;
-			}
-			List<Effect> killEffects = target.KillEffects;
-			foreach(Effect effect in killEffects){
-				effectManager.RegisterEffect(effect);		
-			}
+	void OnSwipeCommitted(object sender, SwipeEventArgs e) {
+		guiManager.clearSymbols();
 		
-				
-		// TODO implement
-		Debug.Log("Swipe Commit - TODO: Implement Stuff");
-	
+		var target = entityManager.FindFittingTargetable(e.symbolChain);
+		Debug.Log("committed: " + e.symbolChain);
+		if (target == null) {
+			Debug.Log("implemented punish player");
+			return;
 		}
+		List<Effect> killEffects = target.KillEffects;
+		foreach (Effect effect in killEffects) {
+			effectManager.RegisterEffect(effect);
+		}
+		
+		entityManager.VoidTargetable(target);
 	
+		
+		Debug.Log("retreat creature.");
+	}
 
-
-
-	void OnAttackZoneEntered(object sender, AttackZoneEventArgs e){
+	void OnAttackZoneEntered(object sender, AttackZoneEventArgs e) {
 		var creature = e.Creature.GetComponent<CreatureBehaviour>();
-		if(creature != null){
+		if (creature != null) {
 			var attackEffects = creature.AttackEffects;
 			Debug.Log("Creature Found");
-			foreach(var effect in attackEffects){
+			foreach (var effect in attackEffects) {
 				Debug.Log("Register Effect");
-				effectManager.RegisterEffect(effect);		
-				// TODO: Implement Retreat
+				effectManager.RegisterEffect(effect);
+				Debug.Log("implement attack animation.");
+				
 			}
 		}
 	}
 	
-	private void InitAttackZone()
+	private void RetreatCreature(CreatureBehaviour creature)
 	{
+		creature.CurrentState = EntityStateGenerator.CreateDiveMovementState(creature, 10, -20);
+	}
+
+	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
-		if(attackZone == null){
-			Debug.LogError("No AttackZone found under Gameworld");
+		if (attackZone == null) {
+			Debug.LogError("No AttackZone found in Gameworld");
 		}
 		
-		attackZone.AttackZoneEntered += OnAttackZoneEntered; 
+		attackZone.AttackZoneEntered += OnAttackZoneEntered;
 		guiManager.SwipeCommitted += OnSwipeCommitted;
 	}
 
@@ -81,7 +84,7 @@ void OnSwipeCommitted(object sender, SwipeEventArgs e)
 		InitSpawningZone();
 		InitAttackZone();
 	}
-	
+
 	private void InitPlayer() {
 		var player = gameObject.GetComponentInChildren<PlayerBehaviour>();
 		if (player == null) {
@@ -92,9 +95,8 @@ void OnSwipeCommitted(object sender, SwipeEventArgs e)
 		player.StartPoints = 0;
 		entityManager.Player = player;
 	}
-	
-	private void InitSpawningZone()
-	{
+
+	private void InitSpawningZone() {
 		var spawnPoint = gameObject.GetComponentInChildren<SpawnPointBehaviour>();
 		if (spawnPoint == null) {
 			throw new ApplicationException("spawn point component not found");
@@ -106,26 +108,26 @@ void OnSwipeCommitted(object sender, SwipeEventArgs e)
 	private void OnCreatureGenerated(object sender, EntityGeneratedEventArgs<CreatureTypes> e) {
 		entityManager.SpawnCreature(e.EntityType);
 	}
-	
+
 
 	private void OnPerkGenerated(object sender, EntityGeneratedEventArgs<PerkTypes> e) {
 		entityManager.SpawnPerk(e.EntityType);
 	}
-	
-	public void ChangePlayerHealth (float lifeChange){
+
+	public void ChangePlayerHealth(float lifeChange) {
 		entityManager.Player.Life += lifeChange;
 		Debug.Log("Health modified: " + lifeChange);
-		if(entityManager.Player.IsDead){
+		if (entityManager.Player.IsDead) {
 			Debug.Log("YOU SUCK!!");
 			Application.LoadLevel(2);
 		}
 	}
-	
-	public void ChangePlayerPoints(float pointsChange){
+
+	public void ChangePlayerPoints(float pointsChange) {
 		Debug.Log("points modified: " + pointsChange);
 		entityManager.Player.Points += pointsChange;
 	}
-		
+
 	public void Update() {
 		creatureSpawner.Update();
 		effectManager.Update();

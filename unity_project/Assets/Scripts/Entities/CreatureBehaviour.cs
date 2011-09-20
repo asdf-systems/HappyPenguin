@@ -19,7 +19,7 @@ public sealed class CreatureBehaviour : TargetableEntityBehaviour{
 	
 	private void Init(){
 		KillEffects.Add(new PointEffect(Points));
-		AttackEffects.Add(new LifeEffect(Damage));
+		AttackEffects.Add(new LifeEffect(-Damage));
 	}
 
 	public List<Effect> AttackEffects { get; private set; }

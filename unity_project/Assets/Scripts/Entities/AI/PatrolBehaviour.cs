@@ -23,7 +23,7 @@ public sealed class PatrolBehaviour : EnvironmentEntityBehaviour
 	protected override void UpdateOverride() {
 		base.UpdateOverride();
 		
-		if (!PatrolPositions.Any()) {
+		if (PatrolPositions.Count == 0) {
 			return;
 		}
 		

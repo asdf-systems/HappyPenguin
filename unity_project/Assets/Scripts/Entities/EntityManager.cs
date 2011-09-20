@@ -55,7 +55,6 @@ namespace HappyPenguin.Entities
 		private void ActivateCreature(EntityBehaviour creature) {
 			creature.CurrentState = EntityStateGenerator.CreateDefaultMovementState(Player, creature.transform.position.y);
 		}
-		
 
 		public PlayerBehaviour Player {
 			get;
@@ -63,6 +62,10 @@ namespace HappyPenguin.Entities
 		}
 		
 		private void ActivatePerk(EntityBehaviour perk) {
+			if (perk == null) {
+				Debug.Log("perk is still null, needs implementing.");
+				return;
+			}
 			perk.CurrentState = EntityStateGenerator.CreatePerkMovementState(new Vector3(0,0,0));
 		}
 
@@ -78,13 +81,9 @@ namespace HappyPenguin.Entities
 			patrolBehaviour.PatrolPositions.Add(new Vector3(-200, y, -10));
 		}
 
-
-		private void VoidCreature(CreatureBehaviour creature) {
-			
-		}
-
-		private void VoidPerk(PerkBehaviour perk) {
-			
+		public void VoidTargetable(TargetableEntityBehaviour targetable) {
+			GameObject.Destroy(targetable.gameObject);
+			entities.Remove(targetable);
 		}
 
 		private PerkBehaviour DisplayPerk(PerkTypes type, Vector3 position) {
