@@ -18,10 +18,6 @@ public class AlertTextBehaviour : UIElementBehaviour<GUIManager> {
 	private float y;
 	private TimeSpan timeSinceTextSpawn = TimeSpan.Zero;
 	
-	public void Awake(){
-		
-	}
-	
 	protected override void showElements(){
 		if(textShow){
 			timeSinceTextSpawn = timeSinceTextSpawn.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
@@ -31,7 +27,7 @@ public class AlertTextBehaviour : UIElementBehaviour<GUIManager> {
 				return;
 			}
 			// Hier den Text anzeigen und verschwinden lassen	
-			GeneralScreenGUI.Box(guiStatics, new Rect (x,y,myTextWidth,myTextHeight), text, inactiveStyle);
+			GeneralScreenGUI.Box(guiStatics, new Rect ((480-(myTextWidth/2)),(float)(320-myTextHeight/1.25),myTextWidth,myTextHeight), text, inactiveStyle);
 		}
 	}
 	

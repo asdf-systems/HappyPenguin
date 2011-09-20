@@ -52,7 +52,7 @@ public class UIElementBehaviour<T>  : MonoBehaviour where T : GUIStatics {
 			else if (Input.GetKeyDown("backspace")) {
 				swipe(GUIManager.Directions.Left);
 			}
-		
+			//iPhone swipe
 			else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began){
 				startingPosition = Input.GetTouch(0).position;
 				return;
