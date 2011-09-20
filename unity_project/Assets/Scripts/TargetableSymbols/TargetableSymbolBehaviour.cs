@@ -8,7 +8,8 @@ public sealed class TargetableSymbolBehaviour : MonoBehaviour
 	public Texture LightUpTexture;
 	private bool isLit;
 	
-	public void Awake(){
+	public void Awake()
+	{
 		renderer.material.mainTexture = DefaultTexture;
 	}
 
@@ -27,6 +28,8 @@ public sealed class TargetableSymbolBehaviour : MonoBehaviour
 			}
 		}
 	}
+	
+	public string Symbol;
 
 	private void LightUp() {
 		renderer.material.mainTexture = LightUpTexture;

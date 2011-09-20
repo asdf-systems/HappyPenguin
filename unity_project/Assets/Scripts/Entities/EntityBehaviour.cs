@@ -42,5 +42,7 @@ namespace HappyPenguin.Entities
 		public EntityState CurrentState { get; set; }
 
 		public float Speed;
+		public int RotateYCorrection;
+		
 	}
 }

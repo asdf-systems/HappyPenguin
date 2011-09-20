@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using System.Collections.Generic;
 using HappyPenguin.Collections;
 
@@ -6,35 +7,41 @@ namespace HappyPenguin.Effects
 {
 	public sealed class EffectManager
 	{
+		private readonly GameWorldBehaviour world;
+		private Dictionary<Effect, TimeSpan> effects;
 		
-		public EffectManager () {
-			Effects = new ObservableList<Effect>();
-			//Effects.ListChanged += OnEffectsListChanged;
+		public EffectManager (GameWorldBehaviour world) {
+			this.world = world;
+			effects = new Dictionary<Effect, TimeSpan>();
 		}
 		
-		public void Update(GameWorldBehaviour gameWorld){
-			List<Effect> todelete = new List<Effect>();
-			foreach(Effect e in Effects){
-				e.Update(gameWorld);
-				if(e.TimeRemaining == TimeSpan.Zero){
-					e.Stop();
-					todelete.Add(e);
+		public void Update(){
+			var expiredEffects = new List<Effect>();
+			
+			foreach(var e in effects) {
+				var isExpired = e.Key.IsExpired(e.Value);
+				if (isExpired) {
+					expiredEffects.Add(e.Key);
+					continue;
 				}
+				
+				e.Key.Update(world);
 			}
-			foreach(Effect e in todelete){
-				Effects.Remove(e);
-			}
+			
+			foreach (var e in expiredEffects) {
+				e.Stop(world);
+				effects.Remove(e);
+			}	
 		}
 		
 		public void RegisterEffect(Effect e){
-			Effects.Add(e);
+			effects.Add(e, TimeSpan.FromSeconds(Time.timeSinceLevelLoad));
+			e.Start(world);
 		}
 		
-		public IList<Effect> Effects {
-			get;
-			private set;
+		public IEnumerable<Effect> Effects {
+			get{ return effects.Keys; }
 		}
-		
 	}
 }
 

@@ -4,30 +4,26 @@ using HappyPenguin.Entities;
 
 public sealed class PlayerBehaviour : EntityBehaviour
 {
-	public float startLife;
-	public float startPoints;
+	public float StartLife;
+	public float StartPoints;
 	
-	public float life{
+	public float Life{
 		get;
 		set;
 	}
 	
-	public float points{
+	public float Points{
 		get;
 		set;
-	}
-	
-
-	public PlayerBehaviour() {
 	}
 	
 	void Start(){
-		life = startLife;
-		points = startPoints;
+		Life = StartLife;
+		Points = StartPoints;
 	}
 	
-	public bool isDead(){
-		return ( life <= 0 ) ;
+	public bool IsDead {
+		get {return Life == 0;}
 	}
 }
 

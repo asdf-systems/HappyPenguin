@@ -4,7 +4,7 @@ using HappyPenguin.Effects;
 using HappyPenguin.Entities;
 using HappyPenguin;
 
-public class CreatureBehaviour : TargetableEntityBehaviour{
+public sealed class CreatureBehaviour : TargetableEntityBehaviour{
 	
 	public float Points;
 	public float Damage;
@@ -14,10 +14,10 @@ public class CreatureBehaviour : TargetableEntityBehaviour{
 		base.AwakeOverride();
 		AttackEffects = new List<Effect>();
 		KillEffects = new List<Effect>();
-		init();
+		Init();
 	}
 	
-	private void init(){
+	private void Init(){
 		KillEffects.Add(new PointEffect(Points));
 		AttackEffects.Add(new LifeEffect(Damage));
 	}

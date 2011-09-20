@@ -6,7 +6,7 @@ using HappyPenguin.Controllers;
 
 namespace HappyPenguin.Entities
 {
-	public class EntityState
+	public sealed class EntityState
 	{	
 		public EntityState (string name) {
 			Name = name;

@@ -5,10 +5,10 @@ using System;
 
 public class AttackZoneBehaviour : MonoBehaviour {
 
-	public event EventHandler<AttackZoneEventArgs> EnemyEnteredAttackZone;
+	public event EventHandler<AttackZoneEventArgs> AttackZoneEntered;
 	
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 	
 	}
 	
@@ -20,19 +20,17 @@ public class AttackZoneBehaviour : MonoBehaviour {
 	void OnTriggerEnter(Collider c){
 		//Debug.Log("Trigger AttackZone");
 		TargetableEntityBehaviour creature = c.GetComponent<TargetableEntityBehaviour>();
-		InvokeEnemyEnteredAttackZone(creature);
+		InvokeAttackZoneEntered(creature);
 	}
 	
-	private void InvokeEnemyEnteredAttackZone(TargetableEntityBehaviour creature){
+	private void InvokeAttackZoneEntered(TargetableEntityBehaviour creature){
 		//Debug.Log("Invoke AttackZone");
-		var handler = EnemyEnteredAttackZone;
+		var handler = AttackZoneEntered;
 		if (handler == null) {
 				return;
 		}
 		//Debug.Log("Invoke AttackZone");	
 		var e = new AttackZoneEventArgs(creature);
-		EnemyEnteredAttackZone(this, e);
+		AttackZoneEntered(this, e);
 	}
-	
-	
 }

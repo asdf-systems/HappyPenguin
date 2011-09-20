@@ -8,82 +8,64 @@ using HappyPenguin;
 
 public sealed class GameWorldBehaviour : MonoBehaviour
 {
-
-	
-
 	private Camera _playerCamera;
-	
-
-	private readonly EffectManager effectManager;
 	public GUIManager guiManager;
-
+	private readonly EffectManager effectManager;
+	
 	private readonly CreatureSpawner creatureSpawner;
 	//private readonly PerkSpawner perkSpawner;
 	private readonly TargetableSymbolManager symbolManager;
 	private readonly EntityManager entityManager;
 	
-	
 	private AttackZoneBehaviour attackZone;
-	private PlayerBehaviour player;
-	
-	public string GamePlayFunction;
 
 	public GameWorldBehaviour() {
 		entityManager = new EntityManager();
-		effectManager = new EffectManager();
+		effectManager = new EffectManager(this);
 		
 		creatureSpawner = new CreatureSpawner();
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
 		
-		
 		//perkSpawner = new PerkSpawner();
-
-	}
-	
-	void Start(){
-		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
-		if(attackZone == null){
-			Debug.LogError("No AttackZone found under Gameworld");
-		}
-		player = gameObject.GetComponentInChildren<PlayerBehaviour>();
-		if(player == null){
-			Debug.LogError("No Player found under Gameworld");
-		}
-		
-		attackZone.EnemyEnteredAttackZone += OnEnemyEnterAttackZone; 
-		guiManager.SwipeCommitted += OnSwipeCommitted;
 	}
 
 	void OnSwipeCommitted(object sender, SwipeEventArgs e){
-		TargetableEntityBehaviour target = entityManager.FindFittingTargetable(e.symbolChain);
+		var target = entityManager.FindFittingTargetable(e.symbolChain);
 		if (target == null) {
 			return;
 		}
 		// TODO implement
 		Debug.Log("Swipe Commit - TODO: Implement Stuff");
-
 	}
 
-	void OnEnemyEnterAttackZone(object sender, AttackZoneEventArgs e){
-		CreatureBehaviour creature = e.enemy.GetComponent<CreatureBehaviour>();
+	void OnAttackZoneEntered(object sender, AttackZoneEventArgs e){
+		var creature = e.Creature.GetComponent<CreatureBehaviour>();
 		if(creature != null){
-			List<Effect> attackEffects = creature.AttackEffects;
+			var attackEffects = creature.AttackEffects;
 			Debug.Log("Creature Found");
-			foreach(Effect effect in attackEffects){
+			foreach(var effect in attackEffects){
 				Debug.Log("Register Effect");
 				effectManager.RegisterEffect(effect);		
 				// TODO: Implement Retreat
 			}
-			
+		}
+	}
+	
+	private void InitAttackZone()
+	{
+		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
+		if(attackZone == null){
+			Debug.LogError("No AttackZone found under Gameworld");
 		}
 		
-		                             
-		
+		attackZone.AttackZoneEntered += OnAttackZoneEntered; 
+		guiManager.SwipeCommitted += OnSwipeCommitted;
 	}
 
 	public void Awake() {
 		InitPlayer();
-		InitSpawnPoint();
+		InitSpawningZone();
+		InitAttackZone();
 	}
 	
 	private void InitPlayer() {
@@ -92,10 +74,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			throw new ApplicationException("player component not found");
 		}
 		
-		entityManager.SetPlayer(player);
+		player.StartLife = 5;
+		player.StartPoints = 0;
+		entityManager.Player = player;
 	}
 	
-	private void InitSpawnPoint()
+	private void InitSpawningZone()
 	{
 		var spawnPoint = gameObject.GetComponentInChildren<SpawnPointBehaviour>();
 		if (spawnPoint == null) {
@@ -109,10 +93,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		entityManager.SpawnCreature(e.EntityType);
 	}
 	
-	public void ChangePlayerHealth (float lifeChange){
-		player.life += lifeChange;
+	public void ChangePlayerHealth(float lifeChange){
+		entityManager.Player.Life += lifeChange;
 		Debug.Log("Health modified: " + lifeChange);
-		if(player.isDead()){
+		if(entityManager.Player.IsDead){
 			Debug.Log("YOU SUCK!!");
 			Application.LoadLevel(2);
 		}
@@ -120,11 +104,11 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	
 	public void ChangePlayerPoints(float pointsChange){
 		Debug.Log("points modified: " + pointsChange);
-		player.points += pointsChange;
+		entityManager.Player.Points += pointsChange;
 	}
 		
 	public void Update() {
 		creatureSpawner.Update();
-		effectManager.Update(this);
+		effectManager.Update();
 	}
 }

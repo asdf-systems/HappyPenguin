@@ -27,11 +27,12 @@ namespace HappyPenguin.Entities
 				var gameObject = CreateGameObjectFromSymbol(character, i);
 				gameObject.transform.parent = node.transform;
 				gameObject.transform.localPosition = Vector3.zero;
+				gameObject.transform.localRotation = Quaternion.identity;
 				
 				var z = (i * 11) - (symbolChain.Length * 11 / 2);
 				var offset = new Vector3(0, 0, z);
-				gameObject.transform.Translate(offset);
-				
+				gameObject.transform.Translate(offset, gameObject.transform.parent);
+				gameObject.transform.Translate(new Vector3(0, 10, 0), gameObject.transform.parent);
 			}
 		}
 		

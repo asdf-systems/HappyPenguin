@@ -2,28 +2,26 @@ using System;
 
 namespace HappyPenguin.Effects
 {
-	public class LifeEffect : Effect{
-		public float lifeChange{
+	public sealed class LifeEffect : Effect {
+		public float LifeChange{
 			get;
 			private set;
 		}
 		public LifeEffect (float lifeValue) : base(){
-			lifeChange = lifeValue;
+			LifeChange = lifeValue;
 		}
 		
-		public override void Start(){
-			TimeRemaining = TimeSpan.Zero;
-			
+		public override void Start(GameWorldBehaviour world){
+			world.ChangePlayerHealth(LifeChange);
 		}
 		
 		public override void Update(GameWorldBehaviour world){
-			world.ChangePlayerHealth(lifeChange);
+			// is instant effect
 		}
 		
-		public override void Stop(){
-			
+		public override void Stop(GameWorldBehaviour world){
+			// is instant effect
 		}
-		
 	}
 }
 

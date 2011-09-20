@@ -30,7 +30,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	
 	
 //	Update
-	public override void Update (){
+	public void Update () {
 		timeSinceLastCreditGift = timeSinceLastCreditGift.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
 		timeSinceLastSpawn = timeSinceLastSpawn.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
 		

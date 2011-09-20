@@ -8,7 +8,6 @@ namespace HappyPenguin.Entities
 {
 	public sealed class EntityManager
 	{
-		private PlayerBehaviour player;
 		private SpawnPointBehaviour spawnPoint;
 		private readonly TargetableSymbolManager symbolManager;
 		private readonly List<EntityBehaviour> entities;
@@ -35,14 +34,8 @@ namespace HappyPenguin.Entities
 		}
 		
 		public TargetableEntityBehaviour FindFittingTargetable(string symbolChain){
-			IEnumerable<TargetableEntityBehaviour> target = FindTargetables();
-			
-			foreach (TargetableEntityBehaviour item in target) {
-				if (item.SymbolChain == symbolChain){
-					return item;
-				}
-			}
-			return null;
+			var targets = FindTargetables();
+			return targets.FirstOrDefault(x => x.SymbolChain == symbolChain);
 		}
 
 		public void SpawnCreature(CreatureTypes type) {
@@ -53,11 +46,12 @@ namespace HappyPenguin.Entities
 		}
 
 		private void ActivateCreature(EntityBehaviour creature) {
-			creature.CurrentState = EntityStateGenerator.CreateDefaultMovementState(player);
+			creature.CurrentState = EntityStateGenerator.CreateDefaultMovementState(Player, creature.transform.position.y);
 		}
-
-		public void SetPlayer(PlayerBehaviour behaviour) {
-			player = behaviour;
+		
+		public PlayerBehaviour Player {
+			get;
+			set;
 		}
 
 		public void SetSpawnPoint(SpawnPointBehaviour point) {
@@ -66,10 +60,10 @@ namespace HappyPenguin.Entities
 			if (patrolBehaviour == null) {
 				throw new ApplicationException("patrol behaviour not found");
 			}
-			patrolBehaviour.PatrolPositions.Add(new Vector3(-200, 0, 200));
-			patrolBehaviour.PatrolPositions.Add(new Vector3(-200, 0, -10));
-			patrolBehaviour.PatrolPositions.Add(new Vector3(65, 0, -120));
-			patrolBehaviour.PatrolPositions.Add(new Vector3(-200, 0, -10));
+			
+			var y = patrolBehaviour.Position.y;
+			patrolBehaviour.PatrolPositions.Add(new Vector3(-200, y, 200));
+			patrolBehaviour.PatrolPositions.Add(new Vector3(-200, y, -10));
 		}
 
 		public void SpawnPerk(PerkBehaviour perk) {
@@ -85,7 +79,7 @@ namespace HappyPenguin.Entities
 		}
 
 		private CreatureBehaviour DisplayCreature(CreatureTypes type, Vector3 position) {
-			var target = player.Position;
+			var target = Player.Position;
 			var direction = position - target;
 			
 			var quaternion = Quaternion.LookRotation(direction, Vector3.up);

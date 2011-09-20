@@ -5,12 +5,12 @@ using HappyPenguin.Entities;
 
 public class AttackZoneEventArgs : EventArgs{
 
-	public TargetableEntityBehaviour enemy{
+	public TargetableEntityBehaviour Creature{
 		get;
 		private set;
 	}
 	
 	public AttackZoneEventArgs(TargetableEntityBehaviour e){
-		enemy = e;
+		Creature = e;
 	}
 }

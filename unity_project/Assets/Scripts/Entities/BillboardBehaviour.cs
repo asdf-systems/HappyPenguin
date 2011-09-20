@@ -3,10 +3,15 @@ using System.Collections;
 
 public sealed class BillboardBehaviour : MonoBehaviour
 {
+	public void Awake() {
+		transform.rotation = Quaternion.identity;
+		transform.localRotation = Quaternion.identity;
+	}
+	
 	// Update is called once per frame
 	public void Update() {
-		transform.LookAt(Camera.main.transform, Vector3.up);
-		transform.RotateAround(transform.right, 90);
+		var camTransform = Camera.main.transform;
+		transform.LookAt(transform.position + camTransform.right, -(camTransform.rotation * Vector3.forward));
 	}
 }
 

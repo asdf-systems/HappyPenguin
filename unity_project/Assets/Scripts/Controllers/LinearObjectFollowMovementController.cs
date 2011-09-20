@@ -49,8 +49,8 @@ namespace HappyPenguin.Controllers
 			var movementVector = normalizedDirection * offset;
 			
 			entity.transform.position = entity.transform.position + movementVector; 
+			entity.transform.LookAt(target.transform);
 		}
-		
 	}
 }
 
