@@ -18,7 +18,7 @@ public class GUIManager : GUIStatics {
 	private Vector2 buttonQpos;
 	private Vector2 buttonYpos;
 	
-	private AlertTextBehaviour textEntity;
+	public AlertTextBehaviour TextEntity;
 	
 	private Time textTimer;
 	
@@ -43,7 +43,7 @@ public class GUIManager : GUIStatics {
 	
 	private void init(){
 		positions = new List<Vector2>();
-		textEntity = gameObject.GetComponentInChildren<AlertTextBehaviour>();
+		TextEntity = gameObject.GetComponentInChildren<AlertTextBehaviour>();
 	}
 	private void reset(){
 		buttonC.positionX = (int)buttonCpos.x;
@@ -113,7 +113,7 @@ public class GUIManager : GUIStatics {
 	}
 	
 	public void alert(string value){
-		textEntity.showText(value);
+		TextEntity.ShowText(value);
 	}
 	
 	

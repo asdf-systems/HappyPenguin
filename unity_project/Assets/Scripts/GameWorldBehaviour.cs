@@ -13,9 +13,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private readonly EffectManager effectManager;
 	
 	private readonly CreatureSpawner creatureSpawner;
-	//private readonly PerkSpawner perkSpawner;
+	private readonly PerkSpawner perkSpawner;
 	private readonly TargetableSymbolManager symbolManager;
 	private readonly EntityManager entityManager;
+
 	
 	private AttackZoneBehaviour attackZone;
 
@@ -26,17 +27,30 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		creatureSpawner = new CreatureSpawner();
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
 		
-		//perkSpawner = new PerkSpawner();
+		perkSpawner = new PerkSpawner();
+		perkSpawner.EntitySpawned += OnPerkGenerated;
 	}
 
-	void OnSwipeCommitted(object sender, SwipeEventArgs e){
-		var target = entityManager.FindFittingTargetable(e.symbolChain);
-		if (target == null) {
-			return;
-		}
+void OnSwipeCommitted(object sender, SwipeEventArgs e)
+		{
+			TargetableEntityBehaviour target = entityManager.FindFittingTargetable(e.symbolChain);
+			Debug.Log("committed: " + e.symbolChain);
+			if (target == null) {
+				return;
+			}
+			List<Effect> killEffects = target.KillEffects;
+			foreach(Effect effect in killEffects){
+				effectManager.RegisterEffect(effect);		
+			}
+		
+				
 		// TODO implement
 		Debug.Log("Swipe Commit - TODO: Implement Stuff");
-	}
+	
+		}
+	
+
+
 
 	void OnAttackZoneEntered(object sender, AttackZoneEventArgs e){
 		var creature = e.Creature.GetComponent<CreatureBehaviour>();
@@ -93,7 +107,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		entityManager.SpawnCreature(e.EntityType);
 	}
 	
-	public void ChangePlayerHealth(float lifeChange){
+
+	private void OnPerkGenerated(object sender, EntityGeneratedEventArgs<PerkTypes> e) {
+		entityManager.SpawnPerk(e.EntityType);
+	}
+	
+	public void ChangePlayerHealth (float lifeChange){
 		entityManager.Player.Life += lifeChange;
 		Debug.Log("Health modified: " + lifeChange);
 		if(entityManager.Player.IsDead){
@@ -110,5 +129,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public void Update() {
 		creatureSpawner.Update();
 		effectManager.Update();
+		perkSpawner.Update();
 	}
 }

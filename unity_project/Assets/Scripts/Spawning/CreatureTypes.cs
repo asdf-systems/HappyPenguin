@@ -2,7 +2,7 @@ using System;
 
 namespace HappyPenguin.Spawning
 {
-	public enum CreatureTypes : short
+	public enum CreatureTypes : byte
 	{
 		Pike,
 		Shark,

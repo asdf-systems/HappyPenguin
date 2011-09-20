@@ -7,13 +7,9 @@ using HappyPenguin.Entities;
 	public sealed class PerkBehaviour : TargetableEntityBehaviour
 	{
 		public PerkBehaviour () {
-			Effects = new List<Effect>();
+			KillEffects = new List<Effect>();
 		}
 		
-		public IEnumerable<Effect> Effects {
-			get;
-			private set;
-		}
 	}
 
 

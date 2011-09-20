@@ -30,10 +30,8 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	
 	
 //	Update
-	public void Update () {
-		timeSinceLastCreditGift = timeSinceLastCreditGift.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
-		timeSinceLastSpawn = timeSinceLastSpawn.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
-		
+
+	public void Update (){
 		Difficulty = CalculateDifficulty(Time.timeSinceLevelLoad);
 		
 		CalculateCredits();
@@ -49,6 +47,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	
 //	How many Credits do I recieve?
 	private void CalculateCredits(){
+		timeSinceLastCreditGift = timeSinceLastCreditGift.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
 		if (timeSinceLastCreditGift.TotalSeconds >= DEFAULT_CREDIT_SPAWN_TIME) {
 			CreditsTotal += UnityEngine.Random.Range(1,(10 + DIFFICULTY_CREDIT_MULTIPLIER * (int)Difficulty));
 			timeSinceLastCreditGift = TimeSpan.Zero;
@@ -58,6 +57,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	
 //	What Creature do I spawn?
 	private void SpawnCreatures(){
+		timeSinceLastSpawn = timeSinceLastSpawn.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
 		if (spawnCounter < MAX_CREATURE_COUNT && 
 		    timeSinceLastSpawn.TotalSeconds >= (DEFAULT_CREATURE_SPAWN_TIME - Difficulty)) {
 			int rnd = random.Next(1, 10);

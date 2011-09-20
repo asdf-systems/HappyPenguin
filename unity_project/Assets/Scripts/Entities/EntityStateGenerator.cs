@@ -22,6 +22,15 @@ namespace HappyPenguin.Entities
 			state.Controllers.Add(new LinearMovementController(patrolPosition));
 			return state;
 		}
+		
+		public static EntityState CreatePerkMovementState(Vector3 target)
+		{
+			var state = new EntityState("movement");
+			state.AnimationNames.Add("swim");
+			state.Controllers.Add(new LinearMovementController(target));
+			state.Controllers.Add(new FloatController(target.y));
+			return state;
+		}
 	}
 }
 

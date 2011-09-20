@@ -49,8 +49,11 @@ public class UIElementBehaviour<T>  : MonoBehaviour where T : GUIStatics {
 				Debug.Log("Enter gedrückt");
 				swipe(GUIManager.Directions.Right);
 			}
+			else if (Input.GetKeyDown("backspace")) {
+				swipe(GUIManager.Directions.Left);
+			}
 		
-			if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began){
+			else if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began){
 				startingPosition = Input.GetTouch(0).position;
 				return;
 			}

@@ -22,9 +22,8 @@ public sealed class CreatureBehaviour : TargetableEntityBehaviour{
 		AttackEffects.Add(new LifeEffect(Damage));
 	}
 
-	public List<Effect> AttackEffects { get; protected set; }
+	public List<Effect> AttackEffects { get; private set; }
 
-	public List<Effect> KillEffects { get; protected set; }
 }
 
 

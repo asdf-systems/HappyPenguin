@@ -44,14 +44,26 @@ namespace HappyPenguin.Entities
 			symbolManager.RegisterTargetable(creature);
 			entities.Add(creature);
 		}
+		
+		public void SpawnPerk(PerkTypes type) {
+			var perk = DisplayPerk(type, spawnPoint.Position);
+			ActivatePerk(perk);
+			symbolManager.RegisterTargetable(perk);
+			entities.Add(perk);
+		}
 
 		private void ActivateCreature(EntityBehaviour creature) {
 			creature.CurrentState = EntityStateGenerator.CreateDefaultMovementState(Player, creature.transform.position.y);
 		}
 		
+
 		public PlayerBehaviour Player {
 			get;
 			set;
+		}
+		
+		private void ActivatePerk(EntityBehaviour perk) {
+			perk.CurrentState = EntityStateGenerator.CreatePerkMovementState(new Vector3(0,0,0));
 		}
 
 		public void SetSpawnPoint(SpawnPointBehaviour point) {
@@ -66,9 +78,6 @@ namespace HappyPenguin.Entities
 			patrolBehaviour.PatrolPositions.Add(new Vector3(-200, y, -10));
 		}
 
-		public void SpawnPerk(PerkBehaviour perk) {
-			
-		}
 
 		private void VoidCreature(CreatureBehaviour creature) {
 			
@@ -76,6 +85,20 @@ namespace HappyPenguin.Entities
 
 		private void VoidPerk(PerkBehaviour perk) {
 			
+		}
+
+		private PerkBehaviour DisplayPerk(PerkTypes type, Vector3 position) {
+			//TODO implement stuff!
+			
+//			var target = player.Position;
+//			var direction = position - target;
+//			
+//			var quaternion = Quaternion.LookRotation(direction, Vector3.up);
+//			var resource = GetCreatureResourceByType(type);
+//			var gameObject = GameObject.Instantiate(resource, position, quaternion) as GameObject;
+//			return gameObject.GetComponentInChildren<CreatureBehaviour>();
+			Debug.Log("Display Perk - TODO: Implement Stuff");
+			return null;
 		}
 
 		private CreatureBehaviour DisplayCreature(CreatureTypes type, Vector3 position) {

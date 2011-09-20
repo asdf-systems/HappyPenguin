@@ -1,5 +1,9 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
+using HappyPenguin.Effects;
+using HappyPenguin.Entities;
+using HappyPenguin;
 
 namespace HappyPenguin.Entities
 {
@@ -9,9 +13,10 @@ namespace HappyPenguin.Entities
 		private TargetableSymbolProjector projector;
 
 		public Range SymbolRange { get; set; }
+		public List<Effect> KillEffects {get; set;}
 		
 		private string symbolChain;
-		public string SymbolChain 
+		public string SymbolChain
 		{ 
 			get{return symbolChain;} 
 			set{
