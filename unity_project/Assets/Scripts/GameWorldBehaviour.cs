@@ -18,9 +18,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public GUIManager guiManager;
 
 	private readonly CreatureSpawner creatureSpawner;
-	//private readonly PerkSpawner perkSpawner;
+	private readonly PerkSpawner perkSpawner;
 	private readonly TargetableSymbolManager symbolManager;
 	private readonly EntityManager entityManager;
+
 	
 	
 	private AttackZoneBehaviour attackZone;
@@ -36,8 +37,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
 		
 		
-		//perkSpawner = new PerkSpawner();
-
+		perkSpawner = new PerkSpawner();
+		perkSpawner.EntitySpawned += OnPerkGenerated;
+			
 	}
 	
 	void Start(){
@@ -109,6 +111,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		entityManager.SpawnCreature(e.EntityType);
 	}
 	
+	private void OnPerkGenerated(object sender, EntityGeneratedEventArgs<PerkTypes> e) {
+		entityManager.SpawnPerk(e.EntityType);
+	}
+	
 	public void ChangePlayerHealth (float lifeChange){
 		player.life += lifeChange;
 		Debug.Log("Health modified: " + lifeChange);
@@ -121,10 +127,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public void ChangePlayerPoints(float pointsChange){
 		Debug.Log("points modified: " + pointsChange);
 		player.points += pointsChange;
+		guiManager.TextEntity.ShowText("Points: " + player.points);
 	}
 		
 	public void Update() {
 		creatureSpawner.Update();
+		perkSpawner.Update();
 		effectManager.Update(this);
 	}
 }

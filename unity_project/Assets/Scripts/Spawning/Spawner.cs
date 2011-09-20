@@ -27,6 +27,5 @@ namespace HappyPenguin.Spawning
 			var e = new EntityGeneratedEventArgs<T> (entity);
 			EntitySpawned (this, e);
 		}
-		
 	}
 }
