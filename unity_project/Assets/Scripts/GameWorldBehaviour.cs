@@ -10,12 +10,13 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 {
 	private Camera _playerCamera;
 	public GUIManager guiManager;
+	public GameObject RetreatPoint;
 	private readonly EffectManager effectManager;
 
 	private readonly CreatureSpawner creatureSpawner;
 	private readonly PerkSpawner perkSpawner;
 	private readonly TargetableSymbolManager symbolManager;
-	private readonly EntityManager entityManager;
+	public EntityManager entityManager{ get; private set;}
 
 	private AttackZoneBehaviour attackZone;
 
@@ -42,11 +43,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		List<Effect> killEffects = target.KillEffects;
 		foreach (Effect effect in killEffects) {
 			effectManager.RegisterEffect(effect);
-		}
-		
-		entityManager.VoidTargetable(target);
-	
-		
+		}		
 		Debug.Log("retreat creature.");
 	}
 
@@ -64,11 +61,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 	}
 	
-	private void RetreatCreature(CreatureBehaviour creature)
-	{
-		creature.CurrentState = EntityStateGenerator.CreateDiveMovementState(creature, 10, -20);
-	}
-
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
 		if (attackZone == null) {
