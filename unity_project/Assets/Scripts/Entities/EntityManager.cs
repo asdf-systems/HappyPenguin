@@ -43,6 +43,7 @@ namespace HappyPenguin.Entities
 			ActivateCreature(creature);
 			symbolManager.RegisterTargetable(creature);
 			entities.Add(creature);
+			
 		}
 		
 		public void SpawnPerk(PerkTypes type) {
