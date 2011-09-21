@@ -84,6 +84,11 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitSpawningZone();
 		InitAttackZone();
 	}
+	
+	void Start(){
+		guiManager.changePoints(entityManager.Player.Points);
+		guiManager.changeLife(entityManager.Player.Life);
+	}
 
 	private void InitPlayer() {
 		var player = gameObject.GetComponentInChildren<PlayerBehaviour>();
@@ -94,6 +99,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		player.StartLife = 5;
 		player.StartPoints = 0;
 		entityManager.Player = player;
+		
 	}
 
 	private void InitSpawningZone() {
@@ -116,6 +122,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	public void ChangePlayerHealth(float lifeChange) {
 		entityManager.Player.Life += lifeChange;
+		guiManager.changeLife(entityManager.Player.Life);
 		Debug.Log("Health modified: " + lifeChange);
 		if (entityManager.Player.IsDead) {
 			Debug.Log("YOU SUCK!!");
@@ -126,6 +133,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public void ChangePlayerPoints(float pointsChange) {
 		Debug.Log("points modified: " + pointsChange);
 		entityManager.Player.Points += pointsChange;
+		guiManager.changePoints(entityManager.Player.Points);
 	}
 
 	public void Update() {

@@ -11,6 +11,8 @@ public class GUIManager : GUIStatics {
 	private CornerButtonBehaviourQ buttonQ;
 	private CornerButtonBehaviourY buttonY;
 	
+	private PointsAndLifeDisplay pointsAndLifeDisplay;
+	
 	private string symbolChain;
 	
 	private Vector2 buttonCpos;
@@ -44,6 +46,7 @@ public class GUIManager : GUIStatics {
 	private void init(){
 		positions = new List<Vector2>();
 		TextEntity = gameObject.GetComponentInChildren<AlertTextBehaviour>();
+		pointsAndLifeDisplay = gameObject.GetComponentInChildren<PointsAndLifeDisplay>();
 	}
 	private void reset(){
 		buttonC.positionX = (int)buttonCpos.x;
@@ -136,6 +139,18 @@ public class GUIManager : GUIStatics {
 		Debug.Log("ButtonCHit");
 		symbolChain += "C";
 		symbolsChanged();
+	}
+	
+	public void changePoints(float points){
+		if(pointsAndLifeDisplay == null)
+			pointsAndLifeDisplay = gameObject.GetComponentInChildren<PointsAndLifeDisplay>();
+		pointsAndLifeDisplay.Points = points;
+	}
+	
+	public void changeLife(float life){
+		if(pointsAndLifeDisplay == null)
+			pointsAndLifeDisplay = gameObject.GetComponentInChildren<PointsAndLifeDisplay>();
+		pointsAndLifeDisplay.Life = life;
 	}
 	
 	private void symbolsChanged(){
