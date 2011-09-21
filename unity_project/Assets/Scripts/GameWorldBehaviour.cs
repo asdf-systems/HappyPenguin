@@ -18,6 +18,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private readonly EntityManager entityManager;
 
 	private AttackZoneBehaviour attackZone;
+	
+	public string perkText;
+	public string wrongSymbolChainText;
+	public string looseText;
 
 	public GameWorldBehaviour() {
 		entityManager = new EntityManager();
@@ -36,6 +40,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		var target = entityManager.FindFittingTargetable(e.symbolChain);
 		Debug.Log("committed: " + e.symbolChain);
 		if (target == null) {
+			guiManager.alert(wrongSymbolChainText);
 			Debug.Log("implemented punish player");
 			return;
 		}
@@ -54,12 +59,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		var creature = e.Creature.GetComponent<CreatureBehaviour>();
 		if (creature != null) {
 			var attackEffects = creature.AttackEffects;
-			Debug.Log("Creature Found");
 			foreach (var effect in attackEffects) {
-				Debug.Log("Register Effect");
 				effectManager.RegisterEffect(effect);
-				Debug.Log("implement attack animation.");
-				
 			}
 		}
 	}
@@ -124,7 +125,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		entityManager.Player.Life += lifeChange;
 		guiManager.changeLife(entityManager.Player.Life);
 		Debug.Log("Health modified: " + lifeChange);
+		if(lifeChange>0)
+			guiManager.alert("+ " + lifeChange + " Life");
+		else
+			guiManager.alert("- " + lifeChange + " Life");
 		if (entityManager.Player.IsDead) {
+			guiManager.alert(looseText);
 			Debug.Log("YOU SUCK!!");
 			Application.LoadLevel(2);
 		}
@@ -132,6 +138,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	public void ChangePlayerPoints(float pointsChange) {
 		Debug.Log("points modified: " + pointsChange);
+		guiManager.alert("+ " + pointsChange + " Points");
 		entityManager.Player.Points += pointsChange;
 		guiManager.changePoints(entityManager.Player.Points);
 	}

@@ -37,6 +37,7 @@ public class AlertTextBehaviour : UIElementBehaviour<GUIManager> {
 	
 	public void ShowText(string value, int seconds, Vector2 position){
 
+		timeSinceTextSpawn = TimeSpan.Zero;
 		text = value;
 		textShowTime = seconds;
 		x = position.x;
