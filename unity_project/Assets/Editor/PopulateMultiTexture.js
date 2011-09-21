@@ -1,6 +1,6 @@
 // Add texture to array
-static var assetPath ="Assets/assets/water/textures/pPlane_";
-static var imageType ="jpg";
+static var assetPath ="Assets/Media/Environment/Water/Textures/pPlane_";
+static var imageType ="png";
 
 
 
