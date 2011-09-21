@@ -133,6 +133,7 @@ public class GUIManager : GUIStatics {
 	}
 	
 	public void buttonCHit(){
+		Debug.Log("ButtonCHit");
 		symbolChain += "C";
 		symbolsChanged();
 	}

@@ -35,12 +35,13 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 
 	protected virtual void Update() {
 		checkForSwipes();
+		hitTest();
 	}
 
 	void OnGUI() {
 		GUI.depth = guiDepth;
 		showElements();
-		hitTest();
+		//hitTest();
 		
 	}
 
@@ -71,22 +72,29 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 
 
 
+	
 	void hitTest() {
-		// check Mouse Position against size
+		
 		checkMouse();
 		// check iPhone Tap against size
 		checkiPhoneTap();
 		// check Android Tap against size
 		checkAndroidTap();
+		// check Mouse Position against size
+		
+	
 		
 	}
 
 	private void checkMouse() {
+		if(Input.touches.Length > 0)
+			return;
 		Vector3 mousePos = Input.mousePosition;
 		if (cursorInside(mousePos, new Vector3(positionX, positionY, 0), new Vector3(this.textWidth, this.textHeight, 0))) {
 			preHover();
 			if (Input.GetMouseButton(0)) {
 				if (!buttonDown) {
+					Debug.Log("ButtonDown");
 					buttonDown = true;
 					preHit();
 				}
@@ -99,17 +107,25 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 	private void checkiPhoneTap() {
 		Touch[] touches = Input.touches;
 		bool down = false;
-		foreach (Touch touch in touches) {
-			down = true;
+		//foreach (Touch touch in touches) {
+		if(touches.Length > 0 ){
+			Touch touch = touches[0];
+			if(touch.phase != TouchPhase.Ended)
+				return;
+			Debug.Log("Touch: " + touch.phase.ToString());
+			
 			if (cursorInside(new Vector3(touch.position.x, touch.position.y, 0), new Vector3(positionX, positionY, 0), new Vector3(this.textWidth, this.textHeight, 0))) {
-				if (!iPhoneTap) {
-					iPhoneTap = true;
-					preHit();
+					if (!iPhoneTap) {
+						iPhoneTap = true;
+						Debug.Log("Button Hit");
+						preHit();
+					}
+				} else {
+					resetElement();
 				}
-			} else
-				resetElement();
-		}
-		if (!down && iPhoneTap)
+		} else if(iPhoneTap)
+			
+			Debug.Log("reset Buttons - iPhoneTap");
 			resetButtons("iPhoneTap");
 		
 	}
