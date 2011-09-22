@@ -46,12 +46,12 @@ namespace HappyPenguin.Entities
 		
 		public void HideSymbols()
 		{
-			targetable.BillboardNode.active = false;
+			targetable.BillboardNode.SetActiveRecursively(false);
 		} 
 		
 		public void ShowSymbols()
 		{
-			targetable.BillboardNode.active = true;
+			targetable.BillboardNode.SetActiveRecursively(true);
 		}
 		
 		private GameObject CreateGameObjectFromSymbol(char symbol, int symbolPosition)

@@ -41,6 +41,24 @@ namespace HappyPenguin.Entities
 		public void SpawnCreature(CreatureTypes type) {
 			var creature = DisplayCreature(type, spawnPoint.Position);
 			ActivateCreature(creature);
+//			switch (type) {
+//				case(CreatureTypes.Shark):
+//					creature.Sounds.Add("AttackSound",new AudioClip());
+//					creature.Sounds.Add("SwimSound", new AudioClip());
+//					creature.Sounds.Add("DeathSound", new AudioClip());
+//					break;
+//				case(CreatureTypes.Pike):
+//					creature.Sounds.Add("AttackSound",new AudioClip());
+//					creature.Sounds.Add("SwimSound", new AudioClip());
+//					creature.Sounds.Add("DeathSound", new AudioClip());
+//					break;
+//				case(CreatureTypes.Whale):
+//					creature.Sounds.Add("AttackSound",new AudioClip());
+//					creature.Sounds.Add("SwimSound", new AudioClip());
+//					creature.Sounds.Add("DeathSound", new AudioClip());
+//					break;
+//			}	
+			
 			symbolManager.RegisterTargetable(creature);
 			entities.Add(creature);
 			
@@ -54,6 +72,8 @@ namespace HappyPenguin.Entities
 		}
 
 		private void ActivateCreature(EntityBehaviour creature) {
+			creature.audio.clip = creature.AttackSound;
+			creature.audio.Play();
 			creature.CurrentState = EntityStateGenerator.CreateDefaultMovementState(Player, creature.transform.position.y);
 		}
 

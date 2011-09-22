@@ -32,11 +32,11 @@ namespace HappyPenguin.Entities
 			return state;
 		}
 		
-		public static EntityState CreateDiveMovementState(EntityBehaviour entity, GameObject RetreatPoint, float timeInSeconds)
+	public static EntityState CreateDiveMovementState(TargetableEntityBehaviour entity, GameObject RetreatPoint, float timeInSeconds, int flatness )
 		{			
 			var state = new EntityState("dive");
 			state.AnimationNames.Add("swim");
-			state.Controllers.Add(new ArcMovementController(entity.transform.position, RetreatPoint.transform.position , timeInSeconds));
+			state.Controllers.Add(new ArcMovementController(entity, RetreatPoint , timeInSeconds , flatness));
 			return state;
 		}
 	}
