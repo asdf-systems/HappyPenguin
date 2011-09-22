@@ -17,16 +17,23 @@ namespace HappyPenguin.Controllers
 		public float Distance { get; set; }
 		public TimeSpan TimeSinceStart { get; set; }
 		public bool IsMoving { get; set; }
+		public int Flatness { get; set; } // 1000 für fischies
+		public GameObject Target {
+			get;
+			set;
+		}
 		#endregion
 
-		public ArcMovementController (Vector3 start, Vector3 end, float timeInSeconds)
+		public ArcMovementController (TargetableEntityBehaviour start, GameObject target, float timeInSeconds, int flatness)
 		{
 			TimeSinceStart = TimeSpan.Zero;
-			MovingStartPosition = start;
-			MovingEndPosition = end;
+			MovingStartPosition = start.transform.position;
+			MovingEndPosition = target.transform.position;
+			Flatness = flatness;
 			MovingCenterPosition = GetCenter ();
 			MovingTime = timeInSeconds;
 			Distance = (MovingStartPosition - MovingEndPosition).magnitude;
+			Target = target;
 			IsMoving = true;
 		}
 
@@ -40,6 +47,7 @@ namespace HappyPenguin.Controllers
 					IsMoving = false;
 					return;
 				}
+				Rotate();
 				Move ();
 			}
 			
@@ -49,28 +57,28 @@ namespace HappyPenguin.Controllers
 		{
 			var center = ((MovingStartPosition + MovingEndPosition) * 0.5f);
 			// move the center a bit downwards to make the arc vertical
-			center += new Vector3 (0, -1000, 0);
+			center += new Vector3 (0, -Flatness, 0);
 			return center;
 		}
-
+		
+		private void Rotate(){
+			var start = MovingObject.rotation;
+			var target = Target.transform.rotation;
+			var lookAt = Quaternion.LookRotation(Target.transform.position - MovingObject.position);
+			var speed = 0.001f;
+			MovingObject.transform.rotation = Quaternion.Slerp(start, target*lookAt, Time.time * speed);
+		}
 
 		private void Move ()
 		{
-			var forward = MovingObject.transform.forward;
-			forward.Normalize ();
-			var right = MovingObject.transform.right;
-			right.Normalize ();
-			MovingObject.transform.Rotate(right,0.1f);
-			MovingObject.transform.Rotate(forward,0.1f);
-
+			
 			Vector3 startRelCenter = MovingStartPosition - MovingCenterPosition;
 			Vector3 endRelCenter = MovingEndPosition - MovingCenterPosition;
-			MovingObject.transform.position = Vector3.Slerp(startRelCenter, endRelCenter,(float)(TimeSinceStart.TotalSeconds/MovingTime));
+			var arc = Vector3.Slerp (startRelCenter, endRelCenter, (float)(TimeSinceStart.TotalSeconds / MovingTime));
+//			arc = Quaternion.LookRotation(Vector3.down.normalized)*arc;
+			MovingObject.transform.position = arc;
 			MovingObject.transform.position += MovingCenterPosition;
-//			Debug.DrawLine(MovingStartPosition,MovingEndPosition);
-//			Debug.DrawLine(MovingStartPosition,MovingCenterPosition);
-//			Debug.DrawLine(MovingCenterPosition , MovingCenterPosition+new Vector3(0,-1,0));
-//			Debug.DrawLine(Vector3.zero , new Vector3(0,100,0));
+
 		}
 	}
 }

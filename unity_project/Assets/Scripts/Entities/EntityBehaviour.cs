@@ -8,7 +8,7 @@ namespace HappyPenguin.Entities
 	public abstract class EntityBehaviour : MonoBehaviour
 	{
 		public EntityBehaviour() {
-			Speed = 10.0f;
+			Speed = 10.0f;	
 		}
 
 		public Vector3 Position {
@@ -57,7 +57,6 @@ namespace HappyPenguin.Entities
 		}
 		
 		private EntityState currentState;
-		
 		public EntityState CurrentState {
 			get{ return currentState;} 
 			set{
@@ -75,5 +74,11 @@ namespace HappyPenguin.Entities
 
 		public float Speed;
 		public int RotateYCorrection;
+		
+		public AudioClip AttackSound;
+		public AudioClip MovingSound;
+		public AudioClip DeathSound;
+		public AudioClip OtherSound;
+
 	}
 }
