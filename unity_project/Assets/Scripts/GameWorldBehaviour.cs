@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using HappyPenguin.Entities;
 using HappyPenguin.Effects;
@@ -45,6 +46,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			Debug.Log("implemented punish player");
 			return;
 		}
+		
+		entityManager.Player.PlayAnimation("throw");
+		
 		List<Effect> killEffects = target.KillEffects;
 		foreach (Effect effect in killEffects) {
 			effectManager.RegisterEffect(effect);
@@ -74,13 +78,26 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	public void Awake() {
 		InitPlayer();
-		InitSpawningZone();
+		InitCreatureSpawningNode();
+		InitPerkSpawningNode();
 		InitAttackZone();
+		InitUI();
 	}
 	
-	void Start(){
+	private void InitUI()
+	{
 		guiManager.changePoints(entityManager.Player.Points);
 		guiManager.changeLife(entityManager.Player.Life);
+	}
+	
+	private void InitPerkSpawningNode()
+	{
+		var spawnPoint = gameObject.GetComponentsInChildren<SpawnPointBehaviour>().FirstOrDefault(x => x.Key == "perks");
+		if (spawnPoint == null) {
+			throw new ApplicationException("spawn point component not found");
+		}
+		
+		entityManager.SetPerkSpawnPoint(spawnPoint);
 	}
 
 	private void InitPlayer() {
@@ -91,17 +108,19 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		player.StartLife = 5;
 		player.StartPoints = 0;
+		var state =  new EntityState("player_idle");
+		state.AnimationNames.Add("idle");
+		player.CurrentState = state;
 		entityManager.Player = player;
-		
 	}
 
-	private void InitSpawningZone() {
-		var spawnPoint = gameObject.GetComponentInChildren<SpawnPointBehaviour>();
+	private void InitCreatureSpawningNode() {
+		var spawnPoint = gameObject.GetComponentsInChildren<SpawnPointBehaviour>().FirstOrDefault(x => x.Key == "creatures");
 		if (spawnPoint == null) {
 			throw new ApplicationException("spawn point component not found");
 		}
 		
-		entityManager.SetSpawnPoint(spawnPoint);
+		entityManager.SetCreatureSpawnPoint(spawnPoint);
 	}
 
 	private void OnCreatureGenerated(object sender, EntityGeneratedEventArgs<CreatureTypes> e) {
@@ -117,13 +136,17 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		entityManager.Player.Life += lifeChange;
 		guiManager.changeLife(entityManager.Player.Life);
 		Debug.Log("Health modified: " + lifeChange);
-		if(lifeChange>0)
+		
+		if (lifeChange > 0) {
 			guiManager.alert("+ " + lifeChange + " Life");
-		else
+		}
+		else {
 			guiManager.alert("- " + lifeChange + " Life");
+		}
+		
 		if (entityManager.Player.IsDead) {
 			guiManager.alert(looseText);
-			Debug.Log("YOU SUCK!!");
+			PlayerBehaviour.FinalPoints = entityManager.Player.Points;
 			Application.LoadLevel(2);
 		}
 	}

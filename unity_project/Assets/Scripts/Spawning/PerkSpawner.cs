@@ -13,15 +13,14 @@ public sealed class PerkSpawner : Spawner<PerkTypes>
 		
 	public static int DEFAULT_PERK_SPAWN_TIME = 10;
 	
-	
 	public PerkSpawner () {
 		spawnList.Add(SpawnHealth);
 		spawnList.Add(SpawnNuke);
 	}
+	
 	public void Update(){
 		SpawnPerk();
 	}
-	
 	
 	private double calculateSpawnTime(){
 		return (DEFAULT_PERK_SPAWN_TIME + (random.NextDouble()*5));

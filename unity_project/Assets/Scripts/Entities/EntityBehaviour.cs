@@ -18,6 +18,23 @@ namespace HappyPenguin.Entities
 		public Quaternion Orientation {
 			get { return gameObject.transform.rotation; }
 		}
+		
+		public void FadeAnimation(string name, int fadeDurationInMilliseconds)
+		{
+			var current = animation[name];
+			current.wrapMode = WrapMode.Loop;
+			current.layer = 0;
+			var seconds = (float) TimeSpan.FromMilliseconds(fadeDurationInMilliseconds).TotalSeconds;
+			animation.CrossFade(name, seconds, PlayMode.StopSameLayer);
+		}
+		
+		public void PlayAnimation(string name)
+		{
+			var current = animation[name];
+			current.wrapMode = WrapMode.Once;
+			current.layer = 1;
+			animation.CrossFade(name, 0.0f, PlayMode.StopSameLayer);
+		}
 
 		public void Awake() {
 			AwakeOverride();
@@ -38,11 +55,25 @@ namespace HappyPenguin.Entities
 		protected virtual void AwakeOverride() {
 			// nothing here
 		}
-
-		public EntityState CurrentState { get; set; }
+		
+		private EntityState currentState;
+		
+		public EntityState CurrentState {
+			get{ return currentState;} 
+			set{
+				if (currentState != null) {
+					currentState.Stop(this);
+				}
+				if (value == null) {
+					return;
+				}
+				
+				currentState = value;
+				currentState.Start(this);
+			} 
+		}
 
 		public float Speed;
 		public int RotateYCorrection;
-		
 	}
 }

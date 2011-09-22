@@ -12,7 +12,12 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		set;
 	}
 	
-	public float Points{
+	public float Points {
+		get;
+		set;
+	}
+	
+	public static float FinalPoints {
 		get;
 		set;
 	}

@@ -8,7 +8,8 @@ namespace HappyPenguin.Entities
 {
 	public sealed class EntityManager
 	{
-		private SpawnPointBehaviour spawnPoint;
+		private SpawnPointBehaviour creatureSpawnPoint;
+		private SpawnPointBehaviour perkSpawnPoint;
 		private readonly TargetableSymbolManager symbolManager;
 		private readonly List<EntityBehaviour> entities;
 
@@ -39,15 +40,14 @@ namespace HappyPenguin.Entities
 		}
 
 		public void SpawnCreature(CreatureTypes type) {
-			var creature = DisplayCreature(type, spawnPoint.Position);
+			var creature = DisplayCreature(type, creatureSpawnPoint.Position);
 			ActivateCreature(creature);
 			symbolManager.RegisterTargetable(creature);
 			entities.Add(creature);
-			
 		}
 		
 		public void SpawnPerk(PerkTypes type) {
-			var perk = DisplayPerk(type, spawnPoint.Position);
+			var perk = DisplayPerk(type, creatureSpawnPoint.Position);
 			ActivatePerk(perk);
 			symbolManager.RegisterTargetable(perk);
 			entities.Add(perk);
@@ -63,18 +63,27 @@ namespace HappyPenguin.Entities
 		}
 		
 		private void ActivatePerk(EntityBehaviour perk) {
-			if (perk == null) {
-				Debug.Log("perk is still null, needs implementing.");
-				return;
-			}
-			perk.CurrentState = EntityStateGenerator.CreatePerkMovementState(new Vector3(0,0,0));
+			perk.CurrentState = EntityStateGenerator.CreatePerkMovementState(new Vector3(0,30,0));
 		}
-
-		public void SetSpawnPoint(SpawnPointBehaviour point) {
-			spawnPoint = point;
+		
+		public void SetPerkSpawnPoint(SpawnPointBehaviour point)
+		{
+			perkSpawnPoint = point;
 			var patrolBehaviour = point.gameObject.GetComponentInChildren<PatrolBehaviour>();
 			if (patrolBehaviour == null) {
-				throw new ApplicationException("patrol behaviour not found");
+				throw new ApplicationException("perk patrol behaviour not found");
+			}
+			
+			var y = patrolBehaviour.Position.y;
+			patrolBehaviour.PatrolPositions.Add(new Vector3(90, y, -20));
+			patrolBehaviour.PatrolPositions.Add(new Vector3(-20, y, -60));
+		}
+
+		public void SetCreatureSpawnPoint(SpawnPointBehaviour point) {
+			creatureSpawnPoint = point;
+			var patrolBehaviour = point.gameObject.GetComponentInChildren<PatrolBehaviour>();
+			if (patrolBehaviour == null) {
+				throw new ApplicationException("creature patrol behaviour not found");
 			}
 			
 			var y = patrolBehaviour.Position.y;
@@ -88,17 +97,9 @@ namespace HappyPenguin.Entities
 		}
 
 		private PerkBehaviour DisplayPerk(PerkTypes type, Vector3 position) {
-			//TODO implement stuff!
-			
-//			var target = player.Position;
-//			var direction = position - target;
-//			
-//			var quaternion = Quaternion.LookRotation(direction, Vector3.up);
-//			var resource = GetCreatureResourceByType(type);
-//			var gameObject = GameObject.Instantiate(resource, position, quaternion) as GameObject;
-//			return gameObject.GetComponentInChildren<CreatureBehaviour>();
-			Debug.Log("Display Perk - TODO: Implement Stuff");
-			return null;
+			var resource = GetPerkResourceByType(type);
+			var gameObject = GameObject.Instantiate(resource, perkSpawnPoint.Position, Quaternion.identity) as GameObject;
+			return gameObject.GetComponentInChildren<PerkBehaviour>();
 		}
 
 		private CreatureBehaviour DisplayCreature(CreatureTypes type, Vector3 position) {
@@ -109,6 +110,22 @@ namespace HappyPenguin.Entities
 			var resource = GetCreatureResourceByType(type);
 			var gameObject = GameObject.Instantiate(resource, position, quaternion) as GameObject;
 			return gameObject.GetComponentInChildren<CreatureBehaviour>();
+		}
+		
+		private UnityEngine.Object GetPerkResourceByType(PerkTypes type) {
+			var name = string.Empty;
+			switch (type) {
+			case PerkTypes.Nuke:
+				name = "Perks/Nuke";
+				break;
+			case PerkTypes.Health:
+				name = "Perks/Health";
+				break;
+			}
+			if (string.IsNullOrEmpty(name)) {
+				throw new ApplicationException("perk type unknown.");
+			}
+			return Resources.Load(name);
 		}
 
 		private UnityEngine.Object GetCreatureResourceByType(CreatureTypes type) {

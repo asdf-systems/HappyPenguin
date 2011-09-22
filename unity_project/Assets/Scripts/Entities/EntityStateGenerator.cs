@@ -9,7 +9,7 @@ namespace HappyPenguin.Entities
 	{	
 		public static EntityState CreateDefaultMovementState(EntityBehaviour target, float baseline)
 		{
-			var state = new EntityState("movement");
+			var state = new EntityState("creature_movement");
 			state.AnimationNames.Add("swim");
 			state.Controllers.Add(new LinearObjectFollowMovementController(target));
 			state.Controllers.Add(new FloatController(baseline));
@@ -25,8 +25,7 @@ namespace HappyPenguin.Entities
 		
 		public static EntityState CreatePerkMovementState(Vector3 target)
 		{
-			var state = new EntityState("movement");
-			state.AnimationNames.Add("swim");
+			var state = new EntityState("perk_movement");
 			state.Controllers.Add(new LinearMovementController(target));
 			state.Controllers.Add(new FloatController(target.y));
 			return state;
