@@ -14,8 +14,7 @@ namespace HappyPenguin.Effects
 		}
 		
 		public override void Start(GameWorldBehaviour w){
-			entity.audio.clip = entity.DeathSound;
-			entity.audio.Play();
+
 			entity.HideSymbols();
 			var retreatPoint = w.RetreatPoint;
 			var flatness = 1000;

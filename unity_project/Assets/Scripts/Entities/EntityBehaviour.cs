@@ -76,7 +76,6 @@ namespace HappyPenguin.Entities
 		public int RotateYCorrection;
 		
 		public AudioClip AttackSound;
-		public AudioClip MovingSound;
 		public AudioClip DeathSound;
 		public AudioClip OtherSound;
 

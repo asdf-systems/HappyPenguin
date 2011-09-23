@@ -14,8 +14,8 @@ namespace HappyPenguin.Effects
 		
 		public override void Start(GameWorldBehaviour w){
 			//TODO implement stuff
-			//entity.animation.Play("attack");
 			entity.audio.clip = entity.AttackSound;
+			entity.audio.Play();
 			Debug.Log("ATTACKEEEE - implement stuff");
 		}
 		

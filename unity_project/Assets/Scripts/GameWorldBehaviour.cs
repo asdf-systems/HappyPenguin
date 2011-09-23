@@ -133,15 +133,18 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	public void ChangePlayerHealth(float lifeChange) {
+		var player = gameObject.GetComponentInChildren<PlayerBehaviour>();
 		entityManager.Player.Life += lifeChange;
 		guiManager.changeLife(entityManager.Player.Life);
 		Debug.Log("Health modified: " + lifeChange);
 		
 		if (lifeChange > 0) {
-			guiManager.alert("+ " + lifeChange + " Life");
+			guiManager.alert("" + lifeChange + " Life");
+			player.audio.clip = player.AttackSound;
+			player.audio.Play();
 		}
 		else {
-			guiManager.alert("- " + lifeChange + " Life");
+			guiManager.alert(lifeChange + " Life");
 		}
 		
 		if (entityManager.Player.IsDead) {

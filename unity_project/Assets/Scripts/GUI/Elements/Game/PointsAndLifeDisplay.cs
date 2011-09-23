@@ -13,6 +13,7 @@ public class PointsAndLifeDisplay: UIElementBehaviour<GUIManager>{
 		get;
 		set;
 	}
+	
 	protected override void showElements(){
 		GeneralScreenGUI.Box(guiStatics, new Rect (positionX,positionY,512,512), "", currentStyle);
 		GeneralScreenGUI.Box(guiStatics, new Rect (positionX+120, positionY+10, 512,512), "Points: " + Points + " Life: " + Life, textStyle );

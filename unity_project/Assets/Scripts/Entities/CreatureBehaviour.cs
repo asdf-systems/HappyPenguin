@@ -20,10 +20,11 @@ public sealed class CreatureBehaviour : TargetableEntityBehaviour
 
 	private void Init ()
 	{
-		KillEffects.Add (new PointEffect (Points));
+		KillEffects.Add (new PointEffect (Points,this));
 		KillEffects.Add (new DeathEffect (this));
 		AttackEffects.Add (new LifeEffect (-Damage));
 		AttackEffects.Add (new AttackAnimationEffect(this));
+		AttackEffects.Add (new DeathEffect(this));
 	}
 
 	public List<Effect> AttackEffects { get; private set; }
