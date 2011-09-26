@@ -10,11 +10,14 @@ namespace HappyPenguin.Effects
 		
 		public DeathEffect (TargetableEntityBehaviour e) : base(){
 			entity = e;
-			Duration = TimeSpan.Zero.Add(TimeSpan.FromSeconds(10));
+			Duration = new TimeSpan(0,0,10);
 		}
 		
 		public override void Start(GameWorldBehaviour w){
-
+//			if (entity is CreatureBehaviour) {
+//				var cb = entity as CreatureBehaviour;
+//				cb.AttackEffects.RemoveAll(item => item is AttackAnimationEffect);
+//			}
 			entity.HideSymbols();
 			var retreatPoint = w.RetreatPoint;
 			var flatness = 1000;

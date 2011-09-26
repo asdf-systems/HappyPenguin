@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using HappyPenguin.Entities;
@@ -8,6 +9,7 @@ namespace HappyPenguin.Entities
 {
 	public class EntityState
 	{	
+		
 		public EntityState (string name) {
 			Name = name;
 			AnimationNames = new List<string>();
@@ -29,13 +31,13 @@ namespace HappyPenguin.Entities
 			private set;
 		}
 		
-		public void Update(EntityBehaviour entity){
+		public virtual void Update(EntityBehaviour entity){
 			foreach (var controller in Controllers) {
 				controller.Update(entity);
 			}
 		}
 		
-		public void RemoveControllersByType<T>() where T : Controller<EntityBehaviour>
+		public virtual void RemoveControllersByType<T>() where T : Controller<EntityBehaviour>
 		{
 			var controllers = Controllers.Where(x => x is T).ToList();
 			foreach (var  c in controllers) {
@@ -46,9 +48,16 @@ namespace HappyPenguin.Entities
 		public virtual void Start(EntityBehaviour entity)
 		{
 			foreach (var animationName in AnimationNames) {
+				Debug.Log(animationName);
 				var animation = entity.gameObject.animation[animationName];
-				animation.wrapMode = UnityEngine.WrapMode.Loop;
-				entity.animation.CrossFade(animationName);
+				if (animation == null) {
+					Debug.Log("Warning: Missing Animationname: " + animation);
+				}
+				else {
+					animation.wrapMode = UnityEngine.WrapMode.Loop;
+					entity.animation.CrossFade(animationName);
+				}
+				
 			}
 		}
 		
@@ -58,6 +67,21 @@ namespace HappyPenguin.Entities
 				entity.animation.Stop(animationName);
 			}
 		}
+		
+		public event EventHandler<AllControllersFinishedEventArgs<T>> AllControllersFinished;
+		protected void InvokeAllControllersFinished (T entity) {
+			var handler = AllControllersFinished;
+			if (handler == null) {
+				return;
+			}
+			
+			var e = new AllControllersFinishedEventArgs<T> (entity);
+			AllControllersFinished (this, e);
+		}
+		
+		public virtual void OnControllerFinished(){
+			
+		}
+		
 	}
 }
-

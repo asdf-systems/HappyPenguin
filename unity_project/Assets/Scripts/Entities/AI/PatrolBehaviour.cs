@@ -14,7 +14,6 @@ public sealed class PatrolBehaviour : EnvironmentEntityBehaviour
 	// Use this for initialization
 	protected override void AwakeOverride() {
 		base.AwakeOverride();
-		
 		IsActive = true;
 		PatrolPositions = new List<Vector3>();
 	}

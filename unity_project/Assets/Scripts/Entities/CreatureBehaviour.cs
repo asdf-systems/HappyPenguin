@@ -28,7 +28,6 @@ public sealed class CreatureBehaviour : TargetableEntityBehaviour
 	}
 
 	public List<Effect> AttackEffects { get; private set; }
-	
 }
 
 

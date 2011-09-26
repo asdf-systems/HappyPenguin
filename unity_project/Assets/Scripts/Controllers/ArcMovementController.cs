@@ -22,6 +22,7 @@ namespace HappyPenguin.Controllers
 			get;
 			set;
 		}
+		public TargetableEntityBehaviour entity;
 		#endregion
 
 		public ArcMovementController (TargetableEntityBehaviour start, GameObject target, float timeInSeconds, int flatness)
@@ -45,6 +46,7 @@ namespace HappyPenguin.Controllers
 				TimeSinceStart = TimeSinceStart.Add (TimeSpan.FromSeconds ((double)Time.deltaTime));
 				if (TimeSinceStart.TotalSeconds >= MovingTime) {
 					IsMoving = false;
+					InvokeControllerFinished(entity);
 					return;
 				}
 				Rotate();

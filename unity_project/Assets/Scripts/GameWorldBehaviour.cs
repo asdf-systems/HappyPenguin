@@ -12,6 +12,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private Camera _playerCamera;
 	public GUIManager guiManager;
 	public GameObject RetreatPoint;
+	public GameObject PerkRetreatPoint;
+	public GameObject PerkSpawnTarget;
 	private readonly EffectManager effectManager;
 
 	private readonly CreatureSpawner creatureSpawner;
@@ -98,6 +100,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 		
 		entityManager.SetPerkSpawnPoint(spawnPoint);
+		entityManager.SetPerkSpawnTarget(PerkSpawnTarget);
 	}
 
 	private void InitPlayer() {

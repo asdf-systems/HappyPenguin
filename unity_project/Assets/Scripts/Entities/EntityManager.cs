@@ -10,6 +10,8 @@ namespace HappyPenguin.Entities
 	{
 		private SpawnPointBehaviour creatureSpawnPoint;
 		private SpawnPointBehaviour perkSpawnPoint;
+		private GameObject perkRetreatPoint;
+		private GameObject PerkSpawnTarget;
 		private readonly TargetableSymbolManager symbolManager;
 		private readonly List<EntityBehaviour> entities;
 
@@ -63,8 +65,8 @@ namespace HappyPenguin.Entities
 			set;
 		}
 		
-		private void ActivatePerk(EntityBehaviour perk) {
-			perk.CurrentState = EntityStateGenerator.CreatePerkMovementState(new Vector3(0,30,0));
+		private void ActivatePerk(TargetableEntityBehaviour perk) {
+			perk.CurrentState = EntityStateGenerator.CreateDiveMovementState(perk, PerkSpawnTarget, 1, 50);
 		}
 		
 		public void SetPerkSpawnPoint(SpawnPointBehaviour point)
@@ -78,6 +80,10 @@ namespace HappyPenguin.Entities
 			var y = patrolBehaviour.Position.y;
 			patrolBehaviour.PatrolPositions.Add(new Vector3(90, y, -20));
 			patrolBehaviour.PatrolPositions.Add(new Vector3(-20, y, -60));
+		}
+		
+		public void SetPerkSpawnTarget(GameObject point){
+			PerkSpawnTarget = point;
 		}
 
 		public void SetCreatureSpawnPoint(SpawnPointBehaviour point) {

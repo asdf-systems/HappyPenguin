@@ -35,7 +35,9 @@ namespace HappyPenguin.Entities
 		{			
 			var state = new EntityState("dive");
 			state.AnimationNames.Add("swim");
-			state.Controllers.Add(new ArcMovementController(entity, RetreatPoint , timeInSeconds , flatness));
+			var arc = new ArcMovementController(entity, RetreatPoint , timeInSeconds , flatness);
+			arc.ControllerFinished += state.OnControllerFinished;
+			state.Controllers.Add(arc);
 			return state;
 		}
 	}
