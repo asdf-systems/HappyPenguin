@@ -10,10 +10,13 @@ namespace HappyPenguin.Entities
 	public class EntityState
 	{	
 		
+		private int finishedControllers;
+		
 		public EntityState (string name) {
 			Name = name;
 			AnimationNames = new List<string>();
 			Controllers = new List<Controller<EntityBehaviour>>();
+			finishedControllers = 0;	
 		}
 		
 		public string Name {
@@ -68,18 +71,23 @@ namespace HappyPenguin.Entities
 			}
 		}
 		
-		public event EventHandler<AllControllersFinishedEventArgs<EntityBehaviour>> AllControllersFinished;
-		protected void InvokeAllControllersFinished (EntityBehaviour entity) {
-			var handler = AllControllersFinished;
+		public event EventHandler<StateFinishedEventArgs<EntityBehaviour>> StateFinished;
+		protected void InvokeStateFinished (EntityBehaviour entity) {
+			var handler = StateFinished;
 			if (handler == null) {
 				return;
 			}
 			
-			var e = new AllControllersFinishedEventArgs<EntityBehaviour> (entity);
-			AllControllersFinished (this, e);
+			var e = new StateFinishedEventArgs<EntityBehaviour> (entity);
+			StateFinished (this, e);
 		}
 		
 		public virtual void OnControllerFinished(object sender, ControllerFinishedEventArgs<EntityBehaviour> e){
+			//Debug.LogWarning("EntityState Controller Finished");
+			finishedControllers++;
+			if(finishedControllers == Controllers.Count){
+				InvokeStateFinished(e.EntityType);
+			}
 			
 		}
 		

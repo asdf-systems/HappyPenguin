@@ -15,7 +15,7 @@ namespace HappyPenguin.Effects
 		}
 		
 		public override void Start(GameWorldBehaviour w){
-			entity.CurrentState = EntityStateGenerator.CreatePerkMovementState(target);
+			//entity.CurrentState = EntityStateGenerator.CreatePerkMovementState(target);
 		}
 		
 		public override void Update(GameWorldBehaviour w){

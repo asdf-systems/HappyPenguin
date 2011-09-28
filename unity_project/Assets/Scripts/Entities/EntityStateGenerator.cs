@@ -7,7 +7,7 @@ namespace HappyPenguin.Entities
 {
 	public static class EntityStateGenerator
 	{	
-		public static EntityState CreateDefaultMovementState(EntityBehaviour target, float baseline)
+		public static EntityState CreateDefaultMovementState(GameObject target, float baseline)
 		{
 			var state = new EntityState("creature_movement");
 			state.AnimationNames.Add("swim");
@@ -23,12 +23,17 @@ namespace HappyPenguin.Entities
 			return state;
 		}
 		
-		public static EntityState CreatePerkMovementState(Vector3 target)
+		public static EntityState CreatePerkMovementState(TargetableEntityBehaviour entity, GameObject target1, GameObject target2)
 		{
-			var state = new EntityState("perk_movement");
-			state.Controllers.Add(new LinearMovementController(target));
-			state.Controllers.Add(new FloatController(target.y));
-			return state;
+			var states = new StackedEntityState("perk_movement");
+			var flightState = CreateDiveMovementState(entity, target1, 1,50);
+			var diveState = new EntityState("dive"); //CreateDefaultMovementState(target2, entity.transform.position.y);
+			flightState.StateFinished += states.OnStateFinished;
+			diveState.Controllers.Add(new LinearObjectFollowMovementController(target2));
+			//diveState.Controllers.Add(new FloatController(target1.transformy));
+			states.AddEntityState(flightState);
+			states.AddEntityState(diveState);
+			return states;
 		}
 		
 	public static EntityState CreateDiveMovementState(TargetableEntityBehaviour entity, GameObject RetreatPoint, float timeInSeconds, int flatness )

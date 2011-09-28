@@ -9,8 +9,11 @@ namespace HappyPenguin.Entities
 	public sealed class EntityManager
 	{
 		private SpawnPointBehaviour creatureSpawnPoint;
-		private SpawnPointBehaviour perkSpawnPoint;
-		private GameObject perkRetreatPoint;
+		private SpawnPointBehaviour PerkSpawnPoint;
+		public GameObject PerkRetreatPoint{
+			get;
+			set;
+		}
 		private GameObject PerkSpawnTarget;
 		private readonly TargetableSymbolManager symbolManager;
 		private readonly List<EntityBehaviour> entities;
@@ -50,14 +53,14 @@ namespace HappyPenguin.Entities
 		}
 		
 		public void SpawnPerk(PerkTypes type) {
-			var perk = DisplayPerk(type, creatureSpawnPoint.Position);
+			var perk = DisplayPerk(type, PerkSpawnPoint.Position);
 			ActivatePerk(perk);
 			symbolManager.RegisterTargetable(perk);
 			entities.Add(perk);
 		}
 
 		private void ActivateCreature(EntityBehaviour creature) {
-			creature.CurrentState = EntityStateGenerator.CreateDefaultMovementState(Player, creature.transform.position.y);
+			creature.CurrentState = EntityStateGenerator.CreateDefaultMovementState(Player.gameObject, creature.transform.position.y);
 		}
 
 		public PlayerBehaviour Player {
@@ -66,12 +69,12 @@ namespace HappyPenguin.Entities
 		}
 		
 		private void ActivatePerk(TargetableEntityBehaviour perk) {
-			perk.CurrentState = EntityStateGenerator.CreateDiveMovementState(perk, PerkSpawnTarget, 1, 50);
+			perk.CurrentState = EntityStateGenerator.CreatePerkMovementState(perk, PerkSpawnTarget, PerkRetreatPoint);
 		}
 		
 		public void SetPerkSpawnPoint(SpawnPointBehaviour point)
 		{
-			perkSpawnPoint = point;
+			PerkSpawnPoint = point;
 			var patrolBehaviour = point.gameObject.GetComponentInChildren<PatrolBehaviour>();
 			if (patrolBehaviour == null) {
 				throw new ApplicationException("perk patrol behaviour not found");
@@ -105,7 +108,7 @@ namespace HappyPenguin.Entities
 
 		private PerkBehaviour DisplayPerk(PerkTypes type, Vector3 position) {
 			var resource = GetPerkResourceByType(type);
-			var gameObject = GameObject.Instantiate(resource, perkSpawnPoint.Position, Quaternion.identity) as GameObject;
+			var gameObject = GameObject.Instantiate(resource, PerkSpawnPoint.Position, Quaternion.identity) as GameObject;
 			return gameObject.GetComponentInChildren<PerkBehaviour>();
 		}
 

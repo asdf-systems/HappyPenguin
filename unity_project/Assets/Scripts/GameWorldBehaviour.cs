@@ -75,13 +75,15 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 		
 		attackZone.AttackZoneEntered += OnAttackZoneEntered;
-		guiManager.SwipeCommitted += OnSwipeCommitted;
+		
 	}
+	
+
 
 	public void Awake() {
 		InitPlayer();
 		InitCreatureSpawningNode();
-		InitPerkSpawningNode();
+		InitPerkNodes();
 		InitAttackZone();
 		InitUI();
 	}
@@ -90,17 +92,33 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	{
 		guiManager.changePoints(entityManager.Player.Points);
 		guiManager.changeLife(entityManager.Player.Life);
+		guiManager.SwipeCommitted += OnSwipeCommitted;
 	}
 	
-	private void InitPerkSpawningNode()
+	private void InitPerkNodes()
 	{
 		var spawnPoint = gameObject.GetComponentsInChildren<SpawnPointBehaviour>().FirstOrDefault(x => x.Key == "perks");
+		var perkRetreatPoint = gameObject.GetComponentInChildren<PerkRetreatPointBehaviour>();
+		
 		if (spawnPoint == null) {
 			throw new ApplicationException("spawn point component not found");
 		}
 		
+		if(perkRetreatPoint == null){
+			Debug.LogError("No Perk retreatpoint found");
+		}
+		
 		entityManager.SetPerkSpawnPoint(spawnPoint);
 		entityManager.SetPerkSpawnTarget(PerkSpawnTarget);
+		entityManager.PerkRetreatPoint = PerkRetreatPoint;
+		
+		perkRetreatPoint.PerkRetreatPointReached += OnPerkReatreatPointReached;
+	}
+	
+	private void OnPerkReatreatPointReached(object sender, AttackZoneEventArgs e){
+		foreach(Effect effect in e.Creature.KillEffects){
+			effectManager.RegisterEffect(effect);	
+		}
 	}
 
 	private void InitPlayer() {

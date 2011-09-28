@@ -34,14 +34,17 @@ namespace HappyPenguin.Entities
 			stateQueue.Peek().RemoveControllersByType<T>();
 		}
 		
-		public void addEntityState(EntityState state) {
+		public void AddEntityState(EntityState state) {
 			stateQueue.Enqueue(state);
 		}
 
-		public override void OnControllerFinished(object sender, ControllerFinishedEventArgs<EntityBehaviour> e){
+		public void OnStateFinished(object sender, StateFinishedEventArgs<EntityBehaviour> e){
 			Stop(e.EntityType);
 			stateQueue.Dequeue();
 			Start(e.EntityType);
+			if(stateQueue.Count == 0){
+				InvokeStateFinished(e.EntityType);
+			}
 		}
 	}
 }

@@ -8,9 +8,9 @@ namespace HappyPenguin.Controllers
 	public sealed class LinearObjectFollowMovementController : MovementController
 	{
 		private TimeSpan elapsedTime;
-		private EntityBehaviour target;
+		private GameObject target;
 		
-		public LinearObjectFollowMovementController(EntityBehaviour target) {
+		public LinearObjectFollowMovementController(GameObject target) {
 			this.target = target;
 			IsYAxisIgnored = true;
 		}
@@ -30,7 +30,7 @@ namespace HappyPenguin.Controllers
 		
 		public override void Update(EntityBehaviour entity)
 		{
-			var isCloseEnough = entity.Position.IsCloseEnoughTo(target.Position, IsYAxisIgnored);
+			var isCloseEnough = entity.Position.IsCloseEnoughTo(target.transform.position, IsYAxisIgnored);
 			if (isCloseEnough) {
 				return;
 			}
@@ -38,7 +38,7 @@ namespace HappyPenguin.Controllers
 			elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
 			
 			var currentPosition = entity.transform.position;
-			var targetPosition = target.Position;
+			var targetPosition = target.transform.position;
 			
 			var direction = CalculateDirectonalVector(targetPosition, currentPosition);
 			

@@ -3,9 +3,9 @@ using HappyPenguin.Controllers;
 
 namespace HappyPenguin.Controllers
 {
-	public class AllControllersFinishedEventArgs<T> : EventArgs
+	public class StateFinishedEventArgs<T> : EventArgs
 	{
-		public AllControllersFinishedEventArgs (T entity)
+		public StateFinishedEventArgs (T entity)
 		{
 			EntityType = entity;
 
