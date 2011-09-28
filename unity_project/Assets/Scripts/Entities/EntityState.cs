@@ -68,18 +68,18 @@ namespace HappyPenguin.Entities
 			}
 		}
 		
-		public event EventHandler<AllControllersFinishedEventArgs<T>> AllControllersFinished;
-		protected void InvokeAllControllersFinished (T entity) {
+		public event EventHandler<AllControllersFinishedEventArgs<EntityBehaviour>> AllControllersFinished;
+		protected void InvokeAllControllersFinished (EntityBehaviour entity) {
 			var handler = AllControllersFinished;
 			if (handler == null) {
 				return;
 			}
 			
-			var e = new AllControllersFinishedEventArgs<T> (entity);
+			var e = new AllControllersFinishedEventArgs<EntityBehaviour> (entity);
 			AllControllersFinished (this, e);
 		}
 		
-		public virtual void OnControllerFinished(){
+		public virtual void OnControllerFinished(object sender, ControllerFinishedEventArgs<EntityBehaviour> e){
 			
 		}
 		
