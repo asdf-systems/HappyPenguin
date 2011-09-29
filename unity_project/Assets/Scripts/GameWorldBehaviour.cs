@@ -14,18 +14,21 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public GameObject RetreatPoint;
 	public GameObject PerkRetreatPoint;
 	public GameObject PerkSpawnTarget;
+	public GameObject Trebuchet;
+	public int CreatureCount;
 	private readonly EffectManager effectManager;
 
 	private readonly CreatureSpawner creatureSpawner;
 	private readonly PerkSpawner perkSpawner;
 	private readonly TargetableSymbolManager symbolManager;
+	
 	public EntityManager entityManager{ get; private set;}
 
 	private AttackZoneBehaviour attackZone;
 	
-	public string perkText;
-	public string wrongSymbolChainText;
-	public string looseText;
+	public string PerkText;
+	public string WrongSymbolChainText;
+	public string LooseText;
 
 	public GameWorldBehaviour() {
 		entityManager = new EntityManager();
@@ -33,29 +36,38 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		creatureSpawner = new CreatureSpawner();
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
+		creatureSpawner.CreatureCountNeeded += OnCreatureCountNeeded;
 		
 		perkSpawner = new PerkSpawner();
 		perkSpawner.EntitySpawned += OnPerkGenerated;
+		
 	}
 
 	void OnSwipeCommitted(object sender, SwipeEventArgs e) {
 		guiManager.clearSymbols();
 		
 		var target = entityManager.FindFittingTargetable(e.symbolChain);
-		Debug.Log("committed: " + e.symbolChain);
 		if (target == null) {
-			guiManager.alert(wrongSymbolChainText);
+			guiManager.alert(WrongSymbolChainText);
 			Debug.Log("implemented punish player");
 			return;
 		}
 		
 		entityManager.Player.PlayAnimation("throw");
 		
+		if (target is PerkBehaviour) {
+			if (PerkText == "More Health, yay!") {
+				ChangePlayerHealth(2);
+			}
+			guiManager.alert(PerkText);
+		}
+		else {
+			CreatureCount--;
+		}
 		List<Effect> killEffects = target.KillEffects;
 		foreach (Effect effect in killEffects) {
 			effectManager.RegisterEffect(effect);
 		}		
-		Debug.Log("retreat creature.");
 	}
 
 	void OnAttackZoneEntered(object sender, AttackZoneEventArgs e) {
@@ -133,6 +145,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		state.AnimationNames.Add("idle");
 		player.CurrentState = state;
 		entityManager.Player = player;
+		entityManager.Player.Life = 5;
+		guiManager.changeLife(entityManager.Player.Life);
 	}
 
 	private void InitCreatureSpawningNode() {
@@ -146,37 +160,53 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private void OnCreatureGenerated(object sender, EntityGeneratedEventArgs<CreatureTypes> e) {
 		entityManager.SpawnCreature(e.EntityType);
+		CreatureCount++;
 	}
 
 
 	private void OnPerkGenerated(object sender, EntityGeneratedEventArgs<PerkTypes> e) {
+		if (e.EntityType == PerkTypes.Health) {
+			PerkText = "More Health, yay!";
+		}
+		else {
+			PerkText = "More Nuke, yay!";
+		}
 		entityManager.SpawnPerk(e.EntityType);
+		Trebuchet.animation.Play("shoot");
+		Trebuchet.animation.PlayQueued("pull");
 	}
 
 	public void ChangePlayerHealth(float lifeChange) {
 		var player = gameObject.GetComponentInChildren<PlayerBehaviour>();
-		entityManager.Player.Life += lifeChange;
-		guiManager.changeLife(entityManager.Player.Life);
-		Debug.Log("Health modified: " + lifeChange);
-		
+		if (entityManager.Player.Life + lifeChange <= 5) {
+			entityManager.Player.Life += lifeChange;
+			guiManager.changeLife(entityManager.Player.Life);
+		}
+		else {
+			entityManager.Player.Life = 5;
+			guiManager.changeLife(entityManager.Player.Life);
+		}
 		if (lifeChange > 0) {
-			guiManager.alert("" + lifeChange + " Life");
+			guiManager.alert("++ Life");
 			player.audio.clip = player.AttackSound;
 			player.audio.Play();
 		}
 		else {
-			guiManager.alert(lifeChange + " Life");
+			guiManager.alert("-- Life");
 		}
 		
 		if (entityManager.Player.IsDead) {
-			guiManager.alert(looseText);
+			guiManager.alert(LooseText);
 			PlayerBehaviour.FinalPoints = entityManager.Player.Points;
 			Application.LoadLevel(2);
 		}
 	}
+	
+	public void OnCreatureCountNeeded(object sender, CreatureCountNeededEventArgs e){
+		e.CreatureCount = CreatureCount;
+	}
 
 	public void ChangePlayerPoints(float pointsChange) {
-		Debug.Log("points modified: " + pointsChange);
 		guiManager.alert("+ " + pointsChange + " Points");
 		entityManager.Player.Points += pointsChange;
 		guiManager.changePoints(entityManager.Player.Points);

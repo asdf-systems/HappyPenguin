@@ -15,6 +15,8 @@ public sealed class PerkSpawner : Spawner<PerkTypes>
 	
 	public PerkSpawner () {
 		spawnList.Add(SpawnHealth);
+		spawnList.Add(SpawnHealth);
+		spawnList.Add(SpawnHealth);
 		spawnList.Add(SpawnNuke);
 	}
 	
@@ -23,7 +25,7 @@ public sealed class PerkSpawner : Spawner<PerkTypes>
 	}
 	
 	private double calculateSpawnTime(){
-		return (DEFAULT_PERK_SPAWN_TIME + (random.NextDouble()*5));
+		return (DEFAULT_PERK_SPAWN_TIME + (random.NextDouble()*20));
 	}
 
 	private void SpawnPerk(){
@@ -31,7 +33,7 @@ public sealed class PerkSpawner : Spawner<PerkTypes>
 		double spawnTime = calculateSpawnTime();
 	
 		if (timeSinceLastSpawn.TotalSeconds >= spawnTime) {
-			int rnd = random.Next(0 ,spawnList.Count-1);
+			int rnd = random.Next(0 ,spawnList.Count);
 			spawnList[rnd]();
 			timeSinceLastSpawn = TimeSpan.Zero;
 			}

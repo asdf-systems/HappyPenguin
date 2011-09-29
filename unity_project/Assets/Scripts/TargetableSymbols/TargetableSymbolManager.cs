@@ -59,7 +59,6 @@ namespace HappyPenguin
 					}
 				}
 			} while (targets.ContainsKey(chain));
-			Debug.Log(chain);
 			return chain;	
 		}
 	}

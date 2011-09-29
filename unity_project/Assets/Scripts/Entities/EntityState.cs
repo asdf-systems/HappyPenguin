@@ -51,10 +51,9 @@ namespace HappyPenguin.Entities
 		public virtual void Start(EntityBehaviour entity)
 		{
 			foreach (var animationName in AnimationNames) {
-				Debug.Log(animationName);
 				var animation = entity.gameObject.animation[animationName];
 				if (animation == null) {
-					Debug.Log("Warning: Missing Animationname: " + animation);
+					Debug.LogWarning("Warning: Missing Animationname: " + animation);
 				}
 				else {
 					animation.wrapMode = UnityEngine.WrapMode.Loop;
@@ -83,7 +82,6 @@ namespace HappyPenguin.Entities
 		}
 		
 		public virtual void OnControllerFinished(object sender, ControllerFinishedEventArgs<EntityBehaviour> e){
-			//Debug.LogWarning("EntityState Controller Finished");
 			finishedControllers++;
 			if(finishedControllers == Controllers.Count){
 				InvokeStateFinished(e.EntityType);

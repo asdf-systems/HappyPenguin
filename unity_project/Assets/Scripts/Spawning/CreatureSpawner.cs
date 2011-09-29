@@ -20,7 +20,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	
 	private readonly System.Random random;
 	
-	private int spawnCounter = 0;	// How many Spawns are on the Battlefield?
+	private int spawnCounter;	// How many Spawns are on the Battlefield?
 	
 //	Constructor
 	public CreatureSpawner ()
@@ -58,6 +58,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 //	What Creature do I spawn?
 	private void SpawnCreatures(){
 		timeSinceLastSpawn = timeSinceLastSpawn.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
+		spawnCounter = InvokeCreatureCountNeeded();
 		if (spawnCounter < MAX_CREATURE_COUNT && 
 		    timeSinceLastSpawn.TotalSeconds >= (DEFAULT_CREATURE_SPAWN_TIME - Difficulty)) {
 			int rnd = random.Next(1, 10);
@@ -80,9 +81,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 		int spawningPrice = 3;
 		if (CreditsTotal >= spawningPrice) {
 			InvokeEntitySpawned(CreatureTypes.Pike);
-//			Debug.Log("Pike spawned. Credits lost: " + spawningPrice + " after " + Time.timeSinceLevelLoad);
 			CreditsTotal -= spawningPrice;
-			++spawnCounter;
 		}
 	}
 	
@@ -91,9 +90,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 		int spawningPrice = 6;
 		if (CreditsTotal >= spawningPrice) {
 			InvokeEntitySpawned(CreatureTypes.Shark);
-//			Debug.Log("Shark spawned. Credits lost: " + spawningPrice + " after " + Time.timeSinceLevelLoad);
 			CreditsTotal -= spawningPrice;
-			++spawnCounter;
 		}
 	}
 	
@@ -102,9 +99,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 		int spawningPrice =10;
 		if (CreditsTotal >= spawningPrice) {
 			InvokeEntitySpawned(CreatureTypes.Whale);
-//			Debug.Log("Whale spawned. Credits lost: " + spawningPrice + " after " + Time.timeSinceLevelLoad);
 			CreditsTotal -= spawningPrice;
-			++spawnCounter;
 		}
 	}
 	

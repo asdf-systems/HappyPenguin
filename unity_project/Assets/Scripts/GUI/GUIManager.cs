@@ -136,7 +136,6 @@ public class GUIManager : GUIStatics {
 	}
 	
 	public void buttonCHit(){
-		Debug.Log("ButtonCHit");
 		symbolChain += "C";
 		symbolsChanged();
 	}
@@ -154,7 +153,6 @@ public class GUIManager : GUIStatics {
 	}
 	
 	private void symbolsChanged(){
-		Debug.Log("Chain: " + symbolChain);
 		InvokeSymbolsChanged();
 	}
 	private void symbolsCommited(){
@@ -163,7 +161,6 @@ public class GUIManager : GUIStatics {
 	
 	public void PreSwipeCommitted(Directions direction){
 		InvokeSwipeCommitted(direction);
-		Debug.Log("Swipe nach " +direction);
 	}
 	
 	private void InvokeSymbolsChanged(){
