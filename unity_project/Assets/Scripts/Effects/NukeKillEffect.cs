@@ -17,15 +17,20 @@ namespace HappyPenguin.Effects
 			
 			entity.HideSymbols();
 			entity.animation.Play("explode");
-			w.entityManager.VoidTargetable(entity);
-		}
-		
+			var creatures = w.entityManager.FindTargetables();
+			foreach (var creature in creatures) {
+				List<Effect> killEffects = creature.CollectedEffects;
+				foreach (Effect effect in killEffects) {
+				w.effectManager.RegisterEffect(effect);			
+				}
+			}
+		}	
 		public override void Update(GameWorldBehaviour w){
 			//instant effect
 		}
 		
 		public override void Stop(GameWorldBehaviour w){
-			//instant effect
+			//w.entityManager.VoidTargetable(entity);
 		}
 	}
 }

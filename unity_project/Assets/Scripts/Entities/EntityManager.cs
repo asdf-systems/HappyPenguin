@@ -102,13 +102,19 @@ namespace HappyPenguin.Entities
 		}
 
 		public void VoidTargetable(TargetableEntityBehaviour targetable) {
+			if (targetable == null) {
+				Debug.LogWarning("Targetable has already been destroyed!");
+				return;
+			}
 			GameObject.Destroy(targetable.gameObject);
 			entities.Remove(targetable);
 		}
 
 		private PerkBehaviour DisplayPerk(PerkTypes type, Vector3 position) {
 			var resource = GetPerkResourceByType(type);
+			
 			var gameObject = GameObject.Instantiate(resource, PerkSpawnPoint.Position, Quaternion.identity) as GameObject;
+		
 			return gameObject.GetComponentInChildren<PerkBehaviour>();
 		}
 
@@ -124,6 +130,7 @@ namespace HappyPenguin.Entities
 		
 		private UnityEngine.Object GetPerkResourceByType(PerkTypes type) {
 			var name = string.Empty;
+			
 			switch (type) {
 			case PerkTypes.Nuke:
 				name = "Perks/Nuke";
@@ -135,6 +142,7 @@ namespace HappyPenguin.Entities
 			if (string.IsNullOrEmpty(name)) {
 				throw new ApplicationException("perk type unknown.");
 			}
+			
 			return Resources.Load(name);
 		}
 

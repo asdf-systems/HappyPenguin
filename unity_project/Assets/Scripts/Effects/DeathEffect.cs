@@ -19,6 +19,7 @@ namespace HappyPenguin.Effects
 				cb.NotCollectedEffects.RemoveAll(item => item is AttackAnimationEffect);
 			}
 			entity.HideSymbols();
+			w.CreatureCount--;
 			var retreatPoint = w.RetreatPoint;
 			var flatness = 1000;
 			entity.CurrentState = EntityStateGenerator.CreateDiveMovementState(entity, retreatPoint, (float)Duration.TotalSeconds, flatness);
