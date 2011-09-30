@@ -90,8 +90,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitPerkNodes();
 		InitAttackZone();
 		InitUI();
+		InitStatics();
 	}
 	
+	private void InitStatics(){
+		GameStaticsBehaviour.Points = 0;
+	}
 	private void InitUI()
 	{
 		guiManager.changePoints(entityManager.Player.Points);
@@ -208,6 +212,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.alert("+ " + pointsChange + " Points");
 		entityManager.Player.Points += pointsChange;
 		guiManager.changePoints(entityManager.Player.Points);
+		GameStaticsBehaviour.Points = entityManager.Player.Points;
 	}
 
 	public void Update() {

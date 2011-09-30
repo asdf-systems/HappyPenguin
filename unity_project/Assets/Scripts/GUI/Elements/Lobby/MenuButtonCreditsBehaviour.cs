@@ -9,7 +9,7 @@ public class MenuButtonCreditsBehaviour : UIElementBehaviour<GUIStatics> {
 	}
 	
 	protected override void hit(){
-		Debug.Log("Credits not Implemented YET!");
+		Application.LoadLevel(3);
 
 	}
 }
