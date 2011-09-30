@@ -16,7 +16,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public GameObject PerkSpawnTarget;
 	public GameObject Trebuchet;
 	public int CreatureCount;
-	private readonly EffectManager effectManager;
+	public readonly EffectManager effectManager;
 
 	private readonly CreatureSpawner creatureSpawner;
 	private readonly PerkSpawner perkSpawner;
@@ -52,10 +52,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			guiManager.alert(WrongSymbolChainText);
 			Debug.Log("implemented punish player");
 			return;
-		}
-		
-		
-		
+		}		
 		List<Effect> killEffects = target.CollectedEffects;
 		foreach (Effect effect in killEffects) {
 			effectManager.RegisterEffect(effect);
@@ -66,8 +63,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		var creature = e.Creature.GetComponent<CreatureBehaviour>();
 		if (creature != null) {
 			var attackEffects = creature.NotCollectedEffects;
-			foreach (var effect in attackEffects) {
-				effectManager.RegisterEffect(effect);
+			for (int i = 0; i < attackEffects.Count; i++) {
+				effectManager.RegisterEffect(attackEffects[i]);
 			}
 		}
 	}
@@ -161,12 +158,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 
 	private void OnPerkGenerated(object sender, EntityGeneratedEventArgs<PerkTypes> e) {
-		if (e.EntityType == PerkTypes.Health) {
-			PerkText = "More Health, yay!";
-		}
-		else {
-			PerkText = "More Nuke, yay!";
-		}
 		entityManager.SpawnPerk(e.EntityType);
 		Trebuchet.animation.Play("shoot");
 		Trebuchet.animation.PlayQueued("pull");

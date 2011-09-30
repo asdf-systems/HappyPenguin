@@ -35,6 +35,9 @@ namespace HappyPenguin.Effects
 		}
 		
 		public void RegisterEffect(Effect e){
+			if (effects.ContainsKey(e)) {
+				return;
+			}
 			effects.Add(e, TimeSpan.FromSeconds(Time.timeSinceLevelLoad));
 			e.Start(world);
 		}
