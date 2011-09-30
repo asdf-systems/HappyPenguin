@@ -13,8 +13,8 @@ namespace HappyPenguin.Entities
 		private TargetableSymbolProjector projector;
 
 		public Range SymbolRange { get; set; }
-		public List<Effect> KillEffects {get; set;}
-		
+		public List<Effect> CollectedEffects {get; set;}
+		public List<Effect> NotCollectedEffects {get; set;}
 		private string symbolChain;
 		public string SymbolChain
 		{ 

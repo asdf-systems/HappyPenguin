@@ -44,6 +44,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	void OnSwipeCommitted(object sender, SwipeEventArgs e) {
+		entityManager.Player.PlayAnimation("throw");
 		guiManager.clearSymbols();
 		
 		var target = entityManager.FindFittingTargetable(e.symbolChain);
@@ -53,18 +54,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			return;
 		}
 		
-		entityManager.Player.PlayAnimation("throw");
 		
-		if (target is PerkBehaviour) {
-			if (PerkText == "More Health, yay!") {
-				ChangePlayerHealth(2);
-			}
-			guiManager.alert(PerkText);
-		}
-		else {
-			CreatureCount--;
-		}
-		List<Effect> killEffects = target.KillEffects;
+		
+		List<Effect> killEffects = target.CollectedEffects;
 		foreach (Effect effect in killEffects) {
 			effectManager.RegisterEffect(effect);
 		}		
@@ -73,7 +65,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	void OnAttackZoneEntered(object sender, AttackZoneEventArgs e) {
 		var creature = e.Creature.GetComponent<CreatureBehaviour>();
 		if (creature != null) {
-			var attackEffects = creature.AttackEffects;
+			var attackEffects = creature.NotCollectedEffects;
 			foreach (var effect in attackEffects) {
 				effectManager.RegisterEffect(effect);
 			}
@@ -98,8 +90,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitPerkNodes();
 		InitAttackZone();
 		InitUI();
+		InitStatics();
 	}
 	
+	private void InitStatics(){
+		GameStaticsBehaviour.Points = 0;
+	}
 	private void InitUI()
 	{
 		guiManager.changePoints(entityManager.Player.Points);
@@ -128,7 +124,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 	
 	private void OnPerkReatreatPointReached(object sender, AttackZoneEventArgs e){
-		foreach(Effect effect in e.Creature.KillEffects){
+		foreach(Effect effect in e.Creature.NotCollectedEffects){
 			effectManager.RegisterEffect(effect);	
 		}
 	}
@@ -178,23 +174,29 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	public void ChangePlayerHealth(float lifeChange) {
 		var player = gameObject.GetComponentInChildren<PlayerBehaviour>();
-		if (entityManager.Player.Life + lifeChange <= 5) {
+		if (lifeChange > 0) {
+			if (entityManager.Player.Life + lifeChange <= 5) {
+				entityManager.Player.Life += lifeChange;
+				guiManager.changeLife(entityManager.Player.Life);
+				guiManager.alert("++ Health");
+			}
+			else if (entityManager.Player.Life == 5) {
+				guiManager.alert("Already at full Health");
+			}
+			else {
+				entityManager.Player.Life = 5;
+				guiManager.changeLife(entityManager.Player.Life);
+				guiManager.alert("++ Health");
+			}
+		}
+		else {
 			entityManager.Player.Life += lifeChange;
 			guiManager.changeLife(entityManager.Player.Life);
+			guiManager.alert("-- Health");
 		}
-		else {
-			entityManager.Player.Life = 5;
-			guiManager.changeLife(entityManager.Player.Life);
-		}
-		if (lifeChange > 0) {
-			guiManager.alert("++ Life");
 			player.audio.clip = player.AttackSound;
 			player.audio.Play();
-		}
-		else {
-			guiManager.alert("-- Life");
-		}
-		
+				
 		if (entityManager.Player.IsDead) {
 			guiManager.alert(LooseText);
 			PlayerBehaviour.FinalPoints = entityManager.Player.Points;
@@ -210,6 +212,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.alert("+ " + pointsChange + " Points");
 		entityManager.Player.Points += pointsChange;
 		guiManager.changePoints(entityManager.Player.Points);
+		GameStaticsBehaviour.Points = entityManager.Player.Points;
 	}
 
 	public void Update() {

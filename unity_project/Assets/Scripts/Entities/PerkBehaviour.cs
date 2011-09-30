@@ -5,24 +5,16 @@ using System.Collections.Generic;
 using HappyPenguin.Spawning;
 using HappyPenguin.Entities;
 
-
-public sealed class PerkBehaviour : TargetableEntityBehaviour
+namespace HappyPenguin.Entities
 {
-
-	
-	protected override void AwakeOverride ()
+	public abstract class PerkBehaviour : TargetableEntityBehaviour
 	{
-		base.AwakeOverride ();
-		KillEffects = new List<Effect> ();
-		//MoveEffect = new List<Effect>();
-		Init ();
-	}
-
-	private void Init ()
-	{
-		KillEffects.Add (new PerkKillEffect (this));
-	}
+		
+		protected override void AwakeOverride ()
+		{
+			base.AwakeOverride ();
+		}
 	
+		
+	}
 }
-
-

@@ -11,8 +11,10 @@ public class GameEndState : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
 		time+= Time.deltaTime;
-		if(time > 100){
+		//Debug.Log("Update GameEndState, Time: " + time);
+		if(time > 10){
 			Application.LoadLevel(0);
 		}
 	}

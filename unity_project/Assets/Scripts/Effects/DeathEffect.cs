@@ -16,7 +16,7 @@ namespace HappyPenguin.Effects
 		public override void Start(GameWorldBehaviour w){
 			if (entity is CreatureBehaviour) {
 				var cb = entity as CreatureBehaviour;
-				cb.AttackEffects.RemoveAll(item => item is AttackAnimationEffect);
+				cb.NotCollectedEffects.RemoveAll(item => item is AttackAnimationEffect);
 			}
 			entity.HideSymbols();
 			var retreatPoint = w.RetreatPoint;
