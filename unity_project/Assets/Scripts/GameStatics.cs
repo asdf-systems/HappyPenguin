@@ -19,7 +19,6 @@ public static class GameStatics {
 	
 	public static GameObject loadPlayerHat(){
 		Object resource = Resources.Load("Pux_Cloth/" + penguinHat);
-		Vector3 position = new Vector3(0,0,0);
 		GameObject go = GameObject.Instantiate(resource) as GameObject;
 		return go;	
 	}
