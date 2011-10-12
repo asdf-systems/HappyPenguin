@@ -123,7 +123,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 	
 	private void InitStatics(){
-		GameStaticsBehaviour.Points = 0;
+		GameStatics.Points = 0;
 	}
 	
 	private void InitUI()
@@ -235,7 +235,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.alert("+ " + pointsChange + " Points");
 		entityManager.Player.Points += pointsChange;
 		guiManager.changePoints(entityManager.Player.Points);
-		GameStaticsBehaviour.Points = entityManager.Player.Points;
+		GameStatics.Points = entityManager.Player.Points;
 	}
 
 	public void Update() {
