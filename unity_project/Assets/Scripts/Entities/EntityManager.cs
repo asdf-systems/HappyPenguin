@@ -27,7 +27,7 @@ namespace HappyPenguin.Entities
 			
 			var component = instance.GetComponentInChildren<EnvironmentEntityBehaviour>();
 			if (component == null) {
-				throw new ApplicationException("Playerbehaviour not found.");
+				throw new ApplicationException("EnvironmentEntityBehaviour not found.");
 			}
 			
 			var state = EntityStateGenerator.CreateSnowballState(target);
