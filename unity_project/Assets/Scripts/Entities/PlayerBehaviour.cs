@@ -6,6 +6,14 @@ public sealed class PlayerBehaviour : EntityBehaviour
 {
 	public float StartLife;
 	public float StartPoints;
+	public GameObject mesh;
+	public GameObject headPoint;
+	
+	public override GameObject gameObject{
+		get{
+			return mesh;
+		}
+	}
 	
 	public float Life {
 		get;

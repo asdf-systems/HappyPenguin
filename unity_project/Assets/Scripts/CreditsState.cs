@@ -51,10 +51,10 @@ public class CreditsState : MonoBehaviour {
 		//Debug.Log("Update GameEndState, Time: " + time);
 		if(time > 3 && flag){
 			if(texts[currentText] == ""){
-				katapult.animation.Play("shoot");
-				katapult.animation.PlayQueued("pull");
-				penguin1.animation.Play("happy");
-				penguin2.animation.Play("happy");
+				katapult.gameObject.animation.Play("shoot");
+				katapult.gameObject.animation.PlayQueued("pull");
+				penguin1.gameObject.animation.Play("happy");
+				penguin2.gameObject.animation.Play("happy");
 			} 
 			currentText++;		
 			textElement.text = texts[currentText];
