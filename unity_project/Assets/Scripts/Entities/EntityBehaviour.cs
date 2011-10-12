@@ -10,6 +10,12 @@ namespace HappyPenguin.Entities
 		public EntityBehaviour() {
 			Speed = 10.0f;	
 		}
+		
+		public new virtual GameObject gameObject{
+			get{
+				return base.gameObject;
+			}
+		}
 
 		public Vector3 Position {
 			get { return gameObject.transform.position; }
@@ -30,10 +36,10 @@ namespace HappyPenguin.Entities
 		
 		public void PlayAnimation(string name)
 		{
-			var current = animation[name];
+			var current = gameObject.animation[name];
 			current.wrapMode = WrapMode.Once;
 			current.layer = 1;
-			animation.CrossFade(name, 0.0f, PlayMode.StopSameLayer);
+			gameObject.animation.CrossFade(name, 0.0f, PlayMode.StopSameLayer);
 		}
 
 		public void Awake() {

@@ -57,7 +57,7 @@ namespace HappyPenguin.Entities
 				}
 				else {
 					animation.wrapMode = UnityEngine.WrapMode.Loop;
-					entity.animation.CrossFade(animationName);
+					entity.gameObject.animation.CrossFade(animationName);
 				}
 				
 			}
