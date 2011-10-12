@@ -32,6 +32,10 @@ namespace HappyPenguin.Entities
 			projector.HighlightSymbols(count);
 		}
 		
+		public void DarkenSymbols() {
+			projector.DarkenSymbols();
+		}
+		
 		protected override void AwakeOverride ()
 		{
 			base.AwakeOverride();

@@ -13,8 +13,8 @@ namespace HappyPenguin.Controllers
 		public LinearMovementController(Vector3 targetPosition) {
 		 	this.targetPosition = targetPosition;	
 		}
-		
-		public override void Update (EntityBehaviour entity)
+	
+		protected override void UpdateOverride (EntityBehaviour entity)
 		{
 			var isCloseEnough = entity.Position.IsCloseEnoughTo(targetPosition);
 			if (isCloseEnough) {

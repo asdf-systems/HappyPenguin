@@ -38,7 +38,7 @@ namespace HappyPenguin.Controllers
 			IsMoving = true;
 		}
 
-		public override void Update (EntityBehaviour entity)
+		protected override void UpdateOverride (EntityBehaviour entity)
 		{
 			MovingObject = entity.gameObject.transform;
 			

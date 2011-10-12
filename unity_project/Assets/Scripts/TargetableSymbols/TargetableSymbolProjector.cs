@@ -29,10 +29,19 @@ namespace HappyPenguin.Entities
 				gameObject.transform.localPosition = Vector3.zero;
 				gameObject.transform.localRotation = Quaternion.identity;
 				
-				var z = (i * 11) - (symbolChain.Length * 11 / 2);
+				var z = (i * 7) - (symbolChain.Length * 7 / 2);
 				var offset = new Vector3(0, 0, z);
 				gameObject.transform.Translate(offset, gameObject.transform.parent);
-				gameObject.transform.Translate(new Vector3(0, 10, 0), gameObject.transform.parent);
+				
+				gameObject.transform.Translate(new Vector3(0, 8, 0), gameObject.transform.parent);
+				gameObject.transform.RotateAroundLocal(new Vector3(0, 1, 0),(float) Math.PI / 2.0f);
+			}
+		}
+		
+		public void DarkenSymbols()
+		{
+			foreach (var candidate in symbolProjections) {
+				candidate.IsHighlighted = false;
 			}
 		}
 		

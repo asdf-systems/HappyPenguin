@@ -10,6 +10,11 @@ namespace HappyPenguin.Controllers
 		private TimeSpan elapsedTime;
 		private GameObject target;
 		
+		public bool IsPitchLocked {
+			get;
+			set;
+		} 
+		
 		public LinearObjectFollowMovementController(GameObject target) {
 			this.target = target;
 			IsYAxisIgnored = true;
@@ -28,7 +33,7 @@ namespace HappyPenguin.Controllers
 			return target - current;
 		}
 		
-		public override void Update(EntityBehaviour entity)
+		protected override void UpdateOverride(EntityBehaviour entity)
 		{
 			var isCloseEnough = entity.Position.IsCloseEnoughTo(target.transform.position, IsYAxisIgnored);
 			if (isCloseEnough) {
@@ -48,8 +53,13 @@ namespace HappyPenguin.Controllers
 			var offset = entity.Speed * Time.deltaTime;
 			var movementVector = normalizedDirection * offset;
 			
-			entity.transform.position = entity.transform.position + movementVector; 
-			entity.transform.LookAt(target.transform);
+			entity.transform.position = entity.transform.position + movementVector;
+			
+			var lookAtCoords = target.transform.position;
+			if (IsPitchLocked) {
+				lookAtCoords.y = entity.transform.position.y;
+			}
+			entity.transform.LookAt(lookAtCoords);
 		}
 	}
 }

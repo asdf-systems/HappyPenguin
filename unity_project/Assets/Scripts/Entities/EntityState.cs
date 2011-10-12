@@ -9,7 +9,6 @@ namespace HappyPenguin.Entities
 {
 	public class EntityState
 	{	
-		
 		private int finishedControllers;
 		
 		public EntityState (string name) {
@@ -59,7 +58,6 @@ namespace HappyPenguin.Entities
 					animation.wrapMode = UnityEngine.WrapMode.Loop;
 					entity.animation.CrossFade(animationName);
 				}
-				
 			}
 		}
 		
@@ -86,8 +84,6 @@ namespace HappyPenguin.Entities
 			if(finishedControllers == Controllers.Count){
 				InvokeStateFinished(e.EntityType);
 			}
-			
 		}
-		
 	}
 }

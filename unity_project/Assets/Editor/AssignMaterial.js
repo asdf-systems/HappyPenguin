@@ -1,3 +1,4 @@
+
 class AssignMaterial extends ScriptableWizard
 {
     var theMaterial : Material;

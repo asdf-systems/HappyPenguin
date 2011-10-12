@@ -63,11 +63,10 @@ namespace HappyPenguin.Entities
 				if (currentState != null) {
 					currentState.Stop(this);
 				}
+				currentState = value;
 				if (value == null) {
 					return;
 				}
-				
-				currentState = value;
 				currentState.Start(this);
 			} 
 		}

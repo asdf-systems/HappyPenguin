@@ -11,7 +11,9 @@ namespace HappyPenguin.Entities
 		{
 			var state = new EntityState("creature_movement");
 			state.AnimationNames.Add("swim");
-			state.Controllers.Add(new LinearObjectFollowMovementController(target));
+			state.Controllers.Add(new LinearObjectFollowMovementController(target){
+				IsPitchLocked = true
+			});
 			state.Controllers.Add(new FloatController(baseline));
 			return state;
 		}
@@ -23,20 +25,29 @@ namespace HappyPenguin.Entities
 			return state;
 		}
 		
-		public static EntityState CreatePerkMovementState(TargetableEntityBehaviour entity, GameObject target1, GameObject target2)
+		public static EntityState CreatePerkMovementState(TargetableEntityBehaviour entity, GameObject impactTarget, GameObject target2)
 		{
-			var states = new StackedEntityState("perk_movement");
-			var flightState = CreateDiveMovementState(entity, target1, 1,50);
-			var diveState = new EntityState("dive"); //CreateDefaultMovementState(target2, entity.transform.position.y);
-			flightState.StateFinished += states.OnStateFinished;
-			diveState.Controllers.Add(new LinearObjectFollowMovementController(target2));
-			//diveState.Controllers.Add(new FloatController(target1.transformy));
-			states.AddEntityState(flightState);
-			states.AddEntityState(diveState);
-			return states;
+			var batch = new StackedEntityState("stacked_state");
+			
+			var throwState = CreateDiveMovementState(entity, impactTarget, 1,50);
+			throwState.StateFinished += batch.OnStateFinished;
+			
+			var floatState = new EntityState("perk_float");
+			var impactController = new WaterImpactController(impactTarget.transform.position.y);
+			floatState.Controllers.Add(impactController);
+			floatState.Controllers.Add(new LinearMovementController(target2.transform.position));
+			
+			impactController.ControllerFinished += (sender, e)  => {
+				floatState.Controllers.Remove(impactController);	
+				floatState.Controllers.Add(new FloatController(impactTarget.transform.position.y));
+			};
+			
+			batch.AddEntityState(throwState);
+			batch.AddEntityState(floatState);
+			return batch;
 		}
 		
-	public static EntityState CreateDiveMovementState(TargetableEntityBehaviour entity, GameObject RetreatPoint, float timeInSeconds, int flatness )
+		public static EntityState CreateDiveMovementState(TargetableEntityBehaviour entity, GameObject RetreatPoint, float timeInSeconds, int flatness )
 		{			
 			var state = new EntityState("dive");
 			state.AnimationNames.Add("swim");
@@ -45,8 +56,6 @@ namespace HappyPenguin.Entities
 			state.Controllers.Add(arc);
 			return state;
 		}
-
-
 	}
 }
 

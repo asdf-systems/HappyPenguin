@@ -18,7 +18,7 @@ namespace HappyPenguin.Controllers
 		{
 		}
 
-		public override void Update (EntityBehaviour entity)
+		protected override void UpdateOverride (EntityBehaviour entity)
 		{
 			throw new NotImplementedException ();
 		}

@@ -106,7 +106,7 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 
 	private void checkiPhoneTap() {
 		Touch[] touches = Input.touches;
-		bool down = false;
+		//bool down = false;
 		//foreach (Touch touch in touches) {
 		if(touches.Length > 0 ){
 			Touch touch = touches[0];

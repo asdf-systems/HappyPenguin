@@ -15,9 +15,9 @@ namespace HappyPenguin.Controllers
 			set;
 		}
 		
-		public override void Update (EntityBehaviour entity)
+		protected override void UpdateOverride (EntityBehaviour entity)
 		{
-			var offset = Convert.ToSingle(Math.Sin(Time.timeSinceLevelLoad));
+			var offset = Convert.ToSingle(Math.Sin(Time.timeSinceLevelLoad)) * 2;
 			var pos = entity.transform.position;
 			 entity.transform.position = new Vector3(pos.x, Baseline + offset, pos.z);
 		}

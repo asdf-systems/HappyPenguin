@@ -29,8 +29,36 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public string PerkText;
 	public string WrongSymbolChainText;
 	public string LooseText;
+	
+	private void HighlightSymbols(string chain)
+	{
+		var targetables = entityManager.FindTargetables();
+		foreach (var entity in targetables) {
+			if (entity.SymbolChain.StartsWith(chain)) {
+				entity.HighlightSymbols(chain.Length);
+			}
+		}
+	}
+	
+	private void DarkenSymbols()
+	{
+		var targetables = entityManager.FindTargetables();
+		foreach (var entity in targetables) {
+			entity.DarkenSymbols();
+		}
+	}
+	
+	private void OnSymbolChanged(object sender, SymbolEventArgs e)
+	{
+		if (string.IsNullOrEmpty(e.SymbolChain)) {
+			DarkenSymbols();
+			return;
+		}
+		HighlightSymbols(e.SymbolChain);
+	}
 
 	public GameWorldBehaviour() {
+
 		entityManager = new EntityManager();
 		effectManager = new EffectManager(this);
 		
@@ -40,21 +68,21 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		perkSpawner = new PerkSpawner();
 		perkSpawner.EntitySpawned += OnPerkGenerated;
-		
 	}
 
 	void OnSwipeCommitted(object sender, SwipeEventArgs e) {
+		
 		entityManager.Player.PlayAnimation("throw");
 		guiManager.clearSymbols();
 		
 		var target = entityManager.FindFittingTargetable(e.symbolChain);
 		if (target == null) {
 			guiManager.alert(WrongSymbolChainText);
-			Debug.Log("implemented punish player");
+			Debug.Log("implement punish player");
 			return;
 		}		
-		List<Effect> killEffects = target.CollectedEffects;
-		foreach (Effect effect in killEffects) {
+		var killEffects = target.CollectedEffects;
+		foreach (var effect in killEffects) {
 			effectManager.RegisterEffect(effect);
 		}		
 	}
@@ -78,8 +106,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		attackZone.AttackZoneEntered += OnAttackZoneEntered;
 		
 	}
-	
-
 
 	public void Awake() {
 		InitPlayer();
@@ -93,11 +119,13 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private void InitStatics(){
 		GameStaticsBehaviour.Points = 0;
 	}
+	
 	private void InitUI()
 	{
 		guiManager.changePoints(entityManager.Player.Points);
 		guiManager.changeLife(entityManager.Player.Life);
 		guiManager.SwipeCommitted += OnSwipeCommitted;
+		guiManager.SymbolsChanged += OnSymbolChanged;
 	}
 	
 	private void InitPerkNodes()
@@ -138,7 +166,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		state.AnimationNames.Add("idle");
 		player.CurrentState = state;
 		entityManager.Player = player;
-		entityManager.Player.Life = 5;
 		guiManager.changeLife(entityManager.Player.Life);
 	}
 

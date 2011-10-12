@@ -3,7 +3,6 @@ using System.Collections;
 
 public class SoundManager : MonoBehaviour {
 	
-	
 	public AudioClip MusicStart;
 	public AudioClip Music;
 

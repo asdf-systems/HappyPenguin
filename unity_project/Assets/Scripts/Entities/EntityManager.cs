@@ -10,10 +10,12 @@ namespace HappyPenguin.Entities
 	{
 		private SpawnPointBehaviour creatureSpawnPoint;
 		private SpawnPointBehaviour PerkSpawnPoint;
+		
 		public GameObject PerkRetreatPoint{
 			get;
 			set;
 		}
+		
 		private GameObject PerkSpawnTarget;
 		private readonly TargetableSymbolManager symbolManager;
 		private readonly List<EntityBehaviour> entities;
@@ -98,12 +100,11 @@ namespace HappyPenguin.Entities
 			
 			var y = patrolBehaviour.Position.y;
 			patrolBehaviour.PatrolPositions.Add(new Vector3(-200, y, 200));
-			patrolBehaviour.PatrolPositions.Add(new Vector3(-200, y, -10));
+			patrolBehaviour.PatrolPositions.Add(new Vector3(-100, y, -200));
 		}
 
 		public void VoidTargetable(TargetableEntityBehaviour targetable) {
 			if (targetable == null) {
-				Debug.LogWarning("Targetable has already been destroyed!");
 				return;
 			}
 			GameObject.Destroy(targetable.gameObject);
