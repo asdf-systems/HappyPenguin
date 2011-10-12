@@ -56,10 +56,19 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 		HighlightSymbols(e.SymbolChain);
 	}
+	
+	private void OnSnowballHit(object sender, TargetableEntityEventArgs e)
+	{
+		var killEffects = e.Entity.CollectedEffects;
+		foreach (var effect in killEffects) {
+			effectManager.RegisterEffect(effect);
+		}		
+	}
 
 	public GameWorldBehaviour() {
 
 		entityManager = new EntityManager();
+		entityManager.SnowballHit += OnSnowballHit;
 		effectManager = new EffectManager(this);
 		
 		creatureSpawner = new CreatureSpawner();
@@ -81,10 +90,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			Debug.Log("implement punish player");
 			return;
 		}		
-		var killEffects = target.CollectedEffects;
-		foreach (var effect in killEffects) {
-			effectManager.RegisterEffect(effect);
-		}		
+		entityManager.ThrowSnowball(target);
 	}
 
 	void OnAttackZoneEntered(object sender, AttackZoneEventArgs e) {
@@ -183,7 +189,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		CreatureCount++;
 	}
 
-
 	private void OnPerkGenerated(object sender, EntityGeneratedEventArgs<PerkTypes> e) {
 		entityManager.SpawnPerk(e.EntityType);
 		Trebuchet.animation.Play("shoot");
@@ -234,6 +239,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	public void Update() {
+		entityManager.Update();
 		creatureSpawner.Update();
 		effectManager.Update();
 		perkSpawner.Update();

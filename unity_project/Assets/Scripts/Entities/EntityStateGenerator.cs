@@ -47,6 +47,13 @@ namespace HappyPenguin.Entities
 			return batch;
 		}
 		
+		public static EntityState CreateSnowballState(EntityBehaviour entity)
+		{
+			var state = new EntityState("snowball_flight");
+			state.Controllers.Add(new LinearObjectFollowMovementController(entity.gameObject));
+			return state;
+		}
+		
 		public static EntityState CreateDiveMovementState(TargetableEntityBehaviour entity, GameObject RetreatPoint, float timeInSeconds, int flatness )
 		{			
 			var state = new EntityState("dive");

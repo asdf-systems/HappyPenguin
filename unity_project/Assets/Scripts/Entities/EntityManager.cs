@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using HappyPenguin.Spawning;
+using HappyPenguin.Unity;
 
 namespace HappyPenguin.Entities
 {
@@ -10,10 +11,69 @@ namespace HappyPenguin.Entities
 	{
 		private SpawnPointBehaviour creatureSpawnPoint;
 		private SpawnPointBehaviour PerkSpawnPoint;
+		private readonly List<Trigger> triggers;
 		
 		public GameObject PerkRetreatPoint{
 			get;
 			set;
+		}
+		
+		public void ThrowSnowball(TargetableEntityBehaviour target)
+		{
+			var snowball = Resources.Load("Environment/Snowball");
+			var instance = GameObject.Instantiate(snowball, Vector3.zero, Quaternion.identity) as GameObject;
+			instance.transform.parent = Player.headPoint.transform;
+			
+			
+			var component = instance.GetComponentInChildren<EnvironmentEntityBehaviour>();
+			if (component == null) {
+				throw new ApplicationException("Playerbehaviour not found.");
+			}
+			
+			var state = EntityStateGenerator.CreateSnowballState(target);
+			var trigger = new Trigger(){
+				Condition = () => instance.gameObject.transform.position.IsCloseEnoughTo(target.transform.position),
+				Effect = () => {
+						InvokeSnowballHit(target);
+						VoidTargetable(target);
+				}
+			};
+			
+			triggers.Add(trigger);
+			
+			component.CurrentState = state;
+			entities.Add(component);
+		}
+		
+		public void Update()
+		{
+			UpdateTriggers();
+		}
+		
+		public void UpdateTriggers()
+		{
+			var obsolete = new List<Trigger>();
+			foreach (var  trigger in triggers) {
+				if (trigger.Condition()) {
+					trigger.Effect();
+					obsolete.Add(trigger);
+				}
+			}
+			
+			foreach (var trigger in obsolete) {
+				triggers.Remove(trigger);
+			}
+		}
+		
+		public event EventHandler<TargetableEntityEventArgs> SnowballHit;
+		private void InvokeSnowballHit(TargetableEntityBehaviour entity)
+		{
+			var handler = SnowballHit;
+			if (handler == null) {
+				return;
+			}
+			var e = new TargetableEntityEventArgs(entity);
+			handler(this, e);
 		}
 		
 		private GameObject PerkSpawnTarget;
@@ -21,6 +81,7 @@ namespace HappyPenguin.Entities
 		private readonly List<EntityBehaviour> entities;
 
 		public EntityManager() {
+			triggers = new List<Trigger>();
 			entities = new List<EntityBehaviour>();
 			symbolManager = new TargetableSymbolManager();
 		}
