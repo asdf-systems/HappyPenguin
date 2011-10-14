@@ -10,6 +10,8 @@ public class MenuOptionsButtonBehaviour : UIElementBehaviour<GUIStatics> {
 	
 	protected override void hit(){
 		// start Game
-		Debug.Log("Options");
+		//Debug.Log("Options");
+		Application.LoadLevel(4);
 	}
 }
+

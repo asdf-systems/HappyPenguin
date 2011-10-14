@@ -123,10 +123,11 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 				} else {
 					resetElement();
 				}
-		} else if(iPhoneTap)
+		} else if(iPhoneTap){
 			
 			Debug.Log("reset Buttons - iPhoneTap");
 			resetButtons("iPhoneTap");
+		}
 		
 	}
 

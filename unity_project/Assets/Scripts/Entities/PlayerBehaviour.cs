@@ -52,6 +52,8 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		changeHat();
 		changeBelt();
 		changeAmulett();
+		gameObject.animation.PlayQueued("happy");
+		gameObject.animation.PlayQueued("show01");
 	}
 	private void changeHat(){
 		
