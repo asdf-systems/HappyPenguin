@@ -4,7 +4,6 @@ using System.Collections;
 public class StoreObject : MonoBehaviour {
 
 	public int price;
-	public string name; 
 	
 	// Use this for initialization
 	void Start () {

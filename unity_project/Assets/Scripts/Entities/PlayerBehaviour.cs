@@ -25,11 +25,6 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		set;
 	}
 	
-	public static float FinalPoints {
-		get;
-		set;
-	}
-	
 	protected override void AwakeOverride() {
 		base.AwakeOverride();
 		Life = StartLife;

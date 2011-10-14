@@ -196,7 +196,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	public void ChangePlayerHealth(float lifeChange) {
-		var player = gameObject.GetComponentInChildren<PlayerBehaviour>();
 		if (lifeChange > 0) {
 			if (entityManager.Player.Life + lifeChange <= 5) {
 				entityManager.Player.Life += lifeChange;
@@ -217,12 +216,15 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			guiManager.changeLife(entityManager.Player.Life);
 			guiManager.alert("-- Health");
 		}
-			player.audio.clip = player.AttackSound;
-			player.audio.Play();
 				
+		CheckForDeadsies();
+	}
+	
+	
+	private void CheckForDeadsies()
+	{
 		if (entityManager.Player.IsDead) {
 			guiManager.alert(LooseText);
-			PlayerBehaviour.FinalPoints = entityManager.Player.Points;
 			Application.LoadLevel(2);
 		}
 	}
@@ -239,7 +241,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	public void Update() {
-		entityManager.Update();
 		creatureSpawner.Update();
 		effectManager.Update();
 		perkSpawner.Update();

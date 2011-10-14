@@ -8,8 +8,6 @@ using System.Collections.Generic;
  */
 public class Store : MonoBehaviour{
 	
-	private List<Transform> mStorage;
-	
 	public Store(){
 		
 		
@@ -17,7 +15,7 @@ public class Store : MonoBehaviour{
 	
 	public void add(Transform prefab){
 		
-		mStorage.Add(prefab);
+		//mStorage.Add(prefab);
 	}
 	
 	public Transform remove(Transform prefab){
