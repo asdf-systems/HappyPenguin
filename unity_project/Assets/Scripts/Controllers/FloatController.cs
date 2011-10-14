@@ -6,11 +6,11 @@ namespace HappyPenguin.Controllers
 {
 	public sealed class FloatController : Controller
 	{
-		public FloatController(float baseline) {
-			Baseline = baseline;
+		public FloatController(float seaLevel) {
+			SeaLevel = seaLevel;
 		}
 		
-		public float Baseline {
+		public float SeaLevel {
 			get;
 			set;
 		}
@@ -19,7 +19,7 @@ namespace HappyPenguin.Controllers
 		{
 			var offset = Convert.ToSingle(Math.Sin(Time.timeSinceLevelLoad)) * 2;
 			var pos = entity.transform.position;
-			 entity.transform.position = new Vector3(pos.x, Baseline + offset, pos.z);
+			 entity.transform.position = new Vector3(pos.x, SeaLevel + offset, pos.z);
 		}
 	}
 }

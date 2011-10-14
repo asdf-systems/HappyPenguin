@@ -13,11 +13,6 @@ public sealed class TargetableSymbolBehaviour : MonoBehaviour
 		renderer.material.mainTexture = DefaultTexture;
 	}
 
-	public void Update ()
-	{
-		
-	}
-
 	public bool IsHighlighted {
 		get { return isLit; }
 		set {

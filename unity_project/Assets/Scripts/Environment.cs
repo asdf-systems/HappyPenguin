@@ -6,7 +6,7 @@ namespace HappyPenguin
 	{
 		static Environment()
 		{
-			SeaLevel = -0.8256311f;
+			SeaLevel = 4;//-0.5256311f;
 		}
 		
 		public static float SeaLevel {

@@ -9,20 +9,11 @@ namespace HappyPenguin.Entities
 {
 	public abstract class TargetableEntityBehaviour : EntityBehaviour
 	{
-		
-		protected TargetableEntityBehaviour()
-		{
-			NotCollectedEffects = new List<Effect> ();
-			CollectedEffects = new List<Effect> ();
-		}
-		
 		private GameObject billboardNode;
 		private TargetableSymbolProjector projector;
-
-		public Range SymbolRange { get; set; }
 		
-		public List<Effect> CollectedEffects { get; private set;}
-		public List<Effect> NotCollectedEffects { get; private set;}
+		public Range SymbolRange { get; set; }
+		public List<Effect> HitEffects { get; private set;}
 		
 		private string symbolChain;
 		public string SymbolChain
@@ -48,8 +39,9 @@ namespace HappyPenguin.Entities
 		protected override void AwakeOverride ()
 		{
 			base.AwakeOverride();
-			SymbolRange = new Range(1, 4);
+			HitEffects = new List<Effect> ();
 			projector = new TargetableSymbolProjector(this);
+			SymbolRange = new Range(1, 4);
 			FindBillboardNode();
 		}
 		

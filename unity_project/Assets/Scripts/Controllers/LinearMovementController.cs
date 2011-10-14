@@ -5,12 +5,14 @@ using HappyPenguin.Entities;
 
 namespace HappyPenguin.Controllers
 {
-	public class LinearMovementController : MovementController
+	public class LinearMovementController : Controller
 	{
 		private TimeSpan elapsedTime;
 		private readonly Vector3 targetPosition;
+		private bool lookAt;
 		
-		public LinearMovementController(Vector3 targetPosition) {
+		public LinearMovementController(Vector3 targetPosition, bool lookAt = true) {
+			this.lookAt = lookAt;
 		 	this.targetPosition = targetPosition;	
 		}
 	
@@ -36,9 +38,10 @@ namespace HappyPenguin.Controllers
 			var movementVector = normalizedDirection * offset;
 			
 			entity.transform.position = entity.transform.position + movementVector; 
+			if (lookAt) {
+				entity.gameObject.transform.LookAt(entity.transform.position + normalizedDirection);	
+			}
 		}
-		
-		
 	}
 }
 

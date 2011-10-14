@@ -8,15 +8,12 @@ using System.Collections.Generic;
 public sealed class PatrolBehaviour : EnvironmentEntityBehaviour
 {
 	private int currentTargetIndex;
-	
+
 	public Vector3[] PatrolPositions;
 	public bool IsActive;
 
-	// Use this for initialization
 	protected override void AwakeOverride() {
-		base.AwakeOverride();
-		
-		if (PatrolPositions.Length == 0) {
+		if (PatrolPositions.Length == 0 || !IsActive) {
 			return;
 		}
 		
@@ -28,10 +25,12 @@ public sealed class PatrolBehaviour : EnvironmentEntityBehaviour
 	protected override void UpdateOverride() {
 		base.UpdateOverride();
 		
+		Debug.Log("PatrolPoints:" + PatrolPositions.Length);
+		
 		if (PatrolPositions.Length == 0 || !IsActive) {
 			return;
 		}
-
+		
 		var targetPosition = PatrolPositions[currentTargetIndex];
 		if (!transform.position.IsCloseEnoughTo(targetPosition)) {
 			return;

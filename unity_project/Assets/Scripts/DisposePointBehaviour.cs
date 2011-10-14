@@ -5,8 +5,8 @@ using HappyPenguin.Entities;
 public sealed class DisposePointBehaviour : MonoBehaviour
 {
 	void OnTriggerEnter(Collider c){
-		var perk = c.GetComponent<TargetableEntityBehaviour>();
-		perk.Dispose();
+		var targetable = c.GetComponent<TargetableEntityBehaviour>();
+		targetable.Dispose();
 	}
 }
 

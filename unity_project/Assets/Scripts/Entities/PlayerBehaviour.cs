@@ -37,7 +37,6 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		
 	}
 	
-	
 	public bool IsDead {
 		get {return Life < 1;}
 	}

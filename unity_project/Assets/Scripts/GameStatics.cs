@@ -22,7 +22,4 @@ public static class GameStatics {
 		GameObject go = GameObject.Instantiate(resource) as GameObject;
 		return go;	
 	}
-	
-	
-	
 }

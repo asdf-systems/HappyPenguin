@@ -19,9 +19,6 @@ public class CreditsState : MonoBehaviour {
 		texts = new List<string>();
 		InitCredits();
 		flag = true;
-		
-		
-		
 	}
 	
 	void InitCredits(){

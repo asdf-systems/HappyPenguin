@@ -12,15 +12,20 @@ public sealed class CreatureBehaviour : TargetableEntityBehaviour
 	protected override void AwakeOverride ()
 	{
 		base.AwakeOverride ();
-		Init ();
+		AttackEffects = new List<Effect>();
+		
+		HitEffects.Add (new PointEffect (Points, this));
+		HitEffects.Add(new RetreatEffect(this));
+		
+		AttackEffects.Add (new LifeEffect (-Damage));
+		AttackEffects.Add(new AttackEffect(this));
+		AttackEffects.Add(new RetreatEffect(this));
 	}
-
-	private void Init ()
-	{
-		CollectedEffects.Add (new PointEffect (Points,this));
-		CollectedEffects.Add (new DeathEffect (this));
-		NotCollectedEffects.Add (new LifeEffect (-Damage));
-		NotCollectedEffects.Add (new AttackAnimationEffect(this));
-		NotCollectedEffects.Add (new DeathEffect(this));
+	
+	public List<Effect> AttackEffects { get; private set;}
+	
+	public bool IsRetreating {
+		get;
+		set;
 	}
 }

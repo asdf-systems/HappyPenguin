@@ -19,12 +19,11 @@ namespace HappyPenguin.Entities
 		public virtual new GameObject gameObject {
 			get { return base.gameObject; }
 		}
-		
-		public void Dispose()
-		{
+
+		public void Dispose() {
 			InvokeGrimReaperAppeared();
 		}
-		
+
 		public event EventHandler GrimReaperAppeared;
 		private void InvokeGrimReaperAppeared() {
 			var handler = GrimReaperAppeared;
@@ -33,23 +32,23 @@ namespace HappyPenguin.Entities
 			}
 			handler(this, EventArgs.Empty);
 		}
-		
-		public bool HasController(string name) {
-			return controlManager.ContainsController(name);
+
+		public bool IsControllerAttached(string name) {
+			return controlManager.IsControllerAttached(name);
 		}
 
 		public void ClearControllers() {
 			controlManager.ClearControllers();
 		}
 
-		public void AddController(string name, Controller controller) {
+		public void QueueController(string name, Controller controller) {
 			controlManager.QueueController(name, controller);
 		}
 
-		public void RemoveController(string name) {
-			controlManager.RemoveController(name);
+		public void DequeueController(string name) {
+			controlManager.DequeueController(name);
 		}
-		
+
 		public IEnumerable<Controller> Controllers {
 			get { return controlManager.Controllers; }
 		}
@@ -75,6 +74,5 @@ namespace HappyPenguin.Entities
 		public AudioClip AttackSound;
 		public AudioClip DeathSound;
 		public AudioClip OtherSound;
-		
 	}
 }

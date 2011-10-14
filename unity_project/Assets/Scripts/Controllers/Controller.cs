@@ -26,10 +26,11 @@ namespace HappyPenguin.Controllers
 				return;
 			}
 			
-			IsTriggered = Trigger();
 			if (IsTriggered) {
 				UpdateOverride(entity);
+				return;
 			}
+			IsTriggered = Trigger();
 		}
 		
 		protected abstract void UpdateOverride(EntityBehaviour entity);

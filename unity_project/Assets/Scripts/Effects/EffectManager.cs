@@ -9,16 +9,16 @@ namespace HappyPenguin.Effects
 	{
 		private readonly GameWorldBehaviour world;
 		private Dictionary<Effect, TimeSpan> effects;
-		
-		public EffectManager (GameWorldBehaviour world) {
+
+		public EffectManager(GameWorldBehaviour world) {
 			this.world = world;
 			effects = new Dictionary<Effect, TimeSpan>();
 		}
-		
-		public void Update(){
+
+		public void Update() {
 			var expiredEffects = new List<Effect>();
 			
-			foreach(var e in effects) {
+			foreach (var e in effects) {
 				var isExpired = e.Key.IsExpired(e.Value);
 				if (isExpired) {
 					expiredEffects.Add(e.Key);
@@ -31,19 +31,19 @@ namespace HappyPenguin.Effects
 			foreach (var e in expiredEffects) {
 				e.Stop(world);
 				effects.Remove(e);
-			}	
+			}
 		}
-		
-		public void RegisterEffect(Effect e){
+
+		public void RegisterEffect(Effect e) {
 			if (effects.ContainsKey(e)) {
 				return;
 			}
 			effects.Add(e, TimeSpan.FromSeconds(Time.timeSinceLevelLoad));
 			e.Start(world);
 		}
-		
+
 		public IEnumerable<Effect> Effects {
-			get{ return effects.Keys; }
+			get { return effects.Keys; }
 		}
 	}
 }

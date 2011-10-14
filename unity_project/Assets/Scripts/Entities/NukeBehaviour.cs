@@ -8,18 +8,9 @@ using HappyPenguin.Entities;
 
 public sealed class NukeBehaviour : PerkBehaviour
 {
-	
 	protected override void AwakeOverride ()
 	{
 		base.AwakeOverride ();
-		Init ();
-		
+		HitEffects.Add (new NukeEffect (this));
 	}
-
-	private void Init ()
-	{
-		CollectedEffects.Add (new NukeKillEffect (this));
-		NotCollectedEffects.Add (new PerkVanishEffect (this));
-	}
-	
 }

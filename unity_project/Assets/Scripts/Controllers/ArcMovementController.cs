@@ -5,7 +5,7 @@ using HappyPenguin.Entities;
 
 namespace HappyPenguin.Controllers
 {
-	public class ArcMovementController : MovementController
+	public class ArcMovementController : Controller
 	{
 		#region Fields and Properties
 		public Vector3 MovingStartPosition { get; set; }

@@ -13,13 +13,6 @@ public sealed class HealthBehaviour : PerkBehaviour
 	protected override void AwakeOverride ()
 	{
 		base.AwakeOverride ();
-		Init ();
+		HitEffects.Add (new LifeEffect(LifeGain));
 	}
-
-	private void Init ()
-	{
-		CollectedEffects.Add (new HealthKillEffect (this , LifeGain));
-		NotCollectedEffects.Add (new PerkVanishEffect (this));
-	}
-	
 }

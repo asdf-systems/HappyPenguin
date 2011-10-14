@@ -52,9 +52,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		HighlightSymbols(e.SymbolChain);
 	}
 	
-	private void OnSnowballHit(object sender, TargetableEntityEventArgs e)
+	private void OnSnowballHit(object sender, BehaviourEventArgs<TargetableEntityBehaviour> e)
 	{
-		var killEffects = e.Entity.CollectedEffects;
+		var killEffects = e.Behaviour.HitEffects;
 		foreach (var effect in killEffects) {
 			effectManager.RegisterEffect(effect);
 		}
@@ -63,6 +63,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public GameWorldBehaviour() {
 		entityManager = new EntityManager();
 		entityManager.SnowballHit += OnSnowballHit;
+		
 		effectManager = new EffectManager(this);
 		
 		creatureSpawner = new CreatureSpawner();
@@ -90,7 +91,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
 	var creature = e.Behaviour;
 		if (creature != null) {
-			var attackEffects = creature.NotCollectedEffects;
+			var attackEffects = creature.AttackEffects;
 			for (int i = 0; i < attackEffects.Count; i++) {
 				effectManager.RegisterEffect(attackEffects[i]);
 			}
