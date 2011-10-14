@@ -7,7 +7,6 @@ namespace HappyPenguin.Controllers
 {
 	public class ArcMovementController : MovementController
 	{
-
 		#region Fields and Properties
 		public Vector3 MovingStartPosition { get; set; }
 		public Vector3 MovingEndPosition { get; set; }
@@ -25,15 +24,16 @@ namespace HappyPenguin.Controllers
 		public TargetableEntityBehaviour entity;
 		#endregion
 
-		public ArcMovementController (TargetableEntityBehaviour start, GameObject target, float timeInSeconds, int flatness)
+		public ArcMovementController (EntityBehaviour start, GameObject target, int flatness)
 		{
 			TimeSinceStart = TimeSpan.Zero;
 			MovingStartPosition = start.transform.position;
 			MovingEndPosition = target.transform.position;
 			Flatness = flatness;
 			MovingCenterPosition = GetCenter ();
-			MovingTime = timeInSeconds;
 			Distance = (MovingStartPosition - MovingEndPosition).magnitude;
+			// v = s / t
+			MovingTime = Distance / start.Speed;
 			Target = target;
 			IsMoving = true;
 		}
@@ -73,7 +73,6 @@ namespace HappyPenguin.Controllers
 
 		private void Move ()
 		{
-			
 			Vector3 startRelCenter = MovingStartPosition - MovingCenterPosition;
 			Vector3 endRelCenter = MovingEndPosition - MovingCenterPosition;
 			var arc = Vector3.Slerp (startRelCenter, endRelCenter, (float)(TimeSinceStart.TotalSeconds / MovingTime));

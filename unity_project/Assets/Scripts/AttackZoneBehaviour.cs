@@ -1,33 +1,24 @@
 using UnityEngine;
 using System.Collections;
+using HappyPenguin;
 using HappyPenguin.Entities;
 using System;
 
-public class AttackZoneBehaviour : MonoBehaviour {
+public sealed class AttackZoneBehaviour : MonoBehaviour {
 
-	public event EventHandler<AttackZoneEventArgs> AttackZoneEntered;
-	
-	// Use this for initialization
-	void Awake () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	public event EventHandler<BehaviourEventArgs<CreatureBehaviour>> AttackZoneEntered;
 	
 	void OnTriggerEnter(Collider c){
-		TargetableEntityBehaviour creature = c.GetComponent<TargetableEntityBehaviour>();
+		var creature = c.GetComponent<CreatureBehaviour>();
 		InvokeAttackZoneEntered(creature);
 	}
 	
-	private void InvokeAttackZoneEntered(TargetableEntityBehaviour creature){
+	private void InvokeAttackZoneEntered(CreatureBehaviour creature){
 		var handler = AttackZoneEntered;
 		if (handler == null) {
 				return;
 		}
-		var e = new AttackZoneEventArgs(creature);
+		var e = new BehaviourEventArgs<CreatureBehaviour>(creature);
 		AttackZoneEntered(this, e);
 	}
 }

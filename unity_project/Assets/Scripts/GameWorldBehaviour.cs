@@ -9,13 +9,8 @@ using HappyPenguin;
 
 public sealed class GameWorldBehaviour : MonoBehaviour
 {
-	private Camera _playerCamera;
 	public GUIManager guiManager;
-	public GameObject RetreatPoint;
-	public GameObject PerkRetreatPoint;
-	public GameObject PerkSpawnTarget;
 	public GameObject Trebuchet;
-	public int CreatureCount;
 	public readonly EffectManager effectManager;
 
 	private readonly CreatureSpawner creatureSpawner;
@@ -62,11 +57,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		var killEffects = e.Entity.CollectedEffects;
 		foreach (var effect in killEffects) {
 			effectManager.RegisterEffect(effect);
-		}		
+		}
 	}
 
 	public GameWorldBehaviour() {
-
 		entityManager = new EntityManager();
 		entityManager.SnowballHit += OnSnowballHit;
 		effectManager = new EffectManager(this);
@@ -82,19 +76,19 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	void OnSwipeCommitted(object sender, SwipeEventArgs e) {
 		
 		entityManager.Player.PlayAnimation("throw");
-		guiManager.clearSymbols();
+		guiManager.ClearSymbols();
 		
 		var target = entityManager.FindFittingTargetable(e.symbolChain);
 		if (target == null) {
-			guiManager.alert(WrongSymbolChainText);
+			guiManager.Alert(WrongSymbolChainText);
 			Debug.Log("implement punish player");
 			return;
 		}		
 		entityManager.ThrowSnowball(target);
 	}
 
-	void OnAttackZoneEntered(object sender, AttackZoneEventArgs e) {
-		var creature = e.Creature.GetComponent<CreatureBehaviour>();
+	void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
+	var creature = e.Behaviour;
 		if (creature != null) {
 			var attackEffects = creature.NotCollectedEffects;
 			for (int i = 0; i < attackEffects.Count; i++) {
@@ -110,16 +104,20 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 		
 		attackZone.AttackZoneEntered += OnAttackZoneEntered;
-		
 	}
 
 	public void Awake() {
 		InitPlayer();
-		InitCreatureSpawningNode();
-		InitPerkNodes();
-		InitAttackZone();
+		InitGameObjects();
 		InitUI();
 		InitStatics();
+	}
+	
+	private void InitGameObjects()
+	{
+		InitCreatureNodes();
+		InitPerkNodes();
+		InitAttackZone();
 	}
 	
 	private void InitStatics(){
@@ -128,36 +126,32 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	
 	private void InitUI()
 	{
-		guiManager.changePoints(entityManager.Player.Points);
-		guiManager.changeLife(entityManager.Player.Life);
+		guiManager.DisplayPoints(entityManager.Player.Points);
+		guiManager.DisplayLife(entityManager.Player.Life);
 		guiManager.SwipeCommitted += OnSwipeCommitted;
 		guiManager.SymbolsChanged += OnSymbolChanged;
 	}
 	
 	private void InitPerkNodes()
 	{
-		var spawnPoint = gameObject.GetComponentsInChildren<SpawnPointBehaviour>().FirstOrDefault(x => x.Key == "perks");
-		var perkRetreatPoint = gameObject.GetComponentInChildren<PerkRetreatPointBehaviour>();
-		
-		if (spawnPoint == null) {
-			throw new ApplicationException("spawn point component not found");
+		var perkImpact = GameObject.FindWithTag("perk_impact"); 
+		if (perkImpact == null) {
+			throw new ApplicationException("perk spawn object not found");
 		}
+		GameObjectRegistry.RegisterObject("perk_impact", perkImpact);
 		
-		if(perkRetreatPoint == null){
-			Debug.LogError("No Perk retreatpoint found");
+		var perkSpawn = GameObject.FindWithTag("perk_spawn"); 
+		if (perkSpawn == null) {
+			throw new ApplicationException("perk spawn object not found");
 		}
+		GameObjectRegistry.RegisterObject("perk_spawn", perkSpawn);
 		
-		entityManager.SetPerkSpawnPoint(spawnPoint);
-		entityManager.SetPerkSpawnTarget(PerkSpawnTarget);
-		entityManager.PerkRetreatPoint = PerkRetreatPoint;
+		var perkRetreat = GameObject.FindWithTag("perk_retreat");
 		
-		perkRetreatPoint.PerkRetreatPointReached += OnPerkReatreatPointReached;
-	}
-	
-	private void OnPerkReatreatPointReached(object sender, AttackZoneEventArgs e){
-		foreach(Effect effect in e.Creature.NotCollectedEffects){
-			effectManager.RegisterEffect(effect);	
+		if (perkRetreat == null) {
+			throw new ApplicationException("perk retreat object not found");
 		}
+		GameObjectRegistry.RegisterObject("perk_retreat", perkRetreat);
 	}
 
 	private void InitPlayer() {
@@ -168,25 +162,27 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		player.StartLife = 5;
 		player.StartPoints = 0;
-		var state =  new EntityState("player_idle");
-		state.AnimationNames.Add("idle");
-		player.CurrentState = state;
+		player.PlayAnimation("idle");
 		entityManager.Player = player;
-		guiManager.changeLife(entityManager.Player.Life);
+		guiManager.DisplayLife(entityManager.Player.Life);
 	}
 
-	private void InitCreatureSpawningNode() {
-		var spawnPoint = gameObject.GetComponentsInChildren<SpawnPointBehaviour>().FirstOrDefault(x => x.Key == "creatures");
-		if (spawnPoint == null) {
-			throw new ApplicationException("spawn point component not found");
+	private void InitCreatureNodes() {
+		var creatureSpawn = GameObject.FindWithTag("creature_spawn");
+		if (creatureSpawn == null) {
+			throw new ApplicationException("creature spawn object not found");
 		}
+		GameObjectRegistry.RegisterObject("creature_spawn", creatureSpawn);
 		
-		entityManager.SetCreatureSpawnPoint(spawnPoint);
+		var creatureRetreat = GameObject.FindWithTag("creature_retreat");
+		if (creatureRetreat == null) {
+			throw new ApplicationException("creature spawn object not found");
+		}
+		GameObjectRegistry.RegisterObject("creature_retreat", creatureRetreat);
 	}
 
 	private void OnCreatureGenerated(object sender, EntityGeneratedEventArgs<CreatureTypes> e) {
 		entityManager.SpawnCreature(e.EntityType);
-		CreatureCount++;
 	}
 
 	private void OnPerkGenerated(object sender, EntityGeneratedEventArgs<PerkTypes> e) {
@@ -199,22 +195,22 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		if (lifeChange > 0) {
 			if (entityManager.Player.Life + lifeChange <= 5) {
 				entityManager.Player.Life += lifeChange;
-				guiManager.changeLife(entityManager.Player.Life);
-				guiManager.alert("++ Health");
+				guiManager.DisplayLife(entityManager.Player.Life);
+				guiManager.Alert("++ Health");
 			}
 			else if (entityManager.Player.Life == 5) {
-				guiManager.alert("Already at full Health");
+				guiManager.Alert("Already at full Health");
 			}
 			else {
 				entityManager.Player.Life = 5;
-				guiManager.changeLife(entityManager.Player.Life);
-				guiManager.alert("++ Health");
+				guiManager.DisplayLife(entityManager.Player.Life);
+				guiManager.Alert("++ Health");
 			}
 		}
 		else {
 			entityManager.Player.Life += lifeChange;
-			guiManager.changeLife(entityManager.Player.Life);
-			guiManager.alert("-- Health");
+			guiManager.DisplayLife(entityManager.Player.Life);
+			guiManager.Alert("-- Health");
 		}
 				
 		CheckForDeadsies();
@@ -224,19 +220,19 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private void CheckForDeadsies()
 	{
 		if (entityManager.Player.IsDead) {
-			guiManager.alert(LooseText);
+			guiManager.Alert(LooseText);
 			Application.LoadLevel(2);
 		}
 	}
 	
 	public void OnCreatureCountNeeded(object sender, CreatureCountNeededEventArgs e){
-		e.CreatureCount = CreatureCount;
+		e.CreatureCount = entityManager.FindCreatures().Count();
 	}
 
 	public void ChangePlayerPoints(float pointsChange) {
-		guiManager.alert("+ " + pointsChange + " Points");
+		guiManager.Alert("+ " + pointsChange + " Points");
 		entityManager.Player.Points += pointsChange;
-		guiManager.changePoints(entityManager.Player.Points);
+		guiManager.DisplayPoints(entityManager.Player.Points);
 		GameStaticsBehaviour.Points = entityManager.Player.Points;
 	}
 

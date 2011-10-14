@@ -20,7 +20,7 @@ public class PointsAndLifeDisplay: UIElementBehaviour<GUIManager>{
 	}
 	
 	protected override void hit(){
-		guiStatics.buttonCHit();
+		guiStatics.NotifyButtonCHit();
 		
 
 	}

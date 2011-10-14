@@ -9,7 +9,7 @@ public class CornerButtonBehaviourQ: UIElementBehaviour<GUIManager>{
 	}
 	
 	protected override void hit(){
-		guiStatics.buttonQHit();
+		guiStatics.NotifyButtonQHit();
 		
 
 	}

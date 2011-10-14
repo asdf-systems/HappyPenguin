@@ -6,15 +6,12 @@ using HappyPenguin;
 
 public sealed class CreatureBehaviour : TargetableEntityBehaviour
 {
-
 	public float Points;
 	public float Damage;
 
 	protected override void AwakeOverride ()
 	{
 		base.AwakeOverride ();
-		NotCollectedEffects = new List<Effect> ();
-		CollectedEffects = new List<Effect> ();
 		Init ();
 	}
 

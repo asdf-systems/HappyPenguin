@@ -8,6 +8,6 @@ public sealed class CornerButtonBehaviourY: UIElementBehaviour<GUIManager> {
 	}
 	
 	protected override void hit(){
-		guiStatics.buttonYHit();
+		guiStatics.NotifyButtonYHit();
 	}
 }

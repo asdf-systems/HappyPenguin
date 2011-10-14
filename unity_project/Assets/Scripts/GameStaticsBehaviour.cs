@@ -7,13 +7,13 @@ public class GameStaticsBehaviour : MonoBehaviour {
 		get; 
 		set;
 	}
+	
 	void Awake(){
 		 DontDestroyOnLoad(transform.gameObject);
 	}
+	
 	// Use this for initialization
 	void Start () {
 		//points = 0 ;
 	}
-	
-	
 }
