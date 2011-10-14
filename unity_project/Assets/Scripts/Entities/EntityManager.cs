@@ -21,8 +21,10 @@ namespace HappyPenguin.Entities
 		{
 			var snowball = Resources.Load("Environment/Snowball");
 			var instance = GameObject.Instantiate(snowball, Vector3.zero, Quaternion.identity) as GameObject;
-			instance.transform.parent = Player.headPoint.transform;
+
+			instance.transform.parent = Player.rightHandPoint.transform;
 			instance.transform.localPosition = Vector3.zero;
+
 			
 			var component = instance.GetComponentInChildren<SnowballBehaviour>();
 			if (component == null) {
