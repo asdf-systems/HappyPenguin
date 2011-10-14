@@ -28,14 +28,13 @@ public class GUIManager : GUIStatics {
 	private List<Vector2> positions;
 	
 	public event EventHandler<SymbolEventArgs> SymbolsChanged;
-	public event EventHandler<SymbolEventArgs> SymbolsCommited;
 	public event EventHandler<SwipeEventArgs> SwipeCommitted;
 	
 	// Use this for initialization
 	void Start () {
-		init();
-		loadButtons();
-		reset();
+		Init();
+		LoadButtons();
+		Reset();
 	}
 	
 	// Update is called once per frame
@@ -43,12 +42,13 @@ public class GUIManager : GUIStatics {
 	
 	}
 	
-	private void init(){
+	private void Init(){
 		positions = new List<Vector2>();
 		TextEntity = gameObject.GetComponentInChildren<AlertTextBehaviour>();
 		pointsAndLifeDisplay = gameObject.GetComponentInChildren<PointsAndLifeDisplay>();
 	}
-	private void reset(){
+	
+	private void Reset(){
 		buttonC.positionX = (int)buttonCpos.x;
 		buttonC.positionY = (int)buttonCpos.y;
 		
@@ -62,7 +62,7 @@ public class GUIManager : GUIStatics {
 		buttonY.positionY = (int)buttonYpos.y;
 		
 	}
-	private void loadButtons(){
+	private void LoadButtons(){
 		
 		buttonC = gameObject.GetComponentInChildren<CornerButtonBehaviourC>();
 		buttonY = gameObject.GetComponentInChildren<CornerButtonBehaviourY>();
@@ -78,11 +78,9 @@ public class GUIManager : GUIStatics {
 		positions.Add(buttonEpos);
 		positions.Add(buttonQpos);
 		positions.Add(buttonYpos);
-		
-		
 	}
 	
-	private void updatePositions(){
+	private void UpdatePositions(){
 		
 		buttonC.positionX = (int)positions[0].x;
 		buttonC.positionY = (int)positions[0].y;
@@ -97,66 +95,58 @@ public class GUIManager : GUIStatics {
 		buttonY.positionY = (int)positions[3].y;
 	}
 	
-	public void rotateLeft(){
+	public void RotateLeft(){
 		Vector2 tmp = positions[positions.Count-1];
 		positions.Insert(0,tmp);
 		positions.RemoveAt(positions.Count-1);
-		updatePositions();
+		UpdatePositions();
 	}
 	
-	public void rotateRight(){
+	public void RotateRight(){
 		positions.Add(positions[0]);
 		positions.RemoveAt(0);
-		updatePositions();
+		UpdatePositions();
 	}
 	
-	public void clearSymbols(){
+	public void ClearSymbols(){
 		symbolChain = string.Empty;
-		symbolsChanged();
+		InvokeSymbolsChanged();
 	}
 	
-	public void alert(string value){
+	public void Alert(string value){
 		TextEntity.ShowText(value);
 	}
 	
-	
-	public void buttonQHit(){
+	public void NotifyButtonQHit(){
 		symbolChain += "Q";
-		symbolsChanged();
+		InvokeSymbolsChanged();
 	}
 	
-	public void buttonEHit(){
+	public void NotifyButtonEHit(){
 		symbolChain += "E";
-		symbolsChanged();
+		InvokeSymbolsChanged();
 	}
 	
-	public void buttonYHit(){
+	public void NotifyButtonYHit(){
 		symbolChain += "Y";
-		symbolsChanged();
+		InvokeSymbolsChanged();
 	}
 	
-	public void buttonCHit(){
+	public void NotifyButtonCHit(){
 		symbolChain += "C";
-		symbolsChanged();
+		InvokeSymbolsChanged();
 	}
 	
-	public void changePoints(float points){
+	public void DisplayPoints(float points){
 		if(pointsAndLifeDisplay == null)
 			pointsAndLifeDisplay = gameObject.GetComponentInChildren<PointsAndLifeDisplay>();
 		pointsAndLifeDisplay.Points = points;
 	}
 	
-	public void changeLife(float life){
+	public void DisplayLife(float life){
 		if(pointsAndLifeDisplay == null)
 			pointsAndLifeDisplay = gameObject.GetComponentInChildren<PointsAndLifeDisplay>();
 		pointsAndLifeDisplay.Life = life;
-	}
-	
-	private void symbolsChanged(){
-		InvokeSymbolsChanged();
-	}
-	private void symbolsCommited(){
-		InvokeSymbolsCommited();
 	}
 	
 	public void PreSwipeCommitted(Directions direction){
@@ -171,16 +161,6 @@ public class GUIManager : GUIStatics {
 			
 		var e = new SymbolEventArgs(symbolChain);
 		SymbolsChanged(this, e);
-	}
-	
-	private void InvokeSymbolsCommited(){
-		var handler = SymbolsCommited;
-		if (handler == null) {
-				return;
-		}
-			
-		var e = new SymbolEventArgs(symbolChain);
-		SymbolsCommited(this, e);
 	}
 	
 	private void InvokeSwipeCommitted(Directions direction){

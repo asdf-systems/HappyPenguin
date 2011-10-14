@@ -7,38 +7,41 @@ using System.Collections.Generic;
 
 public sealed class PatrolBehaviour : EnvironmentEntityBehaviour
 {
-	public IList<Vector3> PatrolPositions;
 	private int currentTargetIndex;
+	
+	public Vector3[] PatrolPositions;
 	public bool IsActive;
 
 	// Use this for initialization
 	protected override void AwakeOverride() {
 		base.AwakeOverride();
-		IsActive = true;
-		PatrolPositions = new List<Vector3>();
+		
+		if (PatrolPositions.Length == 0) {
+			return;
+		}
+		
+		var targetPosition = PatrolPositions[currentTargetIndex];
+		this.MoveTo(targetPosition);
 	}
 
 	// Update is called once per frame
 	protected override void UpdateOverride() {
 		base.UpdateOverride();
 		
-		if (PatrolPositions.Count == 0) {
+		if (PatrolPositions.Length == 0 || !IsActive) {
 			return;
 		}
-		
+
 		var targetPosition = PatrolPositions[currentTargetIndex];
-		if (Position.IsCloseEnoughTo(targetPosition)) {
-			CurrentState = null;
-			currentTargetIndex++;
-			if (currentTargetIndex == PatrolPositions.Count) {
-				// start from beginning
-				currentTargetIndex = 0;
-			}
+		if (!transform.position.IsCloseEnoughTo(targetPosition)) {
 			return;
 		}
 		
-		if (CurrentState == null) {
-			CurrentState = EntityStateGenerator.CreatePatrolState(targetPosition);
+		currentTargetIndex++;
+		if (currentTargetIndex == PatrolPositions.Length) {
+			// start from beginning
+			currentTargetIndex = 0;
 		}
+		this.MoveTo(targetPosition);
 	}
 }

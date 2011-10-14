@@ -3,7 +3,7 @@ using HappyPenguin.Entities;
 
 namespace HappyPenguin.Controllers
 {
-	public abstract class MovementController : Controller<EntityBehaviour>
+	public abstract class MovementController : Controller
 	{
 		protected MovementController() {
 			

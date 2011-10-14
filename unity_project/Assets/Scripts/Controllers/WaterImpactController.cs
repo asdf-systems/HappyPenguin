@@ -5,7 +5,7 @@ using HappyPenguin.Controllers;
 
 namespace HappyPenguin.Controllers
 {
-	public sealed class WaterImpactController : Controller<EntityBehaviour>
+	public sealed class WaterImpactController : Controller
 	{
 		private TimeSpan elapsedTime;
 		
@@ -43,7 +43,7 @@ namespace HappyPenguin.Controllers
 			var reverse = 1 - percent;
 			
 			var amplitute = Strength > 0 ? Strength : Strength / 5;
-			var offset = (float) - (amplitute * reverse * Math.Cos(reverse * Duration.TotalSeconds * Math.PI));
+			var offset = (float) - (amplitute * reverse * (-Math.Sin(reverse * Duration.TotalSeconds * Math.PI)));
 			Debug.Log("Offset: " + offset);
 			
 			var p = entity.transform.position;

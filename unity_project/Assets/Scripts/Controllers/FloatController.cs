@@ -4,7 +4,7 @@ using HappyPenguin.Entities;
 
 namespace HappyPenguin.Controllers
 {
-	public sealed class FloatController : Controller<EntityBehaviour>
+	public sealed class FloatController : Controller
 	{
 		public FloatController(float baseline) {
 			Baseline = baseline;

@@ -10,7 +10,7 @@ using System;
 		
 		protected override void swipe(GUIManager.Directions direction){
 			if (direction == GUIManager.Directions.Left) {
-				guiStatics.clearSymbols();
+				guiStatics.ClearSymbols();
 			}
 			else {
 				guiStatics.PreSwipeCommitted(direction);

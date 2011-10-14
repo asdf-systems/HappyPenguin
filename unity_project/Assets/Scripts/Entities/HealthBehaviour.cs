@@ -13,8 +13,6 @@ public sealed class HealthBehaviour : PerkBehaviour
 	protected override void AwakeOverride ()
 	{
 		base.AwakeOverride ();
-		CollectedEffects = new List<Effect> ();
-		NotCollectedEffects = new List<Effect> ();
 		Init ();
 	}
 

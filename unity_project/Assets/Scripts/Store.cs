@@ -9,6 +9,7 @@ using System;
  */
 public class Store : MonoBehaviour{
 	
+
 	public PlayerBehaviour player;
 	
 	void Start(){
@@ -17,6 +18,7 @@ public class Store : MonoBehaviour{
 			Debug.Log("Found Object " + box.name);
 			box.PlayerClothChanged += OnClothChanged;
 		}
+
 	}
 	
 	private void OnClothChanged(object sender, EventArgs e){

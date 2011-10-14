@@ -1,8 +1,9 @@
 using System;
+using HappyPenguin.Entities;
 
 namespace HappyPenguin.Controllers
 {
-	public abstract class Controller<T>
+	public abstract class Controller
 	{
 		protected Controller () {
 			// imediately active
@@ -19,7 +20,7 @@ namespace HappyPenguin.Controllers
 			set;
 		}
 		
-		public virtual void Update(T entity)
+		public virtual void Update(EntityBehaviour entity)
 		{
 			if (Trigger == null) {
 				return;
@@ -31,16 +32,16 @@ namespace HappyPenguin.Controllers
 			}
 		}
 		
-		protected abstract void UpdateOverride(T entity);
+		protected abstract void UpdateOverride(EntityBehaviour entity);
 		
-		public event EventHandler<ControllerFinishedEventArgs<T>> ControllerFinished;
-		protected void InvokeControllerFinished (T entity) {
+		public event EventHandler<BehaviourEventArgs<EntityBehaviour>> ControllerFinished;
+		protected void InvokeControllerFinished (EntityBehaviour entity) {
 			var handler = ControllerFinished;
 			if (handler == null) {
 				return;
 			}
 			
-			var e = new ControllerFinishedEventArgs<T> (entity);
+			var e = new BehaviourEventArgs<EntityBehaviour> (entity);
 			ControllerFinished (this, e);
 		}
 	}

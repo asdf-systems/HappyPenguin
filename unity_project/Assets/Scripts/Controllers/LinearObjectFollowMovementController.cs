@@ -35,7 +35,7 @@ namespace HappyPenguin.Controllers
 		
 		protected override void UpdateOverride(EntityBehaviour entity)
 		{
-			var isCloseEnough = entity.Position.IsCloseEnoughTo(target.transform.position, IsYAxisIgnored);
+			var isCloseEnough = entity.transform.position.IsCloseEnoughTo(target.transform.position, IsYAxisIgnored);
 			if (isCloseEnough) {
 				return;
 			}

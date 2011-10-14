@@ -1,88 +1,80 @@
 using UnityEngine;
+using HappyPenguin.Controllers;
 using System.Collections.Generic;
 using System;
 using HappyPenguin;
+using HappyPenguin.Collections;
 
 namespace HappyPenguin.Entities
 {
 	public abstract class EntityBehaviour : MonoBehaviour
 	{
+		private readonly EntityControlManager controlManager;
+
 		public EntityBehaviour() {
-			Speed = 10.0f;	
+			Speed = 10.0f;
+			controlManager = new EntityControlManager();
+		}
+
+		public virtual new GameObject gameObject {
+			get { return base.gameObject; }
 		}
 		
-		public new virtual GameObject gameObject{
-			get{
-				return base.gameObject;
+		public void Dispose()
+		{
+			InvokeGrimReaperAppeared();
+		}
+		
+		public event EventHandler GrimReaperAppeared;
+		private void InvokeGrimReaperAppeared() {
+			var handler = GrimReaperAppeared;
+			if (handler == null) {
+				return;
 			}
-		}
-
-		public Vector3 Position {
-			get { return gameObject.transform.position; }
-		}
-
-		public Quaternion Orientation {
-			get { return gameObject.transform.rotation; }
+			handler(this, EventArgs.Empty);
 		}
 		
-		public void FadeAnimation(string name, int fadeDurationInMilliseconds)
-		{
-			var current = animation[name];
-			current.wrapMode = WrapMode.Loop;
-			current.layer = 0;
-			var seconds = (float) TimeSpan.FromMilliseconds(fadeDurationInMilliseconds).TotalSeconds;
-			animation.CrossFade(name, seconds, PlayMode.StopSameLayer);
+		public bool HasController(string name) {
+			return controlManager.ContainsController(name);
+		}
+
+		public void ClearControllers() {
+			controlManager.ClearControllers();
+		}
+
+		public void AddController(string name, Controller controller) {
+			controlManager.QueueController(name, controller);
+		}
+
+		public void RemoveController(string name) {
+			controlManager.RemoveController(name);
 		}
 		
-		public void PlayAnimation(string name)
-		{
-			var current = gameObject.animation[name];
-			current.wrapMode = WrapMode.Once;
-			current.layer = 1;
-			gameObject.animation.CrossFade(name, 0.0f, PlayMode.StopSameLayer);
+		public IEnumerable<Controller> Controllers {
+			get { return controlManager.Controllers; }
 		}
 
 		public void Awake() {
 			AwakeOverride();
 		}
-		
+
 		public void Update() {
 			UpdateOverride();
 		}
 
 		protected virtual void UpdateOverride() {
-			if (CurrentState == null) {
-				return;
-			}
-			CurrentState.Update(this);
+			controlManager.Update(this);
 		}
-
 
 		protected virtual void AwakeOverride() {
 			// nothing here
 		}
-		
-		private EntityState currentState;
-		public EntityState CurrentState {
-			get{ return currentState;} 
-			set{
-				if (currentState != null) {
-					currentState.Stop(this);
-				}
-				currentState = value;
-				if (value == null) {
-					return;
-				}
-				currentState.Start(this);
-			} 
-		}
 
 		public float Speed;
-		public int RotateYCorrection;
-		
+
 		public AudioClip AttackSound;
 		public AudioClip DeathSound;
 		public AudioClip OtherSound;
-
+		
 	}
 }
