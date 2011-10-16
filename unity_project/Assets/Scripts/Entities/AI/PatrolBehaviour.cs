@@ -5,7 +5,7 @@ using HappyPenguin.Entities;
 using System.Collections;
 using System.Collections.Generic;
 
-public sealed class PatrolBehaviour : EnvironmentEntityBehaviour
+public sealed class PatrolBehaviour : EntityBehaviour
 {
 	private int currentTargetIndex;
 
@@ -22,9 +22,7 @@ public sealed class PatrolBehaviour : EnvironmentEntityBehaviour
 	}
 
 	// Update is called once per frame
-	protected override void UpdateOverride() {
-		base.UpdateOverride();
-		
+	protected override void StartOverride() {
 		Debug.Log("PatrolPoints:" + PatrolPositions.Length);
 		
 		if (PatrolPositions.Length == 0 || !IsActive) {
@@ -42,5 +40,7 @@ public sealed class PatrolBehaviour : EnvironmentEntityBehaviour
 			currentTargetIndex = 0;
 		}
 		this.MoveTo(targetPosition);
+		
+		base.StartOverride();
 	}
 }

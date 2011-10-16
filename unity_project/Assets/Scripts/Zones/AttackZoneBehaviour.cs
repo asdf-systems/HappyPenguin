@@ -10,6 +10,9 @@ public sealed class AttackZoneBehaviour : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider c){
 		var creature = c.GetComponent<CreatureBehaviour>();
+		if (creature == null) {
+			return;
+		}
 		if (creature.IsRetreating) {
 			return;
 		}

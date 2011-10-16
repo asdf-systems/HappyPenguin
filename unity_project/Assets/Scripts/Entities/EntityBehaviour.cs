@@ -56,9 +56,17 @@ namespace HappyPenguin.Entities
 		public void Awake() {
 			AwakeOverride();
 		}
+		
+		public void Start() {
+			StartOverride();
+		}
 
 		public void Update() {
 			UpdateOverride();
+		}
+		
+		protected virtual void StartOverride(){
+			// nada	
 		}
 
 		protected virtual void UpdateOverride() {
@@ -67,6 +75,14 @@ namespace HappyPenguin.Entities
 
 		protected virtual void AwakeOverride() {
 			// nothing here
+		}
+		
+		public void Hide() {
+			gameObject.active = false;
+		}
+	
+		public void Show() {
+			gameObject.active = true;
 		}
 
 		public float Speed;

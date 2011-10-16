@@ -30,13 +30,21 @@ namespace HappyPenguin.Controllers
 			}
 			
 			var percent = elapsedTime.TotalMilliseconds / Duration.TotalMilliseconds;
-			// 0.0f - 1.0f
 			var reverse = 1 - percent;
 			
-			var offset = (float)-(reverse * (-Math.Sin(reverse * Duration.TotalSeconds * Math.PI)));
-			offset = offset < 0 ? offset * Strength : offset * Strength / 2f;
-			//Debug.Log("Offset: " + offset);
+			// create impact wave form, with slight depth offset, since we wont start at 0.
+			var sin = -Math.Sin(percent * Math.PI * 16 * reverse + Math.PI / 6);
 			
+			// reduce amplitude above the sea level, we can't fly
+			var strength = sin < 0 ? Strength : Strength / 1.5;
+			
+			// reduce amplitude exponentially
+			strength *= (float) reverse * (float) reverse;
+			
+			// add amplitude modulation to wave
+			var offset = (float) (strength * sin);
+			
+			// apply offset to sealevel depth
 			var p = entity.transform.position;
 			entity.transform.position = new Vector3(p.x, SeaLevel + offset, p.z);
 			elapsedTime += TimeSpan.FromSeconds(Time.deltaTime);

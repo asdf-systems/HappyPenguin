@@ -3,9 +3,9 @@ using System;
 using System.Collections;
 using HappyPenguin;
 
-public class SnowballDropZoneBehaviour : MonoBehaviour {	
+public sealed class SnowballDetachZoneBehaviour : MonoBehaviour {	
 	void OnTriggerEnter(Collider c) {
-		var ball = c.GetComponent<SnowballBehaviour>();
+		var ball = c.GetComponentInChildren<SnowballBehaviour>();
 		ball.InvokeDetachZoneReached();
 	}
 }

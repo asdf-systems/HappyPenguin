@@ -75,7 +75,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	void OnSwipeCommitted(object sender, SwipeEventArgs e) {
-		
 		entityManager.Player.PlayAnimation("throw");
 		guiManager.ClearSymbols();
 		
@@ -84,7 +83,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			guiManager.Alert(WrongSymbolChainText);
 			Debug.Log("implement punish player");
 			return;
-		}		
+		}
+		
 		entityManager.ThrowSnowball(target);
 	}
 
@@ -109,16 +109,21 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	public void Awake() {
 		InitPlayer();
-		InitGameObjects();
+		InitEntityRoot();
+		InitCreatureNodes();
+		InitPerkNodes();
+		InitAttackZone();
 		InitUI();
 		InitStatics();
 	}
 	
-	private void InitGameObjects()
+	private void InitEntityRoot()
 	{
-		InitCreatureNodes();
-		InitPerkNodes();
-		InitAttackZone();
+		var root = GameObject.FindWithTag("entity_root");
+		if (root == null) {
+			throw new ApplicationException("entity root object not found");
+		}
+		GameObjectRegistry.RegisterObject("entity_root", root);
 	}
 	
 	private void InitStatics(){
@@ -235,7 +240,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		entityManager.Player.Points += pointsChange;
 		guiManager.DisplayPoints(entityManager.Player.Points);
 		GameStatics.Points = entityManager.Player.Points;
-
 	}
 
 	public void Update() {

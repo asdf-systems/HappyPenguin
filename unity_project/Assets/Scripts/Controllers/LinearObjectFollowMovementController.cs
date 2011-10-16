@@ -15,6 +15,11 @@ namespace HappyPenguin.Controllers
 			set;
 		} 
 		
+		public bool IsFinishedOnCatchup {
+			get;
+			set;
+		}
+		
 		public LinearObjectFollowMovementController(GameObject target) {
 			this.target = target;
 			IsYAxisIgnored = true;
@@ -37,6 +42,9 @@ namespace HappyPenguin.Controllers
 		{
 			var isCloseEnough = entity.transform.position.IsCloseEnoughTo(target.transform.position, IsYAxisIgnored);
 			if (isCloseEnough) {
+				if (IsFinishedOnCatchup) {
+					InvokeControllerFinished(entity);	
+				}
 				return;
 			}
 			

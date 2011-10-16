@@ -74,15 +74,32 @@ namespace HappyPenguin.Entities
 			entity.QueueController("float", new FloatController(Environment.SeaLevel));
 			return entity;
 		}
-
-		public static EntityBehaviour Follow(this EntityBehaviour entity, GameObject target) {
+		
+		public static EntityBehaviour Follow(this EntityBehaviour entity, GameObject target, Action action) {
 			entity.DequeueController("move");
-			entity.QueueController("move", new LinearObjectFollowMovementController(target));
+			var c = new LinearObjectFollowMovementController(target);
+			if (action != null) {
+				c.ControllerFinished += (sender, e) => action();
+			}
+			entity.QueueController("move", c);
 			return entity;
 		}
-
-		public static EntityBehaviour Throw(this EntityBehaviour entity, GameObject target) {
-			return entity.Follow(target);
+		
+		public static EntityBehaviour Throw(this EntityBehaviour entity, GameObject target, Action action) {
+			entity.DequeueController("move");
+			var c = new LinearObjectFollowMovementController(target){
+				IsYAxisIgnored = false,
+				IsFinishedOnCatchup = true
+			};
+			if (action != null) {
+				c.ControllerFinished += (sender, e) => action();
+			}
+			entity.QueueController("move", c);
+			return entity;
+		}
+		
+		public static EntityBehaviour Follow(this EntityBehaviour entity, GameObject target) {
+			return entity.Follow(target, null);
 		}
 
 		public static EntityBehaviour Dive(this EntityBehaviour entity, GameObject vanishingPoint, int flatness) {
