@@ -1,12 +1,12 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class PostOnFB : UIElementBehaviour<GUIStatics> {
 	private const string MESSAGE = "I dressed up my Pux!";
 
 	protected override void showElements(){
 		GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,128,128), "Post on Facebook", currentStyle);
-
 	}
 
 	protected override void hit(){
@@ -27,7 +27,7 @@ public class PostOnFB : UIElementBehaviour<GUIStatics> {
 				"Get the game for iPhone and iPad on the AppStore.", // Description
 				(success2, data) => {
 					if(success2 == Facebook.REQUEST_FAIL) {
-						Debug.Log("Post failed");
+						Debug.Log("Post failed: "+data);
 						return;
 					}
 			});
