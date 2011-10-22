@@ -63,6 +63,8 @@ namespace HappyPenguin.Entities
 		
 		public static EntityBehaviour MoveTo(this EntityBehaviour entity, Vector3 target, bool lookAt) {
 			entity.DequeueController("move");
+			entity.DequeueController("float");
+			
 			entity.QueueController("move", new LinearMovementController(target, lookAt));
 			return entity;
 		}
@@ -83,6 +85,10 @@ namespace HappyPenguin.Entities
 			}
 			entity.QueueController("move", c);
 			return entity;
+		}
+		
+		public static EntityBehaviour Throw(this EntityBehaviour entity, GameObject target) {
+			return entity.Throw(target, null);
 		}
 		
 		public static EntityBehaviour Throw(this EntityBehaviour entity, GameObject target, Action action) {

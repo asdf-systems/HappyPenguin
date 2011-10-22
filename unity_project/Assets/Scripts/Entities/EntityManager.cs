@@ -6,6 +6,7 @@ using HappyPenguin.Entities;
 using HappyPenguin.Spawning;
 using HappyPenguin.Unity;
 using HappyPenguin.Controllers;
+using HappyPenguin.Effects;
 
 namespace HappyPenguin.Entities
 {
@@ -13,30 +14,66 @@ namespace HappyPenguin.Entities
 	{
 		private readonly TargetableSymbolManager symbolManager;
 		private readonly List<EntityBehaviour> entities;
+		
+		public event EventHandler<EffectEventArgs> EffectsReleased;
+		private void InvokeEffectsReleased(IEnumerable<Effect> effects)
+		{
+			var handler = EffectsReleased;
+			if (handler == null) {
+				return;
+			}
+			var e = new EffectEventArgs(effects);
+			handler(this, e);
+		}
 
 		public void ThrowSnowball(TargetableEntityBehaviour target) {
 			var snowball = DisplaySnowball();
-			snowball.DetachZoneReached += (sender, e) => LaunchSnowball(sender as SnowballBehaviour, target);
+			target.TargetHit += OnTargetHit;
+			snowball.DedicatedTarget = target;
+			snowball.DetachZoneReached += 
+				(sender, e) => LaunchSnowball(sender as SnowballBehaviour, target);
+		}
+
+		private void OnTargetHit(object sender, BehaviourEventArgs<SnowballBehaviour> e) {
+			var target = sender as TargetableEntityBehaviour;
+			target.TargetHit -= OnTargetHit;
+			target.HideSymbols();
+			
+			// die, snowball, die
+			e.Behaviour.Dispose();
+			
+			if (target is CreatureBehaviour) {
+				ProcessCreatureHit(target as CreatureBehaviour);
+			} else {
+				ProcessPerkHit(target as PerkBehaviour);
+			}
+		}
+
+		private void ProcessCreatureHit(CreatureBehaviour creature) {
+			var creatureRetreat = GameObjectRegistry.GetObject("creature_retreat");
+			creature.IsRetreating = true;
+			creature.Dive(creatureRetreat, 2000);
+		}
+
+		private void ProcessPerkHit(PerkBehaviour perk) {
+			InvokeEffectsReleased(perk.HitEffects);
+			var ground = perk.transform.position + new Vector3(0, -100, 0);
+			perk.Speed = 10;
+			perk.MoveTo(ground, false);
 		}
 
 		private void LaunchSnowball(SnowballBehaviour snowball, TargetableEntityBehaviour target) {
+			//creature got disposed while throwing
+			if (target == null) {
+				snowball.Dispose();
+				return;
+			}
+			
 			var root = GameObjectRegistry.GetObject("entity_root");
 			snowball.transform.parent = root.transform;
-			snowball.Speed = 1000;
-			snowball.Throw(target.gameObject, () => {
-				target.HideSymbols();
-				if (target is CreatureBehaviour) {
-					var creature = target as CreatureBehaviour;
-					var creatureRetreat = GameObjectRegistry.GetObject("creature_retreat");
-					creature.IsRetreating = true;
-					creature.Dive(creatureRetreat, 2000);
-				} else {
-					var perk = target as PerkBehaviour;
-					var ground = perk.transform.position + new Vector3(0, -50, 0);
-					perk.Speed = 10;
-					perk.MoveTo(ground, false);
-				}
-			});
+			snowball.Speed = 700;
+			snowball.Throw(target.gameObject);
+			snowball.IsReleased = true;
 		}
 
 		private SnowballBehaviour DisplaySnowball() {
@@ -51,19 +88,9 @@ namespace HappyPenguin.Entities
 				throw new ApplicationException("SnowballBehaviour not found.");
 			}
 			
+			AddEnvironmentalEntity(component);
 			return component;
 		}
-
-		public event EventHandler<BehaviourEventArgs<TargetableEntityBehaviour>> SnowballHit;
-		private void InvokeSnowballHit(TargetableEntityBehaviour entity) {
-			var handler = SnowballHit;
-			if (handler == null) {
-				return;
-			}
-			var e = new BehaviourEventArgs<TargetableEntityBehaviour>(entity);
-			handler(this, e);
-		}
-
 
 		public EntityManager() {
 			entities = new List<EntityBehaviour>();
@@ -92,9 +119,25 @@ namespace HappyPenguin.Entities
 			var targets = FindTargetables();
 			return targets.FirstOrDefault(x => x.SymbolChain == symbolChain);
 		}
+		
+		public void AddEnvironmentalEntity(EnvironmentEntityBehaviour env)
+		{
+			env.GrimReaperAppeared += (sender, e) => VoidEnvironmental(env);
+			entities.Add(env);
+		}
+		
+		private void VoidEnvironmental(EnvironmentEntityBehaviour env)
+		{
+			if (env == null) {
+				return;
+			}
+			entities.Remove(env);
+			GameObject.Destroy(env.gameObject);
+		}
 
 		public void SpawnCreature(CreatureTypes type) {
 			var creatureSpawn = GameObjectRegistry.GetObject("creature_spawn");
+			
 			var creature = DisplayCreature(type, creatureSpawn.transform.position);
 			creature.GrimReaperAppeared += (sender, e) => VoidTargetable(creature);
 			creature.SwimTo(Player.gameObject.transform.position).Float();

@@ -22,6 +22,9 @@ namespace HappyPenguin.Entities
 		}
 
 		public void QueueController(string name, Controller controller) {
+			if (queuedControllers.ContainsKey(name)) {
+				queuedControllers.Remove(name);
+			}
 			queuedControllers.Add(name, controller);
 		}
 

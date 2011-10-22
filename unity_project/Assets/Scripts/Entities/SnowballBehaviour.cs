@@ -11,6 +11,26 @@ public sealed class SnowballBehaviour : EnvironmentEntityBehaviour
 		}
 		handler(this, EventArgs.Empty);
 	}
+	
+	public TargetableEntityBehaviour DedicatedTarget {
+		get;
+		set;
+	}
+	
+	public bool IsReleased {
+		get;
+		set;
+	}
+	
+	protected override void UpdateOverride () {
+		// creature got disposed while throwing a snowball 
+		if (IsReleased && DedicatedTarget == null) {
+			this.Dispose();
+			return;
+		}
+		
+		base.UpdateOverride ();
+	}
 }
 
 

@@ -52,17 +52,16 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		HighlightSymbols(e.SymbolChain);
 	}
 	
-	private void OnSnowballHit(object sender, BehaviourEventArgs<TargetableEntityBehaviour> e)
+	private void OnEffectsReleased(object sender, EffectEventArgs e)
 	{
-		var killEffects = e.Behaviour.HitEffects;
-		foreach (var effect in killEffects) {
+		foreach (var effect in e.Effects) {
 			effectManager.RegisterEffect(effect);
 		}
 	}
-
+	
 	public GameWorldBehaviour() {
 		entityManager = new EntityManager();
-		entityManager.SnowballHit += OnSnowballHit;
+		entityManager.EffectsReleased += OnEffectsReleased;
 		
 		effectManager = new EffectManager(this);
 		
@@ -75,17 +74,30 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	void OnSwipeCommitted(object sender, SwipeEventArgs e) {
-		entityManager.Player.PlayAnimation("throw");
+		
 		guiManager.ClearSymbols();
 		
 		var target = entityManager.FindFittingTargetable(e.symbolChain);
 		if (target == null) {
-			guiManager.Alert(WrongSymbolChainText);
-			Debug.Log("implement punish player");
+			InvokePlayerMiss();
 			return;
 		}
-		
+		InvokePlayerHit(target);
+	}
+	
+	private void InvokePlayerHit(TargetableEntityBehaviour target)
+	{
+		var player = entityManager.Player;
+		if (player.gameObject.animation.IsPlaying("throw")) {
+			player.gameObject.animation.Stop();
+		}
+		entityManager.Player.PlayAnimation("throw");
 		entityManager.ThrowSnowball(target);
+	}
+	
+	private void InvokePlayerMiss()
+	{
+		Debug.Log("implement trip animation or camera quake ...");
 	}
 
 	void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
@@ -175,6 +187,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private void InitCreatureNodes() {
 		var creatureSpawn = GameObject.FindWithTag("creature_spawn");
+		
+		var patrol = creatureSpawn.GetComponent<PatrolBehaviour>();
+		patrol.PatrolPositions.Add(new Vector3(-200, -0.9f, 200));
+		patrol.PatrolPositions.Add(new Vector3(-200, -0.9f, -140));
+		patrol.IsActive = true;
+		
 		if (creatureSpawn == null) {
 			throw new ApplicationException("creature spawn object not found");
 		}

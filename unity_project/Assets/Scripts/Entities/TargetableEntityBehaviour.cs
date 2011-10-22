@@ -18,7 +18,7 @@ namespace HappyPenguin.Entities
 		private string symbolChain;
 		public string SymbolChain
 		{ 
-			get{return symbolChain;} 
+			get{ return symbolChain; } 
 			set{
 				if (symbolChain == value) {
 					return;
@@ -34,6 +34,37 @@ namespace HappyPenguin.Entities
 		
 		public void DarkenSymbols() {
 			projector.DarkenSymbols();
+		}
+		
+		private void OnTriggerEnter(Collider c){
+			TryProcessSnowballHit(c);
+		}
+		
+		private bool TryProcessSnowballHit(Collider c)
+		{
+			var behaviour = c.GetComponent<SnowballBehaviour>();
+			if (behaviour == null) {
+				return false;
+			}
+			
+			// check whether we actually hit the right target
+			if (behaviour.DedicatedTarget != this) {
+				return false;
+			}
+			
+			InvokeTargetHit(behaviour);
+			return true;
+		}
+		
+		public event EventHandler<BehaviourEventArgs<SnowballBehaviour>> TargetHit;
+		internal void InvokeTargetHit(SnowballBehaviour snowball)
+		{
+			var handler = TargetHit;
+			if (handler == null) {
+				return;
+			}
+			var e = new BehaviourEventArgs<SnowballBehaviour>(snowball);
+			handler(this, e);
 		}
 		
 		protected override void AwakeOverride ()

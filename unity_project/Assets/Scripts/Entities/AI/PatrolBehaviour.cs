@@ -8,12 +8,34 @@ using System.Collections.Generic;
 public sealed class PatrolBehaviour : EntityBehaviour
 {
 	private int currentTargetIndex;
+	private bool isActive;
+	
+	public List<Vector3> PatrolPositions;
+	
+	public bool IsActive {
+		get{ return isActive; }
+		set{
+			if (isActive == value) {
+				return;
+			}
+			isActive = value;
+			if (isActive) {
+				StartOverride();
+			}
+		}
+	}
+	
+	protected override void AwakeOverride ()
+	{
+		base.AwakeOverride ();
+		currentTargetIndex = 0;
+		isActive = false;
+		PatrolPositions = new List<Vector3>();
+	} 
 
-	public Vector3[] PatrolPositions;
-	public bool IsActive;
-
-	protected override void AwakeOverride() {
-		if (PatrolPositions.Length == 0 || !IsActive) {
+	protected override void StartOverride() {
+		base.StartOverride();
+		if (PatrolPositions.Count == 0 || !IsActive) {
 			return;
 		}
 		
@@ -22,10 +44,9 @@ public sealed class PatrolBehaviour : EntityBehaviour
 	}
 
 	// Update is called once per frame
-	protected override void StartOverride() {
-		Debug.Log("PatrolPoints:" + PatrolPositions.Length);
-		
-		if (PatrolPositions.Length == 0 || !IsActive) {
+	protected override void UpdateOverride() {
+		base.UpdateOverride();
+		if (PatrolPositions.Count == 0 || !IsActive) {
 			return;
 		}
 		
@@ -35,12 +56,12 @@ public sealed class PatrolBehaviour : EntityBehaviour
 		}
 		
 		currentTargetIndex++;
-		if (currentTargetIndex == PatrolPositions.Length) {
+		if (currentTargetIndex == PatrolPositions.Count) {
 			// start from beginning
 			currentTargetIndex = 0;
 		}
-		this.MoveTo(targetPosition);
 		
-		base.StartOverride();
+		targetPosition = PatrolPositions[currentTargetIndex];
+		this.MoveTo(targetPosition);
 	}
 }
