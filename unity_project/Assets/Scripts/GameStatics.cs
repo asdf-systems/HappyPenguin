@@ -35,7 +35,9 @@ public static class GameStatics {
 	}
 
 	public static GameObject loadPlayerHat(){
+		Debug.Log("PenguinHat" + penguinHat);
 		UnityEngine.Object resource = Resources.Load("Pux_Cloth/" + penguinHat);
+		
 		GameObject go = GameObject.Instantiate(resource) as GameObject;
 		return go;
 	}
