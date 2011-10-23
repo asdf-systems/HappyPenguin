@@ -1,9 +1,9 @@
 using System;
-using HappyPenguin.Entities;
+using UnityEngine;
 
 namespace HappyPenguin.Controllers
 {
-	public abstract class Controller
+	public abstract class Controller<T> where T : MonoBehaviour
 	{
 		protected Controller () {
 			// imediately active
@@ -20,7 +20,12 @@ namespace HappyPenguin.Controllers
 			set;
 		}
 		
-		public virtual void Update(EntityBehaviour entity)
+		public bool IsFinished {
+			get;
+			private set;
+		}
+		
+		public virtual void Update(T entity)
 		{
 			if (Trigger == null) {
 				return;
@@ -30,20 +35,22 @@ namespace HappyPenguin.Controllers
 				UpdateOverride(entity);
 				return;
 			}
+			
 			IsTriggered = Trigger();
 		}
 		
-		protected abstract void UpdateOverride(EntityBehaviour entity);
+		protected abstract void UpdateOverride(T entity);
 		
-		public event EventHandler<BehaviourEventArgs<EntityBehaviour>> ControllerFinished;
-		protected void InvokeControllerFinished (EntityBehaviour entity) {
+		public event EventHandler<BehaviourEventArgs<T>> ControllerFinished;
+		protected void InvokeControllerFinished (T entity) {
 			var handler = ControllerFinished;
 			if (handler == null) {
 				return;
 			}
 			
-			var e = new BehaviourEventArgs<EntityBehaviour> (entity);
+			var e = new BehaviourEventArgs<T> (entity);
 			ControllerFinished (this, e);
+			IsFinished = true;
 		}
 	}
 }

@@ -8,12 +8,12 @@ namespace HappyPenguin.Entities
 	public sealed class EntityControlManager
 	{
 		private readonly List<string> keysToBeRemoved;
-		private readonly Dictionary<string, Controller> controllers;
-		private readonly Dictionary<string, Controller> queuedControllers;
+		private readonly Dictionary<string, EntityController> controllers;
+		private readonly Dictionary<string, EntityController> queuedControllers;
 
 		public EntityControlManager() {
-			queuedControllers = new Dictionary<string, Controller>();
-			controllers = new Dictionary<string, Controller>();
+			queuedControllers = new Dictionary<string, EntityController>();
+			controllers = new Dictionary<string, EntityController>();
 			keysToBeRemoved = new List<string>();
 		}
 
@@ -21,14 +21,14 @@ namespace HappyPenguin.Entities
 			controllers.Clear();
 		}
 
-		public void QueueController(string name, Controller controller) {
+		public void QueueController(string name, EntityController controller) {
 			if (queuedControllers.ContainsKey(name)) {
 				queuedControllers.Remove(name);
 			}
 			queuedControllers.Add(name, controller);
 		}
 
-		private void AddController(string name, Controller controller) {
+		private void AddController(string name, EntityController controller) {
 			if (controllers.ContainsKey(name)) {
 				var message = string.Format("must remove controller with name {0}, before attaching a second with the same name.");
 				throw new ApplicationException(message);
@@ -62,7 +62,7 @@ namespace HappyPenguin.Entities
 			queuedControllers.Clear();
 		}
 
-		public IEnumerable<Controller> Controllers {
+		public IEnumerable<EntityController> Controllers {
 			get { return controllers.Values; }
 		}
 	}

@@ -5,7 +5,7 @@ using HappyPenguin.Controllers;
 
 namespace HappyPenguin.Controllers
 {
-	public sealed class WaterImpactController : Controller
+	public sealed class WaterImpactController : EntityController
 	{
 		private TimeSpan elapsedTime;
 

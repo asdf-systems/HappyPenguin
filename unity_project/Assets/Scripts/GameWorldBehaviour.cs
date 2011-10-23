@@ -79,6 +79,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		var target = entityManager.FindFittingTargetable(e.symbolChain);
 		if (target == null) {
+			InvokeUIRotation(ClockRotations.Clockwise);
 			InvokePlayerMiss();
 			return;
 		}
@@ -101,7 +102,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
-	var creature = e.Behaviour;
+		var creature = e.Behaviour;
 		if (creature != null) {
 			var attackEffects = creature.AttackEffects;
 			for (int i = 0; i < attackEffects.Count; i++) {
@@ -117,6 +118,11 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 		
 		attackZone.AttackZoneEntered += OnAttackZoneEntered;
+	}
+	
+	public void InvokeUIRotation(ClockRotations clockRotation)
+	{
+		guiManager.PerformUIRotation(clockRotation);
 	}
 
 	public void Awake() {

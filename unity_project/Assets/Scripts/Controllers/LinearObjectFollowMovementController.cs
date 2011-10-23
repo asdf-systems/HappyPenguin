@@ -5,7 +5,7 @@ using HappyPenguin.Entities;
 
 namespace HappyPenguin.Controllers
 {
-	public sealed class LinearObjectFollowMovementController : Controller
+	public sealed class LinearObjectFollowMovementController : EntityController
 	{
 		private TimeSpan elapsedTime;
 		private GameObject target;

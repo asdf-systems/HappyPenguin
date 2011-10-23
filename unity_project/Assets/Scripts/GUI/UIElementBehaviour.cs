@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
+using HappyPenguin.UI;
 
 public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 {
-
 	public int guiDepth;
 	public T guiStatics;
 
@@ -12,6 +13,8 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 	public int textWidth;
 	public int positionX;
 	public int positionY;
+	
+	public float Speed;
 
 	public GUIStyle inactiveStyle;
 	public GUIStyle activeStyle;
@@ -25,17 +28,47 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 
 	private Vector2 startingPosition;
 	private Vector2 endingPosition;
-
+	
+	public IList<UIElementController<T>> Controllers {
+		get;
+		private set;
+	}
 
 	void Start() {
 		resetElement();
 		resetButtons("all");
-		
 	}
 
 	protected virtual void Update() {
 		checkForSwipes();
 		hitTest();
+		UpdateControllers();
+	}
+	
+	private void UpdateControllers()
+	{
+		if (Controllers == null) {
+			// no clue why this happens
+			return;
+		}
+		
+		var obs = new List<UIElementController<T>>();
+		foreach (var c in Controllers) {
+			if (c.IsFinished) {
+				obs.Add(c);
+				continue;
+			}
+			c.Update(this);
+		}
+		
+		foreach (var o in obs) {
+			Controllers.Remove(o);
+		}
+	}
+	
+	private void Awake() {
+		Controllers = new List<UIElementController<T>>();
+		Speed = 10;
 	}
 
 	void OnGUI() {
@@ -69,21 +102,22 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 			}
 		}
 	}
-
-
-
 	
 	void hitTest() {
-		
 		checkMouse();
 		// check iPhone Tap against size
 		checkiPhoneTap();
 		// check Android Tap against size
 		checkAndroidTap();
 		// check Mouse Position against size
-		
+	}
 	
-		
+	public Vector2 Position {
+		get { return new Vector2(positionX, positionY); }
+		set {
+			positionX = (int) value.x;
+			positionY = (int) value.y;
+		}
 	}
 
 	private void checkMouse() {
@@ -132,7 +166,6 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 	}
 
 	private void resetButtons(string state) {
-		
 		if (state == "mouse" || state == "all") {
 			Debug.Log("Reset Buttons");
 			buttonDown = false;

@@ -5,13 +5,16 @@ using HappyPenguin.Entities;
 
 namespace HappyPenguin.Controllers
 {
-	public class LinearMovementController : Controller
+	public class LinearMovementController : EntityController
 	{
 		private TimeSpan elapsedTime;
 		private readonly Vector3 targetPosition;
 		private bool lookAt;
 		
-		public LinearMovementController(Vector3 targetPosition, bool lookAt = true) {
+		public LinearMovementController(Vector3 targetPosition)
+			: this(targetPosition, true) { }
+		
+		public LinearMovementController(Vector3 targetPosition, bool lookAt) {
 			this.lookAt = lookAt;
 		 	this.targetPosition = targetPosition;	
 		}

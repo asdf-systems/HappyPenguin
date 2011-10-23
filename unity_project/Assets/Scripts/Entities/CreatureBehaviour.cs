@@ -6,6 +6,7 @@ using HappyPenguin;
 
 public sealed class CreatureBehaviour : TargetableEntityBehaviour
 {
+	private Random random;
 	public float Points;
 	public float Damage;
 
@@ -20,6 +21,8 @@ public sealed class CreatureBehaviour : TargetableEntityBehaviour
 		AttackEffects.Add (new LifeEffect (-Damage));
 		AttackEffects.Add(new AttackEffect(this));
 		AttackEffects.Add(new RetreatEffect(this));
+		
+		random = new Random();
 	}
 	
 	public List<Effect> AttackEffects { get; private set;}
@@ -27,5 +30,13 @@ public sealed class CreatureBehaviour : TargetableEntityBehaviour
 	public bool IsRetreating {
 		get;
 		set;
+	}
+	
+	public void EquipWithRandomBaddy()
+	{
+		var value = random.Next(0, 100);
+		if (value < 100) {
+			AttackEffects.Add(new UIRotationEffect());
+		}
 	}
 }

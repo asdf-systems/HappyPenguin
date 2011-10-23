@@ -4,7 +4,7 @@ using HappyPenguin.Entities;
 
 namespace HappyPenguin.Controllers
 {
-	public sealed class FloatController : Controller
+	public sealed class FloatController : EntityController
 	{
 		public FloatController(float seaLevel) {
 			SeaLevel = seaLevel;

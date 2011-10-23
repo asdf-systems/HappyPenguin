@@ -142,6 +142,10 @@ namespace HappyPenguin.Entities
 			creature.GrimReaperAppeared += (sender, e) => VoidTargetable(creature);
 			creature.SwimTo(Player.gameObject.transform.position).Float();
 			
+			if (type == CreatureTypes.Whale) {
+				creature.EquipWithRandomBaddy();
+			}
+			
 			symbolManager.RegisterTargetable(creature);
 			entities.Add(creature);
 		}

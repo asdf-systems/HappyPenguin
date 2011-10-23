@@ -41,7 +41,7 @@ namespace HappyPenguin.Entities
 			controlManager.ClearControllers();
 		}
 
-		public void QueueController(string name, Controller controller) {
+		public void QueueController(string name, EntityController controller) {
 			controlManager.QueueController(name, controller);
 		}
 
@@ -49,7 +49,7 @@ namespace HappyPenguin.Entities
 			controlManager.DequeueController(name);
 		}
 
-		public IEnumerable<Controller> Controllers {
+		public IEnumerable<EntityController> Controllers {
 			get { return controlManager.Controllers; }
 		}
 
@@ -74,7 +74,7 @@ namespace HappyPenguin.Entities
 		}
 
 		protected virtual void AwakeOverride() {
-			// nothing here
+			// nada
 		}
 		
 		public void Hide() {

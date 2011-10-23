@@ -10,7 +10,7 @@ namespace HappyPenguin.Unity
 			if (isYIgnored) {
 				return (new Vector2(first.x, first.z) - new Vector2(second.x, second.z)).sqrMagnitude < 0.1f;
 			}
-			return (first - second).sqrMagnitude < 0.5;
+			return (first - second).sqrMagnitude < 0.2;
 		}
 	}
 }
