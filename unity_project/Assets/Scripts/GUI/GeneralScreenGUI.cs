@@ -12,7 +12,6 @@ public class GeneralScreenGUI : GUI
 	
 	public static void Box(GUIStatics gui, Rect rect, string text){
 		UnityEngine.GUI.Box (GetRelativePosition(gui,rect), text);
-		
 	}
 	
 	public static void Box(GUIStatics gui, Rect rect, string text, GUIStyle style){
