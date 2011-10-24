@@ -16,7 +16,7 @@ namespace HappyPenguin.Effects
 		public override void Start(GameWorldBehaviour w) {
 			entity.HideSymbols();
 			entity.animation.Play("explode");
-			var creatures = w.entityManager.FindTargetables();
+			var creatures = w.entityManager.FindCreatures();
 			foreach (var creature in creatures) {
 				var killEffects = creature.HitEffects;
 				foreach (var effect in killEffects) {

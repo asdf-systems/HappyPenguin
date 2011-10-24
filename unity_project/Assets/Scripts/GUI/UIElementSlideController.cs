@@ -19,12 +19,16 @@ namespace HappyPenguin.UI
 		
 		protected override void UpdateOverride (UIElementBehaviour<GUIManager> entity)
 		{	
+			if (IsFinished) {
+				return;
+			}
+			
 			// v = s / t
 			// s = v * t
 			var currentPosition = entity.Position;
 			
 			var direction = targetPosition - currentPosition;
-			if (direction.sqrMagnitude < 1) {
+			if (direction.sqrMagnitude <= 2) {
 				InvokeControllerFinished(entity);
 				return;
 			}

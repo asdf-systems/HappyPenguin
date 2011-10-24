@@ -73,11 +73,11 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		perkSpawner.EntitySpawned += OnPerkGenerated;
 	}
 
-	void OnSwipeCommitted(object sender, SwipeEventArgs e) {
+	private void OnSwipeCommitted(object sender, SwipeEventArgs e) {
 		
 		guiManager.ClearSymbols();
 		
-		var target = entityManager.FindFittingTargetable(e.symbolChain);
+		var target = entityManager.FindTargetable(e.symbolChain);
 		if (target == null) {
 			InvokeUIRotation(ClockRotations.Clockwise);
 			InvokePlayerMiss();
@@ -101,7 +101,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		Debug.Log("implement trip animation or camera quake ...");
 	}
 
-	void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
+	private void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
 		var creature = e.Behaviour;
 		if (creature != null) {
 			var attackEffects = creature.AttackEffects;

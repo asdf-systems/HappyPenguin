@@ -66,10 +66,11 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		foreach (var o in obs) {
 			Controllers.Remove(o);
 		}
-		
+	
 		foreach (var c in queuedControllers) {
 			Controllers.Add(c);
 		}
+		queuedControllers.Clear();
 	}
 	
 	private void Awake() {
@@ -201,6 +202,11 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		currentStyle = activeStyle;
 		buttonDown = true;
 		hit();
+	}
+	
+	public Vector2 StartPosition {
+		get;
+		set;
 	}
 	
 	public int Width {

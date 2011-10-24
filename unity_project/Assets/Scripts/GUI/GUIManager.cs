@@ -54,33 +54,32 @@ public class GUIManager : GUIStatics
 		pointsAndLifeDisplay = gameObject.GetComponentInChildren<PointsAndLifeDisplay>();
 	}
 
-	private void Reset() {
-		buttonC.positionX = (int)buttonCpos.x;
-		buttonC.positionY = (int)buttonCpos.y;
-		
-		buttonE.positionX = (int)buttonEpos.x;
-		buttonE.positionY = (int)buttonEpos.y;
-		
-		buttonQ.positionX = (int)buttonQpos.x;
-		buttonQ.positionY = (int)buttonQpos.y;
-		
-		buttonY.positionX = (int)buttonYpos.x;
-		buttonY.positionY = (int)buttonYpos.y;
-		
-	}
+//	private void Reset() {
+//		buttonC.positionX = (int)buttonCpos.x;
+//		buttonC.positionY = (int)buttonCpos.y;
+//		
+//		buttonE.positionX = (int)buttonEpos.x;
+//		buttonE.positionY = (int)buttonEpos.y;
+//		
+//		buttonQ.positionX = (int)buttonQpos.x;
+//		buttonQ.positionY = (int)buttonQpos.y;
+//		
+//		buttonY.positionX = (int)buttonYpos.x;
+//		buttonY.positionY = (int)buttonYpos.y;
+//		
+//	}
 	private void InitButtons() {
 		buttonC = gameObject.GetComponentInChildren<CornerButtonBehaviourC>();
 		buttonY = gameObject.GetComponentInChildren<CornerButtonBehaviourY>();
 		buttonQ = gameObject.GetComponentInChildren<CornerButtonBehaviourQ>();
 		buttonE = gameObject.GetComponentInChildren<CornerButtonBehaviourE>();
 		
-		buttonCpos = new Vector2(buttonC.positionX, buttonC.positionY);
-		buttonEpos = new Vector2(buttonE.positionX, buttonE.positionY);
-		buttonQpos = new Vector2(buttonQ.positionX, buttonQ.positionY);
-		buttonYpos = new Vector2(buttonY.positionX, buttonY.positionY);
+//		buttonCpos = new Vector2(buttonC.positionX, buttonC.positionY);
+//		buttonEpos = new Vector2(buttonE.positionX, buttonE.positionY);
+//		buttonQpos = new Vector2(buttonQ.positionX, buttonQ.positionY);
+//		buttonYpos = new Vector2(buttonY.positionX, buttonY.positionY);
 		
 		StorePositions();
-		Reset();
 	}
 	
 	private void StorePositions()
@@ -88,7 +87,7 @@ public class GUIManager : GUIStatics
 		positions.Clear();
 		positions.Add(buttonC.Position);
 		positions.Add(buttonE.Position);
-		positions.Add(buttonC.Position);
+		positions.Add(buttonQ.Position);
 		positions.Add(buttonY.Position);
 	}
 	
@@ -120,11 +119,6 @@ public class GUIManager : GUIStatics
 	{
 		SlideButtonsIn();
 	}
-	
-	private void RotateTextures()
-	{
-		
-	}
 
 	private void RotateLeft() {
 		Vector2 tmp = positions[positions.Count - 1];
@@ -139,6 +133,15 @@ public class GUIManager : GUIStatics
 		positions.RemoveAt(0);
 		UpdatePositions();
 		OnButtonsRotated();
+	}
+	
+	/// <summary>
+	/// Rounding errors may have left some buttons drift off by a few pixels,
+	/// to remove them, we need to set the position back to the absolute corner coordinates.
+	/// </summary>
+	private void SnapButtonsToCorners()
+	{
+		// todo 
 	}
 	
 	private void UpdatePositions() {
@@ -169,20 +172,25 @@ public class GUIManager : GUIStatics
 		PerformButtonSlide(buttonC, SlideDirections.In, null);
 		PerformButtonSlide(buttonE, SlideDirections.In, null);
 		PerformButtonSlide(buttonQ, SlideDirections.In, null);
-		PerformButtonSlide(buttonY, SlideDirections.In, null);
+		PerformButtonSlide(buttonY, SlideDirections.In, () => OnDone());
+	}
+	
+	private void OnDone()
+	{
+		
 	}
 	
 	private void PerformButtonSlide(UIElementBehaviour<GUIManager> button, SlideDirections direction, Action postAction)
 	{
 		var retinaCenter = new Vector2(480, 320);
-		var buttonCenter = new Vector2(button.Position.x + button.Width / 2, button.Position.y + button.Height / 2 );
+		var buttonCenter = new Vector2(button.Position.x + (float) Math.Ceiling( button.Width / 2.0f), button.Position.y + (float) Math.Ceiling(button.Height / 2.0f) );
 
 		var directingVector = buttonCenter - retinaCenter;
 		directingVector.Normalize();
 		
 		var sign = direction == SlideDirections.Out ? 1 : -1;
 		var targetPosition =  buttonCenter + sign * directingVector * ButtonSlideDistance;
-		targetPosition -= new Vector2(button.Width / 2, button.Height /2 );
+		targetPosition -= new Vector2((float)Math.Ceiling(button.Width / 2.0f), (float)Math.Ceiling(button.Height / 2.0f));
 		
 		var controller = new UIElementSlideController(targetPosition);
 		if (postAction != null) {

@@ -115,7 +115,7 @@ namespace HappyPenguin.Entities
 			return Entities.Where(x => x is TargetableEntityBehaviour).Select(x => x as TargetableEntityBehaviour).ToList();
 		}
 
-		public TargetableEntityBehaviour FindFittingTargetable(string symbolChain) {
+		public TargetableEntityBehaviour FindTargetable(string symbolChain) {
 			var targets = FindTargetables();
 			return targets.FirstOrDefault(x => x.SymbolChain == symbolChain);
 		}
