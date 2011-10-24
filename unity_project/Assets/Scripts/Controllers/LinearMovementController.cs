@@ -7,7 +7,6 @@ namespace HappyPenguin.Controllers
 {
 	public class LinearMovementController : EntityController
 	{
-		private TimeSpan elapsedTime;
 		private readonly Vector3 targetPosition;
 		private bool lookAt;
 		
@@ -25,8 +24,6 @@ namespace HappyPenguin.Controllers
 			if (isCloseEnough) {
 				return;
 			}
-			
-			elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
 			
 			// v = s / t
 			// s = v * t

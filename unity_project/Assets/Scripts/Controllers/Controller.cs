@@ -17,7 +17,7 @@ namespace HappyPenguin.Controllers
 		
 		public bool IsTriggered {
 			get;
-			set;
+			private set;
 		}
 		
 		public bool IsFinished {

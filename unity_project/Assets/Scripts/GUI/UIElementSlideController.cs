@@ -8,8 +8,6 @@ namespace HappyPenguin.UI
 	{
 		private readonly Vector2 targetPosition;
 		private Func<float, float> function;
-	
-		private TimeSpan elapsedTime;
 
 		public UIElementSlideController(Vector2 targetPosition)
 			: this(targetPosition, (x) => x) { }
@@ -20,25 +18,22 @@ namespace HappyPenguin.UI
 		}
 		
 		protected override void UpdateOverride (UIElementBehaviour<GUIManager> entity)
-		{
-			var isCloseEnough = entity.Position.IsCloseEnoughTo(targetPosition);
-			if (isCloseEnough) {
-				InvokeControllerFinished(entity);
-				return;
-			}
-			
-			elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
-			
+		{	
 			// v = s / t
 			// s = v * t
 			var currentPosition = entity.Position;
 			
 			var direction = targetPosition - currentPosition;
+			if (direction.sqrMagnitude < 1) {
+				InvokeControllerFinished(entity);
+				return;
+			}
 			
 			var normalizedDirection = direction;
 			normalizedDirection.Normalize();
 			
-			var offset = entity.Speed * Time.deltaTime;
+			// need more speed for we do operate on a larger scale than in game 
+			var offset = entity.Speed * Time.deltaTime * 10;
 			var movementVector = normalizedDirection * offset;
 			
 			entity.Position = entity.Position + movementVector; 

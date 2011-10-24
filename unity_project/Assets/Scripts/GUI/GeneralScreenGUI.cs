@@ -70,6 +70,10 @@ public class GeneralScreenGUI : GUI
 		
 	}
 	
+	public static Vector2 GetCenter()
+	{
+		return new Vector2(Screen.width / 2, Screen.height / 2);
+	}
 	
 	private static Rect GetRelativePosition(GUIStatics gui, Rect rect){
 		Camera cam = gui.PlayerCam;

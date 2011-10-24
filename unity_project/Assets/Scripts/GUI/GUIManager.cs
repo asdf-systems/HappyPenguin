@@ -45,6 +45,7 @@ public class GUIManager : GUIStatics
 	private void Awake() {
 		InitComponents();
 		InitButtons();
+		ButtonSlideDistance = 181;
 	}
 	
 	private void InitComponents() {
@@ -78,52 +79,66 @@ public class GUIManager : GUIStatics
 		buttonQpos = new Vector2(buttonQ.positionX, buttonQ.positionY);
 		buttonYpos = new Vector2(buttonY.positionX, buttonY.positionY);
 		
-		positions.Add(buttonCpos);
-		positions.Add(buttonEpos);
-		positions.Add(buttonQpos);
-		positions.Add(buttonYpos);
-		
+		StorePositions();
 		Reset();
+	}
+	
+	private void StorePositions()
+	{
+		positions.Clear();
+		positions.Add(buttonC.Position);
+		positions.Add(buttonE.Position);
+		positions.Add(buttonC.Position);
+		positions.Add(buttonY.Position);
+	}
+	
+	private int poorMansBarrier;
+	private void OnButtonsSlidOut(Action action)
+	{
+		poorMansBarrier ++;
+		if (poorMansBarrier<4) {
+			return;
+		}
+		
+		if (action != null) {
+			StorePositions();
+			action();
+		}
 	}
 
 	public void PerformUIRotation(ClockRotations clockRotation)
 	{
+		poorMansBarrier = 0;
 		if (clockRotation == ClockRotations.Clockwise) {
-			SlideButtonsOut(() => 
-			                RotateRight(() =>
-			                            SlideButtonsIn(null)
-			                ));
+			SlideButtonsOut(() => OnButtonsSlidOut(RotateRight));
 		} else{
-			SlideButtonsOut(() => 
-			                RotateLeft(() =>
-			                            SlideButtonsIn(null)
-			                ));
+			SlideButtonsOut(() => OnButtonsSlidOut(RotateLeft));
 		}
 	}
+	
+	private void OnButtonsRotated()
+	{
+		SlideButtonsIn();
+	}
+	
+	private void RotateTextures()
+	{
+		
+	}
 
-	private void RotateLeft(Action action) {
+	private void RotateLeft() {
 		Vector2 tmp = positions[positions.Count - 1];
 		positions.Insert(0, tmp);
 		positions.RemoveAt(positions.Count - 1);
 		UpdatePositions();
-		
-		if (action == null) {
-			return;
-		}
-		
-		action.Invoke();
+		OnButtonsRotated();
 	}
 	
-	private void RotateRight(Action action) {
+	private void RotateRight() {
 		positions.Add(positions[0]);
 		positions.RemoveAt(0);
 		UpdatePositions();
-		
-		if (action == null) {
-			return;
-		}
-		
-		action.Invoke();
+		OnButtonsRotated();
 	}
 	
 	private void UpdatePositions() {
@@ -143,34 +158,38 @@ public class GUIManager : GUIStatics
 	
 	private void SlideButtonsOut(Action postAction)
 	{
-		StartButtonSlide(buttonC, SlideDirections.Out, postAction);
-		StartButtonSlide(buttonE, SlideDirections.Out, postAction);
-		StartButtonSlide(buttonQ, SlideDirections.Out, postAction);
-		StartButtonSlide(buttonY, SlideDirections.Out, postAction);
+		PerformButtonSlide(buttonC, SlideDirections.Out, postAction);
+		PerformButtonSlide(buttonE, SlideDirections.Out, postAction);
+		PerformButtonSlide(buttonQ, SlideDirections.Out, postAction);
+		PerformButtonSlide(buttonY, SlideDirections.Out, postAction);
 	}
 	
-	private void SlideButtonsIn(Action postAction)
+	private void SlideButtonsIn()
 	{
-		StartButtonSlide(buttonC, SlideDirections.In, postAction);
-		StartButtonSlide(buttonE, SlideDirections.In, postAction);
-		StartButtonSlide(buttonQ, SlideDirections.In, postAction);
-		StartButtonSlide(buttonY, SlideDirections.In, postAction);
+		PerformButtonSlide(buttonC, SlideDirections.In, null);
+		PerformButtonSlide(buttonE, SlideDirections.In, null);
+		PerformButtonSlide(buttonQ, SlideDirections.In, null);
+		PerformButtonSlide(buttonY, SlideDirections.In, null);
 	}
 	
-	private void StartButtonSlide(UIElementBehaviour<GUIManager> button, SlideDirections direction, Action postAction)
+	private void PerformButtonSlide(UIElementBehaviour<GUIManager> button, SlideDirections direction, Action postAction)
 	{
-		var center = new Vector2(Screen.width / 2, Screen.height / 2);
+		var retinaCenter = new Vector2(480, 320);
+		var buttonCenter = new Vector2(button.Position.x + button.Width / 2, button.Position.y + button.Height / 2 );
+
+		var directingVector = buttonCenter - retinaCenter;
+		directingVector.Normalize();
 		
-		var cDir = button.Position - center;
-		cDir.Normalize();
-		var targetPosition = cDir * ButtonSlideDistance + button.Position;
+		var sign = direction == SlideDirections.Out ? 1 : -1;
+		var targetPosition =  buttonCenter + sign * directingVector * ButtonSlideDistance;
+		targetPosition -= new Vector2(button.Width / 2, button.Height /2 );
 		
-		var controller = new UIElementSlideController(direction == SlideDirections.Out ? targetPosition : -targetPosition);
+		var controller = new UIElementSlideController(targetPosition);
 		if (postAction != null) {
 			controller.ControllerFinished += (sender, e) => postAction.Invoke();
 		}
 		
-		button.Controllers.Add(controller);
+		button.QueueController(controller);
 	}
 
 	public void ClearSymbols() {

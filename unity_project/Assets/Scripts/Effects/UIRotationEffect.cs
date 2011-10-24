@@ -31,7 +31,7 @@ namespace HappyPenguin.Effects
 		
 		public override void Update (GameWorldBehaviour world)
 		{
-			throw new System.NotImplementedException();
+			
 		}
 		
 		

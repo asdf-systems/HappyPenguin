@@ -33,6 +33,8 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		get;
 		private set;
 	}
+	
+	private List<UIElementController<T>> queuedControllers;
 
 	void Start() {
 		resetElement();
@@ -64,14 +66,21 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		foreach (var o in obs) {
 			Controllers.Remove(o);
 		}
+		
+		foreach (var c in queuedControllers) {
+			Controllers.Add(c);
+		}
 	}
 	
 	private void Awake() {
+		queuedControllers = new List<UIElementController<T>>();
 		Controllers = new List<UIElementController<T>>();
-		Speed = 10;
+		Speed = 30;
+		Width = 128;
+		Height = 128;
 	}
 
-	void OnGUI() {
+	private void OnGUI() {
 		GUI.depth = guiDepth;
 		showElements();
 		//hitTest();
@@ -193,6 +202,21 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		buttonDown = true;
 		hit();
 	}
+	
+	public int Width {
+		get;
+		set;
+	}
+
+	public int Height {
+		get;
+		set;
+	}
+	
+	public void QueueController(UIElementController<T> controller)
+	{
+		queuedControllers.Add(controller);
+	}
 
 	protected virtual void swipe(GUIManager.Directions direction) {
 		// override in child classes
@@ -228,5 +252,4 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		
 		return (flagX && flagY && flagZ);
 	}
-	
 }
