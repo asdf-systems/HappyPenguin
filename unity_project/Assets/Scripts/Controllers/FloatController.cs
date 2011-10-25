@@ -1,8 +1,8 @@
 using System;
 using UnityEngine;
-using HappyPenguin.Entities;
+using Pux.Entities;
 
-namespace HappyPenguin.Controllers
+namespace Pux.Controllers
 {
 	public sealed class FloatController : EntityController
 	{

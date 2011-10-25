@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using HappyPenguin.Entities;
+using Pux.Entities;
 
-namespace HappyPenguin.Effects
+namespace Pux.Effects
 {
 	public sealed class NukeEffect : Effect
 	{

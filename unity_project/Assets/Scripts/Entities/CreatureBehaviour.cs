@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using HappyPenguin.Effects;
-using HappyPenguin.Entities;
-using HappyPenguin;
+using Pux.Effects;
+using Pux.Entities;
+using Pux;
 
 public sealed class CreatureBehaviour : TargetableEntityBehaviour
 {

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace HappyPenguin.Unity2
+namespace Pux.Unity2
 {
 	public static class Vector2Extensions
 	{

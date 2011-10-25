@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using HappyPenguin.Spawning;
-using HappyPenguin.Entities;
+using Pux.Spawning;
+using Pux.Entities;
 
 
 public sealed class CreatureSpawner : Spawner<CreatureTypes>

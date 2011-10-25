@@ -1,9 +1,9 @@
 using System;
-using HappyPenguin.Entities;
+using Pux.Entities;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HappyPenguin
+namespace Pux
 {
 	public sealed class TargetableSymbolManager
 	{

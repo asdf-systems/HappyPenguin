@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using HappyPenguin.Collections;
+using Pux.Collections;
 
-namespace HappyPenguin.Effects
+namespace Pux.Effects
 {
 	public sealed class EffectManager
 	{

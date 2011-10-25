@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace HappyPenguin
+namespace Pux
 {
 	public class BehaviourEventArgs<T> : EventArgs where T : MonoBehaviour
 	{

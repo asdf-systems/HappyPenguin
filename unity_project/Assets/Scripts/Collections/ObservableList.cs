@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-namespace HappyPenguin.Collections
+namespace Pux.Collections
 {
 	public sealed class ObservableList<T> : List<T>
 	{

@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using HappyPenguin.Effects;
+using Pux.Effects;
 using System.Collections.Generic;
-using HappyPenguin.Spawning;
-using HappyPenguin.Entities;
+using Pux.Spawning;
+using Pux.Entities;
 
 
 public sealed class NukeBehaviour : PerkBehaviour

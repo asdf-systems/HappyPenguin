@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
-using HappyPenguin.Effects;
+using Pux.Effects;
 using System.Collections.Generic;
-using HappyPenguin.Spawning;
-using HappyPenguin.Entities;
+using Pux.Spawning;
+using Pux.Entities;
 
-namespace HappyPenguin.Entities
+namespace Pux.Entities
 {
 	public abstract class PerkBehaviour : TargetableEntityBehaviour
 	{		

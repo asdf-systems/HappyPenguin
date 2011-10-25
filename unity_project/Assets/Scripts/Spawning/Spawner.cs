@@ -1,9 +1,9 @@
 using UnityEngine;
 using System;
 using System.Collections;
-using HappyPenguin.Entities;
+using Pux.Entities;
 
-namespace HappyPenguin.Spawning
+namespace Pux.Spawning
 {
 	public abstract class Spawner<T> 
 	{

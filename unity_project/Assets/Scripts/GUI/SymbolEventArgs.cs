@@ -1,6 +1,6 @@
 using System;
 
-namespace HappyPenguin
+namespace Pux
 {
 	public class SymbolEventArgs : EventArgs
 	{

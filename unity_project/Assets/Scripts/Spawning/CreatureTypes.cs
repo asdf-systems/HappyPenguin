@@ -1,6 +1,6 @@
 using System;
 
-namespace HappyPenguin.Spawning
+namespace Pux.Spawning
 {
 	public enum CreatureTypes : byte
 	{

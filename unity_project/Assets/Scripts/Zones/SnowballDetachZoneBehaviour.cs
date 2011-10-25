@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections;
-using HappyPenguin;
+using Pux;
 
 public sealed class SnowballDetachZoneBehaviour : MonoBehaviour {	
 	void OnTriggerEnter(Collider c) {

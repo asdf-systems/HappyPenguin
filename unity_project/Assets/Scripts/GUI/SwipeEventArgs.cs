@@ -1,6 +1,6 @@
 using System;
-using HappyPenguin;
-namespace HappyPenguin
+using Pux;
+namespace Pux
 {
 	public class SwipeEventArgs : EventArgs
 	{

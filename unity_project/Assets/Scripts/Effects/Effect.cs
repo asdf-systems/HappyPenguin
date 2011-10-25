@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace HappyPenguin.Effects
+namespace Pux.Effects
 {
 	public abstract class Effect
 	{

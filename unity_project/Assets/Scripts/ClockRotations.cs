@@ -1,5 +1,5 @@
 using System;
-namespace HappyPenguin.Effects
+namespace Pux.Effects
 {
 	public enum ClockRotations : byte
 	{

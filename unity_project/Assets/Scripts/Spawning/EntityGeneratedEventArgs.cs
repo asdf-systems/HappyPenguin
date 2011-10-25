@@ -1,7 +1,7 @@
 using System;
-using HappyPenguin.Entities;
+using Pux.Entities;
 
-namespace HappyPenguin.Spawning
+namespace Pux.Spawning
 {
 	public sealed class EntityGeneratedEventArgs<T> : EventArgs
 	{

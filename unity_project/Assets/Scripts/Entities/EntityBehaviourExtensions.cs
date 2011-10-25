@@ -1,10 +1,10 @@
 using System;
 using System.Linq;
 using UnityEngine;
-using HappyPenguin.Entities;
-using HappyPenguin.Controllers;
+using Pux.Entities;
+using Pux.Controllers;
 
-namespace HappyPenguin.Entities
+namespace Pux.Entities
 {
 	public static class EntityBehaviourExtensions
 	{

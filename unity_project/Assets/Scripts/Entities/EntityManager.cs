@@ -2,13 +2,13 @@ using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
-using HappyPenguin.Entities;
-using HappyPenguin.Spawning;
-using HappyPenguin.Unity;
-using HappyPenguin.Controllers;
-using HappyPenguin.Effects;
+using Pux.Entities;
+using Pux.Spawning;
+using Pux.Unity;
+using Pux.Controllers;
+using Pux.Effects;
 
-namespace HappyPenguin.Entities
+namespace Pux.Entities
 {
 	public sealed class EntityManager
 	{

@@ -1,5 +1,5 @@
 using System;
-namespace HappyPenguin
+namespace Pux
 {
 	public struct Range
 	{

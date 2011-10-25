@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using HappyPenguin.Spawning;
-using HappyPenguin.Entities;
+using Pux.Spawning;
+using Pux.Entities;
 
 
 public sealed class PerkSpawner : Spawner<PerkTypes>

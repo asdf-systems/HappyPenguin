@@ -1,7 +1,7 @@
 using System;
-using HappyPenguin.Entities;
+using Pux.Entities;
 
-namespace HappyPenguin.Effects
+namespace Pux.Effects
 {
 	public sealed class RetreatEffect : Effect
 	{

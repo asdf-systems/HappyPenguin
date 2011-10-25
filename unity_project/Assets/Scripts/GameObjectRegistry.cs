@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace HappyPenguin
+namespace Pux
 {
 	public static class GameObjectRegistry
 	{

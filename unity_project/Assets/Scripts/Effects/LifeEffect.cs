@@ -1,6 +1,6 @@
 using System;
 
-namespace HappyPenguin.Effects
+namespace Pux.Effects
 {
 	public sealed class LifeEffect : Effect
 	{

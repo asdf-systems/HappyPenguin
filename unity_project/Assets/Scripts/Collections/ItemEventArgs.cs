@@ -1,6 +1,6 @@
 using System;
 
-namespace HappyPenguin.Collections
+namespace Pux.Collections
 {
 	public sealed class ItemEventArgs<T> : EventArgs
 	{

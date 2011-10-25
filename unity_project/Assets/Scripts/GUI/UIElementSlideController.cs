@@ -1,20 +1,34 @@
 using System;
 using UnityEngine;
-using HappyPenguin.Unity2;
+using Pux.Unity2;
 
-namespace HappyPenguin.UI
+namespace Pux.UI
 {
 	public sealed class UIElementSlideController : UIElementController<GUIManager>
 	{
-		private readonly Vector2 targetPosition;
 		private Func<float, float> function;
+		private TimeSpan elapsedTime = TimeSpan.Zero; 
 
-		public UIElementSlideController(Vector2 targetPosition)
-			: this(targetPosition, (x) => x) { }
+		public UIElementSlideController()
+			: this((x) => x) { }
 		
-		public UIElementSlideController(Vector2 targetPosition, Func<float, float> function) {
-			this.targetPosition = targetPosition;
+		public UIElementSlideController(Func<float, float> function) {
 			this.function = function;
+		}
+		
+		public TimeSpan Duration {
+			get;
+			set;
+		}
+		
+		public Vector2 StartPosition {
+			get;
+			set;
+		}
+		
+		public Vector2 TargetPosition {
+			get;
+			set;
 		}
 		
 		protected override void UpdateOverride (UIElementBehaviour<GUIManager> entity)
@@ -23,24 +37,23 @@ namespace HappyPenguin.UI
 				return;
 			}
 			
-			// v = s / t
-			// s = v * t
-			var currentPosition = entity.Position;
+			elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
 			
-			var direction = targetPosition - currentPosition;
-			if (direction.sqrMagnitude <= 2) {
+			if (elapsedTime >= Duration) {
+				elapsedTime = TimeSpan.Zero;
 				InvokeControllerFinished(entity);
 				return;
 			}
 			
-			var normalizedDirection = direction;
-			normalizedDirection.Normalize();
-			
+			var relTime = (float)elapsedTime.TotalMilliseconds / (float)Duration.TotalMilliseconds;
+			if (relTime > 1.0f) {
+				relTime = 1.0f;
+			}
+			var relDistance = function(relTime); 
 			// need more speed for we do operate on a larger scale than in game 
-			var offset = entity.Speed * Time.deltaTime * 10;
-			var movementVector = normalizedDirection * offset;
 			
-			entity.Position = entity.Position + movementVector; 
+			var vec = (TargetPosition - StartPosition);
+			entity.Position = StartPosition + (vec * relDistance); 
 		}		
 	}
 }

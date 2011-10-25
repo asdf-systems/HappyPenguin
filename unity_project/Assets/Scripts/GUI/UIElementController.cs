@@ -1,7 +1,7 @@
 using System;
-using HappyPenguin.Controllers;
+using Pux.Controllers;
 
-namespace HappyPenguin.UI
+namespace Pux.UI
 {
 	public abstract class UIElementController<T> : Controller<UIElementBehaviour<T>>
 	{

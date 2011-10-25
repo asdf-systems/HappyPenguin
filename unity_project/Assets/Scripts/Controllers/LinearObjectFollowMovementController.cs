@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using HappyPenguin.Unity;
-using HappyPenguin.Entities;
+using Pux.Unity;
+using Pux.Entities;
 
-namespace HappyPenguin.Controllers
+namespace Pux.Controllers
 {
 	public sealed class LinearObjectFollowMovementController : EntityController
 	{

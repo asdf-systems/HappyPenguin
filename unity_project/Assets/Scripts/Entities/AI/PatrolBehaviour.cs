@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
-using HappyPenguin.Unity;
-using HappyPenguin.Entities;
+using Pux.Unity;
+using Pux.Entities;
 using System.Collections;
 using System.Collections.Generic;
 

@@ -1,7 +1,7 @@
 using System;
-using HappyPenguin.Entities;
+using Pux.Entities;
 
-namespace HappyPenguin.Controllers
+namespace Pux.Controllers
 {
 	public abstract class EntityController : Controller<EntityBehaviour>{}
 }

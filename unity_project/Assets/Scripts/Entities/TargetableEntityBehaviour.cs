@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using HappyPenguin.Effects;
-using HappyPenguin.Entities;
-using HappyPenguin;
+using Pux.Effects;
+using Pux.Entities;
+using Pux;
 
-namespace HappyPenguin.Entities
+namespace Pux.Entities
 {
 	public abstract class TargetableEntityBehaviour : EntityBehaviour
 	{

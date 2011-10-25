@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using HappyPenguin.Entities;
+using Pux.Entities;
 
 public sealed class DisposePointBehaviour : MonoBehaviour
 {

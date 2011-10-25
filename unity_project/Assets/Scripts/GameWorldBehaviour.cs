@@ -2,10 +2,10 @@ using UnityEngine;
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using HappyPenguin.Entities;
-using HappyPenguin.Effects;
-using HappyPenguin.Spawning;
-using HappyPenguin;
+using Pux.Entities;
+using Pux.Effects;
+using Pux.Spawning;
+using Pux;
 
 public sealed class GameWorldBehaviour : MonoBehaviour
 {

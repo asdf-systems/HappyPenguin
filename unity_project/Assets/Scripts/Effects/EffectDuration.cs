@@ -1,5 +1,5 @@
 using System;
-namespace HappyPenguin.Effects
+namespace Pux.Effects
 {
 	public static class EffectDuration
 	{

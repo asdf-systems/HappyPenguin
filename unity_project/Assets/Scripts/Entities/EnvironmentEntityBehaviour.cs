@@ -1,5 +1,5 @@
 using System;
-using HappyPenguin.Entities;
+using Pux.Entities;
 
 public class EnvironmentEntityBehaviour : EntityBehaviour
 {

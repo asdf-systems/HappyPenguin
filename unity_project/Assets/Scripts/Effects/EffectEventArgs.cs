@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace HappyPenguin.Effects
+namespace Pux.Effects
 {
 	public sealed class EffectEventArgs : EventArgs
 	{

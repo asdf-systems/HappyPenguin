@@ -1,10 +1,12 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using HappyPenguin.UI;
+using Pux.Controllers;
+using Pux.UI;
 
 public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 {
+	private ControlManager<UIElementBehaviour<T>> controlManager;
 	public int guiDepth;
 	public T guiStatics;
 
@@ -29,14 +31,21 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 	private Vector2 startingPosition;
 	private Vector2 endingPosition;
 	
-	public IList<UIElementController<T>> Controllers {
-		get;
-		private set;
+	public IEnumerable<Controller<UIElementBehaviour<T>>> Controllers {
+		get { return controlManager.Controllers; }
 	}
 	
-	private List<UIElementController<T>> queuedControllers;
+	public void QueueController(string name, Controller<UIElementBehaviour<T>> controller)
+	{
+		controlManager.QueueController(name, controller);
+	}
+	
+	public void DequeueController(string name)
+	{
+		controlManager.DequeueController(name);
+	}
 
-	void Start() {
+	private void Start() {
 		resetElement();
 		resetButtons("all");
 	}
@@ -44,39 +53,13 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 	protected virtual void Update() {
 		checkForSwipes();
 		hitTest();
-		UpdateControllers();
-	}
-	
-	private void UpdateControllers()
-	{
-		if (Controllers == null) {
-			// no clue why this happens
-			return;
+		if (controlManager != null) {
+			controlManager.Update(this);			
 		}
-		
-		var obs = new List<UIElementController<T>>();
-		foreach (var c in Controllers) {
-			if (c.IsFinished) {
-				obs.Add(c);
-				continue;
-			}
-			c.Update(this);
-		}
-		
-		foreach (var o in obs) {
-			Controllers.Remove(o);
-		}
-	
-		foreach (var c in queuedControllers) {
-			Controllers.Add(c);
-		}
-		queuedControllers.Clear();
 	}
 	
 	private void Awake() {
-		queuedControllers = new List<UIElementController<T>>();
-		Controllers = new List<UIElementController<T>>();
-		Speed = 30;
+		controlManager = new ControlManager<UIElementBehaviour<T>>();
 		Width = 128;
 		Height = 128;
 	}
@@ -84,8 +67,6 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 	private void OnGUI() {
 		GUI.depth = guiDepth;
 		showElements();
-		//hitTest();
-		
 	}
 
 	private void checkForSwipes() {
@@ -113,7 +94,7 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		}
 	}
 	
-	void hitTest() {
+	private void hitTest() {
 		checkMouse();
 		// check iPhone Tap against size
 		checkiPhoneTap();
@@ -217,11 +198,6 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 	public int Height {
 		get;
 		set;
-	}
-	
-	public void QueueController(UIElementController<T> controller)
-	{
-		queuedControllers.Add(controller);
 	}
 
 	protected virtual void swipe(GUIManager.Directions direction) {

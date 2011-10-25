@@ -1,19 +1,20 @@
 using System;
 using System.Collections.Generic;
-using HappyPenguin.Controllers;
-using HappyPenguin.Collections;
+using Pux.Controllers;
+using Pux.Collections;
+using UnityEngine;
 
-namespace HappyPenguin.Entities
+namespace Pux.Controllers
 {
-	public sealed class EntityControlManager
+	public sealed class ControlManager<T> where T : MonoBehaviour
 	{
 		private readonly List<string> keysToBeRemoved;
-		private readonly Dictionary<string, EntityController> controllers;
-		private readonly Dictionary<string, EntityController> queuedControllers;
+		private readonly Dictionary<string, Controller<T>> controllers;
+		private readonly Dictionary<string, Controller<T>> queuedControllers;
 
-		public EntityControlManager() {
-			queuedControllers = new Dictionary<string, EntityController>();
-			controllers = new Dictionary<string, EntityController>();
+		public ControlManager() {
+			queuedControllers = new Dictionary<string, Controller<T>>();
+			controllers = new Dictionary<string, Controller<T>>();
 			keysToBeRemoved = new List<string>();
 		}
 
@@ -21,16 +22,16 @@ namespace HappyPenguin.Entities
 			controllers.Clear();
 		}
 
-		public void QueueController(string name, EntityController controller) {
+		public void QueueController(string name, Controller<T> controller) {
 			if (queuedControllers.ContainsKey(name)) {
 				queuedControllers.Remove(name);
 			}
 			queuedControllers.Add(name, controller);
 		}
 
-		private void AddController(string name, EntityController controller) {
+		private void AddController(string name, Controller<T> controller) {
 			if (controllers.ContainsKey(name)) {
-				var message = string.Format("must remove controller with name {0}, before attaching a second with the same name.");
+				var message = string.Format("must remove controller with name {0}, before attaching a second with the same name.",name);
 				throw new ApplicationException(message);
 			}
 			
@@ -46,7 +47,7 @@ namespace HappyPenguin.Entities
 			return controllers.ContainsKey(name);
 		}
 
-		public void Update(EntityBehaviour entity) {
+		public void Update(T entity) {
 			foreach (var c in Controllers) {
 				c.Update(entity);
 			}
@@ -62,7 +63,7 @@ namespace HappyPenguin.Entities
 			queuedControllers.Clear();
 		}
 
-		public IEnumerable<EntityController> Controllers {
+		public IEnumerable<Controller<T>> Controllers {
 			get { return controllers.Values; }
 		}
 	}

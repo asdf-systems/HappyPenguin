@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace HappyPenguin.Unity
+namespace Pux.Unity
 {
 	public static class Vector3Extensions
 	{

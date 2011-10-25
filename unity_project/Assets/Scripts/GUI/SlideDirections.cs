@@ -1,6 +1,6 @@
 using System;
 
-namespace HappyPenguin.UI
+namespace Pux.UI
 {
 	public enum SlideDirections : byte
 	{

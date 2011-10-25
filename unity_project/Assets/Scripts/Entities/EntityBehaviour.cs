@@ -1,19 +1,19 @@
 using UnityEngine;
-using HappyPenguin.Controllers;
+using Pux.Controllers;
 using System.Collections.Generic;
 using System;
-using HappyPenguin;
-using HappyPenguin.Collections;
+using Pux;
+using Pux.Collections;
 
-namespace HappyPenguin.Entities
+namespace Pux.Entities
 {
 	public abstract class EntityBehaviour : MonoBehaviour
 	{
-		private readonly EntityControlManager controlManager;
+		private readonly ControlManager<EntityBehaviour> controlManager;
 
 		public EntityBehaviour() {
 			Speed = 10.0f;
-			controlManager = new EntityControlManager();
+			controlManager = new ControlManager<EntityBehaviour>();
 		}
 
 		public virtual new GameObject gameObject {
@@ -49,7 +49,7 @@ namespace HappyPenguin.Entities
 			controlManager.DequeueController(name);
 		}
 
-		public IEnumerable<EntityController> Controllers {
+		public IEnumerable<Controller<EntityBehaviour>> Controllers {
 			get { return controlManager.Controllers; }
 		}
 

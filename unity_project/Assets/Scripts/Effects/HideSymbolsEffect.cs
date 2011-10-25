@@ -1,7 +1,7 @@
 using System;
-using HappyPenguin.Entities;
+using Pux.Entities;
 
-namespace HappyPenguin.Effects
+namespace Pux.Effects
 {
 	public sealed class HideSymbolsEffect : Effect
 	{
@@ -11,7 +11,7 @@ namespace HappyPenguin.Effects
 			this.entity = entity;
 		}
 
-		#region implemented abstract members of HappyPenguin.Effects.Effect
+		#region implemented abstract members of Pux.Effects.Effect
 
 		public override void Start(GameWorldBehaviour world) {
 			entity.HideSymbols();

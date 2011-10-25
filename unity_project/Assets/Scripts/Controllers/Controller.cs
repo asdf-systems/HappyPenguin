@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace HappyPenguin.Controllers
+namespace Pux.Controllers
 {
 	public abstract class Controller<T> where T : MonoBehaviour
 	{

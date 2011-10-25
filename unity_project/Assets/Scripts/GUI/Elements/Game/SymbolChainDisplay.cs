@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using HappyPenguin;
+using Pux;
 
 public class SymbolChainDisplay: UIElementBehaviour<GUIManager>{
 		

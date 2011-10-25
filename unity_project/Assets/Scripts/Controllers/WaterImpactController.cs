@@ -1,9 +1,9 @@
 using System;
 using UnityEngine;
-using HappyPenguin.Entities;
-using HappyPenguin.Controllers;
+using Pux.Entities;
+using Pux.Controllers;
 
-namespace HappyPenguin.Controllers
+namespace Pux.Controllers
 {
 	public sealed class WaterImpactController : EntityController
 	{
@@ -21,7 +21,7 @@ namespace HappyPenguin.Controllers
 
 		public float Strength { get; set; }
 
-		#region implemented abstract members of HappyPenguin.Controllers.Controller[EntityBehaviour]
+		#region implemented abstract members of Pux.Controllers.Controller[EntityBehaviour]
 		protected override void UpdateOverride(EntityBehaviour entity) {
 			var isCloseEnough = entity.transform.position.y - SeaLevel < 0.02f;
 			if (elapsedTime >= Duration && isCloseEnough) {

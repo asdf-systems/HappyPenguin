@@ -1,11 +1,11 @@
 using System;
-using HappyPenguin.Entities;
+using Pux.Entities;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace HappyPenguin.Entities
+namespace Pux.Entities
 {
 	public sealed class TargetableSymbolProjector 
 	{

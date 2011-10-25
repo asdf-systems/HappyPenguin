@@ -1,9 +1,9 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using HappyPenguin;
-using HappyPenguin.Effects;
-using HappyPenguin.UI;
+using Pux;
+using Pux.Effects;
+using Pux.UI;
 using System;
 
 public class GUIManager : GUIStatics
@@ -45,7 +45,7 @@ public class GUIManager : GUIStatics
 	private void Awake() {
 		InitComponents();
 		InitButtons();
-		ButtonSlideDistance = 181;
+		ButtonSlideDistance = 181; // magnitude of Vector2(128,128) 
 	}
 	
 	private void InitComponents() {
@@ -74,11 +74,6 @@ public class GUIManager : GUIStatics
 		buttonQ = gameObject.GetComponentInChildren<CornerButtonBehaviourQ>();
 		buttonE = gameObject.GetComponentInChildren<CornerButtonBehaviourE>();
 		
-//		buttonCpos = new Vector2(buttonC.positionX, buttonC.positionY);
-//		buttonEpos = new Vector2(buttonE.positionX, buttonE.positionY);
-//		buttonQpos = new Vector2(buttonQ.positionX, buttonQ.positionY);
-//		buttonYpos = new Vector2(buttonY.positionX, buttonY.positionY);
-		
 		StorePositions();
 	}
 	
@@ -95,14 +90,48 @@ public class GUIManager : GUIStatics
 	private void OnButtonsSlidOut(Action action)
 	{
 		poorMansBarrier ++;
-		if (poorMansBarrier<4) {
+		if (poorMansBarrier < 4) {
 			return;
 		}
 		
+		StorePositions();
+		SwapTextures();
 		if (action != null) {
-			StorePositions();
 			action();
 		}
+	}
+	
+	private void SwapTextures()
+	{
+		SwapTexture(buttonC, "green");
+		SwapTexture(buttonE, "red");
+		SwapTexture(buttonQ, "yellow");
+		SwapTexture(buttonY, "purple");
+	}
+	
+	private void SwapTexture(UIElementBehaviour<GUIManager> button, string color)
+	{
+		var path = "iPhone/UI/";
+		var ns = string.Empty;
+		if (button.Position.x < 480) {
+			ns = "bottom";
+		} else {
+			ns = "top";
+		}
+		
+		var sw = string.Empty;
+		if (button.Position.y > 320) {
+			sw = "right";
+		} else {
+			sw = "left";
+		}
+		
+		var normal = string.Format("{0}arrow_{1}_{2}_{3}", path, color, ns, sw);
+		var hover = normal + "_hover";
+		
+		button.activeStyle.normal.background = Resources.Load(hover) as Texture2D;
+		button.hoverStyle.normal.background = Resources.Load(hover) as Texture2D;
+		button.inactiveStyle.normal.background = Resources.Load(normal) as Texture2D;
 	}
 
 	public void PerformUIRotation(ClockRotations clockRotation)
@@ -135,15 +164,6 @@ public class GUIManager : GUIStatics
 		OnButtonsRotated();
 	}
 	
-	/// <summary>
-	/// Rounding errors may have left some buttons drift off by a few pixels,
-	/// to remove them, we need to set the position back to the absolute corner coordinates.
-	/// </summary>
-	private void SnapButtonsToCorners()
-	{
-		// todo 
-	}
-	
 	private void UpdatePositions() {
 		
 		buttonC.positionX = (int)positions[0].x;
@@ -172,32 +192,64 @@ public class GUIManager : GUIStatics
 		PerformButtonSlide(buttonC, SlideDirections.In, null);
 		PerformButtonSlide(buttonE, SlideDirections.In, null);
 		PerformButtonSlide(buttonQ, SlideDirections.In, null);
-		PerformButtonSlide(buttonY, SlideDirections.In, () => OnDone());
+		PerformButtonSlide(buttonY, SlideDirections.In, null);
 	}
 	
-	private void OnDone()
+	private Vector2 GetSnapPositionForButton(UIElementBehaviour<GUIManager> button)
 	{
-		
+			// left
+		if (button.Position.x < 480) {
+			if (button.Position.y > 320) {
+				return new Vector2(0, 640 - button.Height);
+			} else {
+				return new Vector2(0, 0);
+			}
+		} else {
+			if (button.Position.y > 320) {
+				return new Vector2(960 - button.Width, 640 - button.Height);
+			} else {
+				return new Vector2(960 - button.Width, 0);
+			}
+		}
 	}
 	
 	private void PerformButtonSlide(UIElementBehaviour<GUIManager> button, SlideDirections direction, Action postAction)
 	{
 		var retinaCenter = new Vector2(480, 320);
-		var buttonCenter = new Vector2(button.Position.x + (float) Math.Ceiling( button.Width / 2.0f), button.Position.y + (float) Math.Ceiling(button.Height / 2.0f) );
+		var buttonCenter = new Vector2(button.Position.x + (float) button.Width / 2.0f, button.Position.y + (float) button.Height / 2.0f );
 
 		var directingVector = buttonCenter - retinaCenter;
 		directingVector.Normalize();
 		
 		var sign = direction == SlideDirections.Out ? 1 : -1;
 		var targetPosition =  buttonCenter + sign * directingVector * ButtonSlideDistance;
-		targetPosition -= new Vector2((float)Math.Ceiling(button.Width / 2.0f), (float)Math.Ceiling(button.Height / 2.0f));
 		
-		var controller = new UIElementSlideController(targetPosition);
+		//decentralize position
+		targetPosition -= new Vector2((float)button.Width / 2.0f, (float)button.Height / 2.0f);
+		if (direction == SlideDirections.In) {
+			// need to deal with rounding errors
+			targetPosition = GetSnapPositionForButton(button);
+		}
+		
+		// set different easing functions for sliding in and out
+		Func<float,float> easingFunc = null;
+		if (direction == SlideDirections.Out) {
+			easingFunc = (x) => x * x;
+		} else {
+			easingFunc = (x) => (float)(Math.Log(x) + 6.0f) / 6.0f;
+		}
+		
+		var controller = new UIElementSlideController(easingFunc) {
+			StartPosition = button.Position,
+			TargetPosition = targetPosition,
+			Duration = TimeSpan.FromMilliseconds(250)
+		};
+		
 		if (postAction != null) {
 			controller.ControllerFinished += (sender, e) => postAction.Invoke();
 		}
 		
-		button.QueueController(controller);
+		button.QueueController(button.name, controller);
 	}
 
 	public void ClearSymbols() {

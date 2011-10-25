@@ -1,5 +1,5 @@
 using System;
-namespace HappyPenguin.Spawning
+namespace Pux.Spawning
 {
 	public class CreatureCountNeededEventArgs : EventArgs
 	{

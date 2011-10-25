@@ -1,6 +1,6 @@
 using System;
 
-namespace HappyPenguin.Effects
+namespace Pux.Effects
 {
 	public sealed class UIRotationEffect : Effect
 	{
@@ -13,7 +13,7 @@ namespace HappyPenguin.Effects
 			clockRotations = new ClockRotations[2];
 		}
 		
-		#region implemented abstract members of HappyPenguin.Effects.Effect
+		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world)
 		{
 			var value = random.Next(0, 100);

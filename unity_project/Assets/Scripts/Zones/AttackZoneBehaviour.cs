@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
-using HappyPenguin;
-using HappyPenguin.Entities;
+using Pux;
+using Pux.Entities;
 using System;
 
 public sealed class AttackZoneBehaviour : MonoBehaviour {
