@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PointsDisplay: UIElementBehaviour<GUIStatics>{
+public class PointsDisplayGameEnd: UIElementBehaviour<GUIStatics>{
 		
 	public GUIStyle textStyle;
 	public float Points{

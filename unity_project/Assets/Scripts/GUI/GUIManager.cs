@@ -13,7 +13,7 @@ public class GUIManager : GUIStatics
 	private CornerButtonBehaviourQ buttonQ;
 	private CornerButtonBehaviourY buttonY;
 
-	private PointsAndLifeDisplay pointsAndLifeDisplay;
+	private PointsDisplay pointsDisplay;
 
 	private string symbolChain;
 
@@ -51,7 +51,7 @@ public class GUIManager : GUIStatics
 	private void InitComponents() {
 		positions = new List<Vector2>();
 		TextEntity = gameObject.GetComponentInChildren<AlertTextBehaviour>();
-		pointsAndLifeDisplay = gameObject.GetComponentInChildren<PointsAndLifeDisplay>();
+		pointsDisplay = gameObject.GetComponentInChildren<PointsDisplay>();
 	}
 
 //	private void Reset() {
@@ -282,15 +282,15 @@ public class GUIManager : GUIStatics
 	}
 
 	public void DisplayPoints(float points) {
-		if (pointsAndLifeDisplay == null)
-			pointsAndLifeDisplay = gameObject.GetComponentInChildren<PointsAndLifeDisplay>();
-		pointsAndLifeDisplay.Points = points;
+		if (pointsDisplay == null)
+			pointsDisplay = gameObject.GetComponentInChildren<PointsDisplay>();
+		pointsDisplay.Points = points;
 	}
 
 	public void DisplayLife(float life) {
-		if (pointsAndLifeDisplay == null)
-			pointsAndLifeDisplay = gameObject.GetComponentInChildren<PointsAndLifeDisplay>();
-		pointsAndLifeDisplay.Life = life;
+		if (pointsDisplay == null)
+			pointsDisplay = gameObject.GetComponentInChildren<PointsDisplay>();
+		pointsDisplay.Life = life;
 	}
 
 	public void PreSwipeCommitted(Directions direction) {

@@ -25,6 +25,7 @@ public class GeneralScreenGUI : GUI
 	}
 	
 	public static bool Button(GUIStatics gui, Rect rect, string text, GUIStyle style){
+		
 		return UnityEngine.GUI.Button(GetRelativePosition(gui,rect), text, style);
 		
 	}
@@ -35,8 +36,12 @@ public class GeneralScreenGUI : GUI
 	}
 	
 	public static void Label(GUIStatics gui, Rect rect, string text, GUIStyle style ){
-		UnityEngine.GUI.Label(GetRelativePosition(gui,rect), text, style);
+		int size = style.fontSize;
+		Debug.Log("Font Size Orig: " + size);
+		style.fontSize = GetRelativeFontSize(gui, size);
 		
+		UnityEngine.GUI.Label(GetRelativePosition(gui,rect), text, style);
+		Debug.Log("Font Size: " + size);
 	}
 	
 	
@@ -50,15 +55,7 @@ public class GeneralScreenGUI : GUI
 		
 	}
 	
-	/*public static string Text(GUIStatics gui, Rect rect, string text){
-		return UnityEngine.GUIText(GetRelativePosition(gui,rect), text);
-		
-	}
-	
-	public static string Text(GUIStatics gui, Rect rect, string text, GUIStyle style){
-		return UnityEngine.GUIText(GetRelativePosition(gui,rect), text, style );
-		
-	}*/
+
 	
 	public static bool Toggle(GUIStatics gui, Rect rect, bool flag, string text){
 		return UnityEngine.GUI.Toggle(GetRelativePosition(gui,rect), flag, text);
@@ -75,6 +72,17 @@ public class GeneralScreenGUI : GUI
 		return new Vector2(Screen.width / 2, Screen.height / 2);
 	}
 	
+	private static int GetRelativeFontSize(GUIStatics gui, int size){
+		Vector2 factor = GetFactor(gui);
+		return (int)(size*factor.y);
+	}
+	private static Vector2 GetFactor(GUIStatics gui){
+		// Get the right Hight and Width proportional to screen
+		float factorY = (float)(Screen.height) / (float)(gui.TargetScreenHeight); 
+		float factorX = (float)(Screen.width) / (float)(gui.TargetScreenWidth);
+		return new Vector2(factorX, factorY);
+	}
+	
 	private static Rect GetRelativePosition(GUIStatics gui, Rect rect){
 		Camera cam = gui.PlayerCam;
 		Rect camPosition = cam.pixelRect;
@@ -82,10 +90,8 @@ public class GeneralScreenGUI : GUI
 		if(cam.pixelHeight != Screen.height)
 			camPosition.y = cam.pixelHeight - camPosition.y;
 		
-		// Get the right Hight and Width proportional to screen
-		float factorY = (float)(Screen.height) / (float)(gui.TargetScreenHeight); 
-		float factorX = (float)(Screen.width) / (float)(gui.TargetScreenWidth);
-		return new Rect ((camPosition.x+rect.x)*factorX  ,(camPosition.y +  rect.y)*factorY ,rect.width*factorX,rect.height*factorY);
+		Vector2 factor = GetFactor(gui);
+		return new Rect ((camPosition.x+rect.x)*factor.x  ,(camPosition.y +  rect.y)*factor.y ,rect.width*factor.x,rect.height*factor.y);
 	} 
 	
 	public static Vector3 NormalizeMouse(GUIStatics gui, Vector3 vec){
