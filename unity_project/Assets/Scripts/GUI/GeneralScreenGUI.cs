@@ -37,11 +37,11 @@ public class GeneralScreenGUI : GUI
 	
 	public static void Label(GUIStatics gui, Rect rect, string text, GUIStyle style ){
 		int size = style.fontSize;
-		Debug.Log("Font Size Orig: " + size);
+		
 		style.fontSize = GetRelativeFontSize(gui, size);
 		
 		UnityEngine.GUI.Label(GetRelativePosition(gui,rect), text, style);
-		Debug.Log("Font Size: " + size);
+
 	}
 	
 	

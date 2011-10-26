@@ -9,6 +9,7 @@ public class MenuHighscoreButtonBehaviour: UIElementBehaviour<GUIStatics> {
 	}
 	
 	protected override void hit(){
-		Debug.Log("Highscore not implemented yet!");
+		//Debug.Log("Highscore not implemented yet!");
+		Application.LoadLevel(5);
 	}
 }
