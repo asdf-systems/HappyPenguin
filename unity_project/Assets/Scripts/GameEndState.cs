@@ -19,7 +19,7 @@ public class GameEndState : MonoBehaviour {
 		}
 	}
 
-	public addEntry(string name, int points) {
+	public void addEntry(string name, int points) {
 		StartCoroutine(
 			HighscoreServer.AddEntry(name, points)
 			);
