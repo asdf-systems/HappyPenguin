@@ -11,7 +11,7 @@ import (
 const (
 	TOP10_FILE = "top10.txt"
 	ALL_FILE   = "all.txt"
-	NUM_PLACES = 10
+	NUM_PLACES = 3
 	PASSWORD = `Iof+:*NLx^%~+zu?-,|`
 )
 
