@@ -6,7 +6,7 @@ public class PostOnFB : UIElementBehaviour<GUIStatics> {
 	private const string MESSAGE = "I dressed up my Pux!";
 
 	protected override void showElements(){
-		GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,128,128), "Post on Facebook", currentStyle);
+		GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,512,512), "", currentStyle);
 	}
 
 	protected override void hit(){

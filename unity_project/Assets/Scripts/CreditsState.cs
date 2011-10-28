@@ -30,13 +30,13 @@ public class CreditsState : MonoBehaviour {
 		texts.Add("");
 		texts.Add("Christian Schmiedl - Sound");
 		texts.Add("");
-		texts.Add("Friedrich Wessel - 3d & Animation");
+		texts.Add("Friedrich Wessel - 3d and Animation");
 		texts.Add("");
 		texts.Add("Sebastian Vollmar - Design");
 		texts.Add("");
 		texts.Add("Fabian Reif - Marketing");
 		texts.Add("");
-		texts.Add("Philipp Lämmel - Trainee");
+		texts.Add("Philipp Laemmel - Trainee");
 		texts.Add("");
 		texts.Add("Felix Dietz - Trainee");
 		
@@ -58,6 +58,8 @@ public class CreditsState : MonoBehaviour {
 			if(currentText > texts.Count)
 				flag = false;
 			time = 0;
+		} else if(!flag){
+			Application.LoadLevel(0);
 		}
 	}
 }
