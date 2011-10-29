@@ -35,10 +35,6 @@ public class Numbers : UIElementBehaviour<GUIStatics> {
 			GeneralScreenGUI.Box(guiStatics, new Rect(positionX+xOff,positionY,textureSize,textureSize), "", numberStyles[number]);
 			xOff += textureSize - 15;
 		}
-<<<<<<< HEAD
-=======
 
-
->>>>>>> feature/gifts
 	}
 }
