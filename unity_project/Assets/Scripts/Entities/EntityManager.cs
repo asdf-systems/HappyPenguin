@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
+using Pux;
 using Pux.Entities;
 using Pux.Spawning;
 using Pux.Unity;
@@ -14,10 +15,9 @@ namespace Pux.Entities
 	{
 		private readonly TargetableSymbolManager symbolManager;
 		private readonly List<EntityBehaviour> entities;
-		
+
 		public event EventHandler<EffectEventArgs> EffectsReleased;
-		private void InvokeEffectsReleased(IEnumerable<Effect> effects)
-		{
+		private void InvokeEffectsReleased(IEnumerable<Effect> effects) {
 			var handler = EffectsReleased;
 			if (handler == null) {
 				return;
@@ -30,8 +30,7 @@ namespace Pux.Entities
 			var snowball = DisplaySnowball();
 			target.TargetHit += OnTargetHit;
 			snowball.DedicatedTarget = target;
-			snowball.DetachZoneReached += 
-				(sender, e) => LaunchSnowball(sender as SnowballBehaviour, target);
+			snowball.DetachZoneReached += (sender, e) => LaunchSnowball(sender as SnowballBehaviour, target);
 		}
 
 		private void OnTargetHit(object sender, BehaviourEventArgs<SnowballBehaviour> e) {
@@ -97,6 +96,31 @@ namespace Pux.Entities
 			symbolManager = new TargetableSymbolManager();
 		}
 
+		public void SpawnLifeBalloon(LifeSpawnBeacon beacon) {
+			var host = beacon.UnityGameObject;
+			var balloon = Resources.Load("Environment/Balloon") as GameObject;
+			var entity = GameObject.Instantiate(balloon, Vector3.zero, Quaternion.identity) as GameObject;
+			entity.transform.parent = host.transform;
+			entity.transform.localPosition = Vector3.zero;
+		}
+
+		public void ReleaseLifeBalloon(LifeSpawnBeacon beacon) {
+			var component = beacon.UnityGameObject.GetComponentInChildren<BalloonBehaviour>();
+			if (component == null) {
+				throw new ApplicationException("Balloonbehaviour missing.");
+			}
+			
+			var fish = component.Fish;
+			
+			// remove fish
+			fish.gameObject.transform.parent = null;
+			GameObject.Destroy(fish);
+			
+			// detach form beacon
+			component.gameObject.transform.parent = null;
+			component.MoveTo(component.transform.position + new Vector3(0, 1000, 0), false);
+		}
+
 		public PlayerBehaviour Player { get; set; }
 
 		public IEnumerable<EntityBehaviour> Entities {
@@ -119,15 +143,13 @@ namespace Pux.Entities
 			var targets = FindTargetables();
 			return targets.FirstOrDefault(x => x.SymbolChain == symbolChain);
 		}
-		
-		public void AddEnvironmentalEntity(EnvironmentEntityBehaviour env)
-		{
+
+		public void AddEnvironmentalEntity(EnvironmentEntityBehaviour env) {
 			env.GrimReaperAppeared += (sender, e) => VoidEnvironmental(env);
 			entities.Add(env);
 		}
-		
-		private void VoidEnvironmental(EnvironmentEntityBehaviour env)
-		{
+
+		private void VoidEnvironmental(EnvironmentEntityBehaviour env) {
 			if (env == null) {
 				return;
 			}

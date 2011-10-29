@@ -16,17 +16,17 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private readonly CreatureSpawner creatureSpawner;
 	private readonly PerkSpawner perkSpawner;
 	private readonly TargetableSymbolManager symbolManager;
-	
-	public EntityManager entityManager{ get; private set;}
+	private readonly List<LifeSpawnBeacon> lifeBeacons;
+
+	public EntityManager entityManager { get; private set; }
 
 	private AttackZoneBehaviour attackZone;
-	
+
 	public string PerkText;
 	public string WrongSymbolChainText;
 	public string LooseText;
-	
-	private void HighlightSymbols(string chain)
-	{
+
+	private void HighlightSymbols(string chain) {
 		var targetables = entityManager.FindTargetables();
 		foreach (var entity in targetables) {
 			if (entity.SymbolChain.StartsWith(chain)) {
@@ -34,31 +34,28 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			}
 		}
 	}
-	
-	private void DarkenSymbols()
-	{
+
+	private void DarkenSymbols() {
 		var targetables = entityManager.FindTargetables();
 		foreach (var entity in targetables) {
 			entity.DarkenSymbols();
 		}
 	}
-	
-	private void OnSymbolChanged(object sender, SymbolEventArgs e)
-	{
+
+	private void OnSymbolChanged(object sender, SymbolEventArgs e) {
 		if (string.IsNullOrEmpty(e.SymbolChain)) {
 			DarkenSymbols();
 			return;
 		}
 		HighlightSymbols(e.SymbolChain);
 	}
-	
-	private void OnEffectsReleased(object sender, EffectEventArgs e)
-	{
+
+	private void OnEffectsReleased(object sender, EffectEventArgs e) {
 		foreach (var effect in e.Effects) {
 			effectManager.RegisterEffect(effect);
 		}
 	}
-	
+
 	public GameWorldBehaviour() {
 		entityManager = new EntityManager();
 		entityManager.EffectsReleased += OnEffectsReleased;
@@ -71,12 +68,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		perkSpawner = new PerkSpawner();
 		perkSpawner.EntitySpawned += OnPerkGenerated;
+		
+		lifeBeacons = new List<LifeSpawnBeacon>();
 	}
 
 	private void OnSwipeCommitted(object sender, SwipeEventArgs e) {
-		
 		guiManager.ClearSymbols();
-		
 		var target = entityManager.FindTargetable(e.symbolChain);
 		if (target == null) {
 			InvokeUIRotation(ClockRotations.Clockwise);
@@ -85,9 +82,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 		InvokePlayerHit(target);
 	}
-	
-	private void InvokePlayerHit(TargetableEntityBehaviour target)
-	{
+
+	private void InvokePlayerHit(TargetableEntityBehaviour target) {
 		var player = entityManager.Player;
 		if (player.gameObject.animation.IsPlaying("throw")) {
 			player.gameObject.animation.Stop();
@@ -95,9 +91,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		entityManager.Player.PlayAnimation("throw");
 		entityManager.ThrowSnowball(target);
 	}
-	
-	private void InvokePlayerMiss()
-	{
+
+	private void InvokePlayerMiss() {
 		Debug.Log("implement trip animation or camera quake ...");
 	}
 
@@ -110,7 +105,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			}
 		}
 	}
-	
+
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
 		if (attackZone == null) {
@@ -119,14 +114,14 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		attackZone.AttackZoneEntered += OnAttackZoneEntered;
 	}
-	
-	public void InvokeUIRotation(ClockRotations clockRotation)
-	{
+
+	public void InvokeUIRotation(ClockRotations clockRotation) {
 		guiManager.PerformUIRotation(clockRotation);
 	}
 
 	public void Awake() {
 		InitPlayer();
+		InitLifeBeacons();
 		InitEntityRoot();
 		InitCreatureNodes();
 		InitPerkNodes();
@@ -134,37 +129,45 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitUI();
 		InitStatics();
 	}
-	
-	private void InitEntityRoot()
-	{
+
+	private void InitLifeBeacons() {
+		var nodes = GameObject.FindGameObjectsWithTag("life_node");
+		for (int i = 0; i < entityManager.Player.MaxLife; i++) {
+			var node = nodes[i];
+			var beacon = new LifeSpawnBeacon(node);
+			lifeBeacons.Add(beacon);
+		}
+		// this must be here, we need the player to do this
+		ChangePlayerHealth(entityManager.Player.MaxLife);
+	}
+
+	private void InitEntityRoot() {
 		var root = GameObject.FindWithTag("entity_root");
 		if (root == null) {
 			throw new ApplicationException("entity root object not found");
 		}
 		GameObjectRegistry.RegisterObject("entity_root", root);
 	}
-	
-	private void InitStatics(){
+
+	private void InitStatics() {
 		GameStatics.Points = 0;
 	}
-	
-	private void InitUI()
-	{
+
+	private void InitUI() {
 		guiManager.DisplayPoints(entityManager.Player.Points);
 		guiManager.DisplayLife(entityManager.Player.Life);
 		guiManager.SwipeCommitted += OnSwipeCommitted;
 		guiManager.SymbolsChanged += OnSymbolChanged;
 	}
-	
-	private void InitPerkNodes()
-	{
-		var perkImpact = GameObject.FindWithTag("perk_impact"); 
+
+	private void InitPerkNodes() {
+		var perkImpact = GameObject.FindWithTag("perk_impact");
 		if (perkImpact == null) {
 			throw new ApplicationException("perk spawn object not found");
 		}
 		GameObjectRegistry.RegisterObject("perk_impact", perkImpact);
 		
-		var perkSpawn = GameObject.FindWithTag("perk_spawn"); 
+		var perkSpawn = GameObject.FindWithTag("perk_spawn");
 		if (perkSpawn == null) {
 			throw new ApplicationException("perk spawn object not found");
 		}
@@ -184,11 +187,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			throw new ApplicationException("player component not found");
 		}
 		
-		player.StartLife = 5;
-		player.StartPoints = 0;
-		player.PlayAnimation("idle");
 		entityManager.Player = player;
-		guiManager.DisplayLife(entityManager.Player.Life);
+		player.PlayAnimation("idle");
+		player.Points = 0;
+		player.Life = 0;
 	}
 
 	private void InitCreatureNodes() {
@@ -221,41 +223,52 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		Trebuchet.animation.PlayQueued("pull");
 	}
 
-	public void ChangePlayerHealth(float lifeChange) {
-		if (lifeChange > 0) {
-			if (entityManager.Player.Life + lifeChange <= 5) {
-				entityManager.Player.Life += lifeChange;
-				guiManager.DisplayLife(entityManager.Player.Life);
-				guiManager.Alert("++ Health");
-			}
-			else if (entityManager.Player.Life == 5) {
-				guiManager.Alert("Already at full Health");
-			}
-			else {
-				entityManager.Player.Life = 5;
-				guiManager.DisplayLife(entityManager.Player.Life);
-				guiManager.Alert("++ Health");
-			}
-		}
-		else {
-			entityManager.Player.Life += lifeChange;
-			guiManager.DisplayLife(entityManager.Player.Life);
-			guiManager.Alert("-- Health");
-		}
-				
-		CheckForDeadsies();
+	private void ApplyHealth(int life) {
+		entityManager.Player.Life += life;
 	}
-	
-	
-	private void CheckForDeadsies()
-	{
+
+	private void ApplyDamage(int damage) {
+		entityManager.Player.Life -= damage;
+	}
+
+	public void ChangePlayerHealth(float lifeChange) {
+		var player = entityManager.Player;
+		var missingLife = player.MaxLife - player.Life;
+		var actualLifeChange = (int)Math.Min(missingLife, lifeChange);
+		
+		if (lifeChange < 0) {
+			ReleaseBalloons(-actualLifeChange);
+			ApplyDamage(-actualLifeChange);
+		} else {
+			SpawnBalloons(actualLifeChange);
+			ApplyHealth(actualLifeChange);
+		}
+		
+		CheckForDeadsies();
+		guiManager.DisplayLife(entityManager.Player.Life);
+	}
+
+	private void ReleaseBalloons(int count) {
+		for (int i = 0; i < count; i++) {
+			var beacon = lifeBeacons.First(x => x.IsOccupied);
+			entityManager.ReleaseLifeBalloon(beacon);
+		}
+	}
+
+	private void SpawnBalloons(int count) {
+		for (int i = 0; i < count; i++) {
+			var beacon = lifeBeacons.First(x => !x.IsOccupied);
+			entityManager.SpawnLifeBalloon(beacon);
+		}
+	}
+
+	private void CheckForDeadsies() {
 		if (entityManager.Player.IsDead) {
-			guiManager.Alert(LooseText);
 			Application.LoadLevel(2);
 		}
 	}
-	
-	public void OnCreatureCountNeeded(object sender, CreatureCountNeededEventArgs e){
+
+	public void OnCreatureCountNeeded(object sender, CreatureCountNeededEventArgs e) {
 		e.CreatureCount = entityManager.FindCreatures().Count();
 	}
 

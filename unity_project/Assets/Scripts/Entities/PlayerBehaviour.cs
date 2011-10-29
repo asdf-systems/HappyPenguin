@@ -5,8 +5,9 @@ using Pux.Entities;
 
 public sealed class PlayerBehaviour : EntityBehaviour
 {
-	public float StartLife;
-	public float StartPoints;
+	public float MaxLife = 5;
+	public float StartLife = 0;
+	public float StartPoints = 0;
 	public GameObject mesh;
 	public GameObject hatPoint;
 	public GameObject rightHandPoint;
@@ -73,12 +74,7 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		newObject.transform.parent = hingePoint.transform;
 		newObject.transform.localPosition = Vector3.zero;
 		newObject.transform.localRotation = Quaternion.identity;
-	
-		
-		
 	}
-	
-	
 }
 
 
