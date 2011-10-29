@@ -9,7 +9,7 @@ public class AlertTextBehaviour : UIElementBehaviour<GUIManager> {
 	
 	private int myTextWidth = 250;
 	private int myTextHeight = 100;
-	private int myPlateSize = 400;
+	public int myPlateSize = 400;
 	public int targetFontSize = 50;
 	private float x = 960/2;
 	private float y = 640/2;

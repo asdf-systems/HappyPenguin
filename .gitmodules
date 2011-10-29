@@ -1,0 +1,3 @@
+[submodule "highscore_server/pkg/jsonrpc"]
+	path = highscore_server/pkg/jsonrpc
+	url = git@github.com:surma/jsonrpc.git
