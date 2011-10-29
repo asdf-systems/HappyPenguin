@@ -6,12 +6,14 @@ using Pux.Entities;
 using Pux.Effects;
 using Pux.Spawning;
 using Pux;
+using Pux.UI;
 
 public sealed class GameWorldBehaviour : MonoBehaviour
 {
 	public GUIManager guiManager;
 	public GameObject Trebuchet;
 	public readonly EffectManager effectManager;
+	private readonly IconSlotManager iconSlotManager;
 
 	private readonly CreatureSpawner creatureSpawner;
 	private readonly PerkSpawner perkSpawner;
@@ -70,6 +72,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		perkSpawner.EntitySpawned += OnPerkGenerated;
 		
 		lifeBeacons = new List<LifeSpawnBeacon>();
+		iconSlotManager = new IconSlotManager();
 	}
 
 	private void OnSwipeCommitted(object sender, SwipeEventArgs e) {
@@ -120,6 +123,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	public void Awake() {
+		InitIconSlotManager();
 		InitPlayer();
 		InitLifeBeacons();
 		InitEntityRoot();
@@ -128,6 +132,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitAttackZone();
 		InitUI();
 		InitStatics();
+	}
+
+	private void InitIconSlotManager() {
+		iconSlotManager.InitSpotManager();
 	}
 
 	private void InitLifeBeacons() {

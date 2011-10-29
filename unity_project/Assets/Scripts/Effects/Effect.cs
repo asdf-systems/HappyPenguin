@@ -14,6 +14,11 @@ namespace Pux.Effects
 		public abstract void Stop(GameWorldBehaviour world);
 
 		public TimeSpan Duration { get; protected set; }
+		
+		public string IconResourceKey {
+			get;
+			protected set;
+		}
 
 		public bool IsExpired(TimeSpan startTime) {
 			var current = TimeSpan.FromSeconds(Time.timeSinceLevelLoad);

@@ -190,15 +190,9 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		set;
 	}
 	
-	public int Width {
-		get;
-		set;
-	}
+	public int Width;
 
-	public int Height {
-		get;
-		set;
-	}
+	public int Height;
 
 	protected virtual void swipe(GUIManager.Directions direction) {
 		// override in child classes
