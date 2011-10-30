@@ -1,12 +1,9 @@
 [submodule "highscore_server/pkg/jsonrpc"]
 	path = highscore_server/pkg/jsonrpc
 	url = git@github.com:surma/jsonrpc.git
-<<<<<<< HEAD
 [submodule "unity_project/Assets/Plugins/iOS/facebook-ios-sdk"]
    path = unity_project/Assets/Plugins/iOS/facebook-ios-sdk
    url = https://github.com/facebook/facebook-ios-sdk.git
 [submodule "unity_project/Assets/Plugins/iOS/JSONKit"]
    path = unity_project/Assets/Plugins/iOS/JSONKit
    url = https://github.com/johnezang/JSONKit.git
-=======
->>>>>>> origin/feature/wardrobeCleanup
