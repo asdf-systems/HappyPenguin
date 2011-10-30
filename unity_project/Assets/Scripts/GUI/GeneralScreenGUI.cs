@@ -8,7 +8,7 @@ public class GeneralScreenGUI : GUI
 	public GeneralScreenGUI() {
 		
 	}
-
+	
 	public static void Box(GUIStatics gui, Rect rect, string text) {
 		UnityEngine.GUI.Box(GetRelativePosition(gui, rect), text);
 	}
@@ -36,12 +36,23 @@ public class GeneralScreenGUI : GUI
 	}
 
 
+<<<<<<< HEAD
 	public static string TextField(GUIStatics gui, Rect rect, string text) {
 		return UnityEngine.GUI.TextField(GetRelativePosition(gui, rect), text);
+=======
+	public static string TextField(GUIStatics gui, Rect rect, string text, int signCount) {
+		
+		return UnityEngine.GUI.TextField(GetRelativePosition(gui, rect), text,signCount);
+		
+>>>>>>> origin/feature/wardrobeCleanup
 	}
 
-	public static string TextField(GUIStatics gui, Rect rect, string text, GUIStyle style) {
-		return UnityEngine.GUI.TextField(GetRelativePosition(gui, rect), text, style);
+	public static string TextField(GUIStatics gui, Rect rect, string text,int signCount,  GUIStyle style) {
+		int size = style.fontSize;
+		
+		style.fontSize = GetRelativeFontSize(gui, size);
+		
+		return UnityEngine.GUI.TextField(GetRelativePosition(gui, rect), text, signCount, style);
 		
 	}
 

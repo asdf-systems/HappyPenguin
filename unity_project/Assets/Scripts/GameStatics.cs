@@ -24,7 +24,54 @@ public static class GameStatics {
 		get;
 		set;
 	}
-
+	
+	public static float PersonalHighscore{
+		get{
+			try{
+				string tmp = LocalStorage.ReadUTF8File("personal_highscore");
+				return float.Parse(tmp);
+			} catch(Exception e){
+				Debug.LogWarning(e.Message);
+				return 0.0f;
+			}	
+		}
+		set{
+			
+			try{
+				string sPoint = FormatPoints(value);
+				LocalStorage.WriteUTF8File("personal_highscore", sPoint);
+			} catch(Exception e){
+				Debug.LogWarning(e.Message);
+			}
+		}
+	}
+	
+	private static string FormatPoints(float points){
+		int iPoints = (int)points;
+		string sPoints = iPoints.ToString();
+		while(sPoints.Length < 7)
+			sPoints = "0" + sPoints;
+		return sPoints;
+		
+	}
+	
+	public static string username{
+		get{
+			try{
+				return LocalStorage.ReadUTF8File("player_name");
+			} catch(Exception e){
+				Debug.LogWarning(e.Message);
+				return string.Empty;
+			}	
+		}
+		set{
+			try{
+				LocalStorage.WriteUTF8File("player_name", value);
+			} catch(Exception e){
+				Debug.LogWarning(e.Message);
+			}
+		}
+	}
 	public static void savePlayerHat(string name){
 		penguinHat = name;
 		LocalStorage.WriteUTF8File("penguinHat", name);

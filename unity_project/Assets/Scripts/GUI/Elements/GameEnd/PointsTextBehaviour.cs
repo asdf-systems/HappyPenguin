@@ -2,10 +2,16 @@ using UnityEngine;
 using System.Collections;
 
 public class PointsTextBehaviour : UIElementBehaviour<GUIStatics>{
+<<<<<<< HEAD
 	public int targetTextSize;
+=======
+	public int targetTextSize; 
+	public GUIStyle textStyle;
+>>>>>>> origin/feature/wardrobeCleanup
 	protected override void showElements (){
-		currentStyle.fontSize = targetTextSize;
-		GeneralScreenGUI.Box(new Rect(positionX, positionY, 500, 200), "Points: " + GameStatics.Points, currentStyle);
+		
+		textStyle.fontSize = targetTextSize;
+		GeneralScreenGUI.Label(guiStatics, new Rect(positionX, positionY, 200, 200), "Points: " + GameStatics.Points, textStyle);
 	}
 	
 }
