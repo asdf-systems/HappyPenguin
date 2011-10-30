@@ -3,9 +3,11 @@ using System.Collections;
 
 public class PointsTextBehaviour : UIElementBehaviour<GUIStatics>{
 	public int targetTextSize; 
+	public GUIStyle textStyle;
 	protected override void showElements (){
-		currentStyle.fontSize = targetTextSize;
-		GeneralScreenGUI.Box(new Rect(positionX, positionY, 500, 200), "Points: " + GameStatics.Points, currentStyle);
+		
+		textStyle.fontSize = targetTextSize;
+		GeneralScreenGUI.Label(guiStatics, new Rect(positionX, positionY, 200, 200), "Points: " + GameStatics.Points, textStyle);
 	}
 	
 }

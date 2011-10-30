@@ -24,7 +24,24 @@ public static class GameStatics {
 		get;
 		set;
 	}
-
+	
+	public static string username{
+		get{
+			try{
+				return LocalStorage.ReadUTF8File("player_name");
+			} catch(Exception e){
+				Debug.LogWarning(e.Message);
+				return string.Empty;
+			}	
+		}
+		set{
+			try{
+				LocalStorage.WriteUTF8File("player_name", value);
+			} catch(Exception e){
+				Debug.LogWarning(e.Message);
+			}
+		}
+	}
 	public static void savePlayerHat(string name){
 		penguinHat = name;
 		LocalStorage.WriteUTF8File("penguinHat", name);
