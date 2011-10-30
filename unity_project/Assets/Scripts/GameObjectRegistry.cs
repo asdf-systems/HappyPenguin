@@ -15,7 +15,8 @@ namespace Pux
 		{
 			if (objects.ContainsKey(name)) {
 				var message = string.Format("object {0} already registered", name);
-				throw new ApplicationException(message);
+				Debug.Log(message);
+				return;
 			}
 			
 			objects.Add(name, gameObject);

@@ -5,15 +5,14 @@ using System;
 public class GameEndState : MonoBehaviour {
 
 	private float time;
-<<<<<<< HEAD
-=======
+
 	public AlertTextBehaviour alertElement;
 	public GetNameAlert nameAlert;
 	public okayButton okayButton;
 	private bool firstCheck = true;
 	private bool timeFreeze = false;
 	
->>>>>>> origin/feature/wardrobeCleanup
+
 	// Use this for initialization
 	void Start () {
 		//Debug.Log("Data Path: " + Application.persistentDataPath);
@@ -22,34 +21,21 @@ public class GameEndState : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-<<<<<<< HEAD
-
-		time+= Time.deltaTime;
-		//Debug.Log("Update GameEndState, Time: " + time);
-=======
 		if(firstCheck){
 			
 			//Debug.LogWarning("Points fix for testing!!!");	GameStatics.Points = 300;
 			
 			checkHighscore();
 			firstCheck = false;
-			
 		}
 		if(!timeFreeze)
 			time+= Time.deltaTime;
 		
->>>>>>> origin/feature/wardrobeCleanup
+
 		if(time > 10){
 			Application.LoadLevel(0);
 		}
 	}
-<<<<<<< HEAD
-
-	public void addEntry(string name, int points) {
-		StartCoroutine(
-			HighscoreServer.AddEntry(name, points)
-			);
-=======
 	
 	public void usernameInputFinished(){
 		timeFreeze = false;
@@ -121,7 +107,5 @@ public class GameEndState : MonoBehaviour {
 		StartCoroutine(
 			HighscoreServer.AddEntry(name, points)
 		);
-		
->>>>>>> origin/feature/wardrobeCleanup
 	}
 }

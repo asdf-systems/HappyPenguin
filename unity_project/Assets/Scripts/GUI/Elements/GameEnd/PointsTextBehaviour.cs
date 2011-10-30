@@ -2,12 +2,9 @@ using UnityEngine;
 using System.Collections;
 
 public class PointsTextBehaviour : UIElementBehaviour<GUIStatics>{
-<<<<<<< HEAD
-	public int targetTextSize;
-=======
 	public int targetTextSize; 
 	public GUIStyle textStyle;
->>>>>>> origin/feature/wardrobeCleanup
+
 	protected override void showElements (){
 		
 		textStyle.fontSize = targetTextSize;

@@ -34,17 +34,10 @@ public class GeneralScreenGUI : GUI
 		style.fontSize = GetRelativeFontSize(gui, size);
 		UnityEngine.GUI.Label(GetRelativePosition(gui, rect), text, style);
 	}
-
-
-<<<<<<< HEAD
+	
 	public static string TextField(GUIStatics gui, Rect rect, string text) {
 		return UnityEngine.GUI.TextField(GetRelativePosition(gui, rect), text);
-=======
-	public static string TextField(GUIStatics gui, Rect rect, string text, int signCount) {
-		
-		return UnityEngine.GUI.TextField(GetRelativePosition(gui, rect), text,signCount);
-		
->>>>>>> origin/feature/wardrobeCleanup
+
 	}
 
 	public static string TextField(GUIStatics gui, Rect rect, string text,int signCount,  GUIStyle style) {

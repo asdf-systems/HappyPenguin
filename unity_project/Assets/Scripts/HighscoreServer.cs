@@ -18,11 +18,8 @@ public class HighscoreServer {
 	private const string ADDRESS = "http://pux.asdf-systems.de:8080";
 	private const string PASSWORD = "Iof+:*NLx^%~+zu?-,|";
 	private const string GETHIGHSCORE_CALL = "{\"MethodName\": \"GetHighscore\", \"Parameters\": []}";
-<<<<<<< HEAD
-	private const string ADDENTRY_CALL = "{\"MethodName\": \"GetHighscore\", \"Parameters\": [{0}, \""+PASSWORD+"\"]}";
-=======
+
 	private const string ADDENTRY_CALL = "{\"MethodName\": \"AddEntry\", \"Parameters\": [{0}, \""+PASSWORD+"\"]}";
->>>>>>> origin/feature/wardrobeCleanup
 
 	private delegate void RestCallback(string data);
 	public delegate void HighscoreCallback(Entry[] highscore);
@@ -54,13 +51,8 @@ public class HighscoreServer {
 		var obj = JSONObject.obj;
 		obj.AddField("Name", name);
 		obj.AddField("Points", points);
-<<<<<<< HEAD
-		var call = string.Format(ADDENTRY_CALL, obj.ToString());
-=======
-		
 		var call = ADDENTRY_CALL.Replace("{0}", obj.ToString());
 		Debug.Log("CALL: " + call);
->>>>>>> origin/feature/wardrobeCleanup
 		return callREST(call, data => {});
 	}
 }
