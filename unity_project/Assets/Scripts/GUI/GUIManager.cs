@@ -87,7 +87,7 @@ public class GUIManager : GUIStatics
 	}
 	
 	private int poorMansBarrier;
-	private void OnButtonsSlidOut(Action action)
+	private void OnButtonsSlidOut(Action action, ClockRotations rotation)
 	{
 		poorMansBarrier ++;
 		if (poorMansBarrier < 4) {
@@ -95,35 +95,35 @@ public class GUIManager : GUIStatics
 		}
 		
 		StorePositions();
-		SwapTextures();
+		SwapTextures(rotation);
 		if (action != null) {
 			action();
 		}
 	}
 	
-	private void SwapTextures()
+	private void SwapTextures(ClockRotations rotation)
 	{
-		SwapTexture(buttonC, "green");
-		SwapTexture(buttonE, "red");
-		SwapTexture(buttonQ, "yellow");
-		SwapTexture(buttonY, "purple");
+		SwapTexture(buttonC, "green", rotation);
+		SwapTexture(buttonE, "red", rotation);
+		SwapTexture(buttonQ, "yellow", rotation);
+		SwapTexture(buttonY, "purple", rotation);
 	}
 	
-	private void SwapTexture(UIElementBehaviour<GUIManager> button, string color)
+	private void SwapTexture(UIElementBehaviour<GUIManager> button, string color, ClockRotations rotation)
 	{
 		var path = "iPhone/UI/";
 		var ns = string.Empty;
 		if (button.Position.x < 480) {
-			ns = "bottom";
+			ns = rotation == ClockRotations.Clockwise ? "bottom" : "top";
 		} else {
-			ns = "top";
+			ns = rotation == ClockRotations.Clockwise ? "top" : "bottom";
 		}
 		
 		var sw = string.Empty;
 		if (button.Position.y > 320) {
-			sw = "right";
+			sw = rotation == ClockRotations.Clockwise ? "right" : "left";
 		} else {
-			sw = "left";
+			sw = rotation == ClockRotations.Clockwise ? "left" : "right";
 		}
 		
 		var normal = string.Format("{0}arrow_{1}_{2}_{3}", path, color, ns, sw);
@@ -138,9 +138,9 @@ public class GUIManager : GUIStatics
 	{
 		poorMansBarrier = 0;
 		if (clockRotation == ClockRotations.Clockwise) {
-			SlideButtonsOut(() => OnButtonsSlidOut(RotateRight));
+			SlideButtonsOut(() => OnButtonsSlidOut(RotateRight, clockRotation));
 		} else{
-			SlideButtonsOut(() => OnButtonsSlidOut(RotateLeft));
+			SlideButtonsOut(() => OnButtonsSlidOut(RotateLeft, clockRotation));
 		}
 	}
 	

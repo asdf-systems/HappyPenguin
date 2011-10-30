@@ -6,7 +6,7 @@ using Pux.UI;
 
 public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 {
-	private ControlManager<UIElementBehaviour<T>> controlManager;
+	private ControlManager<MonoBehaviour> controlManager;
 	public int guiDepth;
 	public T guiStatics;
 
@@ -31,11 +31,11 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 	private Vector2 startingPosition;
 	private Vector2 endingPosition;
 	
-	public IEnumerable<Controller<UIElementBehaviour<T>>> Controllers {
+	public IEnumerable<Controller<MonoBehaviour>> Controllers {
 		get { return controlManager.Controllers; }
 	}
 	
-	public void QueueController(string name, Controller<UIElementBehaviour<T>> controller)
+	public void QueueController(string name, Controller<MonoBehaviour> controller)
 	{
 		controlManager.QueueController(name, controller);
 	}
@@ -50,16 +50,16 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		resetButtons("all");
 	}
 
-	protected virtual void Update() {
-		checkForSwipes();
-		hitTest();
+	private void Update() {
 		if (controlManager != null) {
 			controlManager.Update(this);			
 		}
+		checkForSwipes();
+		hitTest();
 	}
 	
 	private void Awake() {
-		controlManager = new ControlManager<UIElementBehaviour<T>>();
+		controlManager = new ControlManager<MonoBehaviour>();
 		Width = 128;
 		Height = 128;
 	}
@@ -171,6 +171,7 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 	protected void resetElement() {
 		currentStyle = inactiveStyle;
 	}
+	
 	private void checkAndroidTap() {
 		//! TODO Android Tap
 	}
@@ -179,6 +180,7 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		currentStyle = hoverStyle;
 		hover();
 	}
+	
 	private void preHit() {
 		currentStyle = activeStyle;
 		buttonDown = true;

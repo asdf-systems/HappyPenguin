@@ -9,6 +9,18 @@ namespace Pux.Effects
 	{
 		private readonly GameWorldBehaviour world;
 		private Dictionary<Effect, TimeSpan> effects;
+		
+		public event EventHandler<EffectEventArgs> EffectExpired;
+		private void InvokeEffectExpired(Effect effect)
+		{
+			var handler = EffectExpired;
+			if (handler == null) {
+				return;
+			}
+			
+			var e = new EffectEventArgs(new[]{effect});
+			handler(this, e);
+		}
 
 		public EffectManager(GameWorldBehaviour world) {
 			this.world = world;
@@ -31,6 +43,14 @@ namespace Pux.Effects
 			foreach (var e in expiredEffects) {
 				e.Stop(world);
 				effects.Remove(e);
+				InvokeEffectExpired(e);
+			}
+		}
+		
+		public void RegisterEffects(IEnumerable<Effect> effects)
+		{
+			foreach (var e in effects) {
+				RegisterEffect(e);
 			}
 		}
 

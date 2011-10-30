@@ -3,7 +3,6 @@ using System.Collections;
 
 public class GeneralScreenGUI : GUI
 {
-
 	private Camera mCamera;
 
 	public GeneralScreenGUI() {
@@ -16,38 +15,29 @@ public class GeneralScreenGUI : GUI
 
 	public static void Box(GUIStatics gui, Rect rect, string text, GUIStyle style) {
 		UnityEngine.GUI.Box(GetRelativePosition(gui, rect), text, style);
-		
 	}
 
 	public static bool Button(GUIStatics gui, Rect rect, string text) {
 		return UnityEngine.GUI.Button(GetRelativePosition(gui, rect), text);
-		
 	}
 
 	public static bool Button(GUIStatics gui, Rect rect, string text, GUIStyle style) {
-		
 		return UnityEngine.GUI.Button(GetRelativePosition(gui, rect), text, style);
-		
 	}
 
 	public static void Label(GUIStatics gui, Rect rect, string text) {
-		UnityEngine.GUI.Label(GetRelativePosition(gui, rect), text);
-		
+		UnityEngine.GUI.Label(GetRelativePosition(gui, rect), text);	
 	}
 
 	public static void Label(GUIStatics gui, Rect rect, string text, GUIStyle style) {
 		int size = style.fontSize;
-		
 		style.fontSize = GetRelativeFontSize(gui, size);
-		
 		UnityEngine.GUI.Label(GetRelativePosition(gui, rect), text, style);
-		
 	}
 
 
 	public static string TextField(GUIStatics gui, Rect rect, string text) {
 		return UnityEngine.GUI.TextField(GetRelativePosition(gui, rect), text);
-		
 	}
 
 	public static string TextField(GUIStatics gui, Rect rect, string text, GUIStyle style) {
@@ -57,12 +47,10 @@ public class GeneralScreenGUI : GUI
 
 	public static bool Toggle(GUIStatics gui, Rect rect, bool flag, string text) {
 		return UnityEngine.GUI.Toggle(GetRelativePosition(gui, rect), flag, text);
-		
 	}
 
 	public static bool Toggle(GUIStatics gui, Rect rect, bool flag, string text, GUIStyle style) {
 		return UnityEngine.GUI.Toggle(GetRelativePosition(gui, rect), flag, text, style);
-		
 	}
 
 	public static Vector2 GetCenter() {
@@ -73,6 +61,7 @@ public class GeneralScreenGUI : GUI
 		Vector2 factor = GetFactor(gui);
 		return (int)(size * factor.y);
 	}
+	
 	private static Vector2 GetFactor(GUIStatics gui) {
 		// Get the right Hight and Width proportional to screen
 		float factorY = (float)(Screen.height) / (float)(gui.TargetScreenHeight);

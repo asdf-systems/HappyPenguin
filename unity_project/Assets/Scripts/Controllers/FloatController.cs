@@ -17,7 +17,11 @@ namespace Pux.Controllers
 		
 		protected override void UpdateOverride (EntityBehaviour entity)
 		{
-			var offset = Convert.ToSingle(Math.Sin(Time.timeSinceLevelLoad)) * 2;
+			if (IsFinished || entity == null) {
+				return;
+			}
+			
+			var offset = Convert.ToSingle(Math.Sin(Time.timeSinceLevelLoad)) * 1.4f;
 			var pos = entity.transform.position;
 			 entity.transform.position = new Vector3(pos.x, SeaLevel + offset, pos.z);
 		}

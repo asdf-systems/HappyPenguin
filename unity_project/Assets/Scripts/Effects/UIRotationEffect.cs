@@ -11,6 +11,8 @@ namespace Pux.Effects
 		{
 			random = new Random();
 			clockRotations = new ClockRotations[2];
+			Duration = TimeSpan.FromSeconds(5);
+			IconResourceKey = "UI/EffectIcons/rotate_buttons";
 		}
 		
 		#region implemented abstract members of Pux.Effects.Effect
@@ -31,7 +33,7 @@ namespace Pux.Effects
 		
 		public override void Update (GameWorldBehaviour world)
 		{
-			
+			// nothing to update
 		}
 		
 		

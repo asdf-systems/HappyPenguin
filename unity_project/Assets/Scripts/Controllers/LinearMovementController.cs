@@ -20,6 +20,10 @@ namespace Pux.Controllers
 	
 		protected override void UpdateOverride (EntityBehaviour entity)
 		{
+			if (IsFinished || entity == null) {
+				return;
+			}
+			
 			var isCloseEnough = entity.transform.position.IsCloseEnoughTo(targetPosition);
 			if (isCloseEnough) {
 				return;

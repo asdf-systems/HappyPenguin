@@ -21,6 +21,13 @@ namespace Pux.Controllers
 		public void ClearControllers() {
 			controllers.Clear();
 		}
+		
+		public void Reset()
+		{
+			controllers.Clear();
+			keysToBeRemoved.Clear();
+			queuedControllers.Clear();
+		}
 
 		public void QueueController(string name, Controller<T> controller) {
 			if (queuedControllers.ContainsKey(name)) {
@@ -48,7 +55,7 @@ namespace Pux.Controllers
 		}
 
 		public void Update(T entity) {
-			foreach (var c in Controllers) {
+			foreach (var c in this.Controllers) {
 				c.Update(entity);
 			}
 			

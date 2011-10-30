@@ -57,12 +57,19 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			effectManager.RegisterEffect(effect);
 		}
 	}
+	
+	private void OnEffectExpired(object sender, EffectEventArgs e){
+		foreach (var effect in e.Effects) {
+			iconSlotManager.HideEffect(effect);
+		}
+	}
 
 	public GameWorldBehaviour() {
 		entityManager = new EntityManager();
 		entityManager.EffectsReleased += OnEffectsReleased;
 		
 		effectManager = new EffectManager(this);
+		effectManager.EffectExpired += OnEffectExpired;
 		
 		creatureSpawner = new CreatureSpawner();
 		creatureSpawner.EntitySpawned += OnCreatureGenerated;
@@ -79,7 +86,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.ClearSymbols();
 		var target = entityManager.FindTargetable(e.symbolChain);
 		if (target == null) {
-			InvokeUIRotation(ClockRotations.Clockwise);
+			ApplyEffect(new UIRotationEffect());
 			InvokePlayerMiss();
 			return;
 		}
@@ -91,6 +98,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		if (player.gameObject.animation.IsPlaying("throw")) {
 			player.gameObject.animation.Stop();
 		}
+		target.TargetHit += (sender,e ) => {
+			effectManager.RegisterEffects(target.HitEffects);
+		};
 		entityManager.Player.PlayAnimation("throw");
 		entityManager.ThrowSnowball(target);
 	}
@@ -104,8 +114,16 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		if (creature != null) {
 			var attackEffects = creature.AttackEffects;
 			for (int i = 0; i < attackEffects.Count; i++) {
-				effectManager.RegisterEffect(attackEffects[i]);
+				ApplyEffect(attackEffects[i]);
 			}
+		}
+	}
+	
+	private void ApplyEffect(Effect effect)
+	{
+		effectManager.RegisterEffect(effect);
+		if (effect.Duration > TimeSpan.Zero) {
+			iconSlotManager.DisplayEffect(effect);
 		}
 	}
 

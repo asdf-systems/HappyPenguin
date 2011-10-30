@@ -23,6 +23,11 @@ namespace Pux.Controllers
 
 		#region implemented abstract members of Pux.Controllers.Controller[EntityBehaviour]
 		protected override void UpdateOverride(EntityBehaviour entity) {
+			
+			if (IsFinished || entity == null) {
+				return;
+			}
+			
 			var isCloseEnough = entity.transform.position.y - SeaLevel < 0.02f;
 			if (elapsedTime >= Duration && isCloseEnough) {
 				InvokeControllerFinished(entity);

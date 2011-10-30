@@ -10,7 +10,5 @@ public class GUIStatics : MonoBehaviour {
 	public int TargetScreenHeight;
 	public int TargetScreenWidth;
 	
-	public GUISkin guiSkin;
-	
-		
+	public GUISkin guiSkin;	
 }

@@ -40,6 +40,10 @@ namespace Pux.Controllers
 
 		protected override void UpdateOverride (EntityBehaviour entity)
 		{
+			if (IsFinished || entity == null) {
+				return;
+			}
+			
 			MovingObject = entity.gameObject.transform;
 			
 			if (IsMoving) {

@@ -1,10 +1,11 @@
 using System;
+using Pux.Controllers;
 using UnityEngine;
 using Pux.Unity2;
 
 namespace Pux.UI
 {
-	public sealed class UIElementSlideController : UIElementController<GUIManager>
+	public sealed class UIElementSlideController : Controller<MonoBehaviour>
 	{
 		private Func<float, float> function;
 		private TimeSpan elapsedTime = TimeSpan.Zero; 
@@ -31,9 +32,9 @@ namespace Pux.UI
 			set;
 		}
 		
-		protected override void UpdateOverride (UIElementBehaviour<GUIManager> entity)
+		protected override void UpdateOverride (MonoBehaviour entity)
 		{	
-			if (IsFinished) {
+			if (IsFinished || entity == null) {
 				return;
 			}
 			
@@ -53,7 +54,10 @@ namespace Pux.UI
 			// need more speed for we do operate on a larger scale than in game 
 			
 			var vec = (TargetPosition - StartPosition);
-			entity.Position = StartPosition + (vec * relDistance); 
+			
+			//HACK for mono bug, something with trampolines
+			var ui = (UIElementBehaviour<GUIManager>) entity;
+			ui.Position = StartPosition + (vec * relDistance); 
 		}		
 	}
 }

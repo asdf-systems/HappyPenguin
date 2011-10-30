@@ -74,7 +74,7 @@ namespace Pux.Entities
 		}
 
 		protected virtual void AwakeOverride() {
-			// nada
+			controlManager.Reset();
 		}
 		
 		public void Hide() {
