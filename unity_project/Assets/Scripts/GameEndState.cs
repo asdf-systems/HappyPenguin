@@ -9,6 +9,8 @@ public class GameEndState : MonoBehaviour {
 	public AlertTextBehaviour alertElement;
 	public GetNameAlert nameAlert;
 	public okayButton okayButton;
+	public forward_toWardrobe nextButton;
+	
 	private bool firstCheck = true;
 	private bool timeFreeze = false;
 	
@@ -33,12 +35,13 @@ public class GameEndState : MonoBehaviour {
 		
 
 		if(time > 10){
-			Application.LoadLevel(0);
+			Application.LoadLevel(4);
 		}
 	}
 	
 	public void usernameInputFinished(){
 		timeFreeze = false;
+		nextButton.showElement = true;
 		int points = Convert.ToInt32(GameStatics.Points);
 		addEntry(getUsername(), points);
 	}
@@ -48,7 +51,9 @@ public class GameEndState : MonoBehaviour {
 		if(username == string.Empty){
 			nameAlert.showText = true;
 			okayButton.showButton = true;
+			nextButton.showElement = false;
 			timeFreeze = true;
+			
 		} 
 		return username;
 		

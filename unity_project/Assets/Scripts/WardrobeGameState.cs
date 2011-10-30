@@ -12,10 +12,12 @@ public class WardrobeGameState : MonoBehaviour {
 	private AnimationState currentAnim;
 	private float targetTime;
 	
+	
 	void Awake(){
 		random = new System.Random();
 		
 	}
+	
 	// Use this for initialization
 	void Start () {
 		if(animations.Length != animationsProbabilityRange.Length)

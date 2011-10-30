@@ -3,8 +3,13 @@ using System.Collections;
 
 public class forward_toWardrobe : UIElementBehaviour<GUIStatics> {
 
+	public bool showElement {get;set;}
+	void Start(){
+		showElement = true;
+	}
 	protected override void showElements(){
-		GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,256,256), "", currentStyle);
+		if(showElement)
+			GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,256,256), "", currentStyle);
 		
 	}
 	

@@ -18,9 +18,7 @@ public class personalHighscore : UIElementBehaviour<GUIStatics> {
 		textStyle.fontSize = targetTextSize;
 		GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,350,350), "", inactiveStyle);
 
-		GeneralScreenGUI.Label(guiStatics, new Rect(positionX+textOffsetX,positionY+textOffsetY,350,350), "Personal Score", textStyle);
-		textStyle.fontSize = targetTextSize;
-		GeneralScreenGUI.Label(guiStatics, new Rect(positionX+textOffsetX,positionY+textOffsetY+targetTextSize,300,300), points, textStyle);
+		
 
 		string oldname = username;
 		username = GeneralScreenGUI.TextField(guiStatics, new Rect(positionX+textOffsetX,positionY+textOffsetY,350,350), username,10, textStyle);

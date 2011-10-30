@@ -11,8 +11,10 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 	public T guiStatics;
 
 	// Active Rectangle 
-	public int textHeight;
-	public int textWidth;
+	public int activeFieldHeight;
+	public int activeFieldWidth;
+	public int activeFieldOffsetX = 0;
+	public int activeFieldOffsetY = 0;
 	public int positionX;
 	public int positionY;
 	
@@ -115,7 +117,7 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 		if(Input.touches.Length > 0)
 			return;
 		Vector3 mousePos = Input.mousePosition;
-		if (cursorInside(mousePos, new Vector3(positionX, positionY, 0), new Vector3(this.textWidth, this.textHeight, 0))) {
+		if (cursorInside(mousePos, new Vector3(positionX + activeFieldOffsetX, positionY + activeFieldOffsetY, 0), new Vector3(activeFieldWidth , activeFieldHeight, 0))) {
 			preHover();
 			if (Input.GetMouseButton(0)) {
 				if (!buttonDown) {
@@ -139,7 +141,7 @@ public class UIElementBehaviour<T> : MonoBehaviour where T : GUIStatics
 				return;
 			Debug.Log("Touch: " + touch.phase.ToString());
 			
-			if (cursorInside(new Vector3(touch.position.x, touch.position.y, 0), new Vector3(positionX, positionY, 0), new Vector3(this.textWidth, this.textHeight, 0))) {
+			if (cursorInside(new Vector3(touch.position.x, touch.position.y, 0), new Vector3(positionX+ activeFieldOffsetX, positionY + activeFieldOffsetY, 0), new Vector3(this.activeFieldWidth, this.activeFieldHeight, 0))) {
 					if (!iPhoneTap) {
 						iPhoneTap = true;
 						Debug.Log("Button Hit");
