@@ -11,13 +11,15 @@ public sealed class PerkSpawner : Spawner<PerkTypes>
 	private TimeSpan timeSinceLastSpawn = TimeSpan.Zero;
 	private List<Action> spawnList = new List<Action>();
 
-	public static int DEFAULT_PERK_SPAWN_TIME = 10;
+	public static int DEFAULT_PERK_SPAWN_TIME = 20;
 
 	public PerkSpawner() {
+		spawnList.Add(SpawnDoublePoints);
+		spawnList.Add(SpawnTripplePoints);
 		spawnList.Add(SpawnHealth);
-		spawnList.Add(SpawnHealth);
-		spawnList.Add(SpawnHealth);
-		spawnList.Add(SpawnNuke);
+		spawnList.Add(SpawnIncreasedBallSpeed);
+		spawnList.Add(SpawnLessSymbols);
+		spawnList.Add(SpawnCreatureSlowdown);
 	}
 
 	public void Update() {
@@ -42,7 +44,23 @@ public sealed class PerkSpawner : Spawner<PerkTypes>
 		InvokeEntitySpawned(PerkTypes.Health);
 	}
 
-	private void SpawnNuke() {
-		InvokeEntitySpawned(PerkTypes.Nuke);
+	private void SpawnDoublePoints() {
+		InvokeEntitySpawned(PerkTypes.DoublePoints);
+	}
+	
+	private void SpawnTripplePoints() {
+		InvokeEntitySpawned(PerkTypes.TripplePoints);
+	}
+	
+	private void SpawnCreatureSlowdown() {
+		InvokeEntitySpawned(PerkTypes.CreatureSlowdown);
+	}
+	
+	private void SpawnIncreasedBallSpeed() {
+		InvokeEntitySpawned(PerkTypes.IncreasedBallSpeed);
+	}
+	
+	private void SpawnLessSymbols() {
+		InvokeEntitySpawned(PerkTypes.LessSymbols);
 	}
 }

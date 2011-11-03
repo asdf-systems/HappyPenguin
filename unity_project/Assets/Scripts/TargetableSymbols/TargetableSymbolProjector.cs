@@ -1,5 +1,6 @@
 using System;
 using Pux.Entities;
+using Pux.Resources;
 using UnityEngine;
 using System.Linq;
 using System.Collections.Generic;
@@ -66,11 +67,8 @@ namespace Pux.Entities
 		private GameObject CreateGameObjectFromSymbol(char symbol, int symbolPosition)
 		{
 			var name = string.Format("Symbols/TargetableSymbol{0}", symbol);
-			var resource = Resources.Load(name);
-			var gameObject = GameObject.Instantiate(resource, Vector3.zero, Quaternion.identity) as GameObject;
-			
+			var gameObject = ResourceManager.CreateInstance<GameObject>(name);
 			StoreBehaviour(gameObject);
-			
 			return gameObject;
 		}
 		

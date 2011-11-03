@@ -5,14 +5,10 @@ using System.Collections.Generic;
 using Pux.Spawning;
 using Pux.Entities;
 
-namespace Pux.Entities
+public sealed class PerkBehaviour : TargetableEntityBehaviour
 {
-	public abstract class PerkBehaviour : TargetableEntityBehaviour
-	{		
-		protected override void AwakeOverride ()
-		{
-			base.AwakeOverride ();
-			HitEffects.Add(new HideSymbolsEffect(this));
-		}
+	protected override void AwakeOverride() {
+		base.AwakeOverride();
+		HitEffects.Add(new HideSymbolsEffect(this));
 	}
 }

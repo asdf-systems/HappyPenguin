@@ -27,6 +27,31 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public string PerkText;
 	public string WrongSymbolChainText;
 	public string LooseText;
+	
+	public int SymbolCountModifier {
+		get;
+		set;
+	}
+	
+	public float PointsMultiplier {
+		get;
+		set;
+	}
+	
+	public float CreatureSpeedModifier {
+		get;
+		set;
+	}
+	
+	public float SnowballSpeedModifier {
+		get;
+		set;
+	}
+	
+	public bool IsNight {
+		get;
+		set;
+	}
 
 	private void HighlightSymbols(string chain) {
 		var targetables = entityManager.FindTargetables();
@@ -78,6 +103,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		perkSpawner = new PerkSpawner();
 		perkSpawner.EntitySpawned += OnPerkGenerated;
 		
+		symbolManager = new TargetableSymbolManager();
+		
 		lifeBeacons = new List<LifeSpawnBeacon>();
 		iconSlotManager = new IconSlotManager();
 	}
@@ -86,7 +113,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.ClearSymbols();
 		var target = entityManager.FindTargetable(e.symbolChain);
 		if (target == null) {
-			ApplyEffect(new UIRotationEffect());
 			InvokePlayerMiss();
 			return;
 		}
@@ -98,9 +124,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		if (player.gameObject.animation.IsPlaying("throw")) {
 			player.gameObject.animation.Stop();
 		}
+		
 		target.TargetHit += (sender,e ) => {
 			effectManager.RegisterEffects(target.HitEffects);
+			symbolManager.VoidTargetable(target);
 		};
+		
 		entityManager.Player.PlayAnimation("throw");
 		entityManager.ThrowSnowball(target);
 	}

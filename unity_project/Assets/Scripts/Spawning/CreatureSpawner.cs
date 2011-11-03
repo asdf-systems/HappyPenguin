@@ -9,10 +9,9 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 //	Constants
 	public static int DEFAULT_CREDIT_SPAWN_TIME = 5;
 	// SpawnTime in Seconds
-	public static int DEFAULT_CREATURE_SPAWN_TIME = 5;
+	public static int DEFAULT_CREATURE_SPAWN_TIME = 4;
 	// SpawnTime in Seconds
 	public static int DIFFICULTY_CREDIT_MULTIPLIER = 5;
-	public static int MAX_CREATURE_COUNT = 10;
 
 //	Fields & Properties
 	public double Difficulty;
@@ -29,7 +28,6 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	public CreatureSpawner() {
 		random = new System.Random();
 	}
-
 
 //	Update
 
@@ -61,15 +59,17 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	private void SpawnCreatures() {
 		timeSinceLastSpawn = timeSinceLastSpawn.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
 		spawnCounter = InvokeCreatureCountNeeded();
-		if (spawnCounter < MAX_CREATURE_COUNT && timeSinceLastSpawn.TotalSeconds >= (DEFAULT_CREATURE_SPAWN_TIME - Difficulty)) {
-			int rnd = random.Next(1, 10);
+		if(timeSinceLastSpawn.TotalSeconds >= (DEFAULT_CREATURE_SPAWN_TIME - Difficulty)) {
+			int rnd = random.Next(1, 100);
 			
-			if (1 <= rnd && rnd <= 4) {
-				SpawnPike();
-			} else if (5 <= rnd && rnd <= 7) {
-				SpawnShark();
+			if (1 <= rnd && rnd <= 50) {
+				InvokeEntitySpawned(CreatureTypes.Pike);
+			} else if (51 <= rnd && rnd <= 80) {
+				InvokeEntitySpawned(CreatureTypes.Shark);
+			} else if (81 <= rnd && rnd <= 95) {
+				InvokeEntitySpawned(CreatureTypes.Whale);
 			} else {
-				SpawnWhale();
+				InvokeEntitySpawned(CreatureTypes.Blowfish);
 			}
 			timeSinceLastSpawn = TimeSpan.Zero;
 		}

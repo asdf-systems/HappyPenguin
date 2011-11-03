@@ -8,6 +8,7 @@ using Pux.Spawning;
 using Pux.Unity;
 using Pux.Controllers;
 using Pux.Effects;
+using Pux.Resources;
 
 namespace Pux.Entities
 {
@@ -76,8 +77,8 @@ namespace Pux.Entities
 		}
 
 		private SnowballBehaviour DisplaySnowball() {
-			var snowball = Resources.Load("Environment/Snowball");
-			var instance = GameObject.Instantiate(snowball, Vector3.zero, Quaternion.identity) as GameObject;
+			
+			var instance = ResourceManager.CreateInstance<GameObject>("Environment/Snowball");
 			
 			instance.transform.parent = Player.rightHandPoint.transform;
 			instance.transform.localPosition = Vector3.zero;
@@ -98,8 +99,8 @@ namespace Pux.Entities
 
 		public void SpawnLifeBalloon(LifeSpawnBeacon beacon) {
 			var host = beacon.UnityGameObject;
-			var balloon = Resources.Load("Environment/Balloon") as GameObject;
-			var entity = GameObject.Instantiate(balloon, Vector3.zero, Quaternion.identity) as GameObject;
+			
+			var entity = ResourceManager.CreateInstance<GameObject>("Environment/Balloon");
 			entity.transform.parent = host.transform;
 			entity.transform.localPosition = Vector3.zero;
 		}
@@ -161,10 +162,18 @@ namespace Pux.Entities
 			var creatureSpawn = GameObjectRegistry.GetObject("creature_spawn");
 			
 			var creature = DisplayCreature(type, creatureSpawn.transform.position);
+			if (creature == null) {
+				throw new ApplicationException(string.Format("Could not create creature of type '{0}'", type));
+			}
 			creature.GrimReaperAppeared += (sender, e) => VoidTargetable(creature);
 			creature.SwimTo(Player.gameObject.transform.position).Float();
 			
-			if (type == CreatureTypes.Whale) {
+			if (type == CreatureTypes.Blowfish) {
+				creature.AttackEffects.Clear();
+				creature.HitEffects.Add(new NukeEffect(creature));
+			}
+			
+			if (type == CreatureTypes.Shark || type == CreatureTypes.Whale) {
 				creature.EquipWithRandomBaddy();
 			}
 			
@@ -205,12 +214,64 @@ namespace Pux.Entities
 		}
 
 		private PerkBehaviour DisplayPerk(PerkTypes type, Vector3 position) {
-			var resource = GetPerkResourceByType(type);
+			var name = GetPerkResourceByType(type);
 			var perkSpawn = GameObjectRegistry.GetObject("perk_spawn");
 			var root = GameObjectRegistry.GetObject("entity_root");
-			var gameObject = GameObject.Instantiate(resource, perkSpawn.transform.position, Quaternion.identity) as GameObject;
+			var gameObject = ResourceManager.CreateInstance<GameObject>(name);
+			
+			var perk = gameObject.GetComponentInChildren<PerkBehaviour>();
+			switch (type) {
+			case PerkTypes.Health:
+				
+				{
+					perk.HitEffects.Add(new LifeEffect(1));
+					break;
+				}
+
+			case PerkTypes.DoublePoints:
+				
+				{
+					perk.HitEffects.Add(new PointsMultiplierEffect(2));
+					break;
+				}
+
+			case PerkTypes.TripplePoints:
+				
+				{
+					perk.HitEffects.Add(new PointsMultiplierEffect(3));
+					break;
+				}
+
+			case PerkTypes.IncreasedBallSpeed:
+				
+				{
+					perk.HitEffects.Add(new SnowballSpeedModiferEffect());
+					break;
+				}
+
+			case PerkTypes.CreatureSlowdown:
+				
+				{
+					perk.HitEffects.Add(new CreatureSlowdownEffect());
+					break;
+				}
+
+			case PerkTypes.LessSymbols:
+				
+				{
+					perk.HitEffects.Add(new LessSymbolsEffect());
+					break;
+				}
+
+			default:
+				
+				
+				break;
+			}
+			
+			gameObject.transform.position = perkSpawn.transform.position;
 			gameObject.transform.parent = root.transform;
-			return gameObject.GetComponentInChildren<PerkBehaviour>();
+			return perk;
 		}
 
 		private CreatureBehaviour DisplayCreature(CreatureTypes type, Vector3 position) {
@@ -219,32 +280,46 @@ namespace Pux.Entities
 			
 			var leveledPosition = new Vector3(position.x, Environment.SeaLevel, position.z);
 			var quaternion = Quaternion.LookRotation(direction, Vector3.up);
-			var resource = GetCreatureResourceByType(type);
+			var name = GetCreatureResourceByType(type);
 			var root = GameObjectRegistry.GetObject("entity_root");
-			var gameObject = GameObject.Instantiate(resource, leveledPosition, quaternion) as GameObject;
+			var gameObject = ResourceManager.CreateInstance<GameObject>(name);
+			gameObject.transform.position = leveledPosition;
+			gameObject.transform.rotation = quaternion;
 			gameObject.transform.parent = root.transform;
 			return gameObject.GetComponentInChildren<CreatureBehaviour>();
 		}
 
-		private UnityEngine.Object GetPerkResourceByType(PerkTypes type) {
+		private string GetPerkResourceByType(PerkTypes type) {
 			var name = string.Empty;
 			
 			switch (type) {
-			case PerkTypes.Nuke:
-				name = "Perks/Nuke";
+			case PerkTypes.DoublePoints:
+				name = "Perks/gift_blue";
+				break;
+			case PerkTypes.TripplePoints:
+				name = "Perks/gift_purple";
+				break;
+			case PerkTypes.LessSymbols:
+				name = "Perks/gift_black";
+				break;
+			case PerkTypes.CreatureSlowdown:
+				name = "Perks/gift_yellow";
+				break;
+			case PerkTypes.IncreasedBallSpeed:
+				name = "Perks/gift_green";
 				break;
 			case PerkTypes.Health:
-				name = "Perks/Health";
+				name = "Perks/gift_red";
 				break;
 			}
 			if (string.IsNullOrEmpty(name)) {
 				throw new ApplicationException("perk type unknown.");
 			}
 			
-			return Resources.Load(name);
+			return name;
 		}
 
-		private UnityEngine.Object GetCreatureResourceByType(CreatureTypes type) {
+		private string GetCreatureResourceByType(CreatureTypes type) {
 			var name = string.Empty;
 			switch (type) {
 			case CreatureTypes.Pike:
@@ -256,11 +331,14 @@ namespace Pux.Entities
 			case CreatureTypes.Whale:
 				name = "Creatures/Whale";
 				break;
+			case CreatureTypes.Blowfish:
+				name = "Creatures/Blowfish";
+				break;
 			}
 			if (string.IsNullOrEmpty(name)) {
 				throw new ApplicationException("creature type unknown.");
 			}
-			return Resources.Load(name);
+			return name;
 		}
 	}
 }

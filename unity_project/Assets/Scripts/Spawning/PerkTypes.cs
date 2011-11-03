@@ -4,7 +4,11 @@ namespace Pux.Spawning
 	public enum PerkTypes : byte
 	{
 		Health,
-		Nuke
+		DoublePoints,
+		TripplePoints,
+		IncreasedBallSpeed,
+		CreatureSlowdown,
+		LessSymbols,
 	}
 }
 

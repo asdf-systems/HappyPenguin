@@ -6,7 +6,8 @@ namespace Pux.Spawning
 	{
 		Pike,
 		Shark,
-		Whale
+		Whale,
+		Blowfish
 	}
 }
 

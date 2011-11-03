@@ -10,6 +10,6 @@ public class MenuPlayButtonBehaviour : UIElementBehaviour<GUIStatics> {
 	protected override void hit(){
 		// start Game
 		//Debug.Log("Start Game");
-		Application.LoadLevel(1);
+		Application.LoadLevel("Loading");
 	}
 }

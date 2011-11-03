@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Pux;
 using Pux.Effects;
 using Pux.UI;
+using Pux.Resources;
 using System;
 
 public class GUIManager : GUIStatics
@@ -129,9 +130,9 @@ public class GUIManager : GUIStatics
 		var normal = string.Format("{0}arrow_{1}_{2}_{3}", path, color, ns, sw);
 		var hover = normal + "_hover";
 		
-		button.activeStyle.normal.background = Resources.Load(hover) as Texture2D;
-		button.hoverStyle.normal.background = Resources.Load(hover) as Texture2D;
-		button.inactiveStyle.normal.background = Resources.Load(normal) as Texture2D;
+		button.activeStyle.normal.background = ResourceManager.GetResource<Texture2D>(normal);
+		button.hoverStyle.normal.background = ResourceManager.GetResource<Texture2D>(hover);
+		button.inactiveStyle.normal.background = ResourceManager.GetResource<Texture2D>(normal);
 	}
 
 	public void PerformUIRotation(ClockRotations clockRotation)
