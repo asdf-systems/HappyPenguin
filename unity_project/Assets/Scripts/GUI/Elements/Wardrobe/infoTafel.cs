@@ -10,7 +10,7 @@ public class infoTafel : UIElementBehaviour<GUIStatics> {
 	public GUIStyle textStyle;
 	
 	protected override void showElements(){
-		GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,350,350), "", inactiveStyle);
+		GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,700,700), "", inactiveStyle);
 		textStyle.fontSize = targetFontSize;
 		GeneralScreenGUI.Label(guiStatics, new Rect(positionX+textOffsetX,positionY+textOffsetY,350,350), infoText, textStyle);
 	}
