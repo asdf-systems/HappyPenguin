@@ -87,7 +87,6 @@ public class GeneralScreenGUI : GUI
 	public static Vector3 NormalizeMouse(GUIStatics gui, Vector3 vec) {
 		float factorY = (float)(Screen.height) / (float)(gui.TargetScreenHeight);
 		float factorX = (float)(Screen.width) / (float)(gui.TargetScreenWidth);
-		//Debug.Log("Normalize: " + vec.y + " "+ Screen.height + "Factor: " + factorX + " " + factorY);
 		vec.y = Screen.height - vec.y;
 		vec.x /= factorX;
 		vec.y /= factorY;

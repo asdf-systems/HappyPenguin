@@ -41,12 +41,15 @@ namespace Pux.Resources
 		
 		public static T GetResource<T>(string key) where T : UnityEngine.Object
 		{
+			if (!IsResourceLoaded(key)) {
+				Debug.LogWarning(key + "not found");
+			}
 			return (T) _resources[key];
 		}
 		
 		public static T CreateInstance<T>(string key) where T : UnityEngine.Object { 
 			if (!IsResourceLoaded(key)) {
-				Debug.Log(key + "not found");
+				Debug.LogWarning(key + "not found");
 			}
 			var res = _resources[key];
 			return (T) GameObject.Instantiate(res, Vector3.zero, Quaternion.identity);

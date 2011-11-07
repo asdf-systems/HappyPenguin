@@ -2,12 +2,14 @@
 using System;
 using UnityEngine;
 using Pux.Entities;
+using Pux.Resources;
 
 public sealed class PlayerBehaviour : EntityBehaviour
 {
 	public float MaxLife = 5;
 	public float StartLife = 0;
 	public float StartPoints = 0;
+	public GameObject PenguinObject;
 	public GameObject mesh;
 	public GameObject hatPoint;
 	public GameObject rightHandPoint;
@@ -16,7 +18,7 @@ public sealed class PlayerBehaviour : EntityBehaviour
 	
 	public override GameObject gameObject{
 		get{
-			return mesh;
+			return PenguinObject;
 		}
 	}
 	
@@ -45,8 +47,8 @@ public sealed class PlayerBehaviour : EntityBehaviour
 	public void updateCloth(){
 		
 		changeHat();
-		changeBelt();
-		changeAmulett();
+		changeSkin();
+		
 		gameObject.animation.PlayQueued("happy");
 		gameObject.animation.PlayQueued("show01");
 	}
@@ -57,12 +59,9 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		Debug.Log("Hat: " + obj.name);
 	}
 	
-	private void changeBelt(){
-		//! NOT IMPLEMENTED YET
-	}
-	
-	private void changeAmulett(){
-		//! NOT IMPLEMENTED YET
+	private void changeSkin(){
+		Texture2D texture = ResourceManager.GetResource<Texture2D>("Player/Textures/"+GameStatics.PlayerSkin);
+		this.mesh.renderer.material.SetTexture("_MainTex",texture);
 	}
 	
 	private void changeCloth(GameObject hingePoint, GameObject newObject){

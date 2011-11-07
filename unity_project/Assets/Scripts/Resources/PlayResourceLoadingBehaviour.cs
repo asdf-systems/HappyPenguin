@@ -80,6 +80,8 @@ public sealed class PlayResourceLoadingBehaviour : ResourceLoadingBehaviour
 		ResourceManager.LoadResource("iPhone/UI/arrow_purple_top_left_hover");
 		ResourceManager.LoadResource("iPhone/UI/arrow_purple_top_right");
 		ResourceManager.LoadResource("iPhone/UI/arrow_purple_top_right_hover");
+		
+		
 	}
 
 

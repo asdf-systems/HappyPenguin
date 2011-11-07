@@ -4,13 +4,15 @@ using System;
 
 public class WardrobeBoxBehaviour : UIElementBehaviour<GUIStatics> {
 	
-	public string objectName;
 	public infoTafel infoTafel;
 	public int points;
 	public string infoText;
+	public string HatName;
 	
 	public Texture2D locked;
 	public Texture2D locked_active;
+	
+	public Texture2D Skin;
 	
 	private string currentText;
 	
@@ -30,8 +32,9 @@ public class WardrobeBoxBehaviour : UIElementBehaviour<GUIStatics> {
 			inactiveStyle.normal.background = locked;
 			activeStyle.normal.background = locked_active;
 			hoverStyle.normal.background = locked_active;
-		} else 
+		} else {
 			currentText = infoText;
+		}
 	}
 	protected override void hit(){
 		
@@ -43,7 +46,24 @@ public class WardrobeBoxBehaviour : UIElementBehaviour<GUIStatics> {
 	
 	
 	protected virtual void changePlayerCloth(){
-		//! overwritten in childclasses
+		loadHat();
+		loadSkin();
+		
+		
+	}
+	
+	private void loadHat(){
+		if(GameStatics.PersonalHighscore >=  points){
+			GameStatics.savePlayerHat(HatName);
+		}
+			
+		
+	}
+	
+	private void loadSkin(){
+		if(GameStatics.PersonalHighscore >=  points){
+			GameStatics.PlayerSkin = Skin.name;
+		}
 	}
 	private void InvokePlayerClothChanged(){
 		var handler = PlayerClothChanged;

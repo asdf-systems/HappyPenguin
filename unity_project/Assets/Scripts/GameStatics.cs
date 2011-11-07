@@ -25,24 +25,45 @@ public static class GameStatics {
 		set;
 	}
 	
-	public static float PersonalHighscore{
+	public static string PlayerSkin{
 		get{
-			try{
-				string tmp = LocalStorage.ReadUTF8File("personal_highscore");
-				return float.Parse(tmp);
-			} catch(Exception e){
-				Debug.LogWarning(e.Message);
-				return 0.0f;
-			}	
+			return loadValue("player_skin");
 		}
 		set{
-			
-			try{
-				string sPoint = FormatPoints(value);
-				LocalStorage.WriteUTF8File("personal_highscore", sPoint);
-			} catch(Exception e){
+			saveValue("player_skin", value);
+		}
+	}
+	
+	private static bool saveValue(string key, string value){
+		try{
+			LocalStorage.WriteUTF8File(key, value);
+			return true;
+		} catch(Exception e){
+			Debug.LogWarning(e.Message);
+			return false;
+		}
+	}
+	
+	private static string loadValue(string key){
+		try{
+				string tmp = LocalStorage.ReadUTF8File(key);
+				return tmp;
+		} catch(Exception e){
 				Debug.LogWarning(e.Message);
-			}
+				return string.Empty;
+		}	
+	}
+	
+	public static float PersonalHighscore{
+		get{
+			string tmp = loadValue("personal_highscore");
+			if(tmp == string.Empty)
+				return 0.0f;
+			return float.Parse(tmp);
+		}
+		set{
+			string sPoint = FormatPoints(value);
+			saveValue("personal_highscore", sPoint);
 		}
 	}
 	
@@ -57,21 +78,14 @@ public static class GameStatics {
 	
 	public static string username{
 		get{
-			try{
-				return LocalStorage.ReadUTF8File("player_name");
-			} catch(Exception e){
-				Debug.LogWarning(e.Message);
-				return string.Empty;
-			}	
+			return loadValue("player_name");
+			
 		}
 		set{
-			try{
-				LocalStorage.WriteUTF8File("player_name", value);
-			} catch(Exception e){
-				Debug.LogWarning(e.Message);
-			}
+			saveValue("player_name", value);
 		}
 	}
+	
 	public static void savePlayerHat(string name){
 		penguinHat = name;
 		LocalStorage.WriteUTF8File("penguinHat", name);
