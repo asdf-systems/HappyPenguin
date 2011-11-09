@@ -170,6 +170,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	public void Awake() {
+		Debug.Log("Awkae GameWorld");
 		InitIconSlotManager();
 		InitPlayer();
 		InitLifeBeacons();

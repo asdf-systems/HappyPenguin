@@ -67,7 +67,7 @@ public static class GameStatics {
 		}
 	}
 	
-	private static string FormatPoints(float points){
+	public static string FormatPoints(float points){
 		int iPoints = (int)points;
 		string sPoints = iPoints.ToString();
 		while(sPoints.Length < 7)

@@ -4,7 +4,6 @@ using System;
 
 public class personalHighscore : UIElementBehaviour<GUIStatics> {
 	
-	private string points;
 	public int targetTextSize;
 	
 	private string username;
@@ -18,8 +17,6 @@ public class personalHighscore : UIElementBehaviour<GUIStatics> {
 		textStyle.fontSize = targetTextSize;
 		GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,350,350), "", inactiveStyle);
 
-		
-
 		string oldname = username;
 		username = GeneralScreenGUI.TextField(guiStatics, new Rect(positionX+textOffsetX,positionY+textOffsetY,350,350), username,10, textStyle);
 		textStyle.fontSize = targetTextSize;
@@ -27,34 +24,18 @@ public class personalHighscore : UIElementBehaviour<GUIStatics> {
 			GameStatics.username = username;
 		GeneralScreenGUI.Label(guiStatics, new Rect(positionX+textOffsetX+170,positionY+textOffsetY,350,350), "Score", textStyle);
 		textStyle.fontSize = targetTextSize;
-		GeneralScreenGUI.Label(guiStatics, new Rect(positionX+textOffsetX,positionY+textOffsetY+targetTextSize,300,300), points, textStyle);
+		GeneralScreenGUI.Label(guiStatics, new Rect(positionX+textOffsetX,positionY+textOffsetY+targetTextSize,300,300), GameStatics.FormatPoints(GameStatics.PersonalHighscore), textStyle);
 		
 
 	}
 
 	void Start(){
-		loadPoints();
 		username = GameStatics.username;
 		if(username == string.Empty)
 			username = "Your name";
 	}
 
-	
 
-	
-	private void loadPoints(){
-		try{
-			points = LocalStorage.ReadUTF8File("personal_highScore");
-
-		} catch(Exception e){
-			Debug.LogWarning(e.Message);
-			points = "0000000";
-		}
-	}
-	
-	protected override void hit(){
-		
-	}
 
 	
 }

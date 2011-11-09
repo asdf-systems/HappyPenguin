@@ -14,9 +14,10 @@ public sealed class MainResourceLoadingBehaviour : ResourceLoadingBehaviour
 
 	#region implemented abstract members of Pux.Resources.ResourceLoadingBehaviour
 	protected override void LoadResources() {
-		ResourceManager.LoadResource("Player/Textures/penguin_clr_001");
-		ResourceManager.LoadResource("Player/Textures/penguin_hexer");	
-		
+		ResourceManager.LoadResource("Player/Textures/pux_normal_skin");
+		ResourceManager.LoadResource("Player/Textures/pux_hexer_skin");	
+		ResourceManager.LoadResource("Player/Textures/pux_priester_skin");	
+		ResourceManager.LoadResource("Player/Textures/pux_kenny_skin");	
 		
 		
 	}

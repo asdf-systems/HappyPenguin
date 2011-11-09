@@ -73,6 +73,7 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		newObject.transform.parent = hingePoint.transform;
 		newObject.transform.localPosition = Vector3.zero;
 		newObject.transform.localRotation = Quaternion.identity;
+		newObject.transform.localScale = new Vector3(1,1,1);
 	}
 }
 

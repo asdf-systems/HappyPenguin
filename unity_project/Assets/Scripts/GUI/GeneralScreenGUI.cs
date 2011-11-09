@@ -77,7 +77,7 @@ public class GeneralScreenGUI : GUI
 		Camera cam = gui.PlayerCam;
 		Rect camPosition = cam.pixelRect;
 		// Inverse Screenposition on y because GUI (0,0) is on top camera (0,0) is on Bottom 
-		if (cam.pixelHeight != Screen.height)
+		if (((int)cam.pixelHeight) != Screen.height)
 			camPosition.y = cam.pixelHeight - camPosition.y;
 		
 		Vector2 factor = GetFactor(gui);
