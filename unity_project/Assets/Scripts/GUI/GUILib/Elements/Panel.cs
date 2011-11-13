@@ -83,10 +83,11 @@ public class Panel : Frame {
 		if(activeScreen.DebugModus){
 			plane.VirtualRegionOnScreen = RealRegionOnScreen;
 			resetElement();
-			//plane.UV = Uv;
 		}
 #endif		
 	}
+	
+
 	
 	public virtual void createGUIElement(){
 		

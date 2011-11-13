@@ -102,6 +102,11 @@ public class CameraScreen : Frame {
 		return new Rect (  newPosition.x, newPosition.y, newSize.x, newSize.y );
 	} 
 	
+	public static int GetPhysicalTextSize(int size) {
+		Vector2 factor = getFactor();
+		return (int)(size * factor.y);
+	}
+	
 	protected override void callHandler(InteractionEvent interaction, ActionEvent action){
 		InteractionBehaviour[] behaviours = gameObject.GetComponents<InteractionBehaviour>() as InteractionBehaviour[];
 		foreach(InteractionBehaviour ib in behaviours){

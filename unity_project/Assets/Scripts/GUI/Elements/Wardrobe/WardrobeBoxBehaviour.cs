@@ -4,7 +4,7 @@ using System;
 
 public class WardrobeBoxBehaviour : Button {
 	
-	public infoTafel infoTafel;
+	public TextPanel InfoTafel;
 	public int points;
 	public string infoText;
 	public string HatName;
@@ -39,10 +39,10 @@ public class WardrobeBoxBehaviour : Button {
 	}
 	
 	public override void OnClick(object sender, MouseEventArgs e){
-		
+		Debug.Log("ChangePlayerCloth");
 		changePlayerCloth();
 		InvokePlayerClothChanged();
-		infoTafel.infoText = currentText;
+		InfoTafel.Text = currentText;
 	}
 	
 	
