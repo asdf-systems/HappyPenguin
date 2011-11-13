@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class infoTafel : UIElementBehaviour<GUIStatics> {
+public class TextPanel : Panel {
 
 	public int targetFontSize;
 	public int textOffsetX;
