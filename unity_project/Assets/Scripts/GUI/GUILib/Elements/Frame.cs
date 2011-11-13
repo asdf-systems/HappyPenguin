@@ -48,6 +48,7 @@ public class Frame : MonoBehaviour {
 	
 	
 	public virtual void OnClick(object sender, MouseEventArgs e){
+		
 		callHandler(ib=>{ib.Click(e);}, action=>{action.OnClick(sender, e);});
 	}
 	
@@ -56,6 +57,7 @@ public class Frame : MonoBehaviour {
 	}
 	
 	public virtual void OnDown(object sender, MouseEventArgs e){
+		Debug.Log("ONCLICK");
 		callHandler(ib=>{ib.Down(e);}, action=>{action.OnDown(sender, e);});
 	}
 	

@@ -81,7 +81,8 @@ public class Panel : Frame {
 #if UNITY_EDITOR
 		if(activeScreen.DebugModus){
 			plane.VirtualRegionOnScreen = RealRegionOnScreen;
-			plane.UV = Uv;
+			resetElement();
+			//plane.UV = Uv;
 		}
 #endif		
 	}

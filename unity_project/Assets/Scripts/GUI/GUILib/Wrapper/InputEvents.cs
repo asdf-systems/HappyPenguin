@@ -35,7 +35,7 @@ public class InputEvents : MonoBehaviour{
 #if UNITY_IPHONE || UNITY_ANDROID
 		checkTouches();
 #endif
-#if UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_WEBPLAYER
+#if UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_WEBPLAYER || UNITY_EDITOR
 		checkClick();
 #endif
 		
