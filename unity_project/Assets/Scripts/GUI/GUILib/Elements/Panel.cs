@@ -81,7 +81,7 @@ public class Panel : Frame {
 #if UNITY_EDITOR
 		if(activeScreen.DebugModus){
 			plane.VirtualRegionOnScreen = RealRegionOnScreen;
-			//plane.UV = Uv;
+			plane.UV = Uv;
 		}
 #endif		
 	}
@@ -96,7 +96,7 @@ public class Panel : Frame {
 		
 		// Orient Plane to Camera
 		resetPlaneTransform();
-		plane.transform.Translate(new Vector3(0,0,(activeScreen.ScreenCamera.nearClipPlane)), Space.Self);
+		plane.transform.Translate(new Vector3(0,0,(activeScreen.ScreenCamera.nearClipPlane+0.001f)), Space.Self);
 		plane.transform.LookAt(cam.transform);
 		
 		// set Materials

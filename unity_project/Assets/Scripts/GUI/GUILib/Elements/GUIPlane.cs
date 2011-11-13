@@ -24,10 +24,12 @@ public class GUIPlane : MonoBehaviour {
 				vertices[i] = ScreenToWorldCoordinates(vertices[i]);
 				//Debug.Log("PRE Position: " + i + " " + vertices[i]);
 				vertices[i] = WorldToLocalCoordinates(vertices[i]);
-				vertices[i] = new Vector3(vertices[i].x*-1, vertices[i].y*-1,0);
+				vertices[i] = new Vector3(vertices[i].x, vertices[i].y*-1,0);
+				
 				//Debug.Log("POS Position: " + i + " " + vertices[i]);
 			}
 			MeshObject.vertices = vertices;
+		
 		}	
 		
 	}
