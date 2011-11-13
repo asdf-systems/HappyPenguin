@@ -9,7 +9,8 @@ public class Panel : Frame {
 	
 	public Rect VirtualRegionOnScreen; 
 	public LayoutBehaviour Layout;
-	public int layer;
+	public string help1 = "NOT WORKING LIVE:";
+	public int GUIDepth = 1;
 	public VerticalFloatPositions verticalFloat;
 	public HorizontalFloatPositions horizontalFloat;
 	
@@ -97,7 +98,8 @@ public class Panel : Frame {
 		
 		// Orient Plane to Camera
 		resetPlaneTransform();
-		plane.transform.Translate(new Vector3(0,0,(activeScreen.ScreenCamera.nearClipPlane+0.001f)), Space.Self);
+		float layer = (float)GUIDepth * 0.00001f;
+		plane.transform.Translate(new Vector3(0,0,(activeScreen.ScreenCamera.nearClipPlane+layer)), Space.Self);
 		plane.transform.LookAt(cam.transform);
 		
 		// set Materials

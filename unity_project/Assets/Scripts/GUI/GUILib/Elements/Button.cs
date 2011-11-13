@@ -6,6 +6,10 @@ public class Button : Control {
 	public Rect hoverUV;
 	public Rect activeUV;
 	
+	// Two Bools to emulate Hover and Active for better Texture placing
+	public bool ConstantHover;
+	public bool ConstantActive;
+	
 	private bool down = false;
 	
 	
@@ -40,6 +44,12 @@ public class Button : Control {
 	public override void resetElement(){
 		if(!down && plane != null){
 			plane.UV = Uv;
+#if UNITY_EDITOR
+		if(ConstantHover)
+				plane.UV = hoverUV;
+		if(ConstantActive)
+				plane.UV = activeUV;
+#endif 
 		}
 	}
 	

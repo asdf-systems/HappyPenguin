@@ -7,6 +7,8 @@ public class Control : Panel {
 	public bool ShowActiveRegion = false;
 	public Rect ActiveRegion;
 	
+
+	
 	private Rect realActiveRegion;
 	
 	

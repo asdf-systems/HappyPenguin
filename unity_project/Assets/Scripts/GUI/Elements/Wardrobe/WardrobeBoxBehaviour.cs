@@ -2,17 +2,21 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class WardrobeBoxBehaviour : UIElementBehaviour<GUIStatics> {
+public class WardrobeBoxBehaviour : Button {
 	
 	public infoTafel infoTafel;
 	public int points;
 	public string infoText;
 	public string HatName;
 	
-	public Texture2D locked;
-	public Texture2D locked_active;
-	
+	public string help2 = "ONLY FOR DEBUG USE:";
+	public bool Locked = false;
+
 	public Texture2D Skin;
+	
+	public Rect UV_locked;
+	public Rect UV_locked_active;
+	
 	
 	private string currentText;
 	
@@ -21,22 +25,20 @@ public class WardrobeBoxBehaviour : UIElementBehaviour<GUIStatics> {
 	void Start(){
 		init();
 	}
-	protected override void showElements(){
-		GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,128,128), "", currentStyle);
-		
-	}
+
 	
 	protected virtual void init(){
-		if((int)GameStatics.PersonalHighscore < points){
+		if((int)GameStatics.PersonalHighscore < points || Locked){
 			currentText = "you need " + points + "to unlock this items";
-			inactiveStyle.normal.background = locked;
-			activeStyle.normal.background = locked_active;
-			hoverStyle.normal.background = locked_active;
+			Uv = UV_locked;
+			hoverUV = UV_locked_active;
+			activeUV = UV_locked_active;
 		} else {
 			currentText = infoText;
 		}
 	}
-	protected override void hit(){
+	
+	public override void OnClick(object sender, MouseEventArgs e){
 		
 		changePlayerCloth();
 		InvokePlayerClothChanged();
@@ -62,7 +64,7 @@ public class WardrobeBoxBehaviour : UIElementBehaviour<GUIStatics> {
 	
 	private void loadSkin(){
 		if(GameStatics.PersonalHighscore >=  points){
-			GameStatics.PlayerSkin = Skin.name;
+			GameStatics.PlayerSkin = Skin.name;	
 		}
 	}
 	private void InvokePlayerClothChanged(){
