@@ -15,8 +15,7 @@ public sealed class CreatureBehaviour : TargetableEntityBehaviour
 		base.AwakeOverride ();
 		AttackEffects = new List<Effect>();
 		
-		HitEffects.Add (new PointEffect (Points, this));
-		HitEffects.Add(new RetreatEffect(this));
+		HitEffects.Add (new PointsEffect (Points, this));
 		
 		AttackEffects.Add (new LifeEffect (-Damage));
 		AttackEffects.Add(new AttackEffect(this));

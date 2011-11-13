@@ -12,6 +12,7 @@ namespace Pux.Entities
 		private readonly ControlManager<EntityBehaviour> controlManager;
 
 		public EntityBehaviour() {
+			DefaultSpeed = 10.0f;
 			Speed = 10.0f;
 			controlManager = new ControlManager<EntityBehaviour>();
 		}
@@ -86,6 +87,7 @@ namespace Pux.Entities
 		}
 
 		public float Speed;
+		public float DefaultSpeed;
 
 		public AudioClip AttackSound;
 		public AudioClip DeathSound;

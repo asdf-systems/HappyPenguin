@@ -9,12 +9,10 @@ namespace Pux.Effects
 			world.SnowballSpeedModifier = 2.0f;
 		}
 		
-		
 		public override void Update (GameWorldBehaviour world)
 		{
 			// nada
 		}
-		
 		
 		public override void Stop (GameWorldBehaviour world)
 		{

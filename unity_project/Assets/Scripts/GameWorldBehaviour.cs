@@ -17,7 +17,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private readonly CreatureSpawner creatureSpawner;
 	private readonly PerkSpawner perkSpawner;
-	private readonly TargetableSymbolManager symbolManager;
 	private readonly List<LifeSpawnBeacon> lifeBeacons;
 
 	public EntityManager entityManager { get; private set; }
@@ -28,27 +27,18 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public string WrongSymbolChainText;
 	public string LooseText;
 	
-	public int SymbolCountModifier {
-		get;
-		set;
+	public Range SymbolRangeModifer {
+		set { entityManager.SymbolRangeModifer = value; }
 	}
 	
+	// implemented
 	public float PointsMultiplier {
 		get;
 		set;
 	}
 	
-	public float CreatureSpeedModifier {
-		get;
-		set;
-	}
-	
+	// implemented
 	public float SnowballSpeedModifier {
-		get;
-		set;
-	}
-	
-	public bool IsNight {
 		get;
 		set;
 	}
@@ -103,8 +93,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		perkSpawner = new PerkSpawner();
 		perkSpawner.EntitySpawned += OnPerkGenerated;
 		
-		symbolManager = new TargetableSymbolManager();
-		
 		lifeBeacons = new List<LifeSpawnBeacon>();
 		iconSlotManager = new IconSlotManager();
 	}
@@ -127,14 +115,21 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		target.TargetHit += (sender,e ) => {
 			effectManager.RegisterEffects(target.HitEffects);
-			symbolManager.VoidTargetable(target);
 		};
 		
 		entityManager.Player.PlayAnimation("throw");
-		entityManager.ThrowSnowball(target);
+		entityManager.ThrowSnowball(target, SnowballSpeedModifier);
+	}
+	
+	internal void ModifyCreatures(Action<CreatureBehaviour> action) {
+		var creatures = entityManager.FindCreatures();
+		foreach (var creature in creatures) {
+			action(creature);
+		}
 	}
 
-	private void InvokePlayerMiss() {
+	private void InvokePlayerMiss() { 
+		entityManager.SpawnCreature(CreatureTypes.Blowfish);
 		Debug.Log("implement trip animation or camera quake ...");
 	}
 

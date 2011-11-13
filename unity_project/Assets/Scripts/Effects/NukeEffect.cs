@@ -1,7 +1,9 @@
 using System;
 using UnityEngine;
+using System.Linq;
 using System.Collections.Generic;
 using Pux.Entities;
+using Pux.Controllers;
 
 namespace Pux.Effects
 {
@@ -14,10 +16,18 @@ namespace Pux.Effects
 		}
 
 		public override void Start(GameWorldBehaviour w) {
+			entity.ClearControllers();
+			entity.QueueController("float", new FloatController(Environment.SeaLevel));
+			entity.transform.LookAt(Camera.main.transform);
+			
+			var delay = TimeSpan.FromMilliseconds(1500);
+			w.effectManager.RegisterEffect(new DelayedEffect(new SinkEffect(entity), delay));
+			
 			entity.HideSymbols();
 			entity.animation.Play("explode");
+			
 			var creatures = w.entityManager.FindCreatures();
-			foreach (var creature in creatures) {
+			foreach (var creature in creatures.Where(x => !(x == entity))) {
 				var killEffects = creature.HitEffects;
 				foreach (var effect in killEffects) {
 					w.effectManager.RegisterEffect(effect);

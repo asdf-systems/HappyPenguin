@@ -7,6 +7,7 @@ namespace Pux
 	public static class GameObjectRegistry
 	{
 		private static readonly Dictionary<string, GameObject> objects;
+		
 		static GameObjectRegistry() {
 			objects = new Dictionary<string, GameObject>();
 		}
@@ -14,8 +15,7 @@ namespace Pux
 		public static void RegisterObject(string name, GameObject gameObject)
 		{
 			if (objects.ContainsKey(name)) {
-				var message = string.Format("object {0} already registered", name);
-				Debug.Log(message);
+				objects[name] = gameObject;
 				return;
 			}
 			

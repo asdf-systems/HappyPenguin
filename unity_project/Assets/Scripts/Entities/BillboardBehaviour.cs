@@ -13,5 +13,7 @@ public sealed class BillboardBehaviour : MonoBehaviour
 		var camTransform = Camera.main.transform;
 		transform.LookAt(transform.position + camTransform.right, -(camTransform.rotation * Vector3.forward));
 	}
+	
+	public float VerticalOffset;
 }
 

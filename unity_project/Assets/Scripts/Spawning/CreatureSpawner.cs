@@ -22,7 +22,6 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 
 	private readonly System.Random random;
 
-	private int spawnCounter;
 	// How many Spawns are on the Battlefield?
 //	Constructor
 	public CreatureSpawner() {
@@ -58,7 +57,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 //	What Creature do I spawn?
 	private void SpawnCreatures() {
 		timeSinceLastSpawn = timeSinceLastSpawn.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
-		spawnCounter = InvokeCreatureCountNeeded();
+		
 		if(timeSinceLastSpawn.TotalSeconds >= (DEFAULT_CREATURE_SPAWN_TIME - Difficulty)) {
 			int rnd = random.Next(1, 100);
 			

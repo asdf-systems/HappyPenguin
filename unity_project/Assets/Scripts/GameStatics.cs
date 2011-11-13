@@ -9,7 +9,9 @@ public static class GameStatics {
 	private static string getFromLocalStorage(string key, string default_val) {
 		try {
 			return LocalStorage.ReadUTF8File(key);
-		} catch {}
+		} catch (Exception ex) {
+			Debug.Log(ex.Message);
+		}
 		return default_val;
 	}
 

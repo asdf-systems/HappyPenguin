@@ -9,6 +9,6 @@ public sealed class PerkBehaviour : TargetableEntityBehaviour
 {
 	protected override void AwakeOverride() {
 		base.AwakeOverride();
-		HitEffects.Add(new HideSymbolsEffect(this));
+		HitEffects.Add(new SinkEffect(this));
 	}
 }

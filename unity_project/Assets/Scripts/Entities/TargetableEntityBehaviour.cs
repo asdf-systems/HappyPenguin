@@ -12,6 +12,7 @@ namespace Pux.Entities
 		private GameObject billboardNode;
 		private TargetableSymbolProjector projector;
 		
+		public Range DefaultSymbolRange { get; set; }
 		public Range SymbolRange { get; set; }
 		public List<Effect> HitEffects { get; private set;}
 		
@@ -81,7 +82,7 @@ namespace Pux.Entities
 			if (behaviour == null) {
 				throw new ApplicationException("billboard behaviour not found on targetable entity");
 			}
-			BillboardNode = behaviour.gameObject;
+			SymbolNode = behaviour;
 		}
 
 		public void ShowSymbols() {
@@ -92,7 +93,7 @@ namespace Pux.Entities
 			  projector.HideSymbols();
 		}
 		
-		public GameObject BillboardNode {
+		public BillboardBehaviour SymbolNode {
 			get;
 			private set;
 		}

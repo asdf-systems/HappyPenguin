@@ -7,7 +7,7 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world)
 		{
-			world.SymbolCountModifier = -1;
+			world.SymbolRangeModifer = new Range(0, -1);
 		}
 		
 		
@@ -19,12 +19,12 @@ namespace Pux.Effects
 		
 		public override void Stop (GameWorldBehaviour world)
 		{
-			world.SymbolCountModifier = 0;
+			world.SymbolRangeModifer = new Range(0, -1);
 		}
 		
 		#endregion
 		public LessSymbolsEffect() {
-			Duration = TimeSpan.FromSeconds(6);
+			Duration = TimeSpan.FromSeconds(10);
 			IconResourceKey = "UI/EffectIcons/minus_symbol_1";
 		}
 	}

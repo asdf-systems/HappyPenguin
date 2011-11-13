@@ -20,7 +20,7 @@ namespace Pux.Entities
 		
 		public void CreateSymbols()
 		{
-			var node = targetable.BillboardNode;
+			var node = targetable.SymbolNode;
 			var symbolChain = targetable.SymbolChain;
 			
 			for (int i = 0; i < symbolChain.Length; i++) {
@@ -30,11 +30,11 @@ namespace Pux.Entities
 				gameObject.transform.localPosition = Vector3.zero;
 				gameObject.transform.localRotation = Quaternion.identity;
 				
-				var z = (i * 7) - (symbolChain.Length * 7 / 2);
+				var z = (i * 7) - (symbolChain.Length * 7 / 2) + 3;
 				var offset = new Vector3(0, 0, z);
 				gameObject.transform.Translate(offset, gameObject.transform.parent);
 				
-				gameObject.transform.Translate(new Vector3(0, 8, 0), gameObject.transform.parent);
+				//gameObject.transform.Translate(new Vector3(0, 8, 0), gameObject.transform.parent);
 				gameObject.transform.RotateAroundLocal(new Vector3(0, 1, 0),(float) Math.PI / 2.0f);
 			}
 		}
@@ -56,12 +56,12 @@ namespace Pux.Entities
 		
 		public void HideSymbols()
 		{
-			targetable.BillboardNode.SetActiveRecursively(false);
+			targetable.SymbolNode.gameObject.SetActiveRecursively(false);
 		} 
 		
 		public void ShowSymbols()
 		{
-			targetable.BillboardNode.SetActiveRecursively(true);
+			targetable.SymbolNode.gameObject.SetActiveRecursively(true);
 		}
 		
 		private GameObject CreateGameObjectFromSymbol(char symbol, int symbolPosition)

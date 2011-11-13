@@ -27,8 +27,9 @@ namespace Pux.Entities
 			handler(this, e);
 		}
 
-		public void ThrowSnowball(TargetableEntityBehaviour target) {
+		public void ThrowSnowball(TargetableEntityBehaviour target, float speedMutiplier) {
 			var snowball = DisplaySnowball();
+			snowball.Speed *= speedMutiplier;
 			target.TargetHit += OnTargetHit;
 			snowball.DedicatedTarget = target;
 			snowball.DetachZoneReached += (sender, e) => LaunchSnowball(sender as SnowballBehaviour, target);
@@ -38,28 +39,12 @@ namespace Pux.Entities
 			var target = sender as TargetableEntityBehaviour;
 			target.TargetHit -= OnTargetHit;
 			target.HideSymbols();
+			target.ClearControllers();
 			
 			// die, snowball, die
 			e.Behaviour.Dispose();
 			
-			if (target is CreatureBehaviour) {
-				ProcessCreatureHit(target as CreatureBehaviour);
-			} else {
-				ProcessPerkHit(target as PerkBehaviour);
-			}
-		}
-
-		private void ProcessCreatureHit(CreatureBehaviour creature) {
-			var creatureRetreat = GameObjectRegistry.GetObject("creature_retreat");
-			creature.IsRetreating = true;
-			creature.Dive(creatureRetreat, 2000);
-		}
-
-		private void ProcessPerkHit(PerkBehaviour perk) {
-			InvokeEffectsReleased(perk.HitEffects);
-			var ground = perk.transform.position + new Vector3(0, -100, 0);
-			perk.Speed = 10;
-			perk.MoveTo(ground, false);
+			InvokeEffectsReleased(target.HitEffects);
 		}
 
 		private void LaunchSnowball(SnowballBehaviour snowball, TargetableEntityBehaviour target) {
@@ -157,7 +142,12 @@ namespace Pux.Entities
 			entities.Remove(env);
 			GameObject.Destroy(env.gameObject);
 		}
-
+		
+		public Range SymbolRangeModifer {
+			get;
+			set;
+		}
+		
 		public void SpawnCreature(CreatureTypes type) {
 			var creatureSpawn = GameObjectRegistry.GetObject("creature_spawn");
 			
@@ -168,17 +158,30 @@ namespace Pux.Entities
 			creature.GrimReaperAppeared += (sender, e) => VoidTargetable(creature);
 			creature.SwimTo(Player.gameObject.transform.position).Float();
 			
+			
 			if (type == CreatureTypes.Blowfish) {
 				creature.AttackEffects.Clear();
 				creature.HitEffects.Add(new NukeEffect(creature));
+			} else {
+				creature.HitEffects.Add(new RetreatEffect(creature));
 			}
 			
 			if (type == CreatureTypes.Shark || type == CreatureTypes.Whale) {
 				creature.EquipWithRandomBaddy();
 			}
 			
+			AdjustSymbolChainRange(creature);
 			symbolManager.RegisterTargetable(creature);
 			entities.Add(creature);
+		}
+		
+		private void AdjustSymbolChainRange(TargetableEntityBehaviour behaviour){
+			var @from = behaviour.SymbolRange.From + SymbolRangeModifer.From;
+			var to = behaviour.SymbolRange.To + SymbolRangeModifer.To;
+			if (to < from) {
+				to = from;
+			}
+			behaviour.SymbolRange = new Range(@from, to);
 		}
 
 		public void SpawnPerk(PerkTypes type) {
@@ -189,18 +192,19 @@ namespace Pux.Entities
 			
 			var perk = DisplayPerk(type, perkSpawn.transform.position);
 			perk.GrimReaperAppeared += (sender, e) => VoidTargetable(perk);
-			perk.DequeueController("move");
-			perk.DequeueController("float");
 			perk.Speed = 240;
+			
 			
 			var arc = new ArcMovementController(perk, perkImpact, 48);
 			arc.ControllerFinished += (sender, e) => {
 				perk.Speed = 20;
+				perk.transform.localRotation = Quaternion.identity;
 				perk.MoveTo(perkRetreat.transform.position, false);
 				perk.QueueController("impact", new WaterImpactController(Environment.SeaLevel) { Strength = 12, Duration = TimeSpan.FromSeconds(10) });
 			};
 			perk.QueueController("move", arc);
 			
+			AdjustSymbolChainRange(perk);
 			symbolManager.RegisterTargetable(perk);
 			entities.Add(perk);
 		}
@@ -269,8 +273,9 @@ namespace Pux.Entities
 				break;
 			}
 			
-			gameObject.transform.position = perkSpawn.transform.position;
 			gameObject.transform.parent = root.transform;
+			gameObject.transform.position = perkSpawn.transform.position;
+			gameObject.transform.rotation = Quaternion.LookRotation(Vector3.up);
 			return perk;
 		}
 
