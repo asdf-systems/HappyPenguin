@@ -14,7 +14,7 @@ public class personalHighscore : UIElementBehaviour<GUIStatics> {
 	public GUIStyle textStyle;
 	
 	protected override void showElements(){
-		textStyle.fontSize = targetTextSize;
+		/*textStyle.fontSize = targetTextSize;
 		GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,350,350), "", inactiveStyle);
 
 		string oldname = username;
@@ -24,7 +24,7 @@ public class personalHighscore : UIElementBehaviour<GUIStatics> {
 			GameStatics.username = username;
 		GeneralScreenGUI.Label(guiStatics, new Rect(positionX+textOffsetX+170,positionY+textOffsetY,350,350), "Score", textStyle);
 		textStyle.fontSize = targetTextSize;
-		GeneralScreenGUI.Label(guiStatics, new Rect(positionX+textOffsetX,positionY+textOffsetY+targetTextSize,300,300), GameStatics.FormatPoints(GameStatics.PersonalHighscore), textStyle);
+		GeneralScreenGUI.Label(guiStatics, new Rect(positionX+textOffsetX,positionY+textOffsetY+targetTextSize,300,300), GameStatics.FormatPoints(GameStatics.PersonalHighscore), textStyle);*/
 		
 
 	}
