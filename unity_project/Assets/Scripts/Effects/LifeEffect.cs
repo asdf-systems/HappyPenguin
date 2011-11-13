@@ -20,6 +20,12 @@ namespace Pux.Effects
 		public override void Stop(GameWorldBehaviour world) {
 			// is instant effect
 		}
+		
+		public override string Description {
+			get {
+				return "more fishies";
+			}
+		}
 	}
 }
 

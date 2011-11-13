@@ -27,6 +27,12 @@ namespace Pux.Effects
 			Duration = TimeSpan.FromSeconds(10);
 			IconResourceKey = "UI/EffectIcons/minus_symbol_1";
 		}
+		
+		public override string Description {
+			get {
+				return "fishies gettin' weak";
+			}
+		}
 	}
 }
 

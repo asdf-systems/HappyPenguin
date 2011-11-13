@@ -13,12 +13,18 @@ namespace Pux.Effects
 		
 		public override void Update (GameWorldBehaviour world)
 		{
-			
+			// nada
 		}
 		
 		public override void Stop (GameWorldBehaviour world)
 		{
 			RenderSettings.ambientLight = new Color(1,1,1,1);
+		}
+		
+		public override string Description {
+			get {
+				return "dont be afraid in the dark";
+			}
 		}
 		
 		#endregion

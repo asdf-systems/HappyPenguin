@@ -91,20 +91,10 @@ namespace Pux.Entities
 		}
 
 		public void ReleaseLifeBalloon(LifeSpawnBeacon beacon) {
-			var component = beacon.UnityGameObject.GetComponentInChildren<BalloonBehaviour>();
-			if (component == null) {
-				throw new ApplicationException("Balloonbehaviour missing.");
-			}
-			
-			var fish = component.Fish;
-			
-			// remove fish
-			fish.gameObject.transform.parent = null;
-			GameObject.Destroy(fish);
-			
-			// detach form beacon
-			component.gameObject.transform.parent = null;
-			component.MoveTo(component.transform.position + new Vector3(0, 1000, 0), false);
+			var balloon = beacon.Balloon;
+			balloon.transform.parent = null;
+			var behaviour = balloon.GetComponent<EnvironmentEntityBehaviour>();
+			behaviour.MoveTo(behaviour.transform.position + new Vector3(0, 1000, 0), false);
 		}
 
 		public PlayerBehaviour Player { get; set; }
@@ -229,6 +219,7 @@ namespace Pux.Entities
 				
 				{
 					perk.HitEffects.Add(new LifeEffect(1));
+				
 					break;
 				}
 
@@ -236,6 +227,7 @@ namespace Pux.Entities
 				
 				{
 					perk.HitEffects.Add(new PointsMultiplierEffect(2));
+				
 					break;
 				}
 
@@ -243,6 +235,7 @@ namespace Pux.Entities
 				
 				{
 					perk.HitEffects.Add(new PointsMultiplierEffect(3));
+				
 					break;
 				}
 
@@ -250,6 +243,7 @@ namespace Pux.Entities
 				
 				{
 					perk.HitEffects.Add(new SnowballSpeedModiferEffect());
+				
 					break;
 				}
 
@@ -257,6 +251,7 @@ namespace Pux.Entities
 				
 				{
 					perk.HitEffects.Add(new CreatureSlowdownEffect());
+					
 					break;
 				}
 
@@ -264,12 +259,11 @@ namespace Pux.Entities
 				
 				{
 					perk.HitEffects.Add(new LessSymbolsEffect());
+					
 					break;
 				}
 
 			default:
-				
-				
 				break;
 			}
 			

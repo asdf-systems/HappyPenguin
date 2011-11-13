@@ -29,7 +29,12 @@ namespace Pux.Effects
 			} else{
 				IconResourceKey = "UI/EffectIcons/points_double";
 			}
-			
+		}
+		
+		public override string Description {
+			get {
+				return _multiplier > 2 ? "double blings" : "tripple blings";
+			}
 		}
 	}
 }

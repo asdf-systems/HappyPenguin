@@ -12,7 +12,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 {
 	public GUIManager guiManager;
 	public GameObject Trebuchet;
-	public readonly EffectManager effectManager;
+	private readonly EffectManager effectManager;
 	private readonly IconSlotManager iconSlotManager;
 
 	private readonly CreatureSpawner creatureSpawner;
@@ -51,6 +51,22 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			}
 		}
 	}
+	
+	public void RegisterEffect(Effect effect){
+		effectManager.RegisterEffect(effect);
+		if (effect.HasDescription) {
+			guiManager.Alert(effect.Description);
+		}
+		if (effect.IsIconAvailable && effect.Duration > TimeSpan.Zero) {
+			iconSlotManager.DisplayEffect(effect);
+		}
+	}
+	
+	public void RegisterEffects(IEnumerable<Effect> effects){
+		foreach (var effect in effects) {
+			effectManager.RegisterEffect(effect);	
+		}
+	}
 
 	private void DarkenSymbols() {
 		var targetables = entityManager.FindTargetables();
@@ -69,7 +85,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private void OnEffectsReleased(object sender, EffectEventArgs e) {
 		foreach (var effect in e.Effects) {
-			effectManager.RegisterEffect(effect);
+			RegisterEffect(effect);
 		}
 	}
 	
@@ -136,18 +152,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
 		var creature = e.Behaviour;
 		if (creature != null) {
-			var attackEffects = creature.AttackEffects;
-			for (int i = 0; i < attackEffects.Count; i++) {
-				ApplyEffect(attackEffects[i]);
-			}
-		}
-	}
-	
-	private void ApplyEffect(Effect effect)
-	{
-		effectManager.RegisterEffect(effect);
-		if (effect.Duration > TimeSpan.Zero) {
-			iconSlotManager.DisplayEffect(effect);
+			RegisterEffects(creature.AttackEffects);
 		}
 	}
 
@@ -296,7 +301,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 		
 		CheckForDeadsies();
-		guiManager.DisplayLife(entityManager.Player.Life);
+		//guiManager.DisplayLife(entityManager.Player.Life);
 	}
 
 	private void ReleaseBalloons(int count) {
@@ -324,7 +329,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	public void ChangePlayerPoints(float pointsChange) {
-		guiManager.Alert("+ " + pointsChange + " Points");
 		entityManager.Player.Points += pointsChange;
 		guiManager.DisplayPoints(entityManager.Player.Points);
 		GameStatics.Points = entityManager.Player.Points;

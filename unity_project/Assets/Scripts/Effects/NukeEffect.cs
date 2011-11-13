@@ -14,6 +14,12 @@ namespace Pux.Effects
 		public NukeEffect(TargetableEntityBehaviour e) : base() {
 			entity = e;
 		}
+		
+		public override string Description {
+			get {
+				return "it puts the lotion in the basket";
+			}
+		}
 
 		public override void Start(GameWorldBehaviour w) {
 			entity.ClearControllers();
@@ -21,7 +27,7 @@ namespace Pux.Effects
 			entity.transform.LookAt(Camera.main.transform);
 			
 			var delay = TimeSpan.FromMilliseconds(1500);
-			w.effectManager.RegisterEffect(new DelayedEffect(new SinkEffect(entity), delay));
+			w.RegisterEffect(new DelayedEffect(new SinkEffect(entity), delay));
 			
 			entity.HideSymbols();
 			entity.animation.Play("explode");
@@ -30,7 +36,7 @@ namespace Pux.Effects
 			foreach (var creature in creatures.Where(x => !(x == entity))) {
 				var killEffects = creature.HitEffects;
 				foreach (var effect in killEffects) {
-					w.effectManager.RegisterEffect(effect);
+					w.RegisterEffect(effect);
 				}
 			}
 		}

@@ -24,6 +24,12 @@ namespace Pux.Effects
 			Duration = TimeSpan.FromSeconds(6);
 			IconResourceKey = "UI/EffectIcons/snowball_speed";
 		}
+		
+		public override string Description {
+			get {
+				return "super speed ballz";
+			}
+		}
 	}
 }
 

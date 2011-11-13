@@ -7,7 +7,6 @@ namespace Pux.Effects{
 	public sealed class DelayedEffect : Effect {
 		
 		private readonly Effect effect;
-		private TimeSpan time;
 		
 		public DelayedEffect (Effect effect, TimeSpan delay) {
 			this.effect = effect;
@@ -17,7 +16,7 @@ namespace Pux.Effects{
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world)
 		{
-			this.time = TimeSpan.Zero;
+			// nada
 		}
 		
 		
@@ -29,10 +28,11 @@ namespace Pux.Effects{
 		
 		public override void Stop (GameWorldBehaviour world)
 		{
-			world.effectManager.RegisterEffect(effect);
+			world.RegisterEffect(effect);
 		}
 		
 		#endregion
+//		
 
 	}
 }
