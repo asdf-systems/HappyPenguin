@@ -7,6 +7,11 @@ namespace Pux.Resources{
 
 public static class ResourceManager
 {
+	public static IEnumerable<string> Resource {
+		get{
+			return _resources.Keys;			
+		}
+	}
 	private static readonly Dictionary<string, UnityEngine.Object> _resources;
 	
 	static ResourceManager() {

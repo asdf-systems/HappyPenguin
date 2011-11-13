@@ -36,10 +36,13 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		base.AwakeOverride();
 		Life = StartLife;
 		Points = StartPoints;
-		updateCloth();
+		
 		
 	}
 	
+	protected override void StartOverride(){
+		updateCloth();
+	}
 	public bool IsDead {
 		get {return Life < 1;}
 	}

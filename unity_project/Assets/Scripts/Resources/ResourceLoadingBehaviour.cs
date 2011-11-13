@@ -33,6 +33,7 @@ public class ResourceLoadingBehaviour : MonoBehaviour
 			
 		} else{
 			foreach(string resource in ResourceNames){
+				
 				ResourceManager.LoadResource(ResourcesPath  + resource);	
 			}
 		}
