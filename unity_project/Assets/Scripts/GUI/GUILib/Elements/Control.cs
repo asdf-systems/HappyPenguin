@@ -48,10 +48,9 @@ public class Control : Panel {
 	
 	// Caclulate the Absolute Values on the physical screen - because ActiveRegion is virtual an relative to the Control Position
 	private void initActiveRegion(){
-		realActiveRegion = new Rect(RealRegionOnScreen.x+ ActiveRegion.x, 
-		                            RealRegionOnScreen.y + ActiveRegion.y, ActiveRegion.width, ActiveRegion.height);
-		Rect t = activeScreen.GetPhysicalRegionFromRect(realActiveRegion);
-		realActiveRegion = new Rect(realActiveRegion.x, realActiveRegion.y, t.width, t.height);
+		realActiveRegion = new Rect(VirtualRegionOnScreen.x+ ActiveRegion.x, 
+		                            VirtualRegionOnScreen.y + ActiveRegion.y, ActiveRegion.width, ActiveRegion.height);
+		realActiveRegion = activeScreen.GetPhysicalRegionFromRect(realActiveRegion);
 	}
 
 }
