@@ -19,5 +19,6 @@ public class InteractionBehaviour  : MonoBehaviour{
 	public virtual void Up(MouseEventArgs mouse){}
 	public virtual void Move(MouseEventArgs mouse){}
 	public virtual void Swipe(MouseEventArgs mouse){}
+	public virtual void TextChanged(string newText){}
 	
 }

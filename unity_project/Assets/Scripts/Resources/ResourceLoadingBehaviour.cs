@@ -17,7 +17,7 @@ public class ResourceLoadingBehaviour : MonoBehaviour
 	}
 
 	private void Awake() {
-		if(ResourcesPath != "")
+		if(ResourcesPath != "" && !LoadAllResourcesInPath)
 				ResourcesPath += "/";
 		OnResourcesLoading(EventArgs.Empty);
 		LoadResources();

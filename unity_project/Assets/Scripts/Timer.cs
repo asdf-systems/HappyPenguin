@@ -42,6 +42,10 @@ public class Timer {
 		run = true;
 	}
 	
+	public void StartTimer(){
+		StartTimer(maxTime);
+	}
+	
 	public void StopTimer(){
 		currentTime = 0;
 		run = false;

@@ -42,7 +42,10 @@ public class WardrobeBoxBehaviour : Button {
 		Debug.Log("ChangePlayerCloth");
 		changePlayerCloth();
 		InvokePlayerClothChanged();
-		InfoTafel.Text = currentText;
+		if(InfoTafel != null)
+			InfoTafel.Text = currentText;
+		else
+			Debug.LogWarning("Wardrobebox: " + gameObject.name + " has no infoField Set!");
 	}
 	
 	
@@ -57,6 +60,7 @@ public class WardrobeBoxBehaviour : Button {
 	private void loadHat(){
 		if(GameStatics.PersonalHighscore >=  points){
 			GameStatics.savePlayerHat(HatName);
+		
 		}
 			
 		
@@ -68,6 +72,7 @@ public class WardrobeBoxBehaviour : Button {
 		}
 	}
 	private void InvokePlayerClothChanged(){
+		Debug.Log("INVOKE");
 		var handler = PlayerClothChanged;
 		if (handler == null) {
 				return;

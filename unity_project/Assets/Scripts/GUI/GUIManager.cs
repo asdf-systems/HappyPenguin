@@ -28,7 +28,7 @@ public class GUIManager : GUIStatics
 		set;
 	}
 
-	public AlertTextBehaviour TextEntity;
+	public AlertTextPanel TextEntity;
 
 	private Time textTimer;
 
@@ -51,7 +51,7 @@ public class GUIManager : GUIStatics
 	
 	private void InitComponents() {
 		positions = new List<Vector2>();
-		TextEntity = gameObject.GetComponentInChildren<AlertTextBehaviour>();
+		TextEntity = gameObject.GetComponentInChildren<AlertTextPanel>();
 		pointsDisplay = gameObject.GetComponentInChildren<PointsDisplay>();
 	}
 

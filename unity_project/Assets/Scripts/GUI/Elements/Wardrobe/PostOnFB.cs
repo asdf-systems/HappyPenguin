@@ -4,7 +4,7 @@ using System;
 
 public class PostOnFB : UIElementBehaviour<GUIStatics> {
 	private const string MESSAGE = "I dressed up my Pux!";
-	public AlertTextBehaviour alert; 
+	public AlertTextPanel alert; 
 	
 	protected override void showElements(){
 		//alert.ShowText("Highscore Postets - test");

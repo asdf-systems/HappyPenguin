@@ -69,7 +69,19 @@ public class Panel : Frame {
 	}
 	
 	void Start () {
-
+		StartOverride();
+	}
+	
+	protected virtual void StartOverride(){
+		
+	}
+	
+	void OnGUI(){
+		OnGUIOverride();
+	}
+	
+	protected virtual void OnGUIOverride(){
+		
 	}
 	
 	// Update is called once per frame
@@ -80,12 +92,13 @@ public class Panel : Frame {
 	protected override void UpdateOverride(){
 		base.UpdateOverride();
 #if UNITY_EDITOR
-		if(activeScreen.DebugModus){
+		if(activeScreen.DebugModus && plane != null){
 			plane.VirtualRegionOnScreen = RealRegionOnScreen;
 			resetElement();
 		}
 #endif		
 	}
+
 	
 
 	
@@ -99,7 +112,7 @@ public class Panel : Frame {
 		
 		// Orient Plane to Camera
 		resetPlaneTransform();
-		float layer = (float)GUIDepth * 0.00001f;
+		float layer = (float)GUIDepth * 0.0001f;
 		plane.transform.Translate(new Vector3(0,0,(activeScreen.ScreenCamera.nearClipPlane+layer)), Space.Self);
 		plane.transform.LookAt(cam.transform);
 		

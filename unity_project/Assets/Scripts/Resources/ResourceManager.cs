@@ -36,9 +36,15 @@ public static class ResourceManager
 		List<string> loadedResources = new List<string>();
 		foreach(UnityEngine.Object obj in objects){
 			string resourcePath = path + "/" + obj.name;
-			_resources.Add(resourcePath, obj);
+			try{
+				_resources.Add(resourcePath, obj);
+			} catch(Exception e){
+					Debug.Log(e.Message);
+			}
 			loadedResources.Add(obj.name);
 		}
+		if(loadedResources.Count == 0)
+				Debug.LogWarning("No Resources found to load on: " + path);
 		return loadedResources;
 	}
 	

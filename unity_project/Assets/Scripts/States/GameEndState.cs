@@ -6,7 +6,7 @@ public class GameEndState : MonoBehaviour {
 
 	private float time;
 
-	public AlertTextBehaviour alertElement;
+	public AlertTextPanel alertElement;
 	public GetNameAlert nameAlert;
 	public okayButton okayButton;
 	public forward_toWardrobe nextButton;
