@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class TestAllInteractionsBehaviour : InteractionBehaviour {
+public class TestAllInteractionBehaviour : InteractionBehaviour {
 
 	public override void Click(MouseEventArgs mouse){
 		Debug.Log("Click Element: " + gameObject.name);

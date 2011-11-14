@@ -14,23 +14,25 @@ public class InputEvents : MonoBehaviour{
 	public event EventHandler<MouseEventArgs> DownEvent;
 	public event EventHandler<MouseEventArgs> UpEvent;
 	public event EventHandler<MouseEventArgs> MoveEvent;
+	public event EventHandler<MouseEventArgs> SwipeEvent;
 	
 	//private Timer clickTimer;
 	private bool clickStarted = false;
 	private Vector2 mouseStartPosition;
 	
 	private Vector2 mousePosition;
+	private Vector2 actualMouseDirection;
 	
 	void Awake(){
 		Instance = this;
+		actualMouseDirection = new Vector2(0,0);
 		mousePosition = new Vector2(0,0);
 		mouseStartPosition = new Vector2(0,0);
 		
 	}
 	
 	void Start(){
-		//clickTimer = new Timer();
-		//clickTimer.TimerFinished += OnClickTimerFinished;
+		
 	}
 	
 	void Update(){
@@ -48,9 +50,9 @@ public class InputEvents : MonoBehaviour{
 	private void checkMove(){
 		Vector2 oldMouse = mousePosition;
 		mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
-		Vector2 direction = new Vector2(mousePosition.x - oldMouse.x, oldMouse.y - mousePosition.y); 
-		if(direction.magnitude != 0)
-			InvokeMoveEvent(direction);
+		actualMouseDirection = new Vector2(mousePosition.x - oldMouse.x, oldMouse.y - mousePosition.y); 
+		if(actualMouseDirection.magnitude != 0)
+			InvokeMoveEvent(actualMouseDirection);
 		
 	}
 	private void checkClick(){
@@ -86,9 +88,12 @@ public class InputEvents : MonoBehaviour{
 	private void clickEnd(int buttonId){
 		InvokeUpEvent(buttonId);
 		if(clickStarted){
-			float clickDistance = (mousePosition - mouseStartPosition).magnitude;
+			Vector2 moveDirection = mousePosition - mouseStartPosition;
+			float clickDistance = moveDirection.magnitude;
 			if(clickDistance <= MaxClickDistance){
 				InvokeClickEvent(buttonId);
+			} else{ // Swipe detected
+				InvokeSwipeEvent(moveDirection);
 			}
 			clickStarted = false;	
 			
@@ -125,6 +130,16 @@ public class InputEvents : MonoBehaviour{
 
 	private void InvokeMoveEvent(Vector2 direction){
 		var handler = MoveEvent;
+		if (handler == null){
+			return;
+		}
+		var e = new MouseEventArgs(direction);
+		e.MouseDown = clickStarted;
+		handler(this, e);
+	}
+	
+	private void InvokeSwipeEvent(Vector2 direction){
+		var handler = SwipeEvent;
 		if (handler == null){
 			return;
 		}

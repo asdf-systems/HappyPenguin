@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class MouseEventArgs : EventArgs {// where T : MonoBehaviour{
+public class MouseEventArgs : EventArgs {
 
 	public int ButtonId{get;set;}
 	public float MoveDistance{get{
@@ -23,5 +23,7 @@ public class MouseEventArgs : EventArgs {// where T : MonoBehaviour{
 		MoveDirection = direction;
 		ButtonId = -1;
 	}
+	
+	public bool MouseDown;
 
 }
