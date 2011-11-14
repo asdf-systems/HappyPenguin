@@ -5,7 +5,8 @@ using System;
 public class InputEvents : MonoBehaviour{
 
 	
-	public float ClickTimeInSeconds = 0.1f;
+	//public float ClickTimeInSeconds = 0.1f;
+	public float MaxClickDistance = 0.1f;
 	
 	public static InputEvents Instance;
 	
@@ -14,20 +15,22 @@ public class InputEvents : MonoBehaviour{
 	public event EventHandler<MouseEventArgs> UpEvent;
 	public event EventHandler<MouseEventArgs> MoveEvent;
 	
-	private Timer clickTimer;
+	//private Timer clickTimer;
 	private bool clickStarted = false;
+	private Vector2 mouseStartPosition;
 	
 	private Vector2 mousePosition;
 	
 	void Awake(){
 		Instance = this;
 		mousePosition = new Vector2(0,0);
+		mouseStartPosition = new Vector2(0,0);
 		
 	}
 	
 	void Start(){
-		clickTimer = new Timer();
-		clickTimer.TimerFinished += OnClickTimerFinished;
+		//clickTimer = new Timer();
+		//clickTimer.TimerFinished += OnClickTimerFinished;
 	}
 	
 	void Update(){
@@ -75,22 +78,23 @@ public class InputEvents : MonoBehaviour{
 	
 	private void clickStart(int buttonId){
 		InvokeDownEvent(buttonId);
-		clickTimer.StartTimer(ClickTimeInSeconds);
+		//clickTimer.StartTimer(ClickTimeInSeconds);
+		mouseStartPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 		clickStarted = true;
 	}
 	
 	private void clickEnd(int buttonId){
 		InvokeUpEvent(buttonId);
 		if(clickStarted){
-			InvokeClickEvent(buttonId);
-			clickStarted = false;
+			float clickDistance = (mousePosition - mouseStartPosition).magnitude;
+			if(clickDistance <= MaxClickDistance){
+				InvokeClickEvent(buttonId);
+			}
+			clickStarted = false;	
+			
 		}
 	}
 	
-	
-	private void OnClickTimerFinished(object sender, EventArgs e){
-		clickStarted = false;
-	}
 	
 	private void InvokeClickEvent(int buttonId){
 		var handler = ClickEvent;
