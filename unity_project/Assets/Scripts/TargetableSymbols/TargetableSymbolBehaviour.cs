@@ -4,13 +4,17 @@ using System;
 
 public sealed class TargetableSymbolBehaviour : MonoBehaviour
 {
-	public Texture DefaultTexture;
-	public Texture LightUpTexture;
+	public Rect DefaultUvs;
+	public Rect LightUpUvs;
 	private bool isLit;
-
+	private UVMoveBehaviour uvSet; 
+		
 	public void Awake ()
 	{
-		renderer.material.mainTexture = DefaultTexture;
+		//renderer.material.mainTexture = DefaultUvs;
+		uvSet = gameObject.GetComponent<UVMoveBehaviour>() as UVMoveBehaviour;
+		uvSet.newUvs = DefaultUvs;
+		
 	}
 
 	public bool IsHighlighted {
@@ -33,13 +37,13 @@ public sealed class TargetableSymbolBehaviour : MonoBehaviour
 
 	private void LightUp ()
 	{
-		renderer.material.mainTexture = LightUpTexture;
-		gameObject.transform.localScale.Scale (new Vector3 (gameObject.transform.localScale.x * 1.1f, gameObject.transform.localScale.y * 1.1f, gameObject.transform.localScale.z * 1.1f));
+		uvSet.newUvs = LightUpUvs;
+		//gameObject.transform.localScale.Scale (new Vector3 (gameObject.transform.localScale.x * 1.1f, gameObject.transform.localScale.y * 1.1f, gameObject.transform.localScale.z * 1.1f));
 	}
 
 	private void LightDown ()
 	{
-		renderer.material.mainTexture = DefaultTexture;
-		gameObject.transform.localScale.Scale (new Vector3 (gameObject.transform.localScale.x / 1.1f, gameObject.transform.localScale.y / 1.1f, gameObject.transform.localScale.z / 1.1f));
+		uvSet.newUvs =  DefaultUvs;
+		//gameObject.transform.localScale.Scale (new Vector3 (gameObject.transform.localScale.x / 1.1f, gameObject.transform.localScale.y / 1.1f, gameObject.transform.localScale.z / 1.1f));
 	}
 }
