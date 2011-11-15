@@ -28,7 +28,7 @@ public class ResourceLoadingBehaviour : MonoBehaviour
 	protected virtual void OnResourcesLoaded(EventArgs e) { }
 
 	protected virtual void LoadResources(){
-		if(LoadAllResourcesInPath){
+		if(LoadAllResourcesInPath && ResourcesPath != string.Empty){
 			loadedResources = ResourceManager.LoadAllResources(ResourcesPath);
 			
 		} else{
