@@ -50,6 +50,7 @@ public class CameraScreen : Frame {
 		InputEvents.Instance.MoveEvent += OnHover;
 		InputEvents.Instance.DownEvent += OnDown;
 		InputEvents.Instance.UpEvent += OnUp;
+		InputEvents.Instance.SwipeEvent += OnSwipe;
 	}
 	
 	
