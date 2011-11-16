@@ -152,6 +152,7 @@ public class Panel : Frame {
 		plane.GUIMaterial = activeScreen.GUIMaterial;
 		plane.UV = Uv;
 		plane.VirtualRegionOnScreen = RealRegionOnScreen;
+		Debug.Log("Element: " + gameObject.name + " Coords: " + RealRegionOnScreen);
 			
 	}
 	

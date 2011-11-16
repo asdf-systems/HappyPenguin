@@ -49,7 +49,8 @@ public class InputEvents : MonoBehaviour{
 	
 	private void checkMove(){
 		Vector2 oldMouse = mousePosition;
-		mousePosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+		mousePosition = CameraScreen.PhysicalToVirtualScreenPosition(Input.mousePosition);
+		
 		actualMouseDirection = new Vector2(mousePosition.x - oldMouse.x, oldMouse.y - mousePosition.y); 
 		if(actualMouseDirection.magnitude != 0)
 			InvokeMoveEvent(actualMouseDirection);
@@ -81,7 +82,7 @@ public class InputEvents : MonoBehaviour{
 	private void clickStart(int buttonId){
 		InvokeDownEvent(buttonId);
 		//clickTimer.StartTimer(ClickTimeInSeconds);
-		mouseStartPosition = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
+		mouseStartPosition = mousePosition;
 		clickStarted = true;
 	}
 	
@@ -90,6 +91,7 @@ public class InputEvents : MonoBehaviour{
 		if(clickStarted){
 			Vector2 moveDirection = mousePosition - mouseStartPosition;
 			float clickDistance = moveDirection.magnitude;
+			Debug.LogWarning("Distance: " + clickDistance);
 			if(clickDistance <= MaxClickDistance){
 				InvokeClickEvent(buttonId);
 			} else{ // Swipe detected

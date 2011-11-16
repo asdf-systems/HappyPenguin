@@ -17,7 +17,7 @@ public class CameraScreen : Frame {
 	//  Propertys
 	public static Vector2 mousePosition{
 		get{
-			return NormalizeScreenPosition(Input.mousePosition); 
+			return PhysicalToVirtualScreenPosition(Input.mousePosition); 
 		}
 	}
 	
@@ -77,6 +77,7 @@ public class CameraScreen : Frame {
 		//base.LayoutElement();
 		foreach(Panel box in allChildren){
 			box.RealRegionOnScreen = GetPhysicalRegionFromRect(box.VirtualRegionOnScreen);
+			box.UpdateElementOnScreen();
 		}
 		
 	}
@@ -169,7 +170,15 @@ public class CameraScreen : Frame {
 		
 	}
 	
-	public static Vector3 NormalizeScreenPosition(Vector2 screenPosition){
+	/*public static Vector2 PhysicalToVirtualScreenPosition(Vector2 screenPosition){
+		float factorY = (float)(Screen.height) / (float)(ScreenConfig.TargetScreenHeight); 
+		float factorX = (float)(Screen.width) / (float)(ScreenConfig.TargetScreenWidth);
+		screenPosition.y = Screen.height - screenPosition.y;
+		screenPosition.x *= factorX;
+		screenPosition.y *= factorY;
+		return screenPosition;
+	}*/
+	public static Vector2 PhysicalToVirtualScreenPosition(Vector2 screenPosition){
 		float factorY = (float)(Screen.height) / (float)(ScreenConfig.TargetScreenHeight); 
 		float factorX = (float)(Screen.width) / (float)(ScreenConfig.TargetScreenWidth);
 		screenPosition.y = Screen.height - screenPosition.y;
