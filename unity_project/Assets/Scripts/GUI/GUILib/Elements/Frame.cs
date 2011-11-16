@@ -24,6 +24,8 @@ public class Frame : MonoBehaviour {
 		initDirectChildren();
 	}
 	
+	
+	
 	void Start(){
 		
 	}
@@ -33,9 +35,12 @@ public class Frame : MonoBehaviour {
 	}
 	
 	protected virtual void UpdateOverride(){
-		controlerManager.Update(this);
+			controlerManager.Update(this);
 	}
 	
+	public void UpdateDirectChildren(){
+		initDirectChildren();
+	}
 	/**
 	 * This Function is called by Parent to force the child to arrange them selves 
 	 **/

@@ -1,15 +1,17 @@
 using System;
 using Pux;
+using UnityEngine;
+
 namespace Pux
 {
 	public class SwipeEventArgs : EventArgs
 	{
-		public GUIManager.Directions direction ;
-		public string symbolChain;
+		public string SymbolChain;
+		public Vector2 Direction;
 		
-		public SwipeEventArgs (GUIManager.Directions direction , string symbolChain){
-			this.direction = direction;
-			this.symbolChain = symbolChain;
+		public SwipeEventArgs (Vector2 direction , string symbolChain){
+			this.Direction = direction;
+			this.SymbolChain = symbolChain;
 		}
 	}
 }

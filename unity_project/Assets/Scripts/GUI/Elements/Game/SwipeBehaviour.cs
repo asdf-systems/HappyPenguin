@@ -1,21 +1,17 @@
 using System;
 
-	public class SwipeBehaviour: UIElementBehaviour<GUIManager>
-	{
+public class SwipeBehaviour: InteractionBehaviour{
+	
+
+	public override void Swipe(MouseEventArgs e){
 		
-		public SwipeBehaviour ()
-		{
-			
+		if(e.MoveDirection.x < 0) {
+			GUIManager.Instance.ClearSymbols();
 		}
-		
-		protected override void swipe(GUIManager.Directions direction){
-			if (direction == GUIManager.Directions.Left) {
-				guiStatics.ClearSymbols();
-			}
-			else {
-				guiStatics.PreSwipeCommitted(direction);
-			}
+		else {
+			GUIManager.Instance.PreSwipeCommitted(e.MoveDirection);
 		}
 	}
+}
 
 

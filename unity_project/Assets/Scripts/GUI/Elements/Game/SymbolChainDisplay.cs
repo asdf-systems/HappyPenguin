@@ -2,67 +2,84 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Pux;
+using Pux.Resources;
 
-public class SymbolChainDisplay: UIElementBehaviour<GUIManager>{
+public class SymbolChainDisplay: Panel{
 		
 	
-	public GUIStyle signQ;
-	public GUIStyle signE;
-	public GUIStyle signY;
-	public GUIStyle signC;
-	
-	public int signSize;
-	public int signPosXStart;
-	public int signPosYStart;
+	public Rect SignRegion;
 	public int signPosXStep;
 	
-	private List<GUIStyle> symbols;
+	private List<Panel> symbols;
+	
+	
+	void Awake(){
+		AwakeOverride();
+	}
+	
+	void OnDestroy(){
+		OnDestroyOverride();
+	}
+	protected virtual void AwakeOverride(){
+		base.AwakeOverride();
+		
+	}
 	
 	void Start(){
-		guiStatics.SymbolsChanged += HandleGuiStaticsSymbolsChanged;
-		symbols = new List<GUIStyle>();
+		GUIManager.Instance.SymbolsChanged += OnSymbolsChanged;
+		symbols = new List<Panel>();
 		
-	}
-
-	void HandleGuiStaticsSymbolsChanged(object sender, SymbolEventArgs e){
-		// show Elements on GUI
-		symbols.Clear();
-		if(e.SymbolChain != string.Empty){
-			foreach(char s in e.SymbolChain){
-				switch(s){
-					case 'Q':
-						symbols.Add(signQ);
-					break;
-					case 'E':
-						symbols.Add(signE);
-					break;
-					case 'Y':
-						symbols.Add(signY);
-					break;
-					case 'C':
-						symbols.Add(signC);
-					break;
-					/*case default
-						Debug.Log("Sign " + s + " is unkown");
-					break;*/
-					
-				}
-				
-			}
-		} 
-		
-	}
-	protected override void showElements(){
-		GeneralScreenGUI.Box(guiStatics, new Rect (positionX,positionY,512,512), "", currentStyle);
-		int signPosX = signPosXStart;
-		int signPosY = signPosYStart;
-		foreach(GUIStyle style in symbols){
-			GeneralScreenGUI.Box(guiStatics, new Rect (signPosX,signPosY,signSize,signSize), "", style);					
-			signPosX += signPosXStep;
-		}
 	}
 	
-	protected override void hit(){
+	protected override void UpdateOverride(){
+		base.UpdateOverride();
+#if UNITY_EDITOR
+		if(activeScreen.DebugModus)
+			updateSymbolChain();
+#endif
+	}
+	void OnSymbolsChanged(object sender, SymbolEventArgs e){
+		Debug.Log("New Symbols: " + e.SymbolChain + "XX");
+		if(e.SymbolChain == string.Empty){
+			
+			clear();
+			return;
+		}
+		
+		char symbol =  e.SymbolChain[e.SymbolChain.Length-1];
+		Panel sign = ResourceManager.CreateInstance<GameObject>("Symbols/Sign"+symbol).GetComponent<Panel>();
+		if(sign == null)
+			Debug.LogError("Sign " + symbol + " is unkown");
+		else{ 
+			symbols.Add(sign);		
+			sign.transform.parent = activeScreen.transform;
+			sign.Create();
+			updateSymbolChain();
+		}
+		
+		 
 		
 	}
+	
+	private void clear(){
+		
+		for(int i=0; i < symbols.Count; i++){
+			Debug.LogWarning("Clean Sybols");
+			GameObject.Destroy(symbols[i].gameObject);
+		}
+		symbols.Clear();
+		
+	}
+	void updateSymbolChain(){
+		float signPosX = VirtualRegionOnScreen.x + SignRegion.x;
+		
+		for(int i = 0; i < symbols.Count; i++){
+			var panel = symbols[i];
+			panel.VirtualRegionOnScreen = new Rect (signPosX,SignRegion.y+ VirtualRegionOnScreen.y,SignRegion.width,SignRegion.height);
+			panel.UpdateElementOnScreen();
+			signPosX += signPosXStep;
+			
+		}
+	}
+
 }

@@ -7,33 +7,42 @@ using Pux.UI;
 using Pux.Resources;
 using System;
 
-public class GUIManager : GUIStatics
-{
-	private CornerButtonBehaviourC buttonC;
+/**
+ * Singleton Class to handle all GUI Actions
+ */
+public class GUIManager : MonoBehaviour {
+	private static GUIManager instance;
+	
+	/*private CornerButtonClickBehaviour buttonC;
 	private CornerButtonBehaviourE buttonE;
 	private CornerButtonBehaviourQ buttonQ;
-	private CornerButtonBehaviourY buttonY;
-
-	private PointsDisplay pointsDisplay;
+	private CornerButtonBehaviourY buttonY;*/
+	
+	public Button buttonC;
+	public Button buttonE;
+	public Button buttonQ;
+	public Button buttonY;
+	
+	public TextPanel PointsDisplay;
 
 	private string symbolChain;
-
-	private Vector2 buttonCpos;
+	private Time textTimer;
+	private int poorMansBarrier;
+	
+	/*private Vector2 buttonCpos;
 	private Vector2 buttonEpos;
 	private Vector2 buttonQpos;
-	private Vector2 buttonYpos;
+	private Vector2 buttonYpos;*/
 	
 	public float ButtonSlideDistance {
 		get;
 		set;
 	}
 
-	public AlertTextPanel TextEntity;
+	public AlertTextPanel AlertTextEntity;
 
-	private Time textTimer;
-
-	public enum Directions
-	{
+	
+	public enum Directions{
 		Left,
 		Right
 	}
@@ -43,16 +52,46 @@ public class GUIManager : GUIStatics
 	public event EventHandler<SymbolEventArgs> SymbolsChanged;
 	public event EventHandler<SwipeEventArgs> SwipeCommitted;
 	
-	private void Awake() {
+	public static GUIManager Instance{
+		get; 
+		private set;
+	}
+	
+	
+	private void Awake(){
+		Instance = this;
+		checkAssumptions();
 		InitComponents();
 		InitButtons();
 		ButtonSlideDistance = 181; // magnitude of Vector2(128,128) 
 	}
 	
+	private void checkAssumptions(){
+		if(PointsDisplay == null){
+			Debug.LogError("GUI_Manger has no PointsDisplay Assigned");
+		}
+		if(buttonC == null){
+			Debug.LogError("GUIManager has no buttonC assigned");
+		}
+		if(buttonY == null){
+			Debug.LogError("GUIManager has no buttonY assigned");
+		}
+		if(buttonQ == null){
+			Debug.LogError("GUIManager has no buttonQ assigned");
+		}
+		if(buttonE == null){
+			Debug.LogError("GUIManager has no buttonE assigned");
+		}
+		if(AlertTextEntity == null){
+			Debug.LogError("GUIManager has no AlertTextPanel assigned");
+		}
+		
+	}
+	
+	
+	
 	private void InitComponents() {
 		positions = new List<Vector2>();
-		TextEntity = gameObject.GetComponentInChildren<AlertTextPanel>();
-		pointsDisplay = gameObject.GetComponentInChildren<PointsDisplay>();
 	}
 
 //	private void Reset() {
@@ -70,10 +109,10 @@ public class GUIManager : GUIStatics
 //		
 //	}
 	private void InitButtons() {
-		buttonC = gameObject.GetComponentInChildren<CornerButtonBehaviourC>();
+		/*buttonC = gameObject.GetComponentInChildren<CornerButtonBehaviourC>();
 		buttonY = gameObject.GetComponentInChildren<CornerButtonBehaviourY>();
 		buttonQ = gameObject.GetComponentInChildren<CornerButtonBehaviourQ>();
-		buttonE = gameObject.GetComponentInChildren<CornerButtonBehaviourE>();
+		buttonE = gameObject.GetComponentInChildren<CornerButtonBehaviourE>();*/
 		
 		StorePositions();
 	}
@@ -87,10 +126,12 @@ public class GUIManager : GUIStatics
 		positions.Add(buttonY.Position);
 	}
 	
-	private int poorMansBarrier;
+	
 	private void OnButtonsSlidOut(Action action, ClockRotations rotation)
 	{
-		poorMansBarrier ++;
+		
+		Debug.LogWarning("On ButtonsSlideOut need to be implemented again");
+		/*poorMansBarrier ++;
 		if (poorMansBarrier < 4) {
 			return;
 		}
@@ -99,20 +140,21 @@ public class GUIManager : GUIStatics
 		SwapTextures(rotation);
 		if (action != null) {
 			action();
-		}
+		}*/
 	}
 	
 	private void SwapTextures(ClockRotations rotation)
 	{
-		SwapTexture(buttonC, "green", rotation);
+		/*SwapTexture(buttonC, "green", rotation);
 		SwapTexture(buttonE, "red", rotation);
 		SwapTexture(buttonQ, "yellow", rotation);
-		SwapTexture(buttonY, "purple", rotation);
+		SwapTexture(buttonY, "purple", rotation);*/
 	}
 	
-	private void SwapTexture(UIElementBehaviour<GUIManager> button, string color, ClockRotations rotation)
+	private void SwapTexture(Button button, string color, ClockRotations rotation)
 	{
-		var path = "iPhone/UI/";
+		Debug.LogWarning("Swap Textures need to be implemented again");
+		/*var path = "iPhone/UI/";
 		var ns = string.Empty;
 		if (button.Position.x < 480) {
 			ns = rotation == ClockRotations.Clockwise ? "bottom" : "top";
@@ -132,7 +174,7 @@ public class GUIManager : GUIStatics
 		
 		button.activeStyle.normal.background = ResourceManager.GetResource<Texture2D>(normal);
 		button.hoverStyle.normal.background = ResourceManager.GetResource<Texture2D>(hover);
-		button.inactiveStyle.normal.background = ResourceManager.GetResource<Texture2D>(normal);
+		button.inactiveStyle.normal.background = ResourceManager.GetResource<Texture2D>(normal);*/
 	}
 
 	public void PerformUIRotation(ClockRotations clockRotation)
@@ -167,17 +209,12 @@ public class GUIManager : GUIStatics
 	
 	private void UpdatePositions() {
 		
-		buttonC.positionX = (int)positions[0].x;
-		buttonC.positionY = (int)positions[0].y;
+		buttonC.Position = positions[0];
+		buttonE.Position = positions[1];
+		buttonQ.Position = positions[2];
+		buttonY.Position = positions[3];		
 		
-		buttonE.positionX = (int)positions[1].x;
-		buttonE.positionY = (int)positions[1].y;
 		
-		buttonQ.positionX = (int)positions[2].x;
-		buttonQ.positionY = (int)positions[2].y;
-		
-		buttonY.positionX = (int)positions[3].x;
-		buttonY.positionY = (int)positions[3].y;
 	}
 	
 	private void SlideButtonsOut(Action postAction)
@@ -196,9 +233,11 @@ public class GUIManager : GUIStatics
 		PerformButtonSlide(buttonY, SlideDirections.In, null);
 	}
 	
-	private Vector2 GetSnapPositionForButton(UIElementBehaviour<GUIManager> button)
+	private Vector2 GetSnapPositionForButton(Button button)
 	{
-			// left
+		Debug.LogWarning("GetSnapPositionsForButton need to be implemented again");
+		return new Vector2(0,0);
+		/*	// left
 		if (button.Position.x < 480) {
 			if (button.Position.y > 320) {
 				return new Vector2(0, 640 - button.Height);
@@ -211,12 +250,13 @@ public class GUIManager : GUIStatics
 			} else {
 				return new Vector2(960 - button.Width, 0);
 			}
-		}
+		}*/
 	}
 	
-	private void PerformButtonSlide(UIElementBehaviour<GUIManager> button, SlideDirections direction, Action postAction)
+	private void PerformButtonSlide(Button button, SlideDirections direction, Action postAction)
 	{
-		var retinaCenter = new Vector2(480, 320);
+		Debug.LogWarning("PerformSlide need to be implemented again");
+		/*var retinaCenter = new Vector2(480, 320);
 		var buttonCenter = new Vector2(button.Position.x + (float) button.Width / 2.0f, button.Position.y + (float) button.Height / 2.0f );
 
 		var directingVector = buttonCenter - retinaCenter;
@@ -250,7 +290,7 @@ public class GUIManager : GUIStatics
 			controller.ControllerFinished += (sender, e) => postAction.Invoke();
 		}
 		
-		button.QueueController(button.name, controller);
+		button.QueueController(button.name, controller);*/
 	}
 
 	public void ClearSymbols() {
@@ -259,42 +299,30 @@ public class GUIManager : GUIStatics
 	}
 
 	public void Alert(string value) {
-		TextEntity.ShowText(value);
+		Debug.Log("Alert");
+		AlertTextEntity.ShowText(value);
 	}
 
-	public void NotifyButtonQHit() {
-		symbolChain += "Q";
-		InvokeSymbolsChanged();
-	}
-
-	public void NotifyButtonEHit() {
-		symbolChain += "E";
-		InvokeSymbolsChanged();
-	}
-
-	public void NotifyButtonYHit() {
-		symbolChain += "Y";
-		InvokeSymbolsChanged();
-	}
-
-	public void NotifyButtonCHit() {
-		symbolChain += "C";
+	public void NotifyButtonHit(string symbol) {
+		symbolChain += symbol;
 		InvokeSymbolsChanged();
 	}
 
 	public void DisplayPoints(float points) {
-		if (pointsDisplay == null)
-			pointsDisplay = gameObject.GetComponentInChildren<PointsDisplay>();
-		pointsDisplay.Points = points;
+		/*if (PointsDisplay == null)
+			PointsDisplay = gameObject.GetComponentInChildren<PointsDisplay>();*/
+		PointsDisplay.Text = points.ToString();
 	}
 
+	/* Not Needed any more -> Balloons
 	public void DisplayLife(float life) {
 		if (pointsDisplay == null)
 			pointsDisplay = gameObject.GetComponentInChildren<PointsDisplay>();
 		pointsDisplay.Life = life;
-	}
+	}*/
 
-	public void PreSwipeCommitted(Directions direction) {
+// Invoke Events
+	public void PreSwipeCommitted(Vector2 direction) {
 		InvokeSwipeCommitted(direction);
 	}
 
@@ -308,7 +336,7 @@ public class GUIManager : GUIStatics
 		SymbolsChanged(this, e);
 	}
 
-	private void InvokeSwipeCommitted(Directions direction) {
+	private void InvokeSwipeCommitted(Vector2 direction) {
 		var handler = SwipeCommitted;
 		if (handler == null) {
 			return;

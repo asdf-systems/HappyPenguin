@@ -20,14 +20,14 @@ public class Button : Control {
 	}
 	
 	public override void OnDown(object sender, MouseEventArgs e){
-		Debug.Log("DOWN: " + gameObject.name);
+		
 		base.OnDown(sender,e);
 		down = true;
 		plane.UV = activeUV;
 	}
 	
 	public override void OnUp(object sender, MouseEventArgs e){
-		Debug.Log("UP: " + gameObject.name);
+		
 		base.OnUp(sender,e);
 		down = false;
 		plane.UV = Uv;

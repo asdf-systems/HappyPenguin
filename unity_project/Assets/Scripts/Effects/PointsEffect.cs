@@ -1,5 +1,6 @@
 using System;
 using Pux.Entities;
+using UnityEngine;
 
 namespace Pux.Effects
 {
@@ -15,6 +16,7 @@ namespace Pux.Effects
 		}
 
 		public override void Start(GameWorldBehaviour world) {
+			Debug.Log("PointsChange: " +PointChange + " Multiplier: " + world.PointsMultiplier);
 			amount = (int) (PointChange * world.PointsMultiplier);
 			world.ChangePlayerPoints(amount);
 		}

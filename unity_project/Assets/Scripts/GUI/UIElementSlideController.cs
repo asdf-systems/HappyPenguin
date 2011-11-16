@@ -56,7 +56,7 @@ namespace Pux.UI
 			var vec = (TargetPosition - StartPosition);
 			
 			//HACK for mono bug, something with trampolines
-			var ui = (UIElementBehaviour<GUIManager>) entity;
+			var ui = (Panel)entity;
 			ui.Position = StartPosition + (vec * relDistance); 
 		}		
 	}

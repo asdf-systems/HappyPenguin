@@ -77,7 +77,8 @@ public static class ResourceManager
 		var res = _resources[key];
 		return (T) GameObject.Instantiate(res, Vector3.zero, Quaternion.identity);
 	}
-}
+	
 
 }
-
+	
+}

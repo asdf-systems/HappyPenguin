@@ -155,7 +155,10 @@ public class CameraScreen : Frame {
 				break;
 			}
 				
-			savedParent = obj.transform.parent.gameObject;
+			if(obj.transform.parent != null)
+				savedParent = obj.transform.parent.gameObject;
+			else 
+				savedParent = null;
 			obj = savedParent;
 		}
 		if(screen == null){

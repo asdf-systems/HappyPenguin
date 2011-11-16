@@ -14,6 +14,10 @@ public class Panel : Frame {
 	public VerticalFloatPositions verticalFloat;
 	public HorizontalFloatPositions horizontalFloat;
 	
+	public string helpLate = "This option give possibilty to create Element Later via Code";
+	public bool LateCreation = false;
+	private bool created = false;
+	
 	public Rect Uv;
 	
 	private GUIStyle inactiveStyle;
@@ -26,11 +30,11 @@ public class Panel : Frame {
 	}	
 	protected GUIStyle currentStyle;
 
-	protected CameraScreen activeScreen;
+	public CameraScreen activeScreen;
 	
 
 	// PROPERTYS
-	public Vector2 position{
+	public Vector2 Position{
 		get{
 			return new Vector2(VirtualRegionOnScreen.x, VirtualRegionOnScreen.y);
 		}
@@ -41,7 +45,7 @@ public class Panel : Frame {
 		
 	}
 	
-	public Vector2 size{
+	public Vector2 Size{
 		get{
 			return new Vector2(VirtualRegionOnScreen.xMax, VirtualRegionOnScreen.yMin);
 		}
@@ -60,16 +64,38 @@ public class Panel : Frame {
 		
 	}
 	
+	void OnDestroy(){
+		OnDestroyOverride();
+	}
+	
+	protected virtual void OnDestroyOverride(){
+		
+		if(plane != null){
+			GameObject.Destroy(plane.gameObject);
+		}
+	}
+	
 	// Use this for initialization
 	protected override void AwakeOverride(){
 		base.AwakeOverride();
+		if(!LateCreation)
+			Create();
+	}
+	
+	public void Create(){
+		if(created){
+			Debug.Log("Element: "+ gameObject.name);
+			return;
+		}
 		RealRegionOnScreen = new Rect(0,0,0,0);
 		resetElement();
 		activeScreen = CameraScreen.GetScreenForObject(this.gameObject);
+		this.createGUIElement();
+		created = true;
 	}
-	
 	void Start () {
 		StartOverride();
+		
 	}
 	
 	protected virtual void StartOverride(){
@@ -92,17 +118,23 @@ public class Panel : Frame {
 	protected override void UpdateOverride(){
 		base.UpdateOverride();
 #if UNITY_EDITOR
-		if(activeScreen.DebugModus && plane != null){
-			plane.VirtualRegionOnScreen = RealRegionOnScreen;
-			resetElement();
+		if(activeScreen.DebugModus ){
+			UpdateElementOnScreen();
 		}
 #endif		
 	}
 
 	
-
+	public virtual void UpdateElementOnScreen(){
+		if(plane != null)
+			plane.VirtualRegionOnScreen = RealRegionOnScreen;
+			resetElement();
+	}
 	
 	public virtual void createGUIElement(){
+		
+		if(created)
+			return;
 		
 		CreateGUIPlane();
 				
@@ -120,9 +152,7 @@ public class Panel : Frame {
 		plane.GUIMaterial = activeScreen.GUIMaterial;
 		plane.UV = Uv;
 		plane.VirtualRegionOnScreen = RealRegionOnScreen;
-		
-		
-		
+			
 	}
 	
 	private Vector3 WorldToLocalCoordinates(Vector3 worldCoordinates){

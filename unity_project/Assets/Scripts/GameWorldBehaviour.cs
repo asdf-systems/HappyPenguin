@@ -10,19 +10,20 @@ using Pux.UI;
 
 public sealed class GameWorldBehaviour : MonoBehaviour
 {
-	public GUIManager guiManager;
-	public GameObject Trebuchet;
-	private readonly EffectManager effectManager;
-	private readonly IconSlotManager iconSlotManager;
+	
+	
+	private GUIManager guiManager;
+	private EffectManager effectManager;
+	private IconSlotManager iconSlotManager;
 
-	private readonly CreatureSpawner creatureSpawner;
-	private readonly PerkSpawner perkSpawner;
-	private readonly List<LifeSpawnBeacon> lifeBeacons;
-
-	public EntityManager entityManager { get; private set; }
+	private CreatureSpawner creatureSpawner;
+	private PerkSpawner perkSpawner;
+	private List<LifeSpawnBeacon> lifeBeacons;
 
 	private AttackZoneBehaviour attackZone;
-
+	
+	public EntityManager entityManager { get; private set; }
+	public GameObject Trebuchet;
 	public string PerkText;
 	public string WrongSymbolChainText;
 	public string LooseText;
@@ -42,60 +43,29 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		get;
 		set;
 	}
-
-	private void HighlightSymbols(string chain) {
-		var targetables = entityManager.FindTargetables();
-		foreach (var entity in targetables) {
-			if (entity.SymbolChain.StartsWith(chain)) {
-				entity.HighlightSymbols(chain.Length);
-			}
-		}
+	
+	public void Awake() {
+		InitGameWorldBehaviour();
+		InitIconSlotManager();
+		InitPlayer();
+		InitLifeBeacons();
+		InitEntityRoot();
+		InitCreatureNodes();
+		InitPerkNodes();
+		InitAttackZone();
+		InitStatics();
 	}
 	
-	public void RegisterEffect(Effect effect){
-		effectManager.RegisterEffect(effect);
-		if (effect.HasDescription) {
-			guiManager.Alert(effect.Description);
-		}
-		if (effect.IsIconAvailable && effect.Duration > TimeSpan.Zero) {
-			iconSlotManager.DisplayEffect(effect);
-		}
+	void Start(){
+		InitUI();
+		PointsMultiplier = 1;
 	}
 	
-	public void RegisterEffects(IEnumerable<Effect> effects){
-		foreach (var effect in effects) {
-			effectManager.RegisterEffect(effect);	
-		}
-	}
-
-	private void DarkenSymbols() {
-		var targetables = entityManager.FindTargetables();
-		foreach (var entity in targetables) {
-			entity.DarkenSymbols();
-		}
-	}
-
-	private void OnSymbolChanged(object sender, SymbolEventArgs e) {
-		if (string.IsNullOrEmpty(e.SymbolChain)) {
-			DarkenSymbols();
-			return;
-		}
-		HighlightSymbols(e.SymbolChain);
-	}
-
-	private void OnEffectsReleased(object sender, EffectEventArgs e) {
-		foreach (var effect in e.Effects) {
-			RegisterEffect(effect);
-		}
-	}
 	
-	private void OnEffectExpired(object sender, EffectEventArgs e){
-		foreach (var effect in e.Effects) {
-			iconSlotManager.HideEffect(effect);
-		}
-	}
-
-	public GameWorldBehaviour() {
+// Init Functions
+	private void InitGameWorldBehaviour() {
+		
+		
 		entityManager = new EntityManager();
 		entityManager.EffectsReleased += OnEffectsReleased;
 		
@@ -111,51 +81,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		lifeBeacons = new List<LifeSpawnBeacon>();
 		iconSlotManager = new IconSlotManager();
-	}
-
-	private void OnSwipeCommitted(object sender, SwipeEventArgs e) {
-		guiManager.ClearSymbols();
-		var target = entityManager.FindTargetable(e.symbolChain);
-		if (target == null) {
-			InvokePlayerMiss();
-			return;
-		}
-		InvokePlayerHit(target);
-	}
-
-	private void InvokePlayerHit(TargetableEntityBehaviour target) {
-		var player = entityManager.Player;
-		if (player.gameObject.animation.IsPlaying("throw")) {
-			player.gameObject.animation.Stop();
-		}
 		
-		target.TargetHit += (sender,e ) => {
-			effectManager.RegisterEffects(target.HitEffects);
-		};
-		
-		entityManager.Player.PlayAnimation("throw");
-		entityManager.ThrowSnowball(target, SnowballSpeedModifier);
 	}
 	
-	internal void ModifyCreatures(Action<CreatureBehaviour> action) {
-		var creatures = entityManager.FindCreatures();
-		foreach (var creature in creatures) {
-			action(creature);
-		}
-	}
-
-	private void InvokePlayerMiss() { 
-		entityManager.SpawnCreature(CreatureTypes.Blowfish);
-		Debug.Log("implement trip animation or camera quake ...");
-	}
-
-	private void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
-		var creature = e.Behaviour;
-		if (creature != null) {
-			RegisterEffects(creature.AttackEffects);
-		}
-	}
-
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
 		if (attackZone == null) {
@@ -164,24 +92,27 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		attackZone.AttackZoneEntered += OnAttackZoneEntered;
 	}
-
-	public void InvokeUIRotation(ClockRotations clockRotation) {
-		guiManager.PerformUIRotation(clockRotation);
+	
+	private void InitCreatureNodes() {
+		var creatureSpawn = GameObject.FindWithTag("creature_spawn");
+		
+		var patrol = creatureSpawn.GetComponent<PatrolBehaviour>();
+		patrol.PatrolPositions.Add(new Vector3(-200, -0.9f, 200));
+		patrol.PatrolPositions.Add(new Vector3(-200, -0.9f, -140));
+		patrol.IsActive = true;
+		
+		if (creatureSpawn == null) {
+			throw new ApplicationException("creature spawn object not found");
+		}
+		GameObjectRegistry.RegisterObject("creature_spawn", creatureSpawn);
+		
+		var creatureRetreat = GameObject.FindWithTag("creature_retreat");
+		if (creatureRetreat == null) {
+			throw new ApplicationException("creature spawn object not found");
+		}
+		GameObjectRegistry.RegisterObject("creature_retreat", creatureRetreat);
 	}
-
-	public void Awake() {
-		Debug.Log("Awkae GameWorld");
-		InitIconSlotManager();
-		InitPlayer();
-		InitLifeBeacons();
-		InitEntityRoot();
-		InitCreatureNodes();
-		InitPerkNodes();
-		InitAttackZone();
-		InitUI();
-		InitStatics();
-	}
-
+	
 	private void InitIconSlotManager() {
 		iconSlotManager.InitSpotManager();
 	}
@@ -210,8 +141,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	private void InitUI() {
+		guiManager = GUIManager.Instance;
 		guiManager.DisplayPoints(entityManager.Player.Points);
-		guiManager.DisplayLife(entityManager.Player.Life);
+		//guiManager.DisplayLife(entityManager.Player.Life);
 		guiManager.SwipeCommitted += OnSwipeCommitted;
 		guiManager.SymbolsChanged += OnSymbolChanged;
 	}
@@ -248,27 +180,74 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		player.Points = 0;
 		player.Life = 0;
 	}
-
-	private void InitCreatureNodes() {
-		var creatureSpawn = GameObject.FindWithTag("creature_spawn");
-		
-		var patrol = creatureSpawn.GetComponent<PatrolBehaviour>();
-		patrol.PatrolPositions.Add(new Vector3(-200, -0.9f, 200));
-		patrol.PatrolPositions.Add(new Vector3(-200, -0.9f, -140));
-		patrol.IsActive = true;
-		
-		if (creatureSpawn == null) {
-			throw new ApplicationException("creature spawn object not found");
+	
+// Effekt Handling
+	public void RegisterEffect(Effect effect){
+		effectManager.RegisterEffect(effect);
+		if (effect.HasDescription) {
+			guiManager.Alert(effect.Description);
 		}
-		GameObjectRegistry.RegisterObject("creature_spawn", creatureSpawn);
-		
-		var creatureRetreat = GameObject.FindWithTag("creature_retreat");
-		if (creatureRetreat == null) {
-			throw new ApplicationException("creature spawn object not found");
+		if (effect.IsIconAvailable && effect.Duration > TimeSpan.Zero) {
+			iconSlotManager.DisplayEffect(effect);
 		}
-		GameObjectRegistry.RegisterObject("creature_retreat", creatureRetreat);
+	}
+	
+	public void RegisterEffects(IEnumerable<Effect> effects){
+		foreach (var effect in effects) {
+			effectManager.RegisterEffect(effect);	
+		}
+	}
+	
+// Symbol Modifikation
+	private void HighlightSymbols(string chain) {
+		var targetables = entityManager.FindTargetables();
+		foreach (var entity in targetables) {
+			if (entity.SymbolChain.StartsWith(chain)) {
+				entity.HighlightSymbols(chain.Length);
+			}
+		}
+	}
+	
+	private void DarkenSymbols() {
+		var targetables = entityManager.FindTargetables();
+		foreach (var entity in targetables) {
+			entity.DarkenSymbols();
+		}
 	}
 
+// Event Handling
+	private void OnSymbolChanged(object sender, SymbolEventArgs e) {
+		if (string.IsNullOrEmpty(e.SymbolChain)) {
+			DarkenSymbols();
+			return;
+		}
+		HighlightSymbols(e.SymbolChain);
+	}
+
+	private void OnEffectsReleased(object sender, EffectEventArgs e) {
+		foreach (var effect in e.Effects) {
+			RegisterEffect(effect);
+		}
+	}
+	
+	private void OnEffectExpired(object sender, EffectEventArgs e){
+		foreach (var effect in e.Effects) {
+			iconSlotManager.HideEffect(effect);
+		}
+	}
+
+
+
+	private void OnSwipeCommitted(object sender, SwipeEventArgs e) {
+		guiManager.ClearSymbols();
+		var target = entityManager.FindTargetable(e.SymbolChain);
+		if (target == null) {
+			InvokePlayerMiss();
+			return;
+		}
+		InvokePlayerHit(target);
+	}
+	
 	private void OnCreatureGenerated(object sender, EntityGeneratedEventArgs<CreatureTypes> e) {
 		entityManager.SpawnCreature(e.EntityType);
 	}
@@ -278,7 +257,57 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		Trebuchet.animation.Play("shoot");
 		Trebuchet.animation.PlayQueued("pull");
 	}
+	
+	public void OnCreatureCountNeeded(object sender, CreatureCountNeededEventArgs e) {
+		e.CreatureCount = entityManager.FindCreatures().Count();
+	}
 
+
+// Event Invoke
+	private void InvokePlayerHit(TargetableEntityBehaviour target) {
+		var player = entityManager.Player;
+		if (player.gameObject.animation.IsPlaying("throw")) {
+			player.gameObject.animation.Stop();
+		}
+		
+		target.TargetHit += (sender,e ) => {
+			effectManager.RegisterEffects(target.HitEffects);
+		};
+		
+		entityManager.Player.PlayAnimation("throw");
+		entityManager.ThrowSnowball(target, SnowballSpeedModifier);
+	}
+	
+
+	private void InvokePlayerMiss() { 
+		entityManager.SpawnCreature(CreatureTypes.Blowfish);
+		Debug.Log("implement trip animation or camera quake ...");
+	}
+
+	private void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
+		var creature = e.Behaviour;
+		if (creature != null) {
+			RegisterEffects(creature.AttackEffects);
+		}
+	}
+
+	
+
+	public void InvokeUIRotation(ClockRotations clockRotation) {
+		guiManager.PerformUIRotation(clockRotation);
+	}
+
+
+
+	internal void ModifyCreatures(Action<CreatureBehaviour> action) {
+		var creatures = entityManager.FindCreatures();
+		foreach (var creature in creatures) {
+			action(creature);
+		}
+	}	
+
+	
+// Game World Handling 
 	private void ApplyHealth(int life) {
 		entityManager.Player.Life += life;
 	}
@@ -301,7 +330,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 		
 		CheckForDeadsies();
-		//guiManager.DisplayLife(entityManager.Player.Life);
 	}
 
 	private void ReleaseBalloons(int count) {
@@ -324,11 +352,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 	}
 
-	public void OnCreatureCountNeeded(object sender, CreatureCountNeededEventArgs e) {
-		e.CreatureCount = entityManager.FindCreatures().Count();
-	}
-
+	
 	public void ChangePlayerPoints(float pointsChange) {
+		Debug.Log("Get Points: " + pointsChange);
 		entityManager.Player.Points += pointsChange;
 		guiManager.DisplayPoints(entityManager.Player.Points);
 		GameStatics.Points = entityManager.Player.Points;

@@ -53,6 +53,7 @@ public class TextPanel : Panel {
 	
 	
 	private void formatText(){
+		
 		if(activeScreen.DebugModus)
 			initTextRegion();
 		textStyle.fontSize = targetFontSize;

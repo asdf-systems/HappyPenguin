@@ -22,14 +22,17 @@ namespace Pux.UI
 		
 		public void DisplayEffect(Effect effect)
 		{
-			var slot = FindLeftestEmptySlot();
-			slot.DisplayEffect(effect);
+			Debug.LogWarning("DisplayEffect needs to be implemented again");
+			//var slot = FindLeftestEmptySlot();
+			//slot.DisplayEffect(effect);
+			
 		}
 		
 		public void HideEffect(Effect effect)
 		{
+			Debug.LogWarning("HideEffect needs to be implemented again");
 			// make copy
-			var effects = new List<Effect>();
+			/*var effects = new List<Effect>();
 			effects.AddRange(_iconSlots.Where(x => x.IsOccupied).Select(x => x.ActiveEffect));
 			effects.Remove(effect);
 			
@@ -39,7 +42,7 @@ namespace Pux.UI
 			
 			foreach (var e in effects) {
 				DisplayEffect(e);
-			}
+			}*/
 		}
 		
 		private IconSlotBehaviour FindLeftestEmptySlot()
