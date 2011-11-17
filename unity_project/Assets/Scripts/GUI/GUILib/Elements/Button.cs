@@ -13,7 +13,6 @@ public class Button : Control {
 	private bool down = false;
 	
 	
-	
 	public override void OnClick(object sender, MouseEventArgs e){
 		base.OnClick(sender,e);
 		

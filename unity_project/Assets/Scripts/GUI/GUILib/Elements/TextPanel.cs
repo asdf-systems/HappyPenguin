@@ -20,7 +20,6 @@ public class TextPanel : Panel {
 	protected override void AwakeOverride(){
 		base.AwakeOverride();
 		initTextRegion();
-		
 	}
 	
 	void Start(){
@@ -48,12 +47,10 @@ public class TextPanel : Panel {
 			Text = UnityEngine.GUI.TextField(realTextRegion, formatetText, MaxInputTextLength, textStyle);
 		else
 			UnityEngine.GUI.Label(realTextRegion, formatetText, textStyle);
-
 	}
 	
 	
 	private void formatText(){
-		
 		if(activeScreen.DebugModus)
 			initTextRegion();
 		textStyle.fontSize = targetFontSize;

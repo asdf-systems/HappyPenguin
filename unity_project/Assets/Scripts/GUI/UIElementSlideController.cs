@@ -5,7 +5,7 @@ using Pux.Unity2;
 
 namespace Pux.UI
 {
-	public sealed class UIElementSlideController : Controller<MonoBehaviour>
+	public sealed class UIElementSlideController : Controller<CornerButton>
 	{
 		private Func<float, float> function;
 		private TimeSpan elapsedTime = TimeSpan.Zero; 
@@ -32,7 +32,7 @@ namespace Pux.UI
 			set;
 		}
 		
-		protected override void UpdateOverride (MonoBehaviour entity)
+		protected override void UpdateOverride (CornerButton entity)
 		{	
 			if (IsFinished || entity == null) {
 				return;
@@ -54,10 +54,7 @@ namespace Pux.UI
 			// need more speed for we do operate on a larger scale than in game 
 			
 			var vec = (TargetPosition - StartPosition);
-			
-			//HACK for mono bug, something with trampolines
-			var ui = (Panel)entity;
-			ui.Position = StartPosition + (vec * relDistance); 
+			entity.Position = StartPosition + (vec * relDistance); 
 		}		
 	}
 }

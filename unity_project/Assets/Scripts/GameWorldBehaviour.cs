@@ -10,8 +10,8 @@ using Pux.UI;
 
 public sealed class GameWorldBehaviour : MonoBehaviour
 {
-	
-	
+
+
 	private GUIManager guiManager;
 	private EffectManager effectManager;
 	private IconSlotManager iconSlotManager;
@@ -21,29 +21,23 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private List<LifeSpawnBeacon> lifeBeacons;
 
 	private AttackZoneBehaviour attackZone;
-	
+
 	public EntityManager entityManager { get; private set; }
 	public GameObject Trebuchet;
 	public string PerkText;
 	public string WrongSymbolChainText;
 	public string LooseText;
-	
+
 	public Range SymbolRangeModifer {
 		set { entityManager.SymbolRangeModifer = value; }
 	}
-	
+
 	// implemented
-	public float PointsMultiplier {
-		get;
-		set;
-	}
-	
+	public float PointsMultiplier { get; set; }
+
 	// implemented
-	public float SnowballSpeedModifier {
-		get;
-		set;
-	}
-	
+	public float SnowballSpeedModifier { get; set; }
+
 	public void Awake() {
 		InitGameWorldBehaviour();
 		InitIconSlotManager();
@@ -55,17 +49,15 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitAttackZone();
 		InitStatics();
 	}
-	
-	void Start(){
+
+	void Start() {
 		InitUI();
 		PointsMultiplier = 1;
 	}
-	
-	
+
+
 // Init Functions
 	private void InitGameWorldBehaviour() {
-		
-		
 		entityManager = new EntityManager();
 		entityManager.EffectsReleased += OnEffectsReleased;
 		
@@ -83,7 +75,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		iconSlotManager = new IconSlotManager();
 		
 	}
-	
+
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
 		if (attackZone == null) {
@@ -92,7 +84,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		attackZone.AttackZoneEntered += OnAttackZoneEntered;
 	}
-	
+
 	private void InitCreatureNodes() {
 		var creatureSpawn = GameObject.FindWithTag("creature_spawn");
 		
@@ -112,7 +104,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 		GameObjectRegistry.RegisterObject("creature_retreat", creatureRetreat);
 	}
-	
+
 	private void InitIconSlotManager() {
 		iconSlotManager.InitSpotManager();
 	}
@@ -180,9 +172,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		player.Points = 0;
 		player.Life = 0;
 	}
-	
+
 // Effekt Handling
-	public void RegisterEffect(Effect effect){
+	public void RegisterEffect(Effect effect) {
 		effectManager.RegisterEffect(effect);
 		if (effect.HasDescription) {
 			guiManager.Alert(effect.Description);
@@ -191,13 +183,13 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			iconSlotManager.DisplayEffect(effect);
 		}
 	}
-	
-	public void RegisterEffects(IEnumerable<Effect> effects){
+
+	public void RegisterEffects(IEnumerable<Effect> effects) {
 		foreach (var effect in effects) {
-			effectManager.RegisterEffect(effect);	
+			effectManager.RegisterEffect(effect);
 		}
 	}
-	
+
 // Symbol Modifikation
 	private void HighlightSymbols(string chain) {
 		var targetables = entityManager.FindTargetables();
@@ -207,7 +199,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			}
 		}
 	}
-	
+
 	private void DarkenSymbols() {
 		var targetables = entityManager.FindTargetables();
 		foreach (var entity in targetables) {
@@ -229,14 +221,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			RegisterEffect(effect);
 		}
 	}
-	
-	private void OnEffectExpired(object sender, EffectEventArgs e){
+
+	private void OnEffectExpired(object sender, EffectEventArgs e) {
 		foreach (var effect in e.Effects) {
 			iconSlotManager.HideEffect(effect);
 		}
 	}
-
-
 
 	private void OnSwipeCommitted(object sender, SwipeEventArgs e) {
 		guiManager.ClearSymbols();
@@ -247,7 +237,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 		InvokePlayerHit(target);
 	}
-	
+
 	private void OnCreatureGenerated(object sender, EntityGeneratedEventArgs<CreatureTypes> e) {
 		entityManager.SpawnCreature(e.EntityType);
 	}
@@ -257,7 +247,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		Trebuchet.animation.Play("shoot");
 		Trebuchet.animation.PlayQueued("pull");
 	}
-	
+
 	public void OnCreatureCountNeeded(object sender, CreatureCountNeededEventArgs e) {
 		e.CreatureCount = entityManager.FindCreatures().Count();
 	}
@@ -270,17 +260,15 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			player.gameObject.animation.Stop();
 		}
 		
-		target.TargetHit += (sender,e ) => {
-			effectManager.RegisterEffects(target.HitEffects);
-		};
+		target.TargetHit += (sender, e) => { effectManager.RegisterEffects(target.HitEffects); };
 		
 		entityManager.Player.PlayAnimation("throw");
 		entityManager.ThrowSnowball(target, SnowballSpeedModifier);
 	}
-	
 
-	private void InvokePlayerMiss() { 
-		entityManager.SpawnCreature(CreatureTypes.Blowfish);
+
+	private void InvokePlayerMiss() {
+		effectManager.RegisterEffect(new UIRotationEffect());
 		Debug.Log("implement trip animation or camera quake ...");
 	}
 
@@ -290,8 +278,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			RegisterEffects(creature.AttackEffects);
 		}
 	}
-
-	
 
 	public void InvokeUIRotation(ClockRotations clockRotation) {
 		guiManager.PerformUIRotation(clockRotation);
@@ -304,9 +290,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		foreach (var creature in creatures) {
 			action(creature);
 		}
-	}	
+	}
 
-	
+
 // Game World Handling 
 	private void ApplyHealth(int life) {
 		entityManager.Player.Life += life;
@@ -352,7 +338,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 	}
 
-	
+
 	public void ChangePlayerPoints(float pointsChange) {
 		Debug.Log("Get Points: " + pointsChange);
 		entityManager.Player.Points += pointsChange;

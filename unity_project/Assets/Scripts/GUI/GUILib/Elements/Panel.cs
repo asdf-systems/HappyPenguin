@@ -59,9 +59,7 @@ public class Panel : Frame {
 	
 	// DONT USE THIS
 	void Awake(){
-		
 		AwakeOverride();
-		
 	}
 	
 	void OnDestroy(){

@@ -6,11 +6,7 @@ public class Control : Panel {
 	// Show Active Region is an Debug Option that makes the active array visible
 	public bool ShowActiveRegion = false;
 	public Rect ActiveRegion;
-	
-
-	
 	private Rect realActiveRegion;
-	
 	
 	void Awake(){
 		AwakeOverride();
@@ -19,7 +15,6 @@ public class Control : Panel {
 		base.AwakeOverride();
 		initActiveRegion();
 	}
-	
 	
 	void Start () {
 		

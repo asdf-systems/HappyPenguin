@@ -20,10 +20,6 @@ public class SymbolChainDisplay: Panel{
 	void OnDestroy(){
 		OnDestroyOverride();
 	}
-	protected virtual void AwakeOverride(){
-		base.AwakeOverride();
-		
-	}
 	
 	void Start(){
 		GUIManager.Instance.SymbolsChanged += OnSymbolsChanged;

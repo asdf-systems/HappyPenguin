@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Pux;
 using Pux.Effects;
 using Pux.UI;
@@ -13,26 +14,16 @@ using System;
 public class GUIManager : MonoBehaviour {
 	private static GUIManager instance;
 	
-	/*private CornerButtonClickBehaviour buttonC;
-	private CornerButtonBehaviourE buttonE;
-	private CornerButtonBehaviourQ buttonQ;
-	private CornerButtonBehaviourY buttonY;*/
-	
-	public Button buttonC;
-	public Button buttonE;
-	public Button buttonQ;
-	public Button buttonY;
+	public CornerButton buttonC;
+	public CornerButton buttonE;
+	public CornerButton buttonQ;
+	public CornerButton buttonY;
 	
 	public TextPanel PointsDisplay;
 
 	private string symbolChain;
 	private Time textTimer;
 	private int poorMansBarrier;
-	
-	/*private Vector2 buttonCpos;
-	private Vector2 buttonEpos;
-	private Vector2 buttonQpos;
-	private Vector2 buttonYpos;*/
 	
 	public float ButtonSlideDistance {
 		get;
@@ -57,16 +48,14 @@ public class GUIManager : MonoBehaviour {
 		private set;
 	}
 	
-	
 	private void Awake(){
 		Instance = this;
-		checkAssumptions();
-		InitComponents();
 		InitButtons();
+		CheckAssertions();
 		ButtonSlideDistance = 181; // magnitude of Vector2(128,128) 
 	}
 	
-	private void checkAssumptions(){
+	private void CheckAssertions(){
 		if(PointsDisplay == null){
 			Debug.LogError("GUI_Manger has no PointsDisplay Assigned");
 		}
@@ -85,13 +74,10 @@ public class GUIManager : MonoBehaviour {
 		if(AlertTextEntity == null){
 			Debug.LogError("GUIManager has no AlertTextPanel assigned");
 		}
-		
 	}
 	
-	
-	
-	private void InitComponents() {
-		positions = new List<Vector2>();
+	private CornerButton FindComponent(GameObject gObject){
+		return gObject.GetComponent<CornerButton>();
 	}
 
 //	private void Reset() {
@@ -109,46 +95,34 @@ public class GUIManager : MonoBehaviour {
 //		
 //	}
 	private void InitButtons() {
-		/*buttonC = gameObject.GetComponentInChildren<CornerButtonBehaviourC>();
-		buttonY = gameObject.GetComponentInChildren<CornerButtonBehaviourY>();
-		buttonQ = gameObject.GetComponentInChildren<CornerButtonBehaviourQ>();
-		buttonE = gameObject.GetComponentInChildren<CornerButtonBehaviourE>();*/
-		
-		StorePositions();
+		var buttons = GameObject.FindGameObjectsWithTag("corner_button").Select(x => FindComponent(x));
+		buttonC = buttons.First(x => x.Symbol == "C");
+		buttonQ = buttons.First(x => x.Symbol == "Q");
+		buttonE = buttons.First(x => x.Symbol == "E");
+		buttonY = buttons.First(x => x.Symbol == "Y");
+		positions = new List<Vector2>(){buttonC.Position,buttonE.Position,buttonQ.Position, buttonY.Position};
 	}
-	
-	private void StorePositions()
-	{
-		positions.Clear();
-		positions.Add(buttonC.Position);
-		positions.Add(buttonE.Position);
-		positions.Add(buttonQ.Position);
-		positions.Add(buttonY.Position);
-	}
-	
 	
 	private void OnButtonsSlidOut(Action action, ClockRotations rotation)
 	{
-		
 		Debug.LogWarning("On ButtonsSlideOut need to be implemented again");
-		/*poorMansBarrier ++;
+		poorMansBarrier ++;
 		if (poorMansBarrier < 4) {
 			return;
 		}
 		
-		StorePositions();
 		SwapTextures(rotation);
 		if (action != null) {
 			action();
-		}*/
+		}
 	}
 	
 	private void SwapTextures(ClockRotations rotation)
 	{
-		/*SwapTexture(buttonC, "green", rotation);
+		SwapTexture(buttonC, "green", rotation);
 		SwapTexture(buttonE, "red", rotation);
 		SwapTexture(buttonQ, "yellow", rotation);
-		SwapTexture(buttonY, "purple", rotation);*/
+		SwapTexture(buttonY, "purple", rotation);
 	}
 	
 	private void SwapTexture(Button button, string color, ClockRotations rotation)
@@ -193,7 +167,7 @@ public class GUIManager : MonoBehaviour {
 	}
 
 	private void RotateLeft() {
-		Vector2 tmp = positions[positions.Count - 1];
+		var tmp = positions[positions.Count - 1];
 		positions.Insert(0, tmp);
 		positions.RemoveAt(positions.Count - 1);
 		UpdatePositions();
@@ -208,13 +182,10 @@ public class GUIManager : MonoBehaviour {
 	}
 	
 	private void UpdatePositions() {
-		
 		buttonC.Position = positions[0];
 		buttonE.Position = positions[1];
 		buttonQ.Position = positions[2];
 		buttonY.Position = positions[3];		
-		
-		
 	}
 	
 	private void SlideButtonsOut(Action postAction)
@@ -233,31 +204,29 @@ public class GUIManager : MonoBehaviour {
 		PerformButtonSlide(buttonY, SlideDirections.In, null);
 	}
 	
-	private Vector2 GetSnapPositionForButton(Button button)
+	private Vector2 GetSnapPositionForButton(CornerButton button)
 	{
 		Debug.LogWarning("GetSnapPositionsForButton need to be implemented again");
-		return new Vector2(0,0);
-		/*	// left
+		// left
 		if (button.Position.x < 480) {
 			if (button.Position.y > 320) {
-				return new Vector2(0, 640 - button.Height);
+				return new Vector2(0, 640 - button.VirtualRegionOnScreen.height);
 			} else {
 				return new Vector2(0, 0);
 			}
 		} else {
 			if (button.Position.y > 320) {
-				return new Vector2(960 - button.Width, 640 - button.Height);
+				return new Vector2(960 - button.VirtualRegionOnScreen.width, 640 - button.VirtualRegionOnScreen.height);
 			} else {
-				return new Vector2(960 - button.Width, 0);
+				return new Vector2(960 - button.VirtualRegionOnScreen.width, 0);
 			}
-		}*/
+		}
 	}
 	
-	private void PerformButtonSlide(Button button, SlideDirections direction, Action postAction)
+	private void PerformButtonSlide(CornerButton button, SlideDirections direction, Action postAction)
 	{
-		Debug.LogWarning("PerformSlide need to be implemented again");
-		/*var retinaCenter = new Vector2(480, 320);
-		var buttonCenter = new Vector2(button.Position.x + (float) button.Width / 2.0f, button.Position.y + (float) button.Height / 2.0f );
+		var retinaCenter = new Vector2(480, 320);
+		var buttonCenter = button.Position + new Vector2((float) button.VirtualRegionOnScreen.width / 2.0f, button.VirtualRegionOnScreen.y + (float) button.VirtualRegionOnScreen.x / 2.0f );
 
 		var directingVector = buttonCenter - retinaCenter;
 		directingVector.Normalize();
@@ -266,7 +235,7 @@ public class GUIManager : MonoBehaviour {
 		var targetPosition =  buttonCenter + sign * directingVector * ButtonSlideDistance;
 		
 		//decentralize position
-		targetPosition -= new Vector2((float)button.Width / 2.0f, (float)button.Height / 2.0f);
+		targetPosition -= new Vector2((float)button.VirtualRegionOnScreen.width / 2.0f, (float)button.VirtualRegionOnScreen.height / 2.0f);
 		if (direction == SlideDirections.In) {
 			// need to deal with rounding errors
 			targetPosition = GetSnapPositionForButton(button);
@@ -290,7 +259,7 @@ public class GUIManager : MonoBehaviour {
 			controller.ControllerFinished += (sender, e) => postAction.Invoke();
 		}
 		
-		button.QueueController(button.name, controller);*/
+		button.QueueController(button.name, controller);
 	}
 
 	public void ClearSymbols() {
