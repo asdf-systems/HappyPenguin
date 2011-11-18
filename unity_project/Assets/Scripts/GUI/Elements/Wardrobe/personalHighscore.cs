@@ -25,7 +25,7 @@ public class personalHighscore : InteractionBehaviour {
 	//}
 	
 	void Start(){
-		username = GameStatics.username;
+		username = GameStatics.Username;
 		if(username == string.Empty)
 			username = "Your name";
 		TextPanel[] text = gameObject.GetComponents<TextPanel>() as TextPanel[];
@@ -39,7 +39,7 @@ public class personalHighscore : InteractionBehaviour {
 	
 	public override void TextChanged(string text){
 		if(!text.StartsWith("         "))
-			GameStatics.username = text;
+			GameStatics.Username = text;
 	}
 	
 	private string extractUsername(string text){

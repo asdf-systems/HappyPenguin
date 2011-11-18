@@ -46,7 +46,7 @@ public class GameEndState : MonoBehaviour {
 		addEntry(getUsername(), points);
 	}
 	private string getUsername(){
-		string username = GameStatics.username;
+		string username = GameStatics.Username;
 		
 		if(username == string.Empty){
 			nameAlert.showText = true;

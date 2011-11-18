@@ -174,13 +174,13 @@ public class Panel : Frame {
 		
 	}
 	
-	public virtual  bool checkMouseOverElement(){
+	public override  bool checkMouseOverElement(){
 		return CameraScreen.cursorInside(RealRegionOnScreen);
 	}
 	
 	
 	
-	public virtual void resetElement(){
+	public override void resetElement(){
 		if(plane != null)
 			plane.UV = Uv;
 		

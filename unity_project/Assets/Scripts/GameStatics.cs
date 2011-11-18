@@ -7,17 +7,27 @@ public static class GameStatics {
 
 	private static string penguinHat;
 
-	private static string getFromLocalStorage(string key, string default_val) {
-		try {
-			return LocalStorage.ReadUTF8File(key);
-		} catch (Exception ex) {
-			Debug.Log(ex.Message);
+	private static bool saveValue(string key, string value){
+		try{
+			LocalStorage.WriteUTF8File(key, value);
+			return true;
+		} catch(Exception e){
+			Debug.LogWarning(e.Message);
+			return false;
 		}
-		return default_val;
 	}
-
+	
+	private static string loadValue(string key, string default_val){
+		try{
+				string tmp = LocalStorage.ReadUTF8File(key);
+				return tmp;
+		} catch(Exception e){
+				Debug.LogWarning(e.Message);
+				return default_val;
+		}	
+	}
 	private static void loadSavedValues() {
-		savePlayerHat(getFromLocalStorage("penguinHat", "Red_Hat"));
+		savePlayerHat(loadValue("penguinHat", "Red_Hat"));
 	}
 	static GameStatics(){
 		loadSavedValues();
@@ -30,36 +40,18 @@ public static class GameStatics {
 	
 	public static string PlayerSkin{
 		get{
-			return loadValue("player_skin");
+			return loadValue("player_skin", "pux_normal_skin");
 		}
 		set{
 			saveValue("player_skin", value);
 		}
 	}
 	
-	private static bool saveValue(string key, string value){
-		try{
-			LocalStorage.WriteUTF8File(key, value);
-			return true;
-		} catch(Exception e){
-			Debug.LogWarning(e.Message);
-			return false;
-		}
-	}
-	
-	private static string loadValue(string key){
-		try{
-				string tmp = LocalStorage.ReadUTF8File(key);
-				return tmp;
-		} catch(Exception e){
-				Debug.LogWarning(e.Message);
-				return string.Empty;
-		}	
-	}
+
 	
 	public static float PersonalHighscore{
 		get{
-			string tmp = loadValue("personal_highscore");
+			string tmp = loadValue("personal_highscore", "0000000");
 			if(tmp == string.Empty)
 				return 0.0f;
 			return float.Parse(tmp);
@@ -79,9 +71,9 @@ public static class GameStatics {
 		
 	}
 	
-	public static string username{
+	public static string Username{
 		get{
-			return loadValue("player_name");
+			return loadValue("player_name", "YOUR  NAME");
 			
 		}
 		set{

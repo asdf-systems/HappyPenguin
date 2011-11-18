@@ -25,7 +25,7 @@ public class GetNameAlert : UIElementBehaviour<GUIStatics> {
 			string oldname = username;
 			username = GeneralScreenGUI.TextField(guiStatics, new Rect(positionX+textOffsetX,positionY+textOffsetY+targetFontSize,300,300), username,10, textStyle);
 			if(username != oldname){
-				GameStatics.username = username;
+				GameStatics.Username = username;
 				highscoreText = "New Highscore!! ";
 			}
 			
@@ -34,7 +34,7 @@ public class GetNameAlert : UIElementBehaviour<GUIStatics> {
 	
 	void Start(){
 		showText = false;
-		username = GameStatics.username;
+		username = GameStatics.Username;
 		if(username == string.Empty)
 				username = "Your name";
 	}

@@ -6,9 +6,9 @@ using Pux.Controllers;
 
 public class Frame : MonoBehaviour
 {
-	protected List<Panel> directChildren;
+	protected List<Frame> directChildren;
 	protected delegate void InteractionEvent(InteractionBehaviour ib);
-	protected delegate void ActionEvent(Panel b);
+	protected delegate void ActionEvent(Frame b);
 
 	// DONT USE THIS!
 	void Awake() {
@@ -40,7 +40,7 @@ public class Frame : MonoBehaviour
 	 * This Function is called by Parent to force the child to arrange them selves 
 	 **/
 	public virtual void LayoutElement() {
-		foreach (Panel b in directChildren)
+		foreach (Frame b in directChildren)
 			b.LayoutElement();
 		
 		//do positioning etc. for this class here
@@ -72,7 +72,7 @@ public class Frame : MonoBehaviour
 	}
 
 	protected virtual void callHandler(InteractionEvent interaction, ActionEvent action) {
-		foreach (Panel b in directChildren) {
+		foreach (Frame b in directChildren) {
 			if (b.checkMouseOverElement()) {
 				action(b);
 				InteractionBehaviour[] behaviours = b.GetComponents<InteractionBehaviour>() as InteractionBehaviour[];
@@ -85,10 +85,17 @@ public class Frame : MonoBehaviour
 		}
 	}
 	
+	public virtual bool checkMouseOverElement(){
+		return true;
+	}
+	
+	public virtual void resetElement(){
+		
+	}
 	private void initDirectChildren() {
-		directChildren = new List<Panel>();
+		directChildren = new List<Frame>();
 		foreach (Transform child in transform) {
-			Panel b = child.GetComponent<Panel>();
+			Frame b = child.GetComponent<Frame>();
 			if (b != null)
 				directChildren.Add(b);
 		}
