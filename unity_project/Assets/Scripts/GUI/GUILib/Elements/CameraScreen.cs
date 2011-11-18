@@ -7,7 +7,7 @@ public class CameraScreen : Frame {
 	// If DebugModus is checked, ScreenPosition is update every OnGUI call this is usefull for positioning elements
 	// but not good for the framerate
 	public bool DebugModus;
-	
+	public int TextureSize = 512;
 	public Material GUIMaterial;
 	
 	// Public Member - init in the inspector

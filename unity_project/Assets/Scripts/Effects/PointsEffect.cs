@@ -30,7 +30,7 @@ namespace Pux.Effects
 		
 		public override string Description {
 			get {
-				return string.Format("{0} bling blings", amount);
+				return string.Empty; //string.Format("{0} bling blings", amount);
 			}
 		}
 	}

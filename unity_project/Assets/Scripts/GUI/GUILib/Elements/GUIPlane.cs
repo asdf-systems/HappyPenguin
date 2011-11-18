@@ -3,6 +3,19 @@ using System.Collections;
 
 public class GUIPlane : MonoBehaviour {
 	
+	private float textureFactor = 1.0f;
+	private CameraScreen activeScreen;
+	
+	void Awake(){
+		//updateTextureFactor();
+	}
+	void Start(){
+		activeScreen = CameraScreen.GetScreenForObject(this.gameObject);
+		if(activeScreen == null)
+			Debug.LogWarning("No activeScreen found on GUIPlane: " + gameObject.name);
+		updateTextureFactor();
+	}
+	
 	public Mesh MeshObject{
 		get{
 			return GetComponent<MeshFilter>().mesh;
@@ -45,6 +58,7 @@ public class GUIPlane : MonoBehaviour {
 	//public Rect VirtualPosition
 	public Rect UV{
 		set{
+			//updateTextureFactor();
         	Vector2[] uvs = new Vector2[4];
         	uvs[2] = new Vector2(value.x, value.y);
 			uvs[1] = new Vector2(value.x+value.width, value.y);
@@ -52,7 +66,7 @@ public class GUIPlane : MonoBehaviour {
 			uvs[0] = new Vector2(value.x+value.width, value.y+value.height);
 			
 			for(int i = 0; i < uvs.Length; i++){
-				uvs[i] = toUVSpace(uvs[i]);
+				uvs[i] = toUVSpace(uvs[i]*textureFactor);
 			}
 
 			MeshObject.uv = uvs;
@@ -91,6 +105,12 @@ public class GUIPlane : MonoBehaviour {
 		Texture t = GUIMaterial.GetTexture("_MainTex");
 		var p = new Vector2(xy.x / ((float)t.width), xy.y / ((float)t.height));
 		return p;
+	}
+	
+	private void updateTextureFactor(){
+		Texture t = GUIMaterial.GetTexture("_MainTex");
+		textureFactor = (float)(t.width) / activeScreen.TextureSize;
+		Debug.LogWarning("TextureFactor is: " + activeScreen.TextureSize + "/"+ t.width + " = " + textureFactor);
 	}
 
 

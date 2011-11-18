@@ -177,7 +177,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public void RegisterEffect(Effect effect) {
 		effectManager.RegisterEffect(effect);
 		if (effect.HasDescription) {
-			guiManager.Alert(effect.Description);
+			string s = effect.Description;
+			if(s != string.Empty)
+				guiManager.Alert(s);
 		}
 		if (effect.IsIconAvailable && effect.Duration > TimeSpan.Zero) {
 			iconSlotManager.DisplayEffect(effect);
