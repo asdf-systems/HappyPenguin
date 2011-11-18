@@ -82,7 +82,7 @@ public class Panel : Frame {
 	
 	public void Create(){
 		if(created){
-			Debug.Log("Element: "+ gameObject.name);
+			Debug.Log("Element: "+ gameObject.name + "already created");
 			return;
 		}
 		RealRegionOnScreen = new Rect(0,0,0,0);
@@ -97,7 +97,7 @@ public class Panel : Frame {
 	}
 	
 	protected virtual void StartOverride(){
-		
+		UpdateElementOnScreen();
 	}
 	
 	void OnGUI(){
@@ -150,7 +150,7 @@ public class Panel : Frame {
 		plane.GUIMaterial = activeScreen.GUIMaterial;
 		plane.UV = Uv;
 		plane.VirtualRegionOnScreen = RealRegionOnScreen;
-		Debug.Log("Element: " + gameObject.name + " Coords: " + RealRegionOnScreen);
+		//Debug.Log("Element: " + gameObject.name + " Coords: " + RealRegionOnScreen);
 			
 	}
 	

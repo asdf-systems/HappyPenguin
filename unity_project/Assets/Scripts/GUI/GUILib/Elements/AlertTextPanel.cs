@@ -32,7 +32,10 @@ public class AlertTextPanel : TextPanel {
 	
 	protected override void UpdateOverride(){
 		base.UpdateOverride();
-		plane.renderer.enabled = textShow;
+		if(plane != null)
+			plane.renderer.enabled = textShow;
+		else 
+			Debug.LogWarning("AlertPanel Plane is null");
 #if UNITY_EDITOR
 		plane.renderer.enabled |= ShowAlways;
 #endif

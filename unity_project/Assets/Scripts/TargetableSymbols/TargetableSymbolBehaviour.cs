@@ -9,12 +9,15 @@ public sealed class TargetableSymbolBehaviour : MonoBehaviour
 	private bool isLit;
 	private UVMoveBehaviour uvSet; 
 		
-	public void Awake ()
-	{
+	public void Awake (){
 		//renderer.material.mainTexture = DefaultUvs;
 		uvSet = gameObject.GetComponent<UVMoveBehaviour>() as UVMoveBehaviour;
-		uvSet.newUvs = DefaultUvs;
 		
+		
+	}
+	
+	void Start(){
+		uvSet.newUvs = DefaultUvs;
 	}
 
 	public bool IsHighlighted {

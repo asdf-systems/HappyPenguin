@@ -91,7 +91,6 @@ public class InputEvents : MonoBehaviour{
 		if(clickStarted){
 			Vector2 moveDirection = mousePosition - mouseStartPosition;
 			float clickDistance = moveDirection.magnitude;
-			Debug.LogWarning("Distance: " + clickDistance);
 			if(clickDistance <= MaxClickDistance){
 				InvokeClickEvent(buttonId);
 			} else{ // Swipe detected

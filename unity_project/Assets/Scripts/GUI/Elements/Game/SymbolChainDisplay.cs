@@ -22,9 +22,13 @@ public class SymbolChainDisplay: Panel{
 	}
 	
 	void Start(){
+		StartOverride();
+	}
+	
+	protected override void StartOverride(){
+		base.StartOverride();
 		GUIManager.Instance.SymbolsChanged += OnSymbolsChanged;
 		symbols = new List<Panel>();
-		
 	}
 	
 	protected override void UpdateOverride(){
@@ -35,7 +39,6 @@ public class SymbolChainDisplay: Panel{
 #endif
 	}
 	void OnSymbolsChanged(object sender, SymbolEventArgs e){
-		Debug.Log("New Symbols: " + e.SymbolChain + "XX");
 		if(e.SymbolChain == string.Empty){
 			
 			clear();
@@ -51,6 +54,7 @@ public class SymbolChainDisplay: Panel{
 			sign.transform.parent = activeScreen.transform;
 			sign.Create();
 			updateSymbolChain();
+			activeScreen.LayoutElement(); // Update Screeen because of new Objects
 		}
 		
 		 
@@ -60,7 +64,6 @@ public class SymbolChainDisplay: Panel{
 	private void clear(){
 		
 		for(int i=0; i < symbols.Count; i++){
-			Debug.LogWarning("Clean Sybols");
 			GameObject.Destroy(symbols[i].gameObject);
 		}
 		symbols.Clear();
