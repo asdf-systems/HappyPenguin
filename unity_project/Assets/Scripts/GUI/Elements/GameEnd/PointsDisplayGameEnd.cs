@@ -1,27 +1,11 @@
 using UnityEngine;
 using System.Collections;
 
-public class PointsDisplayGameEnd: UIElementBehaviour<GUIStatics>{
+public class PointsDisplayGameEnd : TextPanel{
 		
-	
-	public float Points{
-		get;
-		set;
+	protected override void StartOverride(){
+		base.StartOverride();
+		Text = "Points " + GameStatics.FormatPoints(GameStatics.Points);
 	}
 	
-	public float Life{
-		get;
-		set;
-	}
-	
-	protected override void showElements(){
-		
-		GeneralScreenGUI.Box(guiStatics, new Rect (positionX,positionY,512,512), "", currentStyle);
-	}
-	
-	protected override void hit(){
-		
-		
-
-	}
 }

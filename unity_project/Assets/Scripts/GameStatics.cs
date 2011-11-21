@@ -5,6 +5,11 @@ using Pux.Resources;
 
 public static class GameStatics {
 
+	public static string UsernameDefault = "Your Name";
+	public static string PuxHatDefault = "Red_Hat";
+	public static string PuxSkinDefault = "pux_normal_skin";
+	public static string PersonalHighscoreDefault = "0000000";
+	
 	private static string penguinHat;
 
 	private static bool saveValue(string key, string value){
@@ -27,7 +32,7 @@ public static class GameStatics {
 		}	
 	}
 	private static void loadSavedValues() {
-		savePlayerHat(loadValue("penguinHat", "Red_Hat"));
+		savePlayerHat(loadValue("penguinHat", PuxHatDefault));
 	}
 	static GameStatics(){
 		loadSavedValues();
@@ -40,7 +45,7 @@ public static class GameStatics {
 	
 	public static string PlayerSkin{
 		get{
-			return loadValue("player_skin", "pux_normal_skin");
+			return loadValue("player_skin", PuxSkinDefault);
 		}
 		set{
 			saveValue("player_skin", value);
@@ -51,7 +56,7 @@ public static class GameStatics {
 	
 	public static float PersonalHighscore{
 		get{
-			string tmp = loadValue("personal_highscore", "0000000");
+			string tmp = loadValue("personal_highscore", PersonalHighscoreDefault);
 			if(tmp == string.Empty)
 				return 0.0f;
 			return float.Parse(tmp);
@@ -73,7 +78,7 @@ public static class GameStatics {
 	
 	public static string Username{
 		get{
-			return loadValue("player_name", "YOUR  NAME");
+			return loadValue("player_name", UsernameDefault);
 			
 		}
 		set{

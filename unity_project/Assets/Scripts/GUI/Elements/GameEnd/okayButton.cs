@@ -1,24 +1,45 @@
 using UnityEngine;
 using System.Collections;
 
-public class okayButton : UIElementBehaviour<GUIStatics> {
+public class okayButton : Button {
 	public GameEndState gameState;
 	public GetNameAlert alert;
-	public bool showButton{get;set;}
 	
-	protected override void showElements(){
-		if(showButton)
-			GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,128,128), "", inactiveStyle);
-	
-	}
+	public bool Show = false;
 	
 	void Start(){
-		showButton = false;
+		StartOverride();
 	}
-	protected override void hit(){
-		alert.showText = false;
+	
+	protected override void StartOverride(){
+		base.StartOverride();
+		Visibility = false;
+		//showButton = false;		
+	}
+	
+	public override void OnClick(object sender, MouseEventArgs e){
+		base.OnClick(sender,e);
+		alert.HideText();
+		GameStatics.Username = alert.Text;
 		gameState.usernameInputFinished();
-		showButton = false;
+		alert.Visibility = false;
+		//showButton = false;
+		Visibility = false;
 		
 	}
+	
+#if UNITY_EDITOR
+	void Update(){
+		UpdateOverride();
+	}
+	protected override void UpdateOverride(){
+		base.UpdateOverride();
+		if(activeScreen.DebugModus){
+			Visibility |= Show;
+		}
+			
+		
+	}
+#endif
+
 }

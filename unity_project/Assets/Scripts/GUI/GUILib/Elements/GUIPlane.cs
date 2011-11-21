@@ -101,7 +101,10 @@ public class GUIPlane : MonoBehaviour {
 	private Vector2 toUVSpace(Vector2 xy){
 		if(xy.x < 1 && xy.y < 1)
 			return xy;
-
+		
+		if(GUIMaterial == null)
+			Debug.LogWarning("Material : " + GUIMaterial + " on Object: " + gameObject.name);
+		
 		Texture t = GUIMaterial.GetTexture("_MainTex");
 		var p = new Vector2(xy.x / ((float)t.width), xy.y / ((float)t.height));
 		return p;
@@ -110,7 +113,7 @@ public class GUIPlane : MonoBehaviour {
 	private void updateTextureFactor(){
 		Texture t = GUIMaterial.GetTexture("_MainTex");
 		textureFactor = (float)(t.width) / activeScreen.TextureSize;
-		Debug.LogWarning("TextureFactor is: " + activeScreen.TextureSize + "/"+ t.width + " = " + textureFactor);
+		
 	}
 
 

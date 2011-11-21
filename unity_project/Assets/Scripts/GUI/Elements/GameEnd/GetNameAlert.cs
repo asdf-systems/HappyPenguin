@@ -2,18 +2,15 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class GetNameAlert : UIElementBehaviour<GUIStatics> {
+public class GetNameAlert : AlertTextPanel {
 
 	private string username;
-	public bool showText{get;set;}
+	//public bool showText{get;set;}
 	
-	public int textOffsetX;
-	public int textOffsetY;
-	public int targetFontSize = 50;
-	public GUIStyle textStyle;
 	private string highscoreText = "New Highscore!! Enter";
 	
-	protected override void showElements(){
+	
+	/*protected override void showElements(){
 		if(showText){
 			
 			GeneralScreenGUI.Box(guiStatics, new Rect(positionX,positionY,800,800), "", inactiveStyle);
@@ -30,14 +27,30 @@ public class GetNameAlert : UIElementBehaviour<GUIStatics> {
 			}
 			
 		}
-	}
+	}*/
 	
 	void Start(){
+		StartOverride();
+	}
+	
+	protected override void StartOverride(){
+		username = GameStatics.Username;
+		Text = username;
+	}
+	
+	public new void ShowText(string value){
+		//initTimer();
+		textShow = true;
+		Text = value;
+		//timer1.StartTimer();
+	}
+	
+	/*void Start(){
 		showText = false;
 		username = GameStatics.Username;
 		if(username == string.Empty)
 				username = "Your name";
-	}
+	}*/
 	
 
 	

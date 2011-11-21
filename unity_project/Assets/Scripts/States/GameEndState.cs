@@ -9,23 +9,24 @@ public class GameEndState : MonoBehaviour {
 	public AlertTextPanel alertElement;
 	public GetNameAlert nameAlert;
 	public okayButton okayButton;
-	public forward_toWardrobe nextButton;
+	public Button nextButton;
 	
 	private bool firstCheck = true;
 	private bool timeFreeze = false;
 	
-
+	void Awake(){
+		//Debug.LogWarning("Points fix for testing!!!");	GameStatics.Points = 1004;
+	}
 	// Use this for initialization
 	void Start () {
 		//Debug.Log("Data Path: " + Application.persistentDataPath);
 		time = 0.0f;
+		okayButton.Visibility = false;
 	}
 
 	// Update is called once per frame
 	void Update () {
 		if(firstCheck){
-			
-			//Debug.LogWarning("Points fix for testing!!!");	GameStatics.Points = 300;
 			
 			checkHighscore();
 			firstCheck = false;
@@ -35,28 +36,27 @@ public class GameEndState : MonoBehaviour {
 		
 
 		if(time > 10){
-			Application.LoadLevel(4);
+			Application.LoadLevel(5);
 		}
 	}
 	
 	public void usernameInputFinished(){
 		timeFreeze = false;
-		nextButton.showElement = true;
+		nextButton.Visibility = true;
 		int points = Convert.ToInt32(GameStatics.Points);
 		addEntry(getUsername(), points);
 	}
 	private string getUsername(){
 		string username = GameStatics.Username;
-		
-		if(username == string.Empty){
-			nameAlert.showText = true;
-			okayButton.showButton = true;
-			nextButton.showElement = false;
+		//Debug.Log("Username: " + username);
+		if(username == GameStatics.UsernameDefault){
+			nameAlert.ShowText(GameStatics.UsernameDefault);
+			okayButton.Visibility = true;
+			nextButton.Visibility = false;
 			timeFreeze = true;
 			
 		} 
 		return username;
-		
 	}
 	
 	private void checkHighscore(){
@@ -65,13 +65,16 @@ public class GameEndState : MonoBehaviour {
 				checkForNewHighscore(data);
 			})  );
 		
+		
+	}
+	
+	private void checkUsername(){
 		string uname = getUsername();
 		int points = Convert.ToInt32(GameStatics.Points);
-		if(uname != string.Empty){
+		if(uname != GameStatics.UsernameDefault){
 			addEntry(uname, points);
 		}
 	}
-	
 	
 	private void checkForNewHighscore(Entry[] data){
 		
@@ -84,12 +87,18 @@ public class GameEndState : MonoBehaviour {
 		if(position < 4){
 			alertElement.ShowText("New Highscore!!\n Position: " + position); //, 8, new Vector2(alertElement.positionX, alertElement.positionY));
 			GameStatics.PersonalHighscore = GameStatics.Points;
+			alertElement.timer1.TimerFinished += OnHighscoreTimerFinished;
+			
 		} else{ 
 			checkPersonalHighscore();
 		}
 		
 		
 		
+	}
+
+	void OnHighscoreTimerFinished(object sender, EventArgs e){
+		checkUsername();
 	}
 	
 	private void checkPersonalHighscore(){
