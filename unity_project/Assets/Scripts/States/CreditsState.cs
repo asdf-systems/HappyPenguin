@@ -7,7 +7,7 @@ public class CreditsState : MonoBehaviour {
 	private float time; 
 	private List<string> texts;
 	private int currentText;
-	public CreditsText textElement; 
+	public TextPanel textElement; 
 	private bool flag;
 	public GameObject katapult;
 	public GameObject penguin1;
@@ -54,12 +54,12 @@ public class CreditsState : MonoBehaviour {
 				penguin2.gameObject.animation.Play("happy");
 			} 
 			currentText++;		
-			textElement.text = texts[currentText];
+			textElement.Text = texts[currentText];
 			if(currentText > texts.Count)
 				flag = false;
 			time = 0;
 		} else if(!flag){
-			Application.LoadLevel(0);
+			Application.LoadLevel(1);
 		}
 	}
 }
