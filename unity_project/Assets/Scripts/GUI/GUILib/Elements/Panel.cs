@@ -14,6 +14,19 @@ public class Panel : Frame {
 	public VerticalFloatPositions verticalFloat;
 	public HorizontalFloatPositions horizontalFloat;
 	
+	public bool Visibility{
+		get{
+			bool flag = false;
+			if(plane != null)
+				flag = plane.renderer.enabled;
+			return flag;
+		}
+		set{
+			if(plane != null)
+				plane.renderer.enabled = value;
+		}
+	}
+	
 	public string helpLate = "This option give possibilty to create Element Later via Code";
 	public bool LateCreation = false;
 	private bool created = false;
@@ -147,6 +160,7 @@ public class Panel : Frame {
 		plane.transform.LookAt(cam.transform);
 		
 		// set Materials
+		Debug.LogWarning("Material : " + activeScreen.GUIMaterial + " on Object: " + gameObject.name);
 		plane.GUIMaterial = activeScreen.GUIMaterial;
 		plane.UV = Uv;
 		plane.VirtualRegionOnScreen = RealRegionOnScreen;

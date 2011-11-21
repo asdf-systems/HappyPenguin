@@ -65,14 +65,15 @@ public static class ResourceManager
 	public static T GetResource<T>(string key) where T : UnityEngine.Object
 	{
 		if (!IsResourceLoaded(key)) {
-			Debug.LogWarning(key + "not found");
+			Debug.LogWarning("Key : " + key + " not found - Getresource");
+			return null;
 		}
 		return (T) _resources[key];
 	}
 	
 	public static T CreateInstance<T>(string key) where T : UnityEngine.Object { 
 		if (!IsResourceLoaded(key)) {
-			Debug.LogWarning(key + "not found");
+			Debug.LogWarning("Key: " + key + " not found - GetInstance");
 		}
 		var res = _resources[key];
 		return (T) GameObject.Instantiate(res, Vector3.zero, Quaternion.identity);

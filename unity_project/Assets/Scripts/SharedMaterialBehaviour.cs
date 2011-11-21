@@ -29,7 +29,7 @@ public class SharedMaterialBehaviour : MonoBehaviour {
 			materialRenderer.sharedMaterial = material;
 		}
 		else
-			Debug.LogWarning("Cannot found shared Material: " + mat.name + " on Object: " + gameObject.name);
+			Debug.LogWarning("Cannot found shared Material: " + SharedMaterialResourcePath + " on Object: " + gameObject.name);
 	}
 	private void loadRenderer(){
 		materialRenderer = gameObject.GetComponent<Renderer>() as Renderer;

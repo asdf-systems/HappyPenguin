@@ -336,7 +336,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private void CheckForDeadsies() {
 		if (entityManager.Player.IsDead) {
-			Application.LoadLevel(2);
+			Application.LoadLevel(3);
 		}
 	}
 

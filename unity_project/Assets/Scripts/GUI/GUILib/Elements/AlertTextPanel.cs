@@ -8,8 +8,12 @@ public class AlertTextPanel : TextPanel {
 	public string help_alert = "ONLY IN DEBUGMODUS:";
 	public bool ShowAlways; 
 	
-	private bool textShow = false;
-	private Timer timer1;
+	protected bool textShow = false;
+	public Timer timer1{
+		get;
+		private set;
+		
+	}
 	
 	void Awake(){
 		AwakeOverride();
@@ -21,7 +25,14 @@ public class AlertTextPanel : TextPanel {
 	
 	protected override void AwakeOverride(){
 		base.AwakeOverride();
-		timer1 = new Timer(ShowTimeInSeconds);
+		initTimer();
+		
+		
+	}
+	
+	private void initTimer(){
+		if(timer1 == null)
+			timer1 = new Timer(ShowTimeInSeconds);
 		timer1.TimerFinished += OnTimerFinished;
 	}
 
@@ -32,12 +43,9 @@ public class AlertTextPanel : TextPanel {
 	
 	protected override void UpdateOverride(){
 		base.UpdateOverride();
-		if(plane != null)
-			plane.renderer.enabled = textShow;
-		else 
-			Debug.LogWarning("AlertPanel Plane is null");
+		Visibility = textShow;
 #if UNITY_EDITOR
-		plane.renderer.enabled |= ShowAlways;
+		Visibility |= ShowAlways;
 #endif
 	}
 	
@@ -52,9 +60,14 @@ public class AlertTextPanel : TextPanel {
 	}
 	
 	public void ShowText(string value){
+		initTimer();
 		textShow = true;
 		Text = value;
 		timer1.StartTimer();
+	}
+	
+	public void HideText(){
+		textShow = false;
 	}
 	
 	private void OnTimerFinished(object sender, EventArgs e){
