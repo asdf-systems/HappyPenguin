@@ -15,7 +15,7 @@ public class TextFirst : TextPanel {
 			HighscoreServer.GetHighscore(hs => {
 				username = hs[position-1].Name;
 				points = hs[position-1].Points;
-				this.GetComponent<Numbers>().points = points.ToString("D7");
+				this.GetComponent<Numbers>().Points = this.points.ToString("D7");
 				Text = username;
 				
 			})

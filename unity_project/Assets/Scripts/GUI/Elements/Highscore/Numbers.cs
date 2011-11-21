@@ -1,31 +1,64 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Pux.Resources;
 
-public class Numbers : Panel {
+public class Numbers : MonoBehaviour {
 
-	public string points{
-		get;
-		set;
+	
+	private string points;
+	private List<Panel> numberPanels;
+	
+	private CameraScreen activeScreen;
+	
+	public Rect VirtualRegionOnScreen;
+	
+	public string Points{
+		get{
+			return points;	
+		}
+		set{
+			points = value;
+			updateGUIElement();
+		}
 	}
 
-	public int textureSize;
-
-	// Use this for initialization
-	void Awake () {
-		points = string.Empty;
+	void Awake(){
+		numberPanels = new List<Panel>();
+		Points = string.Empty;
+		activeScreen = CameraScreen.GetScreenForObject(this.gameObject);
 	}
+	
+#if UNITY_EDITOR
+	void Update(){
+		if(activeScreen.DebugModus)
+			updateGUIElementPosition();
+	}
+#endif
 
-	public override void createGUIElement(){
-		
+	private void updateGUIElement(){
 		int number =0;
-		int xOff = 0;
-		for(int i=0; i < 7  && i < points.Length; i++){
+		
+		for(int i=0; i < 7  && i < Points.Length; i++){
+			number = int.Parse(""+Points[i]);
 			Panel sign = ResourceManager.CreateInstance<GameObject>("Numbers/number"+number.ToString()).GetComponent<Panel>();
-			number = int.Parse(""+points[i]);
-			sign.VirtualRegionOnScreen.x  += xOff; 
-			xOff += (int)(sign.VirtualRegionOnScreen.width) - 15;
+			sign.transform.parent = activeScreen.transform;
+			sign.Create();
+			numberPanels.Add(sign);
+			updateGUIElementPosition();
+			
 		}
 
+	}
+	
+	private void updateGUIElementPosition(){
+		int xOff = 0;
+		for(int i=0; i < numberPanels.Count; i++){
+			var sign = numberPanels[i];
+			sign.VirtualRegionOnScreen = VirtualRegionOnScreen;
+			sign.VirtualRegionOnScreen.x  += xOff; 
+			xOff += (int)(sign.VirtualRegionOnScreen.width) - 15;	
+		}
+		
 	}
 }
