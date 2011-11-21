@@ -15,20 +15,42 @@ public class UVMoveBehaviour : MonoBehaviour {
 		}
 	}
 	
-	private Rect currentUvs; 
+	public bool AbsoluteUVPosition = false;
 	
+	protected Texture mainTexture;
 	
-	
+	private Rect currentUvs;
 	private MeshFilter meshFilter;
 	private List<Vector2> originalUVs;
 	private bool disabled = true;
 	
+	void Start(){
+		StartOverride();
+	}
+	
+	protected virtual void StartOverride(){
+		if(mainTexture == null)
+			initMainTexture();
+	}
 	void Awake(){
+		AwakeOverride();
+	}
+	
+	protected virtual void AwakeOverride(){
+		initMainTexture();
 		newUvs = new Rect(0,0,0,0);
 		disabled = false;
 		loadMesh();
 		if(!disabled)
 			storeUvs();
+	}
+	
+	private void initMainTexture(){
+		mainTexture = meshFilter.renderer.material.GetTexture("_MainTex");
+		if(t == null){
+			Debug.LogWarning("No Texture set for UVMoveBehaviour on: " + gameObject.name);
+			return xy;
+		}
 	}
 	
 	private void storeUvs(){
@@ -62,10 +84,22 @@ public class UVMoveBehaviour : MonoBehaviour {
 			
 			Vector2 uv = originalUVs[i];
 			Vector2 normPos = toUVSpace(new Vector2(newUvs.x, newUvs.y));
-			uv.x += normPos.x;
-			uv.y += normPos.y;
-			uv.x *= newUvs.width;
-			uv.y *= newUvs.height;
+			if(AbsoluteUVPosition){
+				uv.x = normPos.x;
+				uv.y = normPos.y;
+				float factorX = newUvs.width / mainTexture.width;
+				float factorY =  newUvs.height / mainTexture.height;
+				uv.x *= factorX;
+				uv.y *= factorY;
+				
+			} else {
+				uv.x += normPos.x;
+				uv.y += normPos.y;
+				uv.x *= newUvs.width;
+				uv.y *= newUvs.height;
+			}
+			
+				
 			uvs[i] = uv;
 			
 		}
@@ -75,14 +109,11 @@ public class UVMoveBehaviour : MonoBehaviour {
 	private Vector2 toUVSpace(Vector2 xy){
 		if(Math.Abs(xy.x) < 1 && Math.Abs(xy.y) < 1)
 			return xy;
-
-		Texture t = meshFilter.renderer.material.GetTexture("_MainTex");
-		if(t == null){
-			Debug.LogWarning("No Texture set for UVMoveBehaviour on: " + gameObject.name);
-			return xy;
-		}
 			
-		var p = new Vector2(xy.x / ((float)t.width), xy.y / ((float)t.height));
+		if(mainTexture == null)
+			initMainTexture();
+		
+		var p = new Vector2(xy.x / ((float)mainTexture.width), xy.y / ((float)mainTexture.height));
 		return p;
 	}
 
