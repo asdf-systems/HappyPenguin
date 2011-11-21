@@ -258,19 +258,18 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 // Event Invoke
 	private void InvokePlayerHit(TargetableEntityBehaviour target) {
 		var player = entityManager.Player;
-		if (player.gameObject.animation.IsPlaying("throw")) {
-			player.gameObject.animation.Stop();
-		}
 		
 		target.TargetHit += (sender, e) => { effectManager.RegisterEffects(target.HitEffects); };
 		
-		entityManager.Player.PlayAnimation("throw");
+		if (!entityManager.Player.animation.IsPlaying("throw")) {
+			entityManager.Player.PlayAnimation("throw");	
+		}
 		entityManager.ThrowSnowball(target, SnowballSpeedModifier);
 	}
 
 
 	private void InvokePlayerMiss() {
-		effectManager.RegisterEffect(new UIRotationEffect());
+		entityManager.SpawnPerk(PerkTypes.Health);
 		Debug.Log("implement trip animation or camera quake ...");
 	}
 
@@ -285,15 +284,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.PerformUIRotation(clockRotation);
 	}
 
-
-
 	internal void ModifyCreatures(Action<CreatureBehaviour> action) {
 		var creatures = entityManager.FindCreatures();
 		foreach (var creature in creatures) {
 			action(creature);
 		}
 	}
-
 
 // Game World Handling 
 	private void ApplyHealth(int life) {

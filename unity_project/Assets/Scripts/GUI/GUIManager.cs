@@ -111,53 +111,39 @@ public class GUIManager : MonoBehaviour {
 			return;
 		}
 		
-		SwapTextures(rotation);
+		RotateCornerButtons(rotation);
 		if (action != null) {
 			action();
 		}
 	}
 	
-	private void SwapTextures(ClockRotations rotation)
+	private void RotateCornerButtons(ClockRotations rotation)
 	{
-		SwapTexture(buttonC, "green", rotation);
-		SwapTexture(buttonE, "red", rotation);
-		SwapTexture(buttonQ, "yellow", rotation);
-		SwapTexture(buttonY, "purple", rotation);
+		if (rotation == ClockRotations.Clockwise) {
+			RotateSingleButton(buttonC, 90);
+			RotateSingleButton(buttonE, 90);
+			RotateSingleButton(buttonQ, 90);
+			RotateSingleButton(buttonY, 90);
+			return;
+		}
+		
+		RotateSingleButton(buttonC, -90);
+		RotateSingleButton(buttonE, -90);
+		RotateSingleButton(buttonQ, -90);
+		RotateSingleButton(buttonY, -90);
 	}
 	
-	private void SwapTexture(Button button, string color, ClockRotations rotation)
-	{
-		Debug.LogWarning("Swap Textures need to be implemented again");
-		/*var path = "iPhone/UI/";
-		var ns = string.Empty;
-		if (button.Position.x < 480) {
-			ns = rotation == ClockRotations.Clockwise ? "bottom" : "top";
-		} else {
-			ns = rotation == ClockRotations.Clockwise ? "top" : "bottom";
-		}
-		
-		var sw = string.Empty;
-		if (button.Position.y > 320) {
-			sw = rotation == ClockRotations.Clockwise ? "right" : "left";
-		} else {
-			sw = rotation == ClockRotations.Clockwise ? "left" : "right";
-		}
-		
-		var normal = string.Format("{0}arrow_{1}_{2}_{3}", path, color, ns, sw);
-		var hover = normal + "_hover";
-		
-		button.activeStyle.normal.background = ResourceManager.GetResource<Texture2D>(normal);
-		button.hoverStyle.normal.background = ResourceManager.GetResource<Texture2D>(hover);
-		button.inactiveStyle.normal.background = ResourceManager.GetResource<Texture2D>(normal);*/
+	private void RotateSingleButton(Button button, float angle){
+		button.transform.RotateAroundLocal(Vector3.up, angle);	
 	}
 
 	public void PerformUIRotation(ClockRotations clockRotation)
 	{
 		poorMansBarrier = 0;
 		if (clockRotation == ClockRotations.Clockwise) {
-			SlideButtonsOut(() => OnButtonsSlidOut(RotateRight, clockRotation));
+			SlideButtonsOut(() => OnButtonsSlidOut(MoveRight, clockRotation));
 		} else{
-			SlideButtonsOut(() => OnButtonsSlidOut(RotateLeft, clockRotation));
+			SlideButtonsOut(() => OnButtonsSlidOut(MoveLeft, clockRotation));
 		}
 	}
 	
@@ -166,7 +152,7 @@ public class GUIManager : MonoBehaviour {
 		SlideButtonsIn();
 	}
 
-	private void RotateLeft() {
+	private void MoveLeft() {
 		var tmp = positions[positions.Count - 1];
 		positions.Insert(0, tmp);
 		positions.RemoveAt(positions.Count - 1);
@@ -174,7 +160,7 @@ public class GUIManager : MonoBehaviour {
 		OnButtonsRotated();
 	}
 	
-	private void RotateRight() {
+	private void MoveRight() {
 		positions.Add(positions[0]);
 		positions.RemoveAt(0);
 		UpdatePositions();

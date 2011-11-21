@@ -30,6 +30,7 @@ namespace Pux.Entities
 		public void ThrowSnowball(TargetableEntityBehaviour target, float speedMutiplier) {
 			var snowball = DisplaySnowball();
 			snowball.Speed *= speedMutiplier;
+			target.HideSymbols();
 			target.TargetHit += OnTargetHit;
 			snowball.DedicatedTarget = target;
 			snowball.DetachZoneReached += (sender, e) => LaunchSnowball(sender as SnowballBehaviour, target);
@@ -38,7 +39,6 @@ namespace Pux.Entities
 		private void OnTargetHit(object sender, BehaviourEventArgs<SnowballBehaviour> e) {
 			var target = sender as TargetableEntityBehaviour;
 			target.TargetHit -= OnTargetHit;
-			target.HideSymbols();
 			target.ClearControllers();
 			
 			// die, snowball, die
@@ -208,12 +208,13 @@ namespace Pux.Entities
 		}
 
 		private PerkBehaviour DisplayPerk(PerkTypes type, Vector3 position) {
-			var name = GetPerkResourceByType(type);
+			
 			var perkSpawn = GameObjectRegistry.GetObject("perk_spawn");
 			var root = GameObjectRegistry.GetObject("entity_root");
-			var gameObject = ResourceManager.CreateInstance<GameObject>(name);
+			var gameObject = ResourceManager.CreateInstance<GameObject>("Perks/env_gift_prefab");
 			
 			var perk = gameObject.GetComponentInChildren<PerkBehaviour>();
+			perk.SetMaterial(type);
 			switch (type) {
 			case PerkTypes.Health:
 				
