@@ -7,7 +7,6 @@ public class GetNameAlert : AlertTextPanel {
 	private string username;
 	//public bool showText{get;set;}
 	
-	private string highscoreText = "New Highscore!! Enter";
 	
 	
 	/*protected override void showElements(){

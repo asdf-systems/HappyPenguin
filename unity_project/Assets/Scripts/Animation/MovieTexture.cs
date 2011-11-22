@@ -30,7 +30,7 @@ public class MovieTexture : MonoBehaviour {
 		//	return;
 		
 		frameTime += Time.deltaTime;
-		if(frameTime > 1/movieSpeedFPS){ // change frame
+		if(frameTime > (1.0f/movieSpeedFPS)){ // change frame
 			
 			currentFrameNumber ++;
 			frameTime = 0;

@@ -18,11 +18,13 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 	// Use this for initialization
 	void Start () {
 		StartOverride();
-		textureSize = mainTexture.height;
+		
 	}
 	
 	protected override void StartOverride(){
 		base.StartOverride();
+		textureSize = mainTexture.height;
+		//AbsoluteUVPosition = true;
 		
 	}
 	
@@ -48,7 +50,8 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 	void FixedUpdate(){
 		
 		frameTime += Time.deltaTime;
-		if(frameTime > 1/MovieSpeedFPS){ // change frame
+		
+		if(frameTime > (1.0f/MovieSpeedFPS)){ // change frame
 			
 			currentFrameNumber ++;
 			frameTime = 0;
@@ -61,8 +64,18 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 	}
 	
 	private void changeFrame(){
-		int x = currentColoum * FrameSize;
-		int y = textureSize - (currentRow * FrameSize);
-		var newPosition = new Rect(x,y,FrameSize, FrameSize);
+		
+		newUvs = new Rect(FrameSize*currentRow, FrameSize*(currentColoum*-1) , 1,1);		
+		currentColoum++;
+		if(currentColoum >= FramesPerRow){
+			currentColoum = 0;
+			currentRow++;
+		}			
+		if(currentRow >= RowCount)
+			currentRow = 0;
+		
+		
+		//Debug.Log("New UVs: " + newUvs + "Row: " + currentRow + "Coloumn: " + currentColoum);
+		
 	}
 }
