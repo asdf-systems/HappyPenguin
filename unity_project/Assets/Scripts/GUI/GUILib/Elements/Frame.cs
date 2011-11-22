@@ -33,15 +33,12 @@ public class Frame : MonoBehaviour
 		// nothing here
 	}
 
-	public void UpdateDirectChildren() {
-		initDirectChildren();
-	}
+		
 	/**
 	 * This Function is called by Parent to force the child to arrange them selves 
 	 **/
 	public virtual void LayoutElement() {
-		foreach (Frame b in directChildren)
-			b.LayoutElement();
+		
 		
 		//do positioning etc. for this class here
 	}
@@ -89,9 +86,27 @@ public class Frame : MonoBehaviour
 		return true;
 	}
 	
+	public void UpdateDirectChildren() {
+		initDirectChildren();
+	}
+	
+	public virtual void UpdateElement(){
+		UpdateDirectChildren();
+		foreach (Frame b in directChildren)
+			b.UpdateElement();
+		
+	}
+	
+	public virtual void CreateElement(){
+		UpdateDirectChildren();
+		foreach (Frame b in directChildren)
+			b.CreateElement();
+	}
+	
 	public virtual void resetElement(){
 		
 	}
+	
 	private void initDirectChildren() {
 		directChildren = new List<Frame>();
 		foreach (Transform child in transform) {

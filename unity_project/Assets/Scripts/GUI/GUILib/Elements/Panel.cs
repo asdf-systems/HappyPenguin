@@ -90,27 +90,17 @@ public class Panel : Frame {
 	protected override void AwakeOverride(){
 		base.AwakeOverride();
 		if(!LateCreation)
-			Create();
+			CreateElement();
 	}
 	
-	public void Create(){
-		if(created){
-			Debug.Log("Element: "+ gameObject.name + "already created");
-			return;
-		}
-		RealRegionOnScreen = new Rect(0,0,0,0);
-		resetElement();
-		activeScreen = CameraScreen.GetScreenForObject(this.gameObject);
-		this.createGUIElement();
-		created = true;
-	}
+
 	void Start () {
 		StartOverride();
 		
 	}
 	
 	protected virtual void StartOverride(){
-		UpdateElementOnScreen();
+		UpdateRegionOnScreen();
 	}
 	
 	void OnGUI(){
@@ -122,24 +112,44 @@ public class Panel : Frame {
 	}
 	
 	// Update is called once per frame
+#if UNITY_EDITOR
 	void Update () {
 		UpdateOverride();
 	}
 	
 	protected override void UpdateOverride(){
 		base.UpdateOverride();
-#if UNITY_EDITOR
 		if(activeScreen.DebugModus ){
-			UpdateElementOnScreen();
+			UpdateElement();
 		}
-#endif		
 	}
+#endif		
 
 	
-	public virtual void UpdateElementOnScreen(){
+	public override void CreateElement(){
+		base.CreateElement();
+		if(created){
+			Debug.Log("Element: "+ gameObject.name + "already created");
+			return;
+		}
+		RealRegionOnScreen = new Rect(0,0,0,0);
+		activeScreen = CameraScreen.GetScreenForObject(this.gameObject);
+		this.createGUIElement();
+		created = true;
+		UpdateElement();
+	}
+	
+	public override void UpdateElement(){
+		base.UpdateElement();
+		this.RealRegionOnScreen = activeScreen.GetPhysicalRegionFromRect(this.VirtualRegionOnScreen);
+		UpdateRegionOnScreen();
+	}
+	
+	public virtual void UpdateRegionOnScreen(){
 		if(plane != null)
 			plane.VirtualRegionOnScreen = RealRegionOnScreen;
-			resetElement();
+		
+		resetElement();
 	}
 	
 	public virtual void createGUIElement(){
@@ -160,11 +170,9 @@ public class Panel : Frame {
 		plane.transform.LookAt(cam.transform);
 		
 		// set Materials
-		Debug.LogWarning("Material : " + activeScreen.GUIMaterial + " on Object: " + gameObject.name);
 		plane.GUIMaterial = activeScreen.GUIMaterial;
 		plane.UV = Uv;
 		plane.VirtualRegionOnScreen = RealRegionOnScreen;
-		//Debug.Log("Element: " + gameObject.name + " Coords: " + RealRegionOnScreen);
 			
 	}
 	

@@ -52,9 +52,9 @@ public class SymbolChainDisplay: Panel{
 		else{ 
 			symbols.Add(sign);		
 			sign.transform.parent = activeScreen.transform;
-			sign.Create();
+			sign.CreateElement();
 			updateSymbolChain();
-			activeScreen.LayoutElement(); // Update Screeen because of new Objects
+			activeScreen.UpdateElement(); // Update Screeen because of new Objects
 		}
 		
 		 
@@ -75,7 +75,7 @@ public class SymbolChainDisplay: Panel{
 		for(int i = 0; i < symbols.Count; i++){
 			var panel = symbols[i];
 			panel.VirtualRegionOnScreen = new Rect (signPosX,SignRegion.y+ VirtualRegionOnScreen.y,SignRegion.width,SignRegion.height);
-			panel.UpdateElementOnScreen();
+			panel.UpdateRegionOnScreen();
 			signPosX += signPosXStep;
 			
 		}

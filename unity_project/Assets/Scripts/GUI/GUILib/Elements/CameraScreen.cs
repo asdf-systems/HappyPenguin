@@ -37,9 +37,10 @@ public class CameraScreen : Frame {
 	}
 	
 	void Start(){
-		CalculatePhysicalRegion();
+		CreateElement();
+		//CalculatePhysicalRegion();
 		initEvents();
-		LayoutElement();
+		//LayoutElement();
 		
 		
 	}
@@ -54,33 +55,20 @@ public class CameraScreen : Frame {
 	}
 	
 	
+#if UNITY_EDITOR
 	void Update(){
 		UpdateOverride();
 	}
 	
 	protected override void UpdateOverride(){
 		base.UpdateOverride();
-#if UNITY_EDITOR
+
 		if(DebugModus)
-			CalculatePhysicalRegion();
-#endif
+			UpdateElement();
+
 	}
-	public override void LayoutElement(){
-		base.LayoutElement();
-		CalculatePhysicalRegion();
-		createElements();
-		
-	}
+#endif	
 	
-	
-	public void CalculatePhysicalRegion(){
-		//base.LayoutElement();
-		foreach(Panel box in allChildren){
-			box.RealRegionOnScreen = GetPhysicalRegionFromRect(box.VirtualRegionOnScreen);
-			box.UpdateElementOnScreen();
-		}
-		
-	}
 	
 	private static Vector2 getFactor(){
 		// Get the right Hight and Width proportional to screen

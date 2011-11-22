@@ -43,7 +43,7 @@ public class Numbers : MonoBehaviour {
 			number = int.Parse(""+Points[i]);
 			Panel sign = ResourceManager.CreateInstance<GameObject>("Numbers/number"+number.ToString()).GetComponent<Panel>();
 			sign.transform.parent = activeScreen.transform;
-			sign.Create();
+			sign.CreateElement();
 			numberPanels.Add(sign);
 			updateGUIElementPosition();
 			
@@ -58,6 +58,7 @@ public class Numbers : MonoBehaviour {
 			sign.VirtualRegionOnScreen = VirtualRegionOnScreen;
 			sign.VirtualRegionOnScreen.x  += xOff; 
 			xOff += (int)(sign.VirtualRegionOnScreen.width) - 15;	
+			sign.UpdateElement();
 		}
 		
 	}
