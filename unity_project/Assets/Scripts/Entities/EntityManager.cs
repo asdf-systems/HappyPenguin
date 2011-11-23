@@ -33,7 +33,7 @@ namespace Pux.Entities
 			target.HideSymbols();
 			target.TargetHit += OnTargetHit;
 			snowball.DedicatedTarget = target;
-			snowball.DetachZoneReached += (sender, e) => LaunchSnowball(sender as SnowballBehaviour, target);
+			LaunchSnowball(snowball, target);
 		}
 
 		private void OnTargetHit(object sender, BehaviourEventArgs<SnowballBehaviour> e) {
