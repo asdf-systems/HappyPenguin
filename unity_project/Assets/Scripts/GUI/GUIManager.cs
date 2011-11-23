@@ -107,11 +107,11 @@ public class GUIManager : MonoBehaviour {
 //		
 //	}
 	private void InitButtons() {
-		var buttons = GameObject.FindGameObjectsWithTag("corner_button").Select(x => FindComponent(x));
+		/*var buttons = GameObject.FindGameObjectsWithTag("corner_button").Select(x => FindComponent(x));
 		buttonC = buttons.First(x => x.Symbol == "C");
 		buttonQ = buttons.First(x => x.Symbol == "Q");
 		buttonE = buttons.First(x => x.Symbol == "E");
-		buttonY = buttons.First(x => x.Symbol == "Y");
+		buttonY = buttons.First(x => x.Symbol == "Y");*/
 		positions = new List<Vector2>(){buttonC.Position,buttonE.Position,buttonQ.Position, buttonY.Position};
 	}
 	
