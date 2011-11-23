@@ -293,7 +293,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 
 	private void InvokePlayerMiss() {
-		entityManager.SpawnCreature(CreatureTypes.Blowfish);
+		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
 	}
 
 	private void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {

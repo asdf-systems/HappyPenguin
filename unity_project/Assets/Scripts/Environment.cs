@@ -6,7 +6,7 @@ namespace Pux
 	{
 		static Environment()
 		{
-			SeaLevel = 4;//-0.5256311f;
+			SeaLevel = 5;//-0.5256311f;
 		}
 		
 		public static float SeaLevel {
