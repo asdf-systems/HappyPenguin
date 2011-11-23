@@ -15,11 +15,11 @@ public class GameEndState : MonoBehaviour {
 	private bool timeFreeze = false;
 	
 	void Awake(){
-		//Debug.LogWarning("Points fix for testing!!!");	GameStatics.Points = 1004;
+		//EditorDebug.LogWarning("Points fix for testing!!!");	GameStatics.Points = 1004;
 	}
 	// Use this for initialization
 	void Start () {
-		//Debug.Log("Data Path: " + Application.persistentDataPath);
+		//EditorDebug.Log("Data Path: " + Application.persistentDataPath);
 		time = 0.0f;
 		okayButton.Visibility = false;
 	}
@@ -48,7 +48,7 @@ public class GameEndState : MonoBehaviour {
 	}
 	private string getUsername(){
 		string username = GameStatics.Username;
-		//Debug.Log("Username: " + username);
+		//EditorDebug.Log("Username: " + username);
 		if(username == GameStatics.UsernameDefault){
 			nameAlert.ShowText(GameStatics.UsernameDefault);
 			okayButton.Visibility = true;

@@ -33,11 +33,10 @@ public class Button : Control {
 	}
 	
 	public override void OnHover(object sender, MouseEventArgs e){
-		//Debug.Log("HOVER: " + gameObject.name);
+		//EditorDebug.Log("HOVER: " + gameObject.name);
 		base.OnHover(sender,e);
 		if(!down)
 			plane.UV = hoverUV;
-		
 	}
 	
 	public override void resetElement(){

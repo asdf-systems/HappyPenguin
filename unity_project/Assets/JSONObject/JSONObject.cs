@@ -67,7 +67,7 @@ public class JSONObject : Nullable {
 	}
 	public JSONObject() { }
 	public JSONObject(string str) {	//create a new JSONObject from a string (this will also create any children, and parse the whole string)
-		//Debug.Log(str);
+		//EditorDebug.Log(str);
 		if(str != null) {
 			//TODO: fix the parsing so that i don't have to just strip out all newlines, etc.
 #if(READABLE)
@@ -123,7 +123,7 @@ public class JSONObject : Nullable {
 							break;
 						default:
 							type = Type.NULL;
-							Debug.LogWarning("improper JSON formatting:" + str);
+							EditorDebug.LogWarning("improper JSON formatting:" + str);
 							return;
 						}
 						int depth = 0;
@@ -142,7 +142,7 @@ public class JSONObject : Nullable {
 									inProp = true;
 									try {
 										keys.Add(str.Substring(token_tmp + 2, i - token_tmp - 3));
-									} catch { Debug.Log(i + " - " + str.Length + " - " + str); }
+									} catch { EditorDebug.Log(i + " - " + str.Length + " - " + str); }
 									token_tmp = i;
 								}
 								if(str[i] == ',') {
@@ -170,7 +170,7 @@ public class JSONObject : Nullable {
 		if(obj) {		//Don't do anything if the object is null
 			if(type != JSONObject.Type.ARRAY) {
 				type = JSONObject.Type.ARRAY;		//Congratulations, son, you're an ARRAY now
-				Debug.LogWarning("tried to add an object to a non-array JSONObject.  We'll do it for you, but you might be doing something wrong.");
+				EditorDebug.LogWarning("tried to add an object to a non-array JSONObject.  We'll do it for you, but you might be doing something wrong.");
 			}
 			list.Add(obj);
 		}
@@ -185,7 +185,7 @@ public class JSONObject : Nullable {
 		if(obj){		//Don't do anything if the object is null
 			if(type != JSONObject.Type.OBJECT){
 				type = JSONObject.Type.OBJECT;		//Congratulations, son, you're an OBJECT now
-				Debug.LogWarning("tried to add a field to a non-object JSONObject.  We'll do it for you, but you might be doing something wrong.");
+				EditorDebug.LogWarning("tried to add a field to a non-object JSONObject.  We'll do it for you, but you might be doing something wrong.");
 			}
 			keys.Add(name);
 			list.Add(obj);
@@ -254,7 +254,7 @@ public class JSONObject : Nullable {
 			}
 		} else if(left.type == Type.ARRAY && right.type == Type.ARRAY) {
 			if(right.Count > left.Count){
-				Debug.LogError("Cannot merge arrays when right object has more elements");
+				EditorDebug.LogError("Cannot merge arrays when right object has more elements");
 				return;
 			}
 			for(int i = 0; i < right.list.Count; i++) {
@@ -273,7 +273,7 @@ public class JSONObject : Nullable {
 	}
 	public string print(int depth) {	//Convert the JSONObject into a stiring
 		if(depth++ > MAX_DEPTH) {
-			Debug.Log("reached max depth!");
+			EditorDebug.Log("reached max depth!");
 			return "";
 		}
 		string str = "";
@@ -386,11 +386,11 @@ public class JSONObject : Nullable {
 				case Type.STRING:	result.Add((string)keys[i], val.str);		break;
 				case Type.NUMBER:	result.Add((string)keys[i], val.n + "");	break;
 				case Type.BOOL:		result.Add((string)keys[i], val.b + "");	break;
-				default: Debug.LogWarning("Omitting object: " + (string)keys[i] + " in dictionary conversion"); break;
+				default: EditorDebug.LogWarning("Omitting object: " + (string)keys[i] + " in dictionary conversion"); break;
 				}
 			}
 			return result;
-		} else Debug.LogWarning("Tried to turn non-Object JSONObject into a dictionary");
+		} else EditorDebug.LogWarning("Tried to turn non-Object JSONObject into a dictionary");
 		return null;
 	}
 }

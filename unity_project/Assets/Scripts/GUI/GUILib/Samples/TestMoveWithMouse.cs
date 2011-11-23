@@ -6,7 +6,7 @@ public class TestMoveWithMouse : InteractionBehaviour {
 	private bool down = false;
 	
 	/** 
-	 * BTW: This class is super cool for position Elements with Drag Drop on Screen in DebugModus :) 
+	 * BTW: This class is super cool for position Elements with Drag Drop on Screen in EditorDebugModus :) 
 	 * */
 	public override void Down(MouseEventArgs mouse){
 		down = true;	

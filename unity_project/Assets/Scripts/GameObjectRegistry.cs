@@ -25,7 +25,7 @@ namespace Pux
 		public static GameObject GetObject(string name)
 		{
 			if (!objects.ContainsKey(name)) {
-				Debug.Log(string.Format("{0} not found", name));
+				EditorDebug.Log(string.Format("{0} not found", name));
 			}
 			return objects[name];
 		}

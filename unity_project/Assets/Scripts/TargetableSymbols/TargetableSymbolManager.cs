@@ -19,7 +19,7 @@ namespace Pux
 		public void RegisterTargetable(TargetableEntityBehaviour entity)
 		{
 			if (entity == null) {
-				Debug.Log("perk still null");
+				EditorDebug.Log("perk still null");
 				return;
 			}
 			

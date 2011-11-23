@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class InputEvents : MonoBehaviour{
 
@@ -17,7 +18,7 @@ public class InputEvents : MonoBehaviour{
 	public event EventHandler<MouseEventArgs> SwipeEvent;
 	
 	//private Timer clickTimer;
-	private bool clickStarted = false;
+	private Dictionary<int,bool> clickStarted;
 	private Vector2 mouseStartPosition;
 	
 	private Vector2 mousePosition;
@@ -25,6 +26,7 @@ public class InputEvents : MonoBehaviour{
 	
 	void Awake(){
 		Instance = this;
+		clickStarted = new Dictionary<int, bool>();
 		actualMouseDirection = new Vector2(0,0);
 		mousePosition = new Vector2(0,0);
 		mouseStartPosition = new Vector2(0,0);
@@ -83,12 +85,26 @@ public class InputEvents : MonoBehaviour{
 		InvokeDownEvent(buttonId);
 		//clickTimer.StartTimer(ClickTimeInSeconds);
 		mouseStartPosition = mousePosition;
-		clickStarted = true;
+		setClickValue(buttonId, true);
+	}
+	
+	private void setClickValue(int key,bool value){
+		if(clickStarted.ContainsKey(key)){
+			clickStarted[key] = value;
+		} else
+			clickStarted.Add(key, value);
+	}
+	
+	private bool getClickValue(int key){
+		if(clickStarted.ContainsKey(key)){
+			return clickStarted[key];
+		}
+		return false;
 	}
 	
 	private void clickEnd(int buttonId){
 		InvokeUpEvent(buttonId);
-		if(clickStarted){
+		if(getClickValue(buttonId)){
 			Vector2 moveDirection = mousePosition - mouseStartPosition;
 			float clickDistance = moveDirection.magnitude;
 			if(clickDistance <= MaxClickDistance){
@@ -96,7 +112,8 @@ public class InputEvents : MonoBehaviour{
 			} else{ // Swipe detected
 				InvokeSwipeEvent(moveDirection);
 			}
-			clickStarted = false;	
+			
+			setClickValue(buttonId, false);
 			
 		}
 	}

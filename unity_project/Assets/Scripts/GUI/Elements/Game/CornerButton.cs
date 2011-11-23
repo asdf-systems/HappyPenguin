@@ -38,9 +38,11 @@ public sealed class CornerButton : Button
 	public string Symbol;
 
 	public override void OnClick(object sender, MouseEventArgs e) {
+		if(Time.timeScale == 0)
+			return;
 		base.OnClick(sender, e);
 		if (Symbol == string.Empty)
-			Debug.LogWarning("Button " + gameObject.name + " has no symbol set!");
+			EditorDebug.LogWarning("Button " + gameObject.name + " has no symbol set!");
 		
 		GUIManager.Instance.NotifyButtonHit(Symbol);
 	}

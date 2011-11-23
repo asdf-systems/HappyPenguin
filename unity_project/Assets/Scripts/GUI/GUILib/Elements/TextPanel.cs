@@ -10,6 +10,8 @@ public class TextPanel : Panel {
 	public int LineLength = 1;
 	public int MaxInputTextLength = 10; 
 	
+
+	
 	public GUIStyle textStyle;
 	
 	public Rect TextRegion;
@@ -20,6 +22,8 @@ public class TextPanel : Panel {
 	protected override void AwakeOverride(){
 		base.AwakeOverride();
 		initTextRegion();
+		if(ScreenConfig.Instance.Fonts.Length != ScreenConfig.Instance.FontSizes.Length)
+			EditorDebug.LogWarning("Fontsteps not same size as Fonts");
 	}
 	
 	void Start(){
@@ -28,6 +32,7 @@ public class TextPanel : Panel {
 	
 	protected override void StartOverride(){
 		base.StartOverride();
+		initTextRegion();
 		formatMultilineText();
 		lastRenderdText = Text;
 	}
@@ -54,8 +59,12 @@ public class TextPanel : Panel {
 		if(activeScreen.DebugModus)
 			initTextRegion();
 		textStyle.fontSize = targetFontSize;
-		int size = textStyle.fontSize;
-		textStyle.fontSize = CameraScreen.GetPhysicalTextSize(size);
+#if UNITY_IPHONE || UNITY_ANDROID
+		changeFontForMobile();
+		
+#elif UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_WEBPLAYER
+		textStyle.fontSize = CameraScreen.GetPhysicalTextSize(textStyle.fontSize);
+#endif
 		
 		if(Text != lastRenderdText){ // Do this every on GUI because text can be changed from outside
 			formatMultilineText();
@@ -65,8 +74,26 @@ public class TextPanel : Panel {
 		if(activeScreen.DebugModus)
 			formatMultilineText();
 #endif
+		UpdateElement();
 	}
 	
+	private void changeFontForMobile(){
+		int index = 0;
+		int size = textStyle.fontSize;
+		int targetFontSize = CameraScreen.GetPhysicalTextSize(size);
+		foreach(int step in ScreenConfig.Instance.FontSizes){
+			if(step >= targetFontSize){
+				break;
+			}
+			index++;
+				
+		}
+		if(index < ScreenConfig.Instance.Fonts.Length){
+			textStyle.font = ScreenConfig.Instance.Fonts[index];
+		} else
+			EditorDebug.LogWarning("No Font found that matches TargetFontSize: " + targetFontSize + " index: " + index + "Object: " + gameObject.name);
+		
+	}
 	private void formatMultilineText(){
 		string tmp = string.Empty;
 		if(MultiLine){

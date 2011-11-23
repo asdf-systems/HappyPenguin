@@ -15,7 +15,7 @@ public class Store : MonoBehaviour{
 	void Start(){
 		WardrobeBoxBehaviour[] boxes = gameObject.GetComponentsInChildren<WardrobeBoxBehaviour>() as WardrobeBoxBehaviour[];
 		foreach(WardrobeBoxBehaviour box in boxes){
-			Debug.Log("Found Object " + box.name);
+			EditorDebug.Log("Found Object " + box.name);
 			box.PlayerClothChanged += OnClothChanged;
 		}
 

@@ -50,7 +50,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 		if (timeSinceLastCreditGift.TotalSeconds >= DEFAULT_CREDIT_SPAWN_TIME) {
 			CreditsTotal += UnityEngine.Random.Range(1, (10 + DIFFICULTY_CREDIT_MULTIPLIER * (int)Difficulty));
 			timeSinceLastCreditGift = TimeSpan.Zero;
-			//Debug.Log("Credits: " + CreditsTotal);
+			//EditorDebug.Log("Credits: " + CreditsTotal);
 		}
 	}
 

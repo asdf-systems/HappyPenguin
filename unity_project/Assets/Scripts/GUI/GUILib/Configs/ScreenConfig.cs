@@ -1,9 +1,25 @@
 using UnityEngine;
 using System.Collections;
 
-public static class ScreenConfig {
+public class ScreenConfig : MonoBehaviour {
 
-	public static int TargetScreenWidth = 960;
-	public static int TargetScreenHeight = 640;
-	public static float ScreenAspect = 1.0f;
+	public int TargetScreenWidth = 960;
+	public int TargetScreenHeight = 640;
+	public float ScreenAspect = 1.0f;
+	public int[] FontSizes;
+	public Font[] Fonts;
+	
+	public static ScreenConfig Instance{
+		get;
+		private set;
+	}
+	
+	void Awake(){
+		Instance = this;
+	}
+	
+	
+	
+	
+	
 }

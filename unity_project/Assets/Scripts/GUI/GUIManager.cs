@@ -21,6 +21,9 @@ public class GUIManager : MonoBehaviour {
 	public CornerButton buttonQ;
 	public CornerButton buttonY;
 	
+	public Button ResumeGameButton;
+	public Button CancelGameButton;
+	
 	public TextPanel PointsDisplay;
 
 	private string symbolChain;
@@ -44,6 +47,10 @@ public class GUIManager : MonoBehaviour {
 
 	public event EventHandler<SymbolEventArgs> SymbolsChanged;
 	public event EventHandler<SwipeEventArgs> SwipeCommitted;
+	public event EventHandler GameResumed;
+	public event EventHandler GamePaused;
+	public event EventHandler GameCanceld;
+	
 	
 	public static GUIManager Instance{
 		get; 
@@ -66,24 +73,29 @@ public class GUIManager : MonoBehaviour {
 		ButtonSlideDistance = 181; // magnitude of Vector2(128,128) 
 	}
 	
+	void Start(){
+		ResumeGameButton.Visibility = false;
+		CancelGameButton.Visibility = false;
+	}
+	
 	private void CheckAssertions(){
 		if(PointsDisplay == null){
-			Debug.LogError("GUI_Manger has no PointsDisplay Assigned");
+			EditorDebug.LogError("GUI_Manger has no PointsDisplay Assigned");
 		}
 		if(buttonC == null){
-			Debug.LogError("GUIManager has no buttonC assigned");
+			EditorDebug.LogError("GUIManager has no buttonC assigned");
 		}
 		if(buttonY == null){
-			Debug.LogError("GUIManager has no buttonY assigned");
+			EditorDebug.LogError("GUIManager has no buttonY assigned");
 		}
 		if(buttonQ == null){
-			Debug.LogError("GUIManager has no buttonQ assigned");
+			EditorDebug.LogError("GUIManager has no buttonQ assigned");
 		}
 		if(buttonE == null){
-			Debug.LogError("GUIManager has no buttonE assigned");
+			EditorDebug.LogError("GUIManager has no buttonE assigned");
 		}
 		if(AlertTextEntity == null){
-			Debug.LogError("GUIManager has no AlertTextPanel assigned");
+			EditorDebug.LogError("GUIManager has no AlertTextPanel assigned");
 		}
 	}
 	
@@ -106,10 +118,11 @@ public class GUIManager : MonoBehaviour {
 //		
 //	}
 	private void InitButtons() {
-		var buttons = GameObject.FindGameObjectsWithTag("corner_button").Select(x => FindComponent(x));
+		/*var buttons = GameObject.FindGameObjectsWithTag("corner_button").Select(x => FindComponent(x));
 		buttonC = buttons.First(x => x.Symbol == "C");
 		buttonQ = buttons.First(x => x.Symbol == "Q");
 		buttonE = buttons.First(x => x.Symbol == "E");
+<<<<<<< HEAD
 		buttonY = buttons.First(x => x.Symbol == "Y");
 		positions = new List<Vector2>(){ buttonC.Position, buttonE.Position, buttonQ.Position, buttonY.Position };
 	}
@@ -117,10 +130,18 @@ public class GUIManager : MonoBehaviour {
 	private void StorePositions(){
 		positions.Clear();
 		positions.AddRange(new [] { buttonC.Position, buttonE.Position, buttonQ.Position, buttonY.Position });
+=======
+		buttonY = buttons.First(x => x.Symbol == "Y");*/
+		positions = new List<Vector2>(){buttonC.Position,buttonE.Position,buttonQ.Position, buttonY.Position};
+>>>>>>> feature/optimizeGrafic
 	}
 	
 	private void OnButtonsSlidOut(Action action, ClockRotations rotation)
 	{
+<<<<<<< HEAD
+=======
+		EditorDebug.LogWarning("On ButtonsSlideOut need to be implemented again");
+>>>>>>> feature/optimizeGrafic
 		poorMansBarrier ++;
 		if (poorMansBarrier < 4) {
 			return;
@@ -225,7 +246,7 @@ public class GUIManager : MonoBehaviour {
 	
 	private Vector2 GetSnapPositionForButton(CornerButton button)
 	{
-		Debug.LogWarning("GetSnapPositionsForButton need to be implemented again");
+		EditorDebug.LogWarning("GetSnapPositionsForButton need to be implemented again");
 		// left
 		if (button.Position.x < 480) {
 			if (button.Position.y > 320) {
@@ -289,7 +310,7 @@ public class GUIManager : MonoBehaviour {
 	}
 
 	public void Alert(string value) {
-		Debug.Log("Alert");
+		EditorDebug.Log("Alert");
 		AlertTextEntity.ShowText(value);
 	}
 
@@ -334,5 +355,34 @@ public class GUIManager : MonoBehaviour {
 		
 		var e = new SwipeEventArgs(direction, symbolChain);
 		SwipeCommitted(this, e);
+	}
+	
+	public void InvokeGameResumed(){
+		CancelGameButton.Visibility = false;
+		ResumeGameButton.Visibility = false;
+		var handler = GameResumed;
+		if (handler == null) {
+			return;
+		}
+		GameResumed(this, EventArgs.Empty);
+		
+	}
+	public void InvokeGameCanceld(){
+		var handler = GameResumed;
+		if (handler == null) {
+			return;
+		}
+		GameCanceld(this, EventArgs.Empty);
+		
+	}
+	public void InvokeGamePaused(){
+		CancelGameButton.Visibility = true;
+		ResumeGameButton.Visibility = true;
+		var handler = GameResumed;
+		if (handler == null) {
+			return;
+		}
+		GamePaused(this, EventArgs.Empty);
+		
 	}
 }

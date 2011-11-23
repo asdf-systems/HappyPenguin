@@ -5,7 +5,7 @@ public class AlertTextPanel : TextPanel {
 	
 	public  int ShowTimeInSeconds = 8;
 	
-	public string help_alert = "ONLY IN DEBUGMODUS:";
+	public string help_alert = "ONLY IN EditorDebugMODUS:";
 	public bool ShowAlways; 
 	
 	protected bool textShow = false;

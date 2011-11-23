@@ -6,6 +6,6 @@ public class TestSwipeBehaviour : InteractionBehaviour {
 	
 	
 	public override void Swipe(MouseEventArgs mouse){
-		Debug.Log("Swipe Element: " + gameObject.name);
+		EditorDebug.Log("Swipe Element: " + gameObject.name);
 	}
 }

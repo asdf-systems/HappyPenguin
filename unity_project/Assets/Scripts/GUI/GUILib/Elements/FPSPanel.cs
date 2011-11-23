@@ -47,7 +47,7 @@ public class FPSPanel : TextPanel {
 	            guiText.material.color = Color.red;
 	        else
 	            guiText.material.color = Color.green;*/
-	    //  DebugConsole.Log(format,level);
+	    //  EditorDebugConsole.Log(format,level);
 	        timeleft = updateInterval;
 	        accum = 0.0F;
 	        frames = 0;

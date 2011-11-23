@@ -58,7 +58,7 @@ public class MeshMorpher : MonoBehaviour
         {
         	if (m_Meshes[i] == null)
         	{	
-        		Debug.Log("MeshMorpher mesh  " + i + " has not been setup correctly");
+        		EditorDebug.Log("MeshMorpher mesh  " + i + " has not been setup correctly");
         		m_AnimateAutomatically = false;
         		return;
         	}
@@ -67,7 +67,7 @@ public class MeshMorpher : MonoBehaviour
 		//  At least two meshes
 		if (m_Meshes.Length < 2)
 		{
-			Debug.Log ("The mesh morpher needs at least 2 source meshes");
+			EditorDebug.Log ("The mesh morpher needs at least 2 source meshes");
         	m_AnimateAutomatically = false;
         	return;
 		}
@@ -79,7 +79,7 @@ public class MeshMorpher : MonoBehaviour
         {
         	if (m_Meshes[i].vertexCount != vertexCount)
         	{	
-        		Debug.Log("Mesh " + i + " doesn't have the same number of vertices as the first mesh");
+        		EditorDebug.Log("Mesh " + i + " doesn't have the same number of vertices as the first mesh");
         		m_AnimateAutomatically = false;
         		return;
         	}

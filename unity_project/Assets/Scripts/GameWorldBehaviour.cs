@@ -35,6 +35,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	// implemented
 	public float SnowballSpeedModifier { get; set; }
+	
+	public Color DarkLight;
+	private Color oldAmbientLight;
 
 	public void Awake() {
 		InitGameWorldBehaviour();
@@ -46,6 +49,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitPerkNodes();
 		InitAttackZone();
 		InitStatics();
+		initAmbientLights();
 	}
 
 	void Start() {
@@ -72,11 +76,14 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		lifeBeacons = new List<LifeSpawnBeacon>();
 		iconSlotManager = new IconSlotManager();
 	}
-
+	
+	private void initAmbientLights(){
+		oldAmbientLight = RenderSettings.ambientLight;
+	}
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
 		if (attackZone == null) {
-			Debug.LogError("No AttackZone found in Gameworld");
+			EditorDebug.LogError("No AttackZone found in Gameworld");
 		}
 		
 		attackZone.AttackZoneEntered += OnAttackZoneEntered;
@@ -135,6 +142,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		//guiManager.DisplayLife(entityManager.Player.Life);
 		guiManager.SwipeCommitted += OnSwipeCommitted;
 		guiManager.SymbolsChanged += OnSymbolChanged;
+		guiManager.GamePaused += OnGamePaused;
+		guiManager.GameResumed += OnGameResumed;
+		guiManager.GameCanceld += OnGameCanceld;
 	}
 
 	private void InitPerkNodes() {
@@ -250,10 +260,32 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public void OnCreatureCountNeeded(object sender, CreatureCountNeededEventArgs e) {
 		e.CreatureCount = entityManager.FindCreatures().Count();
 	}
-
+	
+	public void OnGameResumed(object sender, EventArgs e){
+		if(Time.timeScale == 0){
+				RenderSettings.ambientLight = oldAmbientLight;
+				Time.timeScale = 1;	
+		}
+	}
+	
+	public void OnGamePaused(object sender, EventArgs e){
+		Time.timeScale = 0;
+		oldAmbientLight = RenderSettings.ambientLight;
+		RenderSettings.ambientLight = new Color(0.5f,0.5f,0.5f,1);
+	}
+	
+	public void OnGameCanceld(object sender, EventArgs e){
+		Time.timeScale = 1;
+		Application.LoadLevel(1);
+	}
 
 // Event Invoke
 	private void InvokePlayerHit(TargetableEntityBehaviour target) {
+<<<<<<< HEAD
+=======
+		//var player = entityManager.Player;
+		
+>>>>>>> feature/optimizeGrafic
 		target.TargetHit += (sender, e) => { effectManager.RegisterEffects(target.HitEffects); };
 		
 		if (!entityManager.Player.animation.IsPlaying("throw")) {
@@ -265,8 +297,13 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 
 	private void InvokePlayerMiss() {
+<<<<<<< HEAD
 		RegisterEffect(new UIRotationEffect());
 		Debug.Log("implement trip animation or camera quake ...");
+=======
+		entityManager.SpawnPerk(PerkTypes.Health);
+		EditorDebug.Log("implement trip animation or camera quake ...");
+>>>>>>> feature/optimizeGrafic
 	}
 
 	private void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
@@ -333,7 +370,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	public void ChangePlayerPoints(float pointsChange) {
-		Debug.Log("Get Points: " + pointsChange);
+		EditorDebug.Log("Get Points: " + pointsChange);
 		entityManager.Player.Points += pointsChange;
 		guiManager.DisplayPoints(entityManager.Player.Points);
 		GameStatics.Points = entityManager.Player.Points;

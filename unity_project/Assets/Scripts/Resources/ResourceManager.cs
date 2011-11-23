@@ -39,12 +39,12 @@ public static class ResourceManager
 			try{
 				_resources.Add(resourcePath, obj);
 			} catch(Exception e){
-					Debug.Log(e.Message);
+					EditorDebug.Log(e.Message);
 			}
 			loadedResources.Add(obj.name);
 		}
 		if(loadedResources.Count == 0)
-				Debug.LogWarning("No Resources found to load on: " + path);
+				EditorDebug.LogWarning("No Resources found to load on: " + path);
 		return loadedResources;
 	}
 	
@@ -52,12 +52,12 @@ public static class ResourceManager
 	{
 		if (IsResourceLoaded(key)) {
 			var message = string.Format("Resource {0} already loaded, skipping.", key);
-			Debug.Log(message);
+				EditorDebug.Log(message);
 			return;
 		}
 		var r = UnityEngine.Resources.Load(key);
 		if (r == null) {
-			Debug.Log("resouce not found" + key + " while loading");
+			EditorDebug.Log("resouce not found" + key + " while loading");
 		}
 		_resources.Add(key, r);
 	}
@@ -65,7 +65,7 @@ public static class ResourceManager
 	public static T GetResource<T>(string key) where T : UnityEngine.Object
 	{
 		if (!IsResourceLoaded(key)) {
-			Debug.LogWarning("Key : " + key + " not found - Getresource");
+			EditorDebug.LogWarning("Key : " + key + " not found - Getresource");
 			return null;
 		}
 		return (T) _resources[key];
@@ -73,7 +73,7 @@ public static class ResourceManager
 	
 	public static T CreateInstance<T>(string key) where T : UnityEngine.Object { 
 		if (!IsResourceLoaded(key)) {
-			Debug.LogWarning("Key: " + key + " not found - GetInstance");
+			EditorDebug.LogWarning("Key: " + key + " not found - GetInstance");
 		}
 		var res = _resources[key];
 		return (T) GameObject.Instantiate(res, Vector3.zero, Quaternion.identity);

@@ -49,7 +49,7 @@ public class UVMoveBehaviour : MonoBehaviour {
 	private void initMainTexture(){
 		mainTexture = meshFilter.renderer.material.GetTexture("_MainTex");
 		if(mainTexture == null){
-			Debug.LogWarning("No Texture set for UVMoveBehaviour on: " + gameObject.name);
+			EditorDebug.LogWarning("No Texture set for UVMoveBehaviour on: " + gameObject.name);
 		}
 	}
 	
@@ -68,7 +68,7 @@ public class UVMoveBehaviour : MonoBehaviour {
 			meshFilter = gameObject.GetComponentInChildren<MeshFilter>() as MeshFilter;
 		}
 		if(meshFilter == null){
-			Debug.LogError("No Meshfound for UVMoveBehaviour on Object: " + gameObject.name);
+			EditorDebug.LogError("No Meshfound for UVMoveBehaviour on Object: " + gameObject.name);
 			disabled = true;
 			
 		}
@@ -84,7 +84,7 @@ public class UVMoveBehaviour : MonoBehaviour {
 			
 			Vector2 uv = originalUVs[i];
 			Vector2 normPos = toUVSpace(new Vector2(newUvs.x, newUvs.y));
-			//Debug.Log("NormPos: " + normPos.x + " " + normPos.y);
+			//EditorDebug.Log("NormPos: " + normPos.x + " " + normPos.y);
 			/*if(AbsoluteUVPosition){
 				Vector2 diff = uv - normPos;
 				uv.x -= normPos.x;
@@ -94,8 +94,8 @@ public class UVMoveBehaviour : MonoBehaviour {
 				uv.x *= factorX;
 				uv.y *= factorY;
 				
-				//Debug.Log("Factor: " + factorX);
-				Debug.Log(i + " UV.x: " + uv.x);
+				//EditorDebug.Log("Factor: " + factorX);
+				EditorDebug.Log(i + " UV.x: " + uv.x);
 				// verschieben auf null / null 
 				
 				// skalier dann
@@ -103,13 +103,13 @@ public class UVMoveBehaviour : MonoBehaviour {
 				
 			} else {*/
 			
-			//Debug.Log(i + " Before UV: " + uv.x + " " + uv.y);
+			//EditorDebug.Log(i + " Before UV: " + uv.x + " " + uv.y);
 			uv.x += normPos.x;
 			uv.y += normPos.y;
 			uv.x *= newUvs.width;
 			uv.y *= newUvs.height;
 			
-			//Debug.Log(i + " UV: " + uv.x + " " + uv.y);
+			//EditorDebug.Log(i + " UV: " + uv.x + " " + uv.y);
 			
 			
 				
