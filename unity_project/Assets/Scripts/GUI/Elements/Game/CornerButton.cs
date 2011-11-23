@@ -25,6 +25,10 @@ public sealed class CornerButton : Button
 		base.UpdateOverride();
 		controlManager.Update(this);
 	}
+	
+	public void RemoveController (string name) {
+		controlManager.RemoveController(name);
+	}
 
 	protected override void AwakeOverride() {
 		base.AwakeOverride();

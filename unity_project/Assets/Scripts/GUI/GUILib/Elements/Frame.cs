@@ -71,10 +71,14 @@ public class Frame : MonoBehaviour
 	protected virtual void callHandler(InteractionEvent interaction, ActionEvent action) {
 		foreach (Frame b in directChildren) {
 			if (b.checkMouseOverElement()) {
-				action(b);
-				InteractionBehaviour[] behaviours = b.GetComponents<InteractionBehaviour>() as InteractionBehaviour[];
-				foreach (InteractionBehaviour ib in behaviours) {
-					interaction(ib);
+				if (action != null) {
+					action(b);					
+				}
+				var behaviours = b.GetComponents<InteractionBehaviour>() as InteractionBehaviour[];
+				if (behaviours != null) {
+					foreach (var ib in behaviours) {
+						interaction(ib);
+					}	
 				}
 			} else {
 				b.resetElement();

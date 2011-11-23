@@ -26,11 +26,15 @@ namespace Pux.Entities
 			var e = new EffectEventArgs(effects);
 			handler(this, e);
 		}
+		
+		public void ReleaseSymbolChain(TargetableEntityBehaviour targetable){
+			targetable.HideSymbols();
+			symbolManager.VoidTargetable(targetable);
+		}
 
 		public void ThrowSnowball(TargetableEntityBehaviour target, float speedMutiplier) {
 			var snowball = DisplaySnowball();
 			snowball.Speed *= speedMutiplier;
-			target.HideSymbols();
 			target.TargetHit += OnTargetHit;
 			snowball.DedicatedTarget = target;
 			LaunchSnowball(snowball, target);
@@ -203,7 +207,9 @@ namespace Pux.Entities
 			if (targetable == null) {
 				return;
 			}
+			
 			entities.Remove(targetable);
+			
 			GameObject.Destroy(targetable.gameObject);
 		}
 

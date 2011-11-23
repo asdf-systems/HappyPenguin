@@ -27,7 +27,7 @@ namespace Pux.Effects
 				clockRotations[1] = ClockRotations.Clockwise;
 			}
 			
-			world.InvokeUIRotation(clockRotations[0]);
+			world.InvokeUIRotation(clockRotations[0], false);
 		}
 		
 		
@@ -39,7 +39,7 @@ namespace Pux.Effects
 		
 		public override void Stop (GameWorldBehaviour world)
 		{
-			world.InvokeUIRotation(clockRotations[1]);
+			world.InvokeUIRotation(clockRotations[1], true);
 		}
 		
 		#endregion

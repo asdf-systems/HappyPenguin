@@ -35,13 +35,19 @@ namespace Pux.Controllers
 			}
 			queuedControllers.Add(name, controller);
 		}
+		
+		public void RemoveController(string name){
+			if (queuedControllers.ContainsKey(name)) {
+				queuedControllers.Remove(name);
+			}
+		}
 
 		private void AddController(string name, Controller<T> controller) {
 			if (controllers.ContainsKey(name)) {
 				var message = string.Format("must remove controller with name {0}, before attaching a second with the same name.",name);
 				throw new ApplicationException(message);
 			}
-			
+		
 			controller.ControllerFinished += (sender, e) => keysToBeRemoved.Add(name);
 			controllers.Add(name, controller);
 		}

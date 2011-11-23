@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 using System.Collections;
 using Pux.Resources;
 
@@ -55,9 +56,13 @@ public class Panel : Frame {
 			VirtualRegionOnScreen.x = value.x; 
 			VirtualRegionOnScreen.y = value.y;
 		}
-		
 	}
-	
+
+	public void SetRotationTransformations(Vector2 localCenter, float degrees){
+		plane.RotationAngle = degrees;
+		plane.RotationCenter = localCenter;
+	}
+
 	public Vector2 Size{
 		get{
 			return new Vector2(VirtualRegionOnScreen.xMax, VirtualRegionOnScreen.yMin);

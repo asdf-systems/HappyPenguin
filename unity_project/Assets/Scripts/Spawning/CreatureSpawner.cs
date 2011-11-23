@@ -9,7 +9,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 //	Constants
 	public static int DEFAULT_CREDIT_SPAWN_TIME = 5;
 	// SpawnTime in Seconds
-	public static int DEFAULT_CREATURE_SPAWN_TIME = 4;
+	public static int DEFAULT_CREATURE_SPAWN_TIME = 20;
 	// SpawnTime in Seconds
 	public static int DIFFICULTY_CREDIT_MULTIPLIER = 5;
 

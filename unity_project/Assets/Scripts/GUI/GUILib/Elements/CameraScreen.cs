@@ -103,10 +103,6 @@ public class CameraScreen : Frame {
 			interaction(ib);
 		}
 		base.callHandler(interaction, action);
-		
-		
-			
-		
 	}
 	
 	private void createElements(){
@@ -114,8 +110,6 @@ public class CameraScreen : Frame {
 			box.createGUIElement();
 		}
 	}
-	
-
 	
 	// STATIC FUNCTIONS
 	public static bool cursorInside(Vector2 elementPosition, Vector2 elementSize) {

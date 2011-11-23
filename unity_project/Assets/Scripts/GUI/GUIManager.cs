@@ -14,6 +14,8 @@ using System;
 public class GUIManager : MonoBehaviour {
 	private static GUIManager instance;
 	
+	private bool restore;
+	private bool needFrameUpdateCalls;
 	public CornerButton buttonC;
 	public CornerButton buttonE;
 	public CornerButton buttonQ;
@@ -46,6 +48,15 @@ public class GUIManager : MonoBehaviour {
 	public static GUIManager Instance{
 		get; 
 		private set;
+	}
+	
+	private void Update(){
+		if (needFrameUpdateCalls) {
+			buttonC.UpdateElement();
+			buttonE.UpdateElement();
+			buttonQ.UpdateElement();
+			buttonY.UpdateElement();
+		}
 	}
 	
 	private void Awake(){
@@ -100,50 +111,58 @@ public class GUIManager : MonoBehaviour {
 		buttonQ = buttons.First(x => x.Symbol == "Q");
 		buttonE = buttons.First(x => x.Symbol == "E");
 		buttonY = buttons.First(x => x.Symbol == "Y");
-		positions = new List<Vector2>(){buttonC.Position,buttonE.Position,buttonQ.Position, buttonY.Position};
+		positions = new List<Vector2>(){ buttonC.Position, buttonE.Position, buttonQ.Position, buttonY.Position };
+	}
+	
+	private void StorePositions(){
+		positions.Clear();
+		positions.AddRange(new [] { buttonC.Position, buttonE.Position, buttonQ.Position, buttonY.Position });
 	}
 	
 	private void OnButtonsSlidOut(Action action, ClockRotations rotation)
 	{
-		Debug.LogWarning("On ButtonsSlideOut need to be implemented again");
 		poorMansBarrier ++;
 		if (poorMansBarrier < 4) {
 			return;
 		}
 		
-		RotateCornerButtons(rotation);
+		SetRotation(rotation);
 		if (action != null) {
 			action();
 		}
 	}
 	
-	private void RotateCornerButtons(ClockRotations rotation)
+
+	private void SetRotation(ClockRotations rotation)
 	{
+		var degrees = restore ? 0 : -90;
 		if (rotation == ClockRotations.Clockwise) {
-			RotateSingleButton(buttonC, 90);
-			RotateSingleButton(buttonE, 90);
-			RotateSingleButton(buttonQ, 90);
-			RotateSingleButton(buttonY, 90);
+			RotateSingleButton(buttonC, degrees);
+			RotateSingleButton(buttonE, degrees);
+			RotateSingleButton(buttonQ, degrees);
+			RotateSingleButton(buttonY, degrees);
 			return;
 		}
 		
-		RotateSingleButton(buttonC, -90);
-		RotateSingleButton(buttonE, -90);
-		RotateSingleButton(buttonQ, -90);
-		RotateSingleButton(buttonY, -90);
+		RotateSingleButton(buttonC, -degrees);
+		RotateSingleButton(buttonE, -degrees);
+		RotateSingleButton(buttonQ, -degrees);
+		RotateSingleButton(buttonY, -degrees);
 	}
 	
-	private void RotateSingleButton(Button button, float angle){
-		button.transform.RotateAroundLocal(Vector3.up, angle);	
+	public void RotateSingleButton(Button button, float degrees){
+		button.SetRotationTransformations(new Vector2(0.5f,0.5f), degrees);	
 	}
 
-	public void PerformUIRotation(ClockRotations clockRotation)
+	public void PerformUIRotation(ClockRotations clockRotation, bool restore)
 	{
+		this.restore = restore;
+		needFrameUpdateCalls = true;
 		poorMansBarrier = 0;
 		if (clockRotation == ClockRotations.Clockwise) {
-			SlideButtonsOut(() => OnButtonsSlidOut(MoveRight, clockRotation));
+			SlideButtonsOut(() => OnButtonsSlidOut(MoveClockwise, clockRotation));
 		} else{
-			SlideButtonsOut(() => OnButtonsSlidOut(MoveLeft, clockRotation));
+			SlideButtonsOut(() => OnButtonsSlidOut(MoveCounterClockwise, clockRotation));
 		}
 	}
 	
@@ -152,18 +171,22 @@ public class GUIManager : MonoBehaviour {
 		SlideButtonsIn();
 	}
 
-	private void MoveLeft() {
+	private void MoveCounterClockwise() {
+		StorePositions();
 		var tmp = positions[positions.Count - 1];
 		positions.Insert(0, tmp);
 		positions.RemoveAt(positions.Count - 1);
 		UpdatePositions();
+		SetRotation(ClockRotations.CounterClockwise);
 		OnButtonsRotated();
 	}
 	
-	private void MoveRight() {
+	private void MoveClockwise() {
+		StorePositions();
 		positions.Add(positions[0]);
 		positions.RemoveAt(0);
 		UpdatePositions();
+		SetRotation(ClockRotations.Clockwise);
 		OnButtonsRotated();
 	}
 	
@@ -184,10 +207,20 @@ public class GUIManager : MonoBehaviour {
 	
 	private void SlideButtonsIn()
 	{
-		PerformButtonSlide(buttonC, SlideDirections.In, null);
-		PerformButtonSlide(buttonE, SlideDirections.In, null);
-		PerformButtonSlide(buttonQ, SlideDirections.In, null);
-		PerformButtonSlide(buttonY, SlideDirections.In, null);
+		poorMansBarrier = 0;
+		PerformButtonSlide(buttonC, SlideDirections.In, OnButtonsSlidIn);
+		PerformButtonSlide(buttonE, SlideDirections.In, OnButtonsSlidIn);
+		PerformButtonSlide(buttonQ, SlideDirections.In, OnButtonsSlidIn);
+		PerformButtonSlide(buttonY, SlideDirections.In, OnButtonsSlidIn);
+	}
+	
+	private void OnButtonsSlidIn(){
+		poorMansBarrier ++;
+		if (poorMansBarrier < 4) {
+			return;
+		}
+		
+		needFrameUpdateCalls = false;
 	}
 	
 	private Vector2 GetSnapPositionForButton(CornerButton button)
@@ -212,13 +245,14 @@ public class GUIManager : MonoBehaviour {
 	private void PerformButtonSlide(CornerButton button, SlideDirections direction, Action postAction)
 	{
 		var retinaCenter = new Vector2(480, 320);
-		var buttonCenter = button.Position + new Vector2((float) button.VirtualRegionOnScreen.width / 2.0f, button.VirtualRegionOnScreen.y + (float) button.VirtualRegionOnScreen.x / 2.0f );
+		var buttonCenter = button.Position + new Vector2((float) button.VirtualRegionOnScreen.width / 2.0f, (float) button.VirtualRegionOnScreen.height / 2.0f );
 
 		var directingVector = buttonCenter - retinaCenter;
 		directingVector.Normalize();
 		
 		var sign = direction == SlideDirections.Out ? 1 : -1;
 		var targetPosition =  buttonCenter + sign * directingVector * ButtonSlideDistance;
+		Debug.Log(string.Format("{0}: {1}", button.Symbol, targetPosition));
 		
 		//decentralize position
 		targetPosition -= new Vector2((float)button.VirtualRegionOnScreen.width / 2.0f, (float)button.VirtualRegionOnScreen.height / 2.0f);
@@ -232,19 +266,20 @@ public class GUIManager : MonoBehaviour {
 		if (direction == SlideDirections.Out) {
 			easingFunc = (x) => x * x;
 		} else {
-			easingFunc = (x) => (float)(Math.Log(x) + 6.0f) / 6.0f;
+			easingFunc = (x) => (float)(Math.Log(x) + 2.0f) / 2.0f;
 		}
 		
 		var controller = new UIElementSlideController(easingFunc) {
 			StartPosition = button.Position,
 			TargetPosition = targetPosition,
-			Duration = TimeSpan.FromMilliseconds(250)
+			Duration = TimeSpan.FromMilliseconds(1500)
 		};
 		
 		if (postAction != null) {
 			controller.ControllerFinished += (sender, e) => postAction.Invoke();
 		}
 		
+		button.RemoveController(button.name);
 		button.QueueController(button.name, controller);
 	}
 

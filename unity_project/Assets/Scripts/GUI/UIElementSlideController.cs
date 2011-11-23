@@ -41,6 +41,7 @@ namespace Pux.UI
 			elapsedTime = elapsedTime.Add(TimeSpan.FromSeconds(Time.deltaTime));
 			
 			if (elapsedTime >= Duration) {
+				Debug.Log(string.Format("elapsed time: {0}", elapsedTime));
 				elapsedTime = TimeSpan.Zero;
 				InvokeControllerFinished(entity);
 				return;

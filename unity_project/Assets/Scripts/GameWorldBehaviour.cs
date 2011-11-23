@@ -10,8 +10,6 @@ using Pux.UI;
 
 public sealed class GameWorldBehaviour : MonoBehaviour
 {
-
-
 	private GUIManager guiManager;
 	private EffectManager effectManager;
 	private IconSlotManager iconSlotManager;
@@ -73,7 +71,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		lifeBeacons = new List<LifeSpawnBeacon>();
 		iconSlotManager = new IconSlotManager();
-		
 	}
 
 	private void InitAttackZone() {
@@ -257,19 +254,18 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 // Event Invoke
 	private void InvokePlayerHit(TargetableEntityBehaviour target) {
-		var player = entityManager.Player;
-		
 		target.TargetHit += (sender, e) => { effectManager.RegisterEffects(target.HitEffects); };
 		
 		if (!entityManager.Player.animation.IsPlaying("throw")) {
 			entityManager.Player.PlayAnimation("throw");	
 		}
+		entityManager.ReleaseSymbolChain(target);
 		entityManager.ThrowSnowball(target, SnowballSpeedModifier);
 	}
 
 
 	private void InvokePlayerMiss() {
-		entityManager.SpawnPerk(PerkTypes.Health);
+		RegisterEffect(new UIRotationEffect());
 		Debug.Log("implement trip animation or camera quake ...");
 	}
 
@@ -280,8 +276,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 	}
 
-	public void InvokeUIRotation(ClockRotations clockRotation) {
-		guiManager.PerformUIRotation(clockRotation);
+	public void InvokeUIRotation(ClockRotations clockRotation, bool restore) {
+		guiManager.PerformUIRotation(clockRotation, restore);
 	}
 
 	internal void ModifyCreatures(Action<CreatureBehaviour> action) {
@@ -335,7 +331,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			Application.LoadLevel(3);
 		}
 	}
-
 
 	public void ChangePlayerPoints(float pointsChange) {
 		Debug.Log("Get Points: " + pointsChange);

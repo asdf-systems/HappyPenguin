@@ -1,10 +1,21 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GUIPlane : MonoBehaviour {
-	
+
 	private float textureFactor = 1.0f;
 	private CameraScreen activeScreen;
+	
+	public Vector2 RotationCenter {
+		get;
+		set;
+	}
+	
+	public float RotationAngle {
+		get;
+		set;
+	}
 	
 	void Awake(){
 		//updateTextureFactor();
@@ -21,6 +32,12 @@ public class GUIPlane : MonoBehaviour {
 			return GetComponent<MeshFilter>().mesh;
 		}
 	}
+	
+	private Vector2 RotateVertex(Vector2 vertex, Vector2 center, float degrees){
+		var centeredScreen = vertex - center;
+		return centeredScreen.Rotate(degrees) + center;
+	}
+	
 	public Rect VirtualRegionOnScreen{
 		set{
 			var vertices = MeshObject.vertices;
@@ -31,13 +48,18 @@ public class GUIPlane : MonoBehaviour {
 			vertices[2] = new Vector2(tmp.x, tmp.y+tmp.height);
 			vertices[1] = new Vector2(tmp.x+tmp.width, tmp.y+tmp.height); 
 			
-
+			var centerX = tmp.x + tmp.width * RotationCenter.x;
+			var centerY = tmp.y + tmp.height * RotationCenter.y;
+			var center = new Vector2(centerX, centerY);
 			
 			for(int i = 0; i < vertices.Length; i++){
+				vertices[i] = RotateVertex(vertices[i], center, RotationAngle);
 				vertices[i] = ScreenToWorldCoordinates(vertices[i]);
 				//Debug.Log("PRE Position: " + i + " " + vertices[i]);
 				vertices[i] = WorldToLocalCoordinates(vertices[i]);
 				vertices[i] = new Vector3(vertices[i].x, vertices[i].y*-1,0);
+				
+				
 				
 				//Debug.Log("POS Position: " + i + " " + vertices[i]);
 			}
@@ -75,7 +97,7 @@ public class GUIPlane : MonoBehaviour {
 	}
 	
 	
-	private Vector3 ScreenToWorldCoordinates(Vector2 screenCoordinate){
+	public Vector3 ScreenToWorldCoordinates(Vector2 screenCoordinate){
 		
 		Camera cam = transform.parent.GetComponent<Camera>();
 		if(cam == null){
@@ -94,7 +116,7 @@ public class GUIPlane : MonoBehaviour {
 		
 	}
 	
-	private Vector3 WorldToLocalCoordinates(Vector3 worldCoordinates){
+	public Vector3 WorldToLocalCoordinates(Vector3 worldCoordinates){
 		return gameObject.transform.InverseTransformPoint(worldCoordinates);
 	}
 	
