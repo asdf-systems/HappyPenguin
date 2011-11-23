@@ -10,10 +10,10 @@ FBXHeaderExtension:  {
 		Version: 1000
 		Year: 2011
 		Month: 11
-		Day: 20
-		Hour: 20
-		Minute: 53
-		Second: 37
+		Day: 23
+		Hour: 19
+		Minute: 22
+		Second: 38
 		Millisecond: 0
 	}
 	Creator: "FBX SDK/FBX Plugins build 20070228"
@@ -21,7 +21,7 @@ FBXHeaderExtension:  {
 		FlagPLE: 0
 	}
 }
-CreationTime: "2011-11-20 20:53:37:000"
+CreationTime: "2011-11-23 19:22:38:000"
 Creator: "Blender version 2.60 (sub 0)"
 
 ; Object definitions
@@ -1757,7 +1757,7 @@ Objects:  {
 		}
 		UseMipMap: 0
 		Filename: "InGame_texture.png"
-		RelativeFilename: "W:\asdf_systems\Projekte\HappyPenguin\unity_project\Assets\Resources\Textures\InGame_texture.png"
+		RelativeFilename: "/Users/asdf-systems/asdf-systems/shared/Projekte/HappyPenguin/unity_project/Assets/Resources/Textures/InGame_texture.png"
 	}
 	Texture: "Texture::nuke_texture_png", "TextureVideoClip" {
 		Type: "TextureVideoClip"
@@ -1782,7 +1782,7 @@ Objects:  {
 		}
 		Media: "Video::nuke_texture_png"
 		FileName: "InGame_texture.png"
-		RelativeFilename: "W:\asdf_systems\Projekte\HappyPenguin\unity_project\Assets\Resources\Textures\InGame_texture.png"
+		RelativeFilename: "/Users/asdf-systems/asdf-systems/shared/Projekte/HappyPenguin/unity_project/Assets/Resources/Textures/InGame_texture.png"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
