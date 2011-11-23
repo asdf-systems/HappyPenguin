@@ -13,7 +13,7 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 	private int frameCount;
 	private int currentRow;
 	private int currentColoum;
-	private int textureSize;
+	//private int textureSize;
 	
 	// Use this for initialization
 	void Start () {
@@ -23,7 +23,7 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 	
 	protected override void StartOverride(){
 		base.StartOverride();
-		textureSize = mainTexture.height;
+		//textureSize = mainTexture.height;
 		//AbsoluteUVPosition = true;
 		
 	}
@@ -75,7 +75,7 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 			currentRow = 0;
 		
 		
-		//Debug.Log("New UVs: " + newUvs + "Row: " + currentRow + "Coloumn: " + currentColoum);
+		//EditorDebug.Log("New UVs: " + newUvs + "Row: " + currentRow + "Coloumn: " + currentColoum);
 		
 	}
 }

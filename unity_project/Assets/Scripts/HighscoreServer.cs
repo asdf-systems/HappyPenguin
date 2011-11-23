@@ -52,7 +52,7 @@ public class HighscoreServer {
 		obj.AddField("Name", name);
 		obj.AddField("Points", points);
 		var call = ADDENTRY_CALL.Replace("{0}", obj.ToString());
-		Debug.Log("CALL: " + call);
+		EditorDebug.Log("CALL: " + call);
 		return callREST(call, data => {});
 	}
 }

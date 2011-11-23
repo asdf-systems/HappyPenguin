@@ -21,7 +21,7 @@ public class WardrobeGameState : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if(animations.Length != animationsProbabilityRange.Length)
-			Debug.LogError("Animations & Animations Probability dont match in size");
+			EditorDebug.LogError("Animations & Animations Probability dont match in size");
 		startNextAnimation();
 		
 

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Control : Panel {
 
-	// Show Active Region is an Debug Option that makes the active array visible
+	// Show Active Region is an EditorDebug Option that makes the active array visible
 	public bool ShowActiveRegion = false;
 	public Rect ActiveRegion;
 	private Rect realActiveRegion;

@@ -48,7 +48,7 @@ public class SymbolChainDisplay: Panel{
 		char symbol =  e.SymbolChain[e.SymbolChain.Length-1];
 		Panel sign = ResourceManager.CreateInstance<GameObject>("Symbols/Sign"+symbol).GetComponent<Panel>();
 		if(sign == null)
-			Debug.LogError("Sign " + symbol + " is unkown");
+			EditorDebug.LogError("Sign " + symbol + " is unkown");
 		else{ 
 			symbols.Add(sign);		
 			sign.transform.parent = activeScreen.transform;

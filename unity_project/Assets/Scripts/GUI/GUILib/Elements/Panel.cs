@@ -129,7 +129,7 @@ public class Panel : Frame {
 	public override void CreateElement(){
 		base.CreateElement();
 		if(created){
-			Debug.Log("Element: "+ gameObject.name + "already created");
+			EditorDebug.Log("Element: "+ gameObject.name + "already created");
 			return;
 		}
 		RealRegionOnScreen = new Rect(0,0,0,0);
@@ -183,13 +183,13 @@ public class Panel : Frame {
 	private void CreateGUIPlane(){
 		GameObject go = ResourceManager.CreateInstance<GameObject>("guiPlane");
 		if(go == null){
-			Debug.LogError("No GameObject found for Plane on Object "+ this.gameObject.name + "! Stop!");
+			EditorDebug.LogError("No GameObject found for Plane on Object "+ this.gameObject.name + "! Stop!");
 			return;
 		}
 		
 		plane = go.GetComponent<GUIPlane>();
 		if(plane == null){
-			Debug.LogError("No GUIPlane found on Object "+ this.gameObject.name + "! Stop!");
+			EditorDebug.LogError("No GUIPlane found on Object "+ this.gameObject.name + "! Stop!");
 			return;
 		}
 		

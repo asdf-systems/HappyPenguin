@@ -45,7 +45,7 @@ public class CreditsState : MonoBehaviour {
 	void Update () {
 		
 		time+= Time.deltaTime;
-		//Debug.Log("Update GameEndState, Time: " + time);
+		//EditorDebug.Log("Update GameEndState, Time: " + time);
 		if(time > 3 && flag){
 			if(texts[currentText] == ""){
 				katapult.gameObject.animation.Play("shoot");

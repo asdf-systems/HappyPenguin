@@ -17,7 +17,7 @@ public static class GameStatics {
 			LocalStorage.WriteUTF8File(key, value);
 			return true;
 		} catch(Exception e){
-			Debug.LogWarning(e.Message);
+			EditorDebug.LogWarning(e.Message);
 			return false;
 		}
 	}
@@ -27,7 +27,7 @@ public static class GameStatics {
 				string tmp = LocalStorage.ReadUTF8File(key);
 				return tmp;
 		} catch(Exception e){
-				Debug.LogWarning(e.Message);
+				EditorDebug.LogWarning(e.Message);
 				return default_val;
 		}	
 	}
@@ -96,7 +96,7 @@ public static class GameStatics {
 	}
 
 	public static GameObject loadPlayerHat(){
-		Debug.Log("PenguinHat" + penguinHat);
+		EditorDebug.Log("PenguinHat" + penguinHat);
 		GameObject go = ResourceManager.CreateInstance<GameObject>("Pux_Cloth/" + penguinHat);
 		return go;
 	}

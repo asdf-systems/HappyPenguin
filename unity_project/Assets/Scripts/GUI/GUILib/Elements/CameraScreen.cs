@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class CameraScreen : Frame {
 
-	// If DebugModus is checked, ScreenPosition is update every OnGUI call this is usefull for positioning elements
+	// If EditorDebugModus is checked, ScreenPosition is update every OnGUI call this is usefull for positioning elements
 	// but not good for the framerate
 	public bool DebugModus;
 	public int TextureSize = 512;
@@ -72,8 +72,8 @@ public class CameraScreen : Frame {
 	
 	private static Vector2 getFactor(){
 		// Get the right Hight and Width proportional to screen
-		float factorY = (float)(Screen.height) / (float)(ScreenConfig.TargetScreenHeight); 
-		float factorX = (float)(Screen.width) / (float)(ScreenConfig.TargetScreenWidth);
+		float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
+		float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
 		return new Vector2(factorX, factorY);
 	}
 	
@@ -81,7 +81,7 @@ public class CameraScreen : Frame {
 		Rect camPosition = ScreenCamera.pixelRect;
 		// Move Camera is needed for Splitscreen
 		if(((int)ScreenCamera.pixelHeight) != Screen.height){
-			//Debug.Log("ScreenCamera Height: " + ScreenCamera.pixelHeight +  "\n Screen Height: " + Screen.height);
+			//EditorDebug.Log("ScreenCamera Height: " + ScreenCamera.pixelHeight +  "\n Screen Height: " + Screen.height);
 			camPosition.y = ScreenCamera.pixelHeight - camPosition.y;
 		}
 		
@@ -151,7 +151,7 @@ public class CameraScreen : Frame {
 			obj = savedParent;
 		}
 		if(screen == null){
-			Debug.LogWarning("Element: " + savedObj.gameObject.name + " is not a child of a Screen!");
+			EditorDebug.LogWarning("Element: " + savedObj.gameObject.name + " is not a child of a Screen!");
 		}
 		return screen;
 		
@@ -167,8 +167,8 @@ public class CameraScreen : Frame {
 		return screenPosition;
 	}*/
 	public static Vector2 PhysicalToVirtualScreenPosition(Vector2 screenPosition){
-		float factorY = (float)(Screen.height) / (float)(ScreenConfig.TargetScreenHeight); 
-		float factorX = (float)(Screen.width) / (float)(ScreenConfig.TargetScreenWidth);
+		float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
+		float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
 		screenPosition.y = Screen.height - screenPosition.y;
 		screenPosition.x /= factorX;
 		screenPosition.y /= factorY;

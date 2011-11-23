@@ -57,22 +57,22 @@ public class GUIManager : MonoBehaviour {
 	
 	private void CheckAssertions(){
 		if(PointsDisplay == null){
-			Debug.LogError("GUI_Manger has no PointsDisplay Assigned");
+			EditorDebug.LogError("GUI_Manger has no PointsDisplay Assigned");
 		}
 		if(buttonC == null){
-			Debug.LogError("GUIManager has no buttonC assigned");
+			EditorDebug.LogError("GUIManager has no buttonC assigned");
 		}
 		if(buttonY == null){
-			Debug.LogError("GUIManager has no buttonY assigned");
+			EditorDebug.LogError("GUIManager has no buttonY assigned");
 		}
 		if(buttonQ == null){
-			Debug.LogError("GUIManager has no buttonQ assigned");
+			EditorDebug.LogError("GUIManager has no buttonQ assigned");
 		}
 		if(buttonE == null){
-			Debug.LogError("GUIManager has no buttonE assigned");
+			EditorDebug.LogError("GUIManager has no buttonE assigned");
 		}
 		if(AlertTextEntity == null){
-			Debug.LogError("GUIManager has no AlertTextPanel assigned");
+			EditorDebug.LogError("GUIManager has no AlertTextPanel assigned");
 		}
 	}
 	
@@ -105,7 +105,7 @@ public class GUIManager : MonoBehaviour {
 	
 	private void OnButtonsSlidOut(Action action, ClockRotations rotation)
 	{
-		Debug.LogWarning("On ButtonsSlideOut need to be implemented again");
+		EditorDebug.LogWarning("On ButtonsSlideOut need to be implemented again");
 		poorMansBarrier ++;
 		if (poorMansBarrier < 4) {
 			return;
@@ -192,7 +192,7 @@ public class GUIManager : MonoBehaviour {
 	
 	private Vector2 GetSnapPositionForButton(CornerButton button)
 	{
-		Debug.LogWarning("GetSnapPositionsForButton need to be implemented again");
+		EditorDebug.LogWarning("GetSnapPositionsForButton need to be implemented again");
 		// left
 		if (button.Position.x < 480) {
 			if (button.Position.y > 320) {
@@ -254,7 +254,7 @@ public class GUIManager : MonoBehaviour {
 	}
 
 	public void Alert(string value) {
-		Debug.Log("Alert");
+		EditorDebug.Log("Alert");
 		AlertTextEntity.ShowText(value);
 	}
 

@@ -33,7 +33,7 @@ public class personalHighscore : InteractionBehaviour {
 			text[0].Text = username; 
 			text[1].Text = "               SCORE\n " + GameStatics.FormatPoints(GameStatics.PersonalHighscore);
 		} else{
-			Debug.LogWarning("Personal Highscore need Two no TextPanels Attached, second is the name");
+			EditorDebug.LogWarning("Personal Highscore need Two no TextPanels Attached, second is the name");
 		}
 	}
 	

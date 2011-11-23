@@ -11,7 +11,7 @@ public class PostOnFaceBookBehaviour : InteractionBehaviour {
 		var fb = Facebook.getInstance();
 		fb.authorize(perms, success => {
 			if(success == Facebook.LOGGED_OUT) {
-				Debug.Log("Login failed");
+				EditorDebug.Log("Login failed");
 				Alert.ShowText("Login failed");
 				return;
 			}
@@ -26,7 +26,7 @@ public class PostOnFaceBookBehaviour : InteractionBehaviour {
 				(success2, data) => {
 					if(success2 == Facebook.REQUEST_FAIL) {
 						Alert.ShowText("Post failed");
-						Debug.Log("Post failed: "+data);
+						EditorDebug.Log("Post failed: "+data);
 						return;
 					}
 			});

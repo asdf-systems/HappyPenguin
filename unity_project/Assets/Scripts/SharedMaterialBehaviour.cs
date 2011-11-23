@@ -29,7 +29,7 @@ public class SharedMaterialBehaviour : MonoBehaviour {
 			materialRenderer.sharedMaterial = material;
 		}
 		else
-			Debug.LogWarning("Cannot found shared Material: " + SharedMaterialResourcePath + " on Object: " + gameObject.name);
+			EditorDebug.LogWarning("Cannot found shared Material: " + SharedMaterialResourcePath + " on Object: " + gameObject.name);
 	}
 	private void loadRenderer(){
 		materialRenderer = gameObject.GetComponent<Renderer>() as Renderer;
@@ -37,7 +37,7 @@ public class SharedMaterialBehaviour : MonoBehaviour {
 			materialRenderer = gameObject.GetComponentInChildren<Renderer>() as Renderer;
 		}
 		if(materialRenderer == null){
-			Debug.LogError("No Renderer for SharedMaterial found on Object: " + gameObject.name);
+			EditorDebug.LogError("No Renderer for SharedMaterial found on Object: " + gameObject.name);
 			disabled = true;
 			
 		}

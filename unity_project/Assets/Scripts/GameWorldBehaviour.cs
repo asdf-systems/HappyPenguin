@@ -79,7 +79,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
 		if (attackZone == null) {
-			Debug.LogError("No AttackZone found in Gameworld");
+			EditorDebug.LogError("No AttackZone found in Gameworld");
 		}
 		
 		attackZone.AttackZoneEntered += OnAttackZoneEntered;
@@ -257,7 +257,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 // Event Invoke
 	private void InvokePlayerHit(TargetableEntityBehaviour target) {
-		var player = entityManager.Player;
+		//var player = entityManager.Player;
 		
 		target.TargetHit += (sender, e) => { effectManager.RegisterEffects(target.HitEffects); };
 		
@@ -270,7 +270,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private void InvokePlayerMiss() {
 		entityManager.SpawnPerk(PerkTypes.Health);
-		Debug.Log("implement trip animation or camera quake ...");
+		EditorDebug.Log("implement trip animation or camera quake ...");
 	}
 
 	private void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
@@ -338,7 +338,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 
 	public void ChangePlayerPoints(float pointsChange) {
-		Debug.Log("Get Points: " + pointsChange);
+		EditorDebug.Log("Get Points: " + pointsChange);
 		entityManager.Player.Points += pointsChange;
 		guiManager.DisplayPoints(entityManager.Player.Points);
 		GameStatics.Points = entityManager.Player.Points;

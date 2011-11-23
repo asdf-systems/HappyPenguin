@@ -59,7 +59,7 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		
 		var obj = GameStatics.loadPlayerHat();
 		changeCloth(hatPoint, obj);
-		Debug.Log("Hat: " + obj.name);
+		EditorDebug.Log("Hat: " + obj.name);
 	}
 	
 	private void changeSkin(){

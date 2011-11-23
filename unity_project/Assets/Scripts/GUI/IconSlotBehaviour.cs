@@ -12,14 +12,14 @@ public sealed class IconSlotBehaviour : Panel
 	}
 
 	public void Clear() {
-		Debug.LogWarning("Clear IconSlot need to be rewritten for new GUI System");
+		EditorDebug.LogWarning("Clear IconSlot need to be rewritten for new GUI System");
 		//inactiveStyle.normal.background = null;
 		ActiveEffect = null;
 	}
 	
 	public void DisplayEffect(Effect effect) {
 		ActiveEffect = effect;
-		Debug.LogWarning("Disolay Effects need to be rewritten for new GUI System");
+		EditorDebug.LogWarning("Disolay Effects need to be rewritten for new GUI System");
 		//inactiveStyle.normal.background = Resources.Load(effect.IconResourceKey) as Texture2D;
 	}
 	

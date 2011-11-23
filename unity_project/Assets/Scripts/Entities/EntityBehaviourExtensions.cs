@@ -20,7 +20,7 @@ namespace Pux.Entities
 		public static EntityBehaviour FadeAnimation(this EntityBehaviour entity, string name, int fadeDurationInMilliseconds, bool isLooped) {
 			var current = entity.gameObject.animation[name];
 			if (current == null) {
-				Debug.Log(string.Format("invalid animation name {0}"));
+				EditorDebug.Log(string.Format("invalid animation name {0}"));
 				return entity;
 			}
 			
@@ -34,7 +34,7 @@ namespace Pux.Entities
 		public static EntityBehaviour PlayAnimation(this EntityBehaviour entity, string name, bool isLooped) {
 			var current = entity.gameObject.animation[name];
 			if (current == null) {
-				Debug.Log(string.Format("invalid animation name {0}"));
+				EditorDebug.Log(string.Format("invalid animation name {0}"));
 				return entity;
 			}
 			

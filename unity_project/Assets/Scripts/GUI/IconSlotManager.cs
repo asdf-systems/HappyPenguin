@@ -22,7 +22,7 @@ namespace Pux.UI
 		
 		public void DisplayEffect(Effect effect)
 		{
-			Debug.LogWarning("DisplayEffect needs to be implemented again");
+			EditorDebug.LogWarning("DisplayEffect needs to be implemented again");
 			//var slot = FindLeftestEmptySlot();
 			//slot.DisplayEffect(effect);
 			
@@ -30,7 +30,7 @@ namespace Pux.UI
 		
 		public void HideEffect(Effect effect)
 		{
-			Debug.LogWarning("HideEffect needs to be implemented again");
+			EditorDebug.LogWarning("HideEffect needs to be implemented again");
 			// make copy
 			/*var effects = new List<Effect>();
 			effects.AddRange(_iconSlots.Where(x => x.IsOccupied).Select(x => x.ActiveEffect));

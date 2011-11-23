@@ -17,7 +17,7 @@ static function loadmultitexture () {
  	
  	if(s) {
  	
-		Debug.Log("Find Texture Object");
+		EditorDebug.Log("Find Texture Object");
 		//not sure what the types are, so force them
 		var a=1;
 		var pngAsset : Texture;
@@ -34,12 +34,12 @@ static function loadmultitexture () {
         		fillZero = "0";		*/
         	
     		var path = assetPath + fillZero + (a)+"." + imageType;
-    		Debug.Log("Asset Path looked for: " + path);
+    		EditorDebug.Log("Asset Path looked for: " + path);
     		//find the asset and assign it to pngAsset
          	pngAsset=AssetDatabase.LoadAssetAtPath(path,Texture);
          	
          	if(!pngAsset) {
-         		Debug.Log("Texture not Found");
+         		EditorDebug.Log("Texture not Found");
          		break;
          	}
          	

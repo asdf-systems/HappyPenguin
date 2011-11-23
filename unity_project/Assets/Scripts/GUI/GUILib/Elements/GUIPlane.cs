@@ -12,7 +12,7 @@ public class GUIPlane : MonoBehaviour {
 	void Start(){
 		activeScreen = CameraScreen.GetScreenForObject(this.gameObject);
 		if(activeScreen == null)
-			Debug.LogWarning("No activeScreen found on GUIPlane: " + gameObject.name);
+			EditorDebug.LogWarning("No activeScreen found on GUIPlane: " + gameObject.name);
 		updateTextureFactor();
 	}
 	
@@ -35,11 +35,11 @@ public class GUIPlane : MonoBehaviour {
 			
 			for(int i = 0; i < vertices.Length; i++){
 				vertices[i] = ScreenToWorldCoordinates(vertices[i]);
-				//Debug.Log("PRE Position: " + i + " " + vertices[i]);
+				//EditorDebug.Log("PRE Position: " + i + " " + vertices[i]);
 				vertices[i] = WorldToLocalCoordinates(vertices[i]);
 				vertices[i] = new Vector3(vertices[i].x, vertices[i].y*-1,0);
 				
-				//Debug.Log("POS Position: " + i + " " + vertices[i]);
+				//EditorDebug.Log("POS Position: " + i + " " + vertices[i]);
 			}
 			MeshObject.vertices = vertices;
 		
@@ -79,15 +79,15 @@ public class GUIPlane : MonoBehaviour {
 		
 		Camera cam = transform.parent.GetComponent<Camera>();
 		if(cam == null){
-			Debug.LogError("No camera found on Object: " + gameObject.name);
+			EditorDebug.LogError("No camera found on Object: " + gameObject.name);
 			throw new MissingComponentException("No camera found on Object: " + gameObject.name);
 		}
 		
 		Ray r = cam.ScreenPointToRay(screenCoordinate);
-		Debug.DrawRay(r.origin, r.direction);
+		EditorDebug.DrawRay(r.origin, r.direction);
 		// Switch x because Plane is looking at camera - so coordinate system is opposite, switching y because Camera has inverted space
 		// in y in comparison to World
-		//Debug.Log("Origin: " + r.origin);
+		//EditorDebug.Log("Origin: " + r.origin);
 		//var ret = new Vector3(r.origin.x, r.origin.y*-1, 0);
 		var ret = r.origin;
 		return ret;
@@ -103,7 +103,7 @@ public class GUIPlane : MonoBehaviour {
 			return xy;
 		
 		if(GUIMaterial == null)
-			Debug.LogWarning("Material : " + GUIMaterial + " on Object: " + gameObject.name);
+			EditorDebug.LogWarning("Material : " + GUIMaterial + " on Object: " + gameObject.name);
 		
 		Texture t = GUIMaterial.GetTexture("_MainTex");
 		var p = new Vector2(xy.x / ((float)t.width), xy.y / ((float)t.height));

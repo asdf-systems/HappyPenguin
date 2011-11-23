@@ -9,7 +9,7 @@ public class WardrobeBoxBehaviour : Button {
 	public string infoText;
 	public string HatName;
 	
-	public string help2 = "ONLY FOR DEBUG USE:";
+	public string help2 = "ONLY FOR EditorDebug USE:";
 	public bool Locked = false;
 
 	public Texture2D Skin;
@@ -39,13 +39,13 @@ public class WardrobeBoxBehaviour : Button {
 	}
 	
 	public override void OnClick(object sender, MouseEventArgs e){
-		Debug.Log("ChangePlayerCloth");
+		EditorDebug.Log("ChangePlayerCloth");
 		changePlayerCloth();
 		InvokePlayerClothChanged();
 		if(InfoTafel != null)
 			InfoTafel.Text = currentText;
 		else
-			Debug.LogWarning("Wardrobebox: " + gameObject.name + " has no infoField Set!");
+			EditorDebug.LogWarning("Wardrobebox: " + gameObject.name + " has no infoField Set!");
 	}
 	
 	
@@ -72,7 +72,7 @@ public class WardrobeBoxBehaviour : Button {
 		}
 	}
 	private void InvokePlayerClothChanged(){
-		Debug.Log("INVOKE");
+		EditorDebug.Log("INVOKE");
 		var handler = PlayerClothChanged;
 		if (handler == null) {
 				return;
