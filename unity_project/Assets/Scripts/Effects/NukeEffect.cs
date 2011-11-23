@@ -30,7 +30,7 @@ namespace Pux.Effects
 			w.RegisterEffect(new DelayedEffect(new SinkEffect(entity), delay));
 			
 			entity.HideSymbols();
-			entity.animation.Play("explode");
+			entity.PlayAnimation("explode");
 			
 			var creatures = w.entityManager.FindCreatures();
 			foreach (var creature in creatures.Where(x => !(x == entity))) {

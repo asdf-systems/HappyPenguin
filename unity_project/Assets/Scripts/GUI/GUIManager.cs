@@ -118,30 +118,19 @@ public class GUIManager : MonoBehaviour {
 //		
 //	}
 	private void InitButtons() {
-		/*var buttons = GameObject.FindGameObjectsWithTag("corner_button").Select(x => FindComponent(x));
-		buttonC = buttons.First(x => x.Symbol == "C");
-		buttonQ = buttons.First(x => x.Symbol == "Q");
-		buttonE = buttons.First(x => x.Symbol == "E");
-<<<<<<< HEAD
-		buttonY = buttons.First(x => x.Symbol == "Y");
 		positions = new List<Vector2>(){ buttonC.Position, buttonE.Position, buttonQ.Position, buttonY.Position };
 	}
 	
 	private void StorePositions(){
 		positions.Clear();
 		positions.AddRange(new [] { buttonC.Position, buttonE.Position, buttonQ.Position, buttonY.Position });
-=======
-		buttonY = buttons.First(x => x.Symbol == "Y");*/
-		positions = new List<Vector2>(){buttonC.Position,buttonE.Position,buttonQ.Position, buttonY.Position};
->>>>>>> feature/optimizeGrafic
+
+
 	}
 	
 	private void OnButtonsSlidOut(Action action, ClockRotations rotation)
 	{
-<<<<<<< HEAD
-=======
-		EditorDebug.LogWarning("On ButtonsSlideOut need to be implemented again");
->>>>>>> feature/optimizeGrafic
+
 		poorMansBarrier ++;
 		if (poorMansBarrier < 4) {
 			return;
@@ -293,7 +282,7 @@ public class GUIManager : MonoBehaviour {
 		var controller = new UIElementSlideController(easingFunc) {
 			StartPosition = button.Position,
 			TargetPosition = targetPosition,
-			Duration = TimeSpan.FromMilliseconds(1500)
+			Duration = TimeSpan.FromMilliseconds(250)
 		};
 		
 		if (postAction != null) {

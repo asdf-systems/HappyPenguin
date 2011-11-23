@@ -58,14 +58,6 @@ public class GUIPlane : MonoBehaviour {
 				//EditorDebug.Log("PRE Position: " + i + " " + vertices[i]);
 				vertices[i] = WorldToLocalCoordinates(vertices[i]);
 				vertices[i] = new Vector3(vertices[i].x, vertices[i].y*-1,0);
-				
-<<<<<<< HEAD
-				
-				
-				//Debug.Log("POS Position: " + i + " " + vertices[i]);
-=======
-				//EditorDebug.Log("POS Position: " + i + " " + vertices[i]);
->>>>>>> feature/optimizeGrafic
 			}
 			MeshObject.vertices = vertices;
 		

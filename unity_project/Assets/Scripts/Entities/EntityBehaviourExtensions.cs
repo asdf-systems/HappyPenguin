@@ -18,30 +18,44 @@ namespace Pux.Entities
 		}
 
 		public static EntityBehaviour FadeAnimation(this EntityBehaviour entity, string name, int fadeDurationInMilliseconds, bool isLooped) {
-			var current = entity.gameObject.animation[name];
-			if (current == null) {
-				EditorDebug.Log(string.Format("invalid animation name {0}"));
-				return entity;
-			}
+			var current = entity.FindAnimationState(name);
 			
 			current.layer = 0;
 			current.wrapMode = isLooped ? WrapMode.Loop : WrapMode.Once;
 			var seconds = (float)TimeSpan.FromMilliseconds(fadeDurationInMilliseconds).TotalSeconds;
-			entity.animation.CrossFade(name, seconds, PlayMode.StopSameLayer);
+			var animation = FindAnimationBehaviour(entity);
+			animation.CrossFade(name, seconds, PlayMode.StopSameLayer);
 			return entity;
 		}
 
 		public static EntityBehaviour PlayAnimation(this EntityBehaviour entity, string name, bool isLooped) {
-			var current = entity.gameObject.animation[name];
-			if (current == null) {
-				EditorDebug.Log(string.Format("invalid animation name {0}"));
-				return entity;
-			}
-			
+	
+			var current = entity.FindAnimationState(name);
 			current.layer = 0;
 			current.wrapMode = isLooped ? WrapMode.Loop : WrapMode.Once;
-			entity.gameObject.animation.Play(name, PlayMode.StopSameLayer);
+			var animation = entity.FindAnimationBehaviour();
+			animation.Play(name, PlayMode.StopSameLayer);
 			return entity;
+		}
+		
+		public static AnimationState FindAnimationState(this EntityBehaviour entity, string name){
+			var animation = entity.FindAnimationBehaviour();
+			var current = animation[name];
+			if (current == null) {
+				throw new ApplicationException(string.Format("invalid animation name {0}", name));
+			}
+			
+			return current;
+		}
+		
+		public static Animation FindAnimationBehaviour(this EntityBehaviour entity){
+			var animation = entity.gameObject.animation;
+			if(animation == null){
+				animation = entity.gameObject.GetComponentInChildren<Animation>() as Animation;
+				if(animation == null)
+					throw new MissingComponentException();
+			}
+			return animation;
 		}
 
 		public static EntityBehaviour PlayAnimation(this EntityBehaviour entity, string name) {

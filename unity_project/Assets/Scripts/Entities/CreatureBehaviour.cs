@@ -9,7 +9,7 @@ public sealed class CreatureBehaviour : TargetableEntityBehaviour
 	private Random random;
 	public float Points;
 	public float Damage;
-
+	
 	protected override void AwakeOverride ()
 	{
 		base.AwakeOverride ();

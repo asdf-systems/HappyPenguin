@@ -281,11 +281,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 // Event Invoke
 	private void InvokePlayerHit(TargetableEntityBehaviour target) {
-<<<<<<< HEAD
-=======
-		//var player = entityManager.Player;
-		
->>>>>>> feature/optimizeGrafic
+
 		target.TargetHit += (sender, e) => { effectManager.RegisterEffects(target.HitEffects); };
 		
 		if (!entityManager.Player.animation.IsPlaying("throw")) {
@@ -297,13 +293,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 
 	private void InvokePlayerMiss() {
-<<<<<<< HEAD
-		RegisterEffect(new UIRotationEffect());
-		Debug.Log("implement trip animation or camera quake ...");
-=======
-		entityManager.SpawnPerk(PerkTypes.Health);
-		EditorDebug.Log("implement trip animation or camera quake ...");
->>>>>>> feature/optimizeGrafic
+		entityManager.SpawnCreature(CreatureTypes.Blowfish);
 	}
 
 	private void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
