@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System;
 
 public class MouseEventArgs : EventArgs {
@@ -13,6 +14,7 @@ public class MouseEventArgs : EventArgs {
 	public Vector2 MousPosition{get;set;}
 	
 	public MouseEventArgs(int buttonId) {
+		MouseDown = new Dictionary<int, bool>();
 		MousPosition = new Vector2(0,0);
 		MoveDirection = new Vector2(0,0);
 		this.ButtonId = buttonId;	
@@ -24,6 +26,6 @@ public class MouseEventArgs : EventArgs {
 		ButtonId = -1;
 	}
 	
-	public bool MouseDown;
+	public Dictionary<int,bool> MouseDown;
 
 }

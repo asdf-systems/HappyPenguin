@@ -19,6 +19,9 @@ public class GUIManager : MonoBehaviour {
 	public CornerButton buttonQ;
 	public CornerButton buttonY;
 	
+	public Button ResumeGameButton;
+	public Button CancelGameButton;
+	
 	public TextPanel PointsDisplay;
 
 	private string symbolChain;
@@ -42,6 +45,10 @@ public class GUIManager : MonoBehaviour {
 
 	public event EventHandler<SymbolEventArgs> SymbolsChanged;
 	public event EventHandler<SwipeEventArgs> SwipeCommitted;
+	public event EventHandler GameResumed;
+	public event EventHandler GamePaused;
+	public event EventHandler GameCanceld;
+	
 	
 	public static GUIManager Instance{
 		get; 
@@ -53,6 +60,11 @@ public class GUIManager : MonoBehaviour {
 		InitButtons();
 		CheckAssertions();
 		ButtonSlideDistance = 181; // magnitude of Vector2(128,128) 
+	}
+	
+	void Start(){
+		ResumeGameButton.Visibility = false;
+		CancelGameButton.Visibility = false;
 	}
 	
 	private void CheckAssertions(){
@@ -299,5 +311,34 @@ public class GUIManager : MonoBehaviour {
 		
 		var e = new SwipeEventArgs(direction, symbolChain);
 		SwipeCommitted(this, e);
+	}
+	
+	public void InvokeGameResumed(){
+		CancelGameButton.Visibility = false;
+		ResumeGameButton.Visibility = false;
+		var handler = GameResumed;
+		if (handler == null) {
+			return;
+		}
+		GameResumed(this, EventArgs.Empty);
+		
+	}
+	public void InvokeGameCanceld(){
+		var handler = GameResumed;
+		if (handler == null) {
+			return;
+		}
+		GameCanceld(this, EventArgs.Empty);
+		
+	}
+	public void InvokeGamePaused(){
+		CancelGameButton.Visibility = true;
+		ResumeGameButton.Visibility = true;
+		var handler = GameResumed;
+		if (handler == null) {
+			return;
+		}
+		GamePaused(this, EventArgs.Empty);
+		
 	}
 }

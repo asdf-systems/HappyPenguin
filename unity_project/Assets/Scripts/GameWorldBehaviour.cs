@@ -37,6 +37,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	// implemented
 	public float SnowballSpeedModifier { get; set; }
+	
+	public Color DarkLight;
+	private Color oldAmbientLight;
 
 	public void Awake() {
 		InitGameWorldBehaviour();
@@ -48,6 +51,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitPerkNodes();
 		InitAttackZone();
 		InitStatics();
+		initAmbientLights();
 	}
 
 	void Start() {
@@ -75,7 +79,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		iconSlotManager = new IconSlotManager();
 		
 	}
-
+	
+	private void initAmbientLights(){
+		oldAmbientLight = RenderSettings.ambientLight;
+	}
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
 		if (attackZone == null) {
@@ -138,6 +145,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		//guiManager.DisplayLife(entityManager.Player.Life);
 		guiManager.SwipeCommitted += OnSwipeCommitted;
 		guiManager.SymbolsChanged += OnSymbolChanged;
+		guiManager.GamePaused += OnGamePaused;
+		guiManager.GameResumed += OnGameResumed;
+		guiManager.GameCanceld += OnGameCanceld;
 	}
 
 	private void InitPerkNodes() {
@@ -253,7 +263,24 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public void OnCreatureCountNeeded(object sender, CreatureCountNeededEventArgs e) {
 		e.CreatureCount = entityManager.FindCreatures().Count();
 	}
-
+	
+	public void OnGameResumed(object sender, EventArgs e){
+		if(Time.timeScale == 0){
+				RenderSettings.ambientLight = oldAmbientLight;
+				Time.timeScale = 1;	
+		}
+	}
+	
+	public void OnGamePaused(object sender, EventArgs e){
+		Time.timeScale = 0;
+		oldAmbientLight = RenderSettings.ambientLight;
+		RenderSettings.ambientLight = new Color(0.5f,0.5f,0.5f,1);
+	}
+	
+	public void OnGameCanceld(object sender, EventArgs e){
+		Time.timeScale = 1;
+		Application.LoadLevel(1);
+	}
 
 // Event Invoke
 	private void InvokePlayerHit(TargetableEntityBehaviour target) {
