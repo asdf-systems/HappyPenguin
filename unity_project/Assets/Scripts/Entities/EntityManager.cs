@@ -92,6 +92,7 @@ namespace Pux.Entities
 			var entity = ResourceManager.CreateInstance<GameObject>("Environment/Balloon");
 			entity.transform.parent = host.transform;
 			entity.transform.localPosition = Vector3.zero;
+			entity.transform.localRotation = Quaternion.identity;
 		}
 
 		public void ReleaseLifeBalloon(LifeSpawnBeacon beacon) {
