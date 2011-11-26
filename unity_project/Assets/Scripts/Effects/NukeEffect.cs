@@ -22,6 +22,8 @@ namespace Pux.Effects
 		}
 
 		public override void Start(GameWorldBehaviour w) {
+			entity.audio.clip = entity.DeathSound;
+			entity.audio.Play();
 			entity.ClearControllers();
 			entity.QueueController("float", new FloatController(Environment.SeaLevel));
 			entity.transform.LookAt(Camera.main.transform);

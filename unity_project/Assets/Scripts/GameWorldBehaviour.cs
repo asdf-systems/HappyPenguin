@@ -25,6 +25,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public string PerkText;
 	public string WrongSymbolChainText;
 	public string LooseText;
+	public IngameSoundEffects IngameSounds;
+	public int ProbabilityForCheers = 20;
 
 	public Range SymbolRangeModifer {
 		set { entityManager.SymbolRangeModifer = value; }
@@ -38,8 +40,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	
 	public Color DarkLight;
 	private Color oldAmbientLight;
+	private System.Random random;
 
 	public void Awake() {
+		random = new System.Random();
 		InitGameWorldBehaviour();
 		InitIconSlotManager();
 		InitPlayer();
@@ -269,9 +273,11 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 	
 	public void OnGamePaused(object sender, EventArgs e){
-		Time.timeScale = 0;
-		oldAmbientLight = RenderSettings.ambientLight;
-		RenderSettings.ambientLight = new Color(0.5f,0.5f,0.5f,1);
+		if(Time.timeScale > 0){
+			Time.timeScale = 0;
+			oldAmbientLight = RenderSettings.ambientLight;
+			RenderSettings.ambientLight = new Color(0.5f,0.5f,0.5f,1);
+		}
 	}
 	
 	public void OnGameCanceld(object sender, EventArgs e){
@@ -294,7 +300,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private void InvokePlayerMiss() {
 		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
-		ChangePlayerPoints(255);
+		//ChangePlayerPoints(255);
+		IngameSounds.PlayBooSound();
 	}
 
 	private void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
@@ -344,6 +351,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		for (int i = 0; i < count; i++) {
 			var beacon = lifeBeacons.First(x => x.IsOccupied);
 			entityManager.ReleaseLifeBalloon(beacon);
+			IngameSounds.PlayBooSound();
 		}
 	}
 
@@ -351,6 +359,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		for (int i = 0; i < count; i++) {
 			var beacon = lifeBeacons.First(x => !x.IsOccupied);
 			entityManager.SpawnLifeBalloon(beacon);
+			IngameSounds.PlayCheerSound();
 		}
 	}
 
@@ -365,6 +374,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		entityManager.Player.Points += pointsChange;
 		guiManager.DisplayPoints(entityManager.Player.Points);
 		GameStatics.Points = entityManager.Player.Points;
+		float val = random.Next(0,100);
+		if(val >= ProbabilityForCheers)
+			IngameSounds.PlayCheerSound();
 	}
 
 	public void Update() {

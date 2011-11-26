@@ -20,6 +20,7 @@ public class GameEndState : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//EditorDebug.Log("Data Path: " + Application.persistentDataPath);
+		
 		EditorDebug.LogWarning("Points: " + GameStatics.Points);
 		time = 0.0f;
 		okayButton.Visibility = false;
@@ -36,7 +37,7 @@ public class GameEndState : MonoBehaviour {
 		
 
 		if(time > 10){
-			//Application.LoadLevel(5);
+			Application.LoadLevel(5);
 		}
 	}
 	

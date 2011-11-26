@@ -70,6 +70,8 @@ public class Frame : MonoBehaviour
 
 	protected virtual void callHandler(InteractionEvent interaction, ActionEvent action) {
 		foreach (Frame b in directChildren) {
+			if(b == null)
+				continue;
 			if (b.checkMouseOverElement()) {
 				if (action != null) {
 					action(b);					

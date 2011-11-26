@@ -42,6 +42,8 @@ public sealed class PlayerBehaviour : EntityBehaviour
 	
 	protected override void StartOverride(){
 		updateCloth();
+		//this.audio.clip = OtherSound;
+		//this.audio.Play();
 	}
 	public bool IsDead {
 		get {return Life < 1;}
@@ -52,7 +54,9 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		changeHat();
 		changeSkin();
 		
-		gameObject.animation.PlayQueued("happy");
+		audio.clip = this.AttackSound;
+		audio.Play();
+		gameObject.animation.Play("happy");
 		gameObject.animation.PlayQueued("show01");
 	}
 	private void changeHat(){

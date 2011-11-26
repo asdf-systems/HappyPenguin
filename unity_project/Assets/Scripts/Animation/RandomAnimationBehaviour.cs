@@ -8,6 +8,7 @@ public class RandomAnimationBehaviour : MonoBehaviour {
 	public string[] animations;
 	// Zahlen von 0 - 100 ist die gezogene Zahl > der Range und kleiner der nächsten wird die anim gespielt
 	public int[] animationsProbabilityRange;
+	public AudioClip[] soundForAnimation;
 	private AnimationState currentAnim;
 	private float targetTime;
 	private Animation animationObject;
@@ -53,6 +54,12 @@ public class RandomAnimationBehaviour : MonoBehaviour {
 		
 		lastanimation = animations[index];
 		animationObject.Play(lastanimation);
+		if(index < soundForAnimation.Length &&  soundForAnimation[index] != null){
+			if(this.audio != null){
+				this.audio.clip = soundForAnimation[index];
+				this.audio.Play();
+			}
+		}
 		
 		
 	}

@@ -9,6 +9,7 @@ namespace Pux.Effects
 		public override void Start (GameWorldBehaviour world)
 		{
 			RenderSettings.ambientLight = new Color(0.2f,0.2f,0.2f,0.7f);
+			world.IngameSounds.PlayBaddySound();
 		}
 		
 		public override void Update (GameWorldBehaviour world)
