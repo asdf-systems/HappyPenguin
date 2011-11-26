@@ -15,36 +15,60 @@ public class CreditsState : MonoBehaviour {
 	
 	// Use this for initialization
 	void Start () {
-		time = 0.0f;
+		/*time = 0.0f;
+		flag = true;*/
 		texts = new List<string>();
+		textElement.Text = string.Empty;
 		InitCredits();
-		flag = true;
+		
+		foreach(var s in texts){
+			textElement.Text +=s;	
+		}
+		
 	}
 	
 	void InitCredits(){
 		currentText = 0;
-		texts.Add("");		
-		texts.Add("Alexander Surma - Programming");
-		texts.Add("");
-		texts.Add("Alexander Wieser - Programming");
-		texts.Add("");
-		texts.Add("Christian Schmiedl - Sound");
-		texts.Add("");
-		texts.Add("Friedrich Wessel - 3d and Animation");
-		texts.Add("");
-		texts.Add("Sebastian Vollmar - Design");
-		texts.Add("");
-		texts.Add("Fabian Reif - Marketing");
-		texts.Add("");
-		texts.Add("Philipp Laemmel - Trainee");
-		texts.Add("");
-		texts.Add("Felix Dietz - Trainee");
+		texts.Add("Programming");
+		texts.Add("\n");
+		texts.Add("    Alexander Wieser");
+		texts.Add("\n");
+		texts.Add("    Alexander Surma");
+		texts.Add("\n");
+		texts.Add("\n");
+		texts.Add("Sound");
+		texts.Add("\n");
+		texts.Add("    Christian Schmiedl");
+		texts.Add("\n");
+		texts.Add("\n");
+		texts.Add("3d and Animation");
+		texts.Add("\n");
+		texts.Add("    Friedrich Wessel");
+		texts.Add("\n");
+		texts.Add("\n");
+		texts.Add("Design");
+		texts.Add("\n");
+		texts.Add("    Sebastian Vollmar");
+		texts.Add("\n");
+		texts.Add("    Marco Ehrensberger");
+		texts.Add("\n");
+		texts.Add("\n");
+		texts.Add("Marketing");
+		texts.Add("\n");
+		texts.Add("    Fabian Reif");
+		texts.Add("\n");
+		texts.Add("\n");
+		texts.Add("Trainees");
+		texts.Add("\n");
+		texts.Add("    Philipp Laemmel");
+		texts.Add("\n");
+		texts.Add("    Felix Dietz");
 		
 	}
 	// Update is called once per frame
 	void Update () {
 		
-		time+= Time.deltaTime;
+		/*time+= Time.deltaTime;
 		//EditorDebug.Log("Update GameEndState, Time: " + time);
 		if(time > 3 && flag){
 			if(texts[currentText] == ""){
@@ -60,6 +84,6 @@ public class CreditsState : MonoBehaviour {
 			time = 0;
 		} else if(!flag){
 			Application.LoadLevel(1);
-		}
+		}*/
 	}
 }

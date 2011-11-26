@@ -58,10 +58,9 @@ public class TextPanel : Panel {
 	private void formatText(){
 		if(activeScreen.DebugModus)
 			initTextRegion();
-		textStyle.fontSize = targetFontSize;
+		//textStyle.fontSize = targetFontSize;
 #if UNITY_IPHONE || UNITY_ANDROID
 		changeFontForMobile();
-		
 #elif UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_WEBPLAYER
 		textStyle.fontSize = CameraScreen.GetPhysicalTextSize(textStyle.fontSize);
 #endif
@@ -79,10 +78,10 @@ public class TextPanel : Panel {
 	
 	private void changeFontForMobile(){
 		int index = 0;
-		int size = textStyle.fontSize;
-		int targetFontSize = CameraScreen.GetPhysicalTextSize(size);
+		int size = targetFontSize;
+		int fontSize = CameraScreen.GetPhysicalTextSize(size);
 		foreach(int step in ScreenConfig.Instance.FontSizes){
-			if(step >= targetFontSize){
+			if(step >= fontSize){
 				break;
 			}
 			index++;
