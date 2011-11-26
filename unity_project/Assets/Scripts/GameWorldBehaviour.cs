@@ -284,7 +284,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 		target.TargetHit += (sender, e) => { effectManager.RegisterEffects(target.HitEffects); };
 		
-		if (!entityManager.Player.animation.IsPlaying("throw")) {
+		if (!entityManager.Player.IsPlaying("throw")) {
 			entityManager.Player.PlayAnimation("throw");	
 		}
 		entityManager.ReleaseSymbolChain(target);

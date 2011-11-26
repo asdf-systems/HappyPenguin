@@ -10,10 +10,16 @@ public class AlertTextPanel : TextPanel {
 	
 	protected bool textShow = false;
 	public Timer timer1{
-		get;
-		private set;
+		get{
+			return timer;
+		}
+		private set{
+			timer = value;
+		}
 		
 	}
+	
+	private Timer timer;
 	
 	void Awake(){
 		AwakeOverride();

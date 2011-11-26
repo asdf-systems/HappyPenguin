@@ -62,6 +62,11 @@ namespace Pux.Entities
 			entity.PlayAnimation(name, false);
 			return entity;
 		}
+		
+		public static bool IsPlaying(this EntityBehaviour entity, string name){
+			var animation = entity.FindAnimationBehaviour();
+			return animation.IsPlaying(name);
+		}
 
 		public static EntityBehaviour SwimTo(this EntityBehaviour entity, Vector3 target) {
 			entity.DequeueController("move");

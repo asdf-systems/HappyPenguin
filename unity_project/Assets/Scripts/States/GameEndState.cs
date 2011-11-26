@@ -15,7 +15,7 @@ public class GameEndState : MonoBehaviour {
 	private bool timeFreeze = false;
 	
 	void Awake(){
-		//EditorDebug.LogWarning("Points fix for testing!!!");	GameStatics.Points = 1004;
+		//EditorDebug.LogWarning("Points fix for testing!!!");	GameStatics.Points = 1010;
 	}
 	// Use this for initialization
 	void Start () {
@@ -28,7 +28,6 @@ public class GameEndState : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(firstCheck){
-			
 			checkHighscore();
 			firstCheck = false;
 		}
@@ -37,7 +36,7 @@ public class GameEndState : MonoBehaviour {
 		
 
 		if(time > 10){
-			Application.LoadLevel(5);
+			//Application.LoadLevel(5);
 		}
 	}
 	
@@ -45,16 +44,15 @@ public class GameEndState : MonoBehaviour {
 		timeFreeze = false;
 		nextButton.Visibility = true;
 		int points = Convert.ToInt32(GameStatics.Points);
-		addEntry(getUsername(), points);
+		string username = GameStatics.Username;
+		addEntry(username, points);
 	}
-	private string getUsername(){
+	private void getUsernameFromUser(){
 		string username = GameStatics.Username;
 		EditorDebug.LogError("Username: " + username);
 		nameAlert.ShowText(username);
 		okayButton.Visibility = true;
-		nextButton.Visibility = false;
 		timeFreeze = true;
-		return username;
 	}
 	
 	private void checkHighscore(){
@@ -66,14 +64,7 @@ public class GameEndState : MonoBehaviour {
 		
 	}
 	
-	private void checkUsername(){
-		string uname = getUsername();
-		int points = Convert.ToInt32(GameStatics.Points);
-		if(uname != GameStatics.UsernameDefault){
-			addEntry(uname, points);
-		}
-	}
-	
+
 	private void checkForNewHighscore(Entry[] data){
 		
 	 	int position = 1;
@@ -83,6 +74,7 @@ public class GameEndState : MonoBehaviour {
 			position++;
 		}
 		if(position < 4){
+			nextButton.Visibility = false;
 			alertElement.ShowText("New Highscore!!\n Position: " + position); //, 8, new Vector2(alertElement.positionX, alertElement.positionY));
 			GameStatics.PersonalHighscore = GameStatics.Points;
 			alertElement.timer1.TimerFinished += OnHighscoreTimerFinished;
@@ -96,7 +88,7 @@ public class GameEndState : MonoBehaviour {
 	}
 
 	void OnHighscoreTimerFinished(object sender, EventArgs e){
-		checkUsername();
+		getUsernameFromUser();
 	}
 	
 	private void checkPersonalHighscore(){
