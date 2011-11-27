@@ -38,7 +38,7 @@ public class Timer {
 	
 	public void StartTimer(float timeInSeconds){
 		StopTimer();
-		TimeBehaviour.Instance.AddTimer(this);
+		//TimeBehaviour.Instance.AddTimer(this);
 		maxTime = timeInSeconds;
 		run = true;
 	}
@@ -50,7 +50,7 @@ public class Timer {
 	public void StopTimer(){
 		currentTime = 0;
 		run = false;
-		TimeBehaviour.Instance.RemoveTimer(this);
+		//TimeBehaviour.Instance.RemoveTimer(this);
 	}
 	
 	private void init(){
