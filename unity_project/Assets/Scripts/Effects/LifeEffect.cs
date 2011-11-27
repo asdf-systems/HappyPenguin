@@ -23,7 +23,7 @@ namespace Pux.Effects
 		
 		public override string Description {
 			get {
-				return "more fishies";
+				return "Life +1";
 			}
 		}
 	}

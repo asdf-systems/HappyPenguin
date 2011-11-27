@@ -17,7 +17,7 @@ namespace Pux.Effects
 		
 		public override string Description {
 			get {
-				return "it puts the lotion in the basket";
+				return "Boo!!";
 			}
 		}
 

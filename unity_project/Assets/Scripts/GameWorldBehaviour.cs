@@ -90,11 +90,17 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 	private void InitCreatureNodes() {
+		var attackNode = GameObject.FindWithTag("attack_node");
+		if (attackNode == null) {
+			throw new ApplicationException("attack node not found");
+		}
+		GameObjectRegistry.RegisterObject("attack_node", attackNode);
+		
 		var creatureSpawn = GameObject.FindWithTag("creature_spawn");
 		
 		var patrol = creatureSpawn.GetComponent<PatrolBehaviour>();
-		patrol.PatrolPositions.Add(new Vector3(-200, -0.9f, 200));
-		patrol.PatrolPositions.Add(new Vector3(-200, -0.9f, -140));
+		patrol.PatrolPositions.Add(new Vector3(-370, -0.9f, 54));
+		patrol.PatrolPositions.Add(new Vector3(-40, -0.9f, 270));
 		patrol.IsActive = true;
 		
 		if (creatureSpawn == null) {
@@ -287,7 +293,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		if (!entityManager.Player.animation.IsPlaying("throw")) {
 			entityManager.Player.PlayAnimation("throw");	
 		}
-		entityManager.ReleaseSymbolChain(target);
+		
 		entityManager.ThrowSnowball(target, SnowballSpeedModifier);
 	}
 
@@ -359,9 +365,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 	}
 
-	public void ChangePlayerPoints(float pointsChange) {
-		EditorDebug.Log("Get Points: " + pointsChange);
-		entityManager.Player.Points += pointsChange;
+	public void ChangePlayerPoints(float change) {
+		EditorDebug.Log("Get Points: " + change);
+		
+		var points = change * PointsMultiplier;
+		
+		entityManager.Player.Points += points;
 		guiManager.DisplayPoints(entityManager.Player.Points);
 		GameStatics.Points = entityManager.Player.Points;
 	}

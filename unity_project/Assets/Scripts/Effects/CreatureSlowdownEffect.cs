@@ -24,6 +24,12 @@ namespace Pux.Effects
 			Duration = TimeSpan.FromSeconds(4);
 			IconResourceKey = "UI/EffectIcons/slow_creature";
 		}
+		
+		public override string Description {
+			get {
+				return "Bullet Time!";
+			}
+		}
 	}
 }
 
