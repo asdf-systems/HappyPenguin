@@ -5,7 +5,10 @@ public class ScreenConfig : MonoBehaviour {
 
 	public int TargetScreenWidth = 960;
 	public int TargetScreenHeight = 640;
-	public float ScreenAspect = 1.0f;
+	public float ScreenAspect{
+		get;
+		private set;
+	} 
 	public int[] FontSizes;
 	public Font[] Fonts;
 	
@@ -16,6 +19,7 @@ public class ScreenConfig : MonoBehaviour {
 	
 	void Awake(){
 		Instance = this;
+		ScreenAspect = (float)TargetScreenWidth / (float)TargetScreenHeight;
 	}
 	
 	

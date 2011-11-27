@@ -72,8 +72,24 @@ public class CameraScreen : Frame {
 	
 	private static Vector2 getFactor(){
 		// Get the right Hight and Width proportional to screen
-		float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
-		float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
+		float rightAspectHeight = Screen.height;
+		float rightAspectWidth = Screen.width;
+		float aspectRatio = (float)(Screen.width) / Screen.height;
+		if(aspectRatio < ScreenConfig.Instance.ScreenAspect){
+			rightAspectHeight = (float)(Screen.width) / ScreenConfig.Instance.ScreenAspect;	
+		} else{
+			
+			rightAspectWidth = (float)(Screen.height) * ScreenConfig.Instance.ScreenAspect;
+			EditorDebug.Log("rightAspectWidth: " + rightAspectWidth);
+		}
+		
+		//EditorDebug.Log("Aspect: " + ScreenConfig.Instance.ScreenAspect);
+		//EditorDebug.Log("RightAspectHeight: " + rightAspectHeight);
+		//float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
+		float factorY = rightAspectHeight / (float)(ScreenConfig.Instance.TargetScreenHeight);
+		//float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
+		float factorX = rightAspectWidth / (float)(ScreenConfig.Instance.TargetScreenWidth);
+		//float factorY = factorX * ScreenConfig.Instance.ScreenAspect;
 		return new Vector2(factorX, factorY);
 	}
 	
@@ -161,11 +177,13 @@ public class CameraScreen : Frame {
 		return screenPosition;
 	}*/
 	public static Vector2 PhysicalToVirtualScreenPosition(Vector2 screenPosition){
-		float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
-		float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
+		//float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
+		var factor = getFactor();
+		//float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
+		//float factorY = factorX / ScreenConfig.Instance.ScreenAspect;
 		screenPosition.y = Screen.height - screenPosition.y;
-		screenPosition.x /= factorX;
-		screenPosition.y /= factorY;
+		screenPosition.x /= factor.x;
+		screenPosition.y /= factor.y;
 		return screenPosition;
 	}
 	
