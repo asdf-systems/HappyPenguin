@@ -36,6 +36,9 @@ public class Control : Panel {
 	public override bool checkMouseOverElement(){
 		if(ShowActiveRegion)
 			initActiveRegion();
+		if(!this.Visibility)
+			return false;
+		
 		Rect t = new Rect(VirtualRegionOnScreen.x+ ActiveRegion.x, 
 		                          VirtualRegionOnScreen.y + ActiveRegion.y, ActiveRegion.width, ActiveRegion.height);
 		return CameraScreen.cursorInside(t);
