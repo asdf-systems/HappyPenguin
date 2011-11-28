@@ -37,12 +37,14 @@ public class CameraScreen : Frame {
 	}
 	
 	void Start(){
+		StartOverride();
+	}
+	
+	protected override void StartOverride(){
+		base.StartOverride();
 		CreateElement();
-		//CalculatePhysicalRegion();
+		
 		initEvents();
-		//LayoutElement();
-		
-		
 	}
 	
 	private void initEvents(){
@@ -69,31 +71,27 @@ public class CameraScreen : Frame {
 	}
 #endif	
 	
-	
-	private static Vector2 getFactor(){
+	public override void UpdateElement(){
+		this.RealRegionOnScreen = GetPhysicalRegionFromRect(VirtualRegionOnScreen,false);
+	}
+	private static Vector2 getFactor(bool withAspect = true){
 		// Get the right Hight and Width proportional to screen
 		float rightAspectHeight = Screen.height;
 		float rightAspectWidth = Screen.width;
 		float aspectRatio = (float)(Screen.width) / Screen.height;
-		if(aspectRatio < ScreenConfig.Instance.ScreenAspect){
+		if(withAspect && aspectRatio < ScreenConfig.Instance.ScreenAspect){
 			rightAspectHeight = (float)(Screen.width) / ScreenConfig.Instance.ScreenAspect;	
-		} else{
-
+		} else if(withAspect && aspectRatio > ScreenConfig.Instance.ScreenAspect){
 			rightAspectWidth = (float)(Screen.height) * ScreenConfig.Instance.ScreenAspect;
 		}
 		
-		//EditorDebug.Log("Aspect: " + ScreenConfig.Instance.ScreenAspect);
-		//EditorDebug.Log("RightAspectHeight: " + rightAspectHeight);
-		//float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
 		float factorY = rightAspectHeight / (float)(ScreenConfig.Instance.TargetScreenHeight);
-		//float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
 		float factorX = rightAspectWidth / (float)(ScreenConfig.Instance.TargetScreenWidth);
-		//float factorY = factorX * ScreenConfig.Instance.ScreenAspect;
 		return new Vector2(factorX, factorY);
 	}
 	
 	
-	public Rect GetPhysicalRegionFromRect(Rect rect){
+	public Rect GetPhysicalRegionFromRect(Rect rect, bool withAspect = true){
 		Rect camPosition = ScreenCamera.pixelRect;
 		// Move Camera is needed for Splitscreen
 		if(((int)ScreenCamera.pixelHeight) != Screen.height){
@@ -101,65 +99,16 @@ public class CameraScreen : Frame {
 			camPosition.y = ScreenCamera.pixelHeight - camPosition.y;
 		}
 		
-		Vector2 factor = getFactor();
+		Vector2 factor = getFactor(withAspect);
 		Vector2 newPosition = new Vector2((camPosition.x+rect.x)*factor.x, (camPosition.y +  rect.y)*factor.y);
 		Vector2 newSize = new Vector2(rect.width*factor.x,rect.height*factor.y);
 		
 		return new Rect (  newPosition.x, newPosition.y, newSize.x, newSize.y );
 	} 
 	
-	public Vector2 GetFloatingPosition(Panel panel){
-		var ret = new Vector2(0,0);
-		var horizontalFloat = panel.horizontalFloat;
-		var verticalFloat = panel.verticalFloat;
-		ret.y = getVerticalFloatPosition(verticalFloat, panel);
-		ret.x = getHorizontalFloatPosition(horizontalFloat, panel);
-		
-		return ret;
-	}
 	
-	private float getVerticalFloatPosition(Panel.VerticalFloatPositions floatValue, Panel panel){
-		float ret = panel.RealRegionOnScreen.y;
-		switch(floatValue){
-			case Panel.VerticalFloatPositions.none:
-			break;
-			case Panel.VerticalFloatPositions.top:
-				ret =  0.0f;
-			break;
-			case Panel.VerticalFloatPositions.bottom:
-				ret =  (Screen.height - panel.RealRegionOnScreen.height);
-			break;
-			case Panel.VerticalFloatPositions.center:
-				ret =  (Screen.height/2 - panel.RealRegionOnScreen.height/2);
-			break;
-			default:
-				EditorDebug.LogError("Unknown VerticalPosition: " + floatValue);
-			break;
-		}
-		return ret;
-	}
 	
-	private float getHorizontalFloatPosition(Panel.HorizontalFloatPositions floatValue, Panel panel){
-		float ret = panel.RealRegionOnScreen.x;
-		switch(floatValue){
-			case Panel.HorizontalFloatPositions.none:
-			break;
-			case Panel.HorizontalFloatPositions.left:
-				ret = 0.0f;
-			break;
-			case Panel.HorizontalFloatPositions.right:
-				ret = (Screen.width - panel.RealRegionOnScreen.width);
-			break;
-			case Panel.HorizontalFloatPositions.center:
-				ret = (Screen.width/2 - panel.RealRegionOnScreen.width/2);
-			break;
-			default:
-				EditorDebug.LogError("Unknown HorizontalPosition: " + floatValue);
-			break;
-			
-		}
-		return ret;
-	}
+	
 	
 	public static int GetPhysicalTextSize(int size) {
 		Vector2 factor = getFactor();

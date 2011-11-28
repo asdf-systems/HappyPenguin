@@ -6,9 +6,31 @@ using Pux.Controllers;
 
 public class Frame : MonoBehaviour
 {
-	protected List<Panel> directChildren;
+	protected List<Frame> directChildren;
 	protected delegate void InteractionEvent(InteractionBehaviour ib);
 	protected delegate void ActionEvent(Frame b);
+	
+	public enum HorizontalFloatPositions {left, right,center, none}
+	public enum VerticalFloatPositions {top, bottom,center, none}
+	
+	public Rect VirtualRegionOnScreen; 
+	protected Rect originalVirtualRegionOnScreen;
+	
+	public VerticalFloatPositions verticalFloat = Panel.VerticalFloatPositions.none;
+	public HorizontalFloatPositions horizontalFloat = Panel.HorizontalFloatPositions.none;
+	
+	public bool FullscreenElement = false;
+	public CameraScreen activeScreen{
+		get;
+		protected set;
+	}
+	
+	public Rect RealRegionOnScreen{
+		get;
+		set;
+	}
+	
+	protected Frame parent;
 
 	// DONT USE THIS!
 	void Awake() {
@@ -17,11 +39,28 @@ public class Frame : MonoBehaviour
 
 	// Use this for initialization
 	protected virtual void AwakeOverride() {
+		activeScreen = CameraScreen.GetScreenForObject(this.gameObject);
+		
+		if(gameObject.transform.parent == null)
+			parent = this;
+		else
+			parent = gameObject.transform.parent.GetComponent<Frame>() as Frame;
+		if(FullscreenElement){
+			VirtualRegionOnScreen.width = ScreenConfig.Instance.TargetScreenWidth;//Screen.width;
+			VirtualRegionOnScreen.height = ScreenConfig.Instance.TargetScreenHeight;//Screen.height;
+		}
+		
+		originalVirtualRegionOnScreen = VirtualRegionOnScreen;
+		
 		initDirectChildren();
+		
 	}
 
 	void Start() {
-		
+		StartOverride();
+	}
+	
+	protected virtual void StartOverride(){
 	}
 	
 	// Update is called once per frame
@@ -97,16 +136,92 @@ public class Frame : MonoBehaviour
 	}
 	
 	public virtual void UpdateElement(){
+		
+		//base.UpdateElement();
 		UpdateDirectChildren();
+		
+		
+		this.RealRegionOnScreen = activeScreen.GetPhysicalRegionFromRect(this.VirtualRegionOnScreen);
+		
+		var position = GetFloatingPosition();
+		this.RealRegionOnScreen = new Rect(position.x, position.y, RealRegionOnScreen.width, RealRegionOnScreen.height);
+		UpdateRegionOnScreen();
+		
+		foreach (var frame in directChildren){
+			frame.UpdateElement();
+		}	
+		
+		/*UpdateDirectChildren();
 		foreach (Panel panel in directChildren){
 			panel.UpdateElement();
-		}	
+		}*/	
 	}
 	
+	public virtual void UpdateRegionOnScreen(){
+		
+	}
+	
+	public Vector2 GetFloatingPosition(){
+		var ret = new Vector2(0,0);
+		ret.y = getVerticalFloatPosition();
+		ret.x = getHorizontalFloatPosition();
+		
+		return ret;
+	}
+	
+	private float getVerticalFloatPosition(){
+		float ret = RealRegionOnScreen.y;
+		switch(verticalFloat){
+			case VerticalFloatPositions.none:
+			break;
+			case VerticalFloatPositions.top:
+				ret =  0.0f;
+			break;
+			case VerticalFloatPositions.bottom:
+				ret =  (parent.RealRegionOnScreen.height - this.RealRegionOnScreen.height);
+			break;
+			case VerticalFloatPositions.center:
+				ret =  (parent.RealRegionOnScreen.height/2 - this.RealRegionOnScreen.height/2);
+			break;
+			default:
+				EditorDebug.LogError("Unknown VerticalPosition: " + verticalFloat);
+			break;
+		}
+		return ret;
+	}
+	
+	private float getHorizontalFloatPosition(){
+		float ret = RealRegionOnScreen.x+ parent.RealRegionOnScreen.x;
+		switch(horizontalFloat){
+			case HorizontalFloatPositions.none:
+			break;
+			case HorizontalFloatPositions.left:
+				ret = 0.0f;
+			break;
+			case HorizontalFloatPositions.right:
+				ret = (parent.RealRegionOnScreen.width - this.RealRegionOnScreen.width) + parent.RealRegionOnScreen.x;
+			break;
+			case HorizontalFloatPositions.center:
+				ret = (parent.RealRegionOnScreen.width/2 - this.RealRegionOnScreen.width/2)+ parent.RealRegionOnScreen.x;
+			break;
+			default:
+				EditorDebug.LogError("Unknown HorizontalPosition: " + horizontalFloat);
+			break;
+			
+		}
+		return ret;
+	}
 	public virtual void CreateElement(){
+		
+		RealRegionOnScreen = new Rect(0,0,0,0);
 		UpdateDirectChildren();
-		foreach (Panel panel in directChildren)
-			panel.CreateElement();
+		UpdateElement();
+		foreach (var frame in directChildren){
+			frame.CreateElement();
+		}
+		
+			
+		
 	}
 	
 	public virtual void resetElement(){
@@ -114,11 +229,13 @@ public class Frame : MonoBehaviour
 	}
 	
 	private void initDirectChildren() {
-		directChildren = new List<Panel>();
+		directChildren = new List<Frame>();
 		foreach (Transform child in transform) {
-			var b = child.GetComponent<Panel>();
-			if (b != null)
+			var b = child.GetComponent<Frame>();
+			if (b != null){
 				directChildren.Add(b);
+			}
+				
 		}
 	}
 }

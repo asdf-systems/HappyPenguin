@@ -5,16 +5,12 @@ using Pux.Resources;
 
 public class Panel : Frame {
 
-	public enum HorizontalFloatPositions {left, right,center, none}
-	public enum VerticalFloatPositions {top, bottom,center, none}
 	
-	public Rect VirtualRegionOnScreen; 
 	public LayoutBehaviour Layout;
 	public string help1 = "NOT WORKING LIVE:";
 	public int GUIDepth = 1;
-	public VerticalFloatPositions verticalFloat = Panel.VerticalFloatPositions.none;
-	public HorizontalFloatPositions horizontalFloat = Panel.HorizontalFloatPositions.none;
-	public bool FullscreenElement = false;
+	
+	//public bool FullscreenElement = false;
 	
 	public bool Visibility{
 		get{
@@ -39,13 +35,10 @@ public class Panel : Frame {
 	
 	protected GUIPlane plane;
 
-	public Rect RealRegionOnScreen{
-		get;
-		set;
-	}	
+	
 	protected GUIStyle currentStyle;
 
-	public CameraScreen activeScreen;
+	
 	
 
 	// PROPERTYS
@@ -95,8 +88,8 @@ public class Panel : Frame {
 	// Use this for initialization
 	protected override void AwakeOverride(){
 		base.AwakeOverride();
-		if(!LateCreation)
-			CreateElement();
+		//if(!LateCreation)
+			//CreateElement();
 	}
 	
 
@@ -105,7 +98,8 @@ public class Panel : Frame {
 		
 	}
 	
-	protected virtual void StartOverride(){
+	protected override void StartOverride(){
+		base.StartOverride();
 		UpdateRegionOnScreen();
 	}
 	
@@ -138,33 +132,17 @@ public class Panel : Frame {
 			EditorDebug.Log("Element: "+ gameObject.name + "already created");
 			return;
 		}
-		RealRegionOnScreen = new Rect(0,0,0,0);
-		activeScreen = CameraScreen.GetScreenForObject(this.gameObject);
+
+		
 		this.createGUIElement();
 		created = true;
 		UpdateElement();
 	}
 	
-	public override void UpdateElement(){
-		// we dont call base to avoid double run through all children
-		//base.UpdateElement();
-		UpdateDirectChildren();
-		this.RealRegionOnScreen = activeScreen.GetPhysicalRegionFromRect(this.VirtualRegionOnScreen);
-		var position = activeScreen.GetFloatingPosition(this);
-		this.RealRegionOnScreen = new Rect(position.x, position.y, RealRegionOnScreen.width, RealRegionOnScreen.height);
-		//EditorDebug.LogWarning("Flaoting Position: " + RealRegionOnScreen + " Object: " + gameObject.name);
-		UpdateRegionOnScreen();
-		
-		foreach (Panel panel in directChildren){
-			EditorDebug.LogError("Before: " + panel.VirtualRegionOnScreen + " + " + this.VirtualRegionOnScreen);
-			panel.VirtualRegionOnScreen = panel.VirtualRegionOnScreen.AddPosition(this.VirtualRegionOnScreen);
-			EditorDebug.LogError("After: " + panel.VirtualRegionOnScreen);
-			panel.UpdateElement();
-		}	
 	
-	}
 	
-	public virtual void UpdateRegionOnScreen(){
+	public override void UpdateRegionOnScreen(){
+		base.UpdateRegionOnScreen();
 		if(plane != null)
 			plane.VirtualRegionOnScreen = RealRegionOnScreen;
 		
@@ -216,8 +194,6 @@ public class Panel : Frame {
 	}
 	
 	public override  bool checkMouseOverElement(){
-		if(FullscreenElement)
-			return true;
 		return CameraScreen.cursorInside(RealRegionOnScreen);
 	}
 	
