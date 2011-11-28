@@ -6,7 +6,7 @@ using Pux.Controllers;
 
 public class Frame : MonoBehaviour
 {
-	protected List<Frame> directChildren;
+	protected List<Panel> directChildren;
 	protected delegate void InteractionEvent(InteractionBehaviour ib);
 	protected delegate void ActionEvent(Frame b);
 
@@ -98,15 +98,15 @@ public class Frame : MonoBehaviour
 	
 	public virtual void UpdateElement(){
 		UpdateDirectChildren();
-		foreach (Frame b in directChildren)
-			b.UpdateElement();
-		
+		foreach (Panel panel in directChildren){
+			panel.UpdateElement();
+		}	
 	}
 	
 	public virtual void CreateElement(){
 		UpdateDirectChildren();
-		foreach (Frame b in directChildren)
-			b.CreateElement();
+		foreach (Panel panel in directChildren)
+			panel.CreateElement();
 	}
 	
 	public virtual void resetElement(){
@@ -114,9 +114,9 @@ public class Frame : MonoBehaviour
 	}
 	
 	private void initDirectChildren() {
-		directChildren = new List<Frame>();
+		directChildren = new List<Panel>();
 		foreach (Transform child in transform) {
-			Frame b = child.GetComponent<Frame>();
+			var b = child.GetComponent<Panel>();
 			if (b != null)
 				directChildren.Add(b);
 		}

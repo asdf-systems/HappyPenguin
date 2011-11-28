@@ -78,9 +78,8 @@ public class CameraScreen : Frame {
 		if(aspectRatio < ScreenConfig.Instance.ScreenAspect){
 			rightAspectHeight = (float)(Screen.width) / ScreenConfig.Instance.ScreenAspect;	
 		} else{
-			
+
 			rightAspectWidth = (float)(Screen.height) * ScreenConfig.Instance.ScreenAspect;
-			EditorDebug.Log("rightAspectWidth: " + rightAspectWidth);
 		}
 		
 		//EditorDebug.Log("Aspect: " + ScreenConfig.Instance.ScreenAspect);
@@ -92,6 +91,7 @@ public class CameraScreen : Frame {
 		//float factorY = factorX * ScreenConfig.Instance.ScreenAspect;
 		return new Vector2(factorX, factorY);
 	}
+	
 	
 	public Rect GetPhysicalRegionFromRect(Rect rect){
 		Rect camPosition = ScreenCamera.pixelRect;
@@ -107,6 +107,59 @@ public class CameraScreen : Frame {
 		
 		return new Rect (  newPosition.x, newPosition.y, newSize.x, newSize.y );
 	} 
+	
+	public Vector2 GetFloatingPosition(Panel panel){
+		var ret = new Vector2(0,0);
+		var horizontalFloat = panel.horizontalFloat;
+		var verticalFloat = panel.verticalFloat;
+		ret.y = getVerticalFloatPosition(verticalFloat, panel);
+		ret.x = getHorizontalFloatPosition(horizontalFloat, panel);
+		
+		return ret;
+	}
+	
+	private float getVerticalFloatPosition(Panel.VerticalFloatPositions floatValue, Panel panel){
+		float ret = panel.RealRegionOnScreen.y;
+		switch(floatValue){
+			case Panel.VerticalFloatPositions.none:
+			break;
+			case Panel.VerticalFloatPositions.top:
+				ret =  0.0f;
+			break;
+			case Panel.VerticalFloatPositions.bottom:
+				ret =  (Screen.height - panel.RealRegionOnScreen.height);
+			break;
+			case Panel.VerticalFloatPositions.center:
+				ret =  (Screen.height/2 - panel.RealRegionOnScreen.height/2);
+			break;
+			default:
+				EditorDebug.LogError("Unknown VerticalPosition: " + floatValue);
+			break;
+		}
+		return ret;
+	}
+	
+	private float getHorizontalFloatPosition(Panel.HorizontalFloatPositions floatValue, Panel panel){
+		float ret = panel.RealRegionOnScreen.x;
+		switch(floatValue){
+			case Panel.HorizontalFloatPositions.none:
+			break;
+			case Panel.HorizontalFloatPositions.left:
+				ret = 0.0f;
+			break;
+			case Panel.HorizontalFloatPositions.right:
+				ret = (Screen.width - panel.RealRegionOnScreen.width);
+			break;
+			case Panel.HorizontalFloatPositions.center:
+				ret = (Screen.width/2 - panel.RealRegionOnScreen.width/2);
+			break;
+			default:
+				EditorDebug.LogError("Unknown HorizontalPosition: " + floatValue);
+			break;
+			
+		}
+		return ret;
+	}
 	
 	public static int GetPhysicalTextSize(int size) {
 		Vector2 factor = getFactor();
