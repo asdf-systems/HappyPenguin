@@ -7,12 +7,15 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 	public int FrameSize;
 	public int FramesPerRow;
 	public int RowCount;
+	public int FramesPerTexture;
+	public Texture2D[] Textures;
 	
 	private float frameTime;
 	private int currentFrameNumber;
 	private int frameCount;
 	private int currentRow;
 	private int currentColoum;
+	private int currentTexture;
 	//private int textureSize;
 	
 	// Use this for initialization
@@ -37,6 +40,7 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 		currentFrameNumber = 0;
 		currentRow = 0;
 		currentColoum = 0;
+		currentTexture = 0;
 		frameCount = FramesPerRow * RowCount;
 		
 	}
@@ -73,7 +77,15 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 		}			
 		if(currentRow >= RowCount)
 			currentRow = 0;
+		if(currentFrameNumber%FramesPerTexture == 0){
+			currentTexture++;
+			if(currentTexture >= Textures.Length)
+				currentTexture = 0;
+			renderer.material.SetTexture("_MainTex", Textures[currentTexture]);
+		}
+			
 		
+			
 		
 		//EditorDebug.Log("New UVs: " + newUvs + "Row: " + currentRow + "Coloumn: " + currentColoum);
 		
