@@ -141,6 +141,22 @@ public class CameraScreen : Frame {
 		return (flagX && flagY);
 	}
 	
+	public static bool CursorInsidePhysicalRegion(Vector2 elementPosition, Vector2 elementSize){
+		bool flagX = false;
+		bool flagY = false;
+		
+		Vector2 mouse = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+		if (mouse.x >= elementPosition.x && (mouse.x <= (elementPosition.x + elementSize.x)))
+			flagX = true;
+		if (mouse.y >= elementPosition.y && (mouse.y <= (elementPosition.y + elementSize.y)))
+			flagY = true;
+		return (flagX && flagY);
+	}
+	
+	public static bool CursorInsidePhysicalRegion(Rect physicalRegion){
+		return CursorInsidePhysicalRegion(new Vector2(physicalRegion.x, physicalRegion.y), new Vector2(physicalRegion.width, physicalRegion.height));
+	}
+	
 	
 	public static bool cursorInside(Rect region){
 		return cursorInside(new Vector2(region.x, region.y), new Vector2(region.width, region.height));
