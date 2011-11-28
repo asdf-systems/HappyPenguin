@@ -103,8 +103,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		var creatureSpawn = GameObject.FindWithTag("creature_spawn");
 		
 		var patrol = creatureSpawn.GetComponent<PatrolBehaviour>();
-		patrol.PatrolPositions.Add(new Vector3(-370, -0.9f, 54));
-		patrol.PatrolPositions.Add(new Vector3(-40, -0.9f, 270));
+		patrol.PatrolPositions.Add(new Vector3(-200, -0.9f, 200));
+		patrol.PatrolPositions.Add(new Vector3(-200, -0.9f, -140));
+		//patrol.PatrolPositions.Add(new Vector3(-370, -0.9f, 54));
+		//patrol.PatrolPositions.Add(new Vector3(-40, -0.9f, 270));
 		patrol.IsActive = true;
 		
 		if (creatureSpawn == null) {

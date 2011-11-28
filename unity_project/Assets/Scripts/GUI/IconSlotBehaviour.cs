@@ -8,10 +8,7 @@ public sealed class IconSlotBehaviour : Control
 		
 	}
 	
-	void Awake() {
-		
-	}
-
+	
 	public void Clear() {
 		EditorDebug.LogWarning("Clear IconSlot need to be rewritten for new GUI System");
 		//inactiveStyle.normal.background = null;
