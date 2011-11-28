@@ -2,13 +2,14 @@ using System;
 using Pux.Effects;
 using UnityEngine;
 
-public sealed class IconSlotBehaviour : Panel
+public sealed class IconSlotBehaviour : Control
 {
 	public IconSlotBehaviour() {
 		
 	}
 	
-	void Awake(){
+	void Awake() {
+		
 	}
 
 	public void Clear() {

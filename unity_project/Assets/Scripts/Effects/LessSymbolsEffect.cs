@@ -30,7 +30,7 @@ namespace Pux.Effects
 		
 		public override string Description {
 			get {
-				return "fishies gettin' weak";
+				return "Less Symbols";
 			}
 		}
 	}

@@ -33,7 +33,7 @@ namespace Pux.Effects
 		
 		public override string Description {
 			get {
-				return _multiplier > 2 ? "double blings" : "tripple blings";
+				return _multiplier > 2 ? "Points x2" : "Points x3";
 			}
 		}
 	}

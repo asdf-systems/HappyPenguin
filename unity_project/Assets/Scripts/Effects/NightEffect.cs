@@ -24,7 +24,7 @@ namespace Pux.Effects
 		
 		public override string Description {
 			get {
-				return "dont be afraid in the dark";
+				return "Darkness ...";
 			}
 		}
 		

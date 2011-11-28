@@ -27,7 +27,7 @@ namespace Pux.Effects
 		
 		public override string Description {
 			get {
-				return "super speed ballz";
+				return "Ball Speed x2";
 			}
 		}
 	}

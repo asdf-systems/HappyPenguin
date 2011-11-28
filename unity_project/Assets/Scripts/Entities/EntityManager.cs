@@ -37,12 +37,13 @@ namespace Pux.Entities
 			snowball.Speed *= speedMutiplier;
 			target.TargetHit += OnTargetHit;
 			snowball.DedicatedTarget = target;
-			LaunchSnowball(snowball, target);
+			LaunchSnowball(snowball, target, speedMutiplier);
 		}
 
 		private void OnTargetHit(object sender, BehaviourEventArgs<SnowballBehaviour> e) {
 			var target = sender as TargetableEntityBehaviour;
 			target.TargetHit -= OnTargetHit;
+			ReleaseSymbolChain(target);
 			target.ClearControllers();
 			
 			// die, snowball, die
@@ -51,7 +52,7 @@ namespace Pux.Entities
 			InvokeEffectsReleased(target.HitEffects);
 		}
 
-		private void LaunchSnowball(SnowballBehaviour snowball, TargetableEntityBehaviour target) {
+		private void LaunchSnowball(SnowballBehaviour snowball, TargetableEntityBehaviour target, float speedMultiplier) {
 			//creature got disposed while throwing
 			if (target == null) {
 				snowball.Dispose();
@@ -60,7 +61,7 @@ namespace Pux.Entities
 			
 			var root = GameObjectRegistry.GetObject("entity_root");
 			snowball.transform.parent = root.transform;
-			snowball.Speed = 700;
+			snowball.Speed = 350 * speedMultiplier;
 			snowball.Throw(target.gameObject);
 			snowball.IsReleased = true;
 		}
@@ -151,7 +152,9 @@ namespace Pux.Entities
 				throw new ApplicationException(string.Format("Could not create creature of type '{0}'", type));
 			}
 			creature.GrimReaperAppeared += (sender, e) => VoidTargetable(creature);
-			creature.SwimTo(Player.gameObject.transform.position).Float();
+			
+			var target = GameObjectRegistry.GetObject("attack_node");
+			creature.SwimTo(target.transform.position).Float();
 			
 			
 			if (type == CreatureTypes.Blowfish) {
