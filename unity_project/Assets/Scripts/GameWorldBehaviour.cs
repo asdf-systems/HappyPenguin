@@ -59,6 +59,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	void Start() {
 		InitUI();
 		PointsMultiplier = 1;
+		SnowballSpeedModifier = 1;
 	}
 
 
