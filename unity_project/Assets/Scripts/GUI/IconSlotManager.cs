@@ -20,17 +20,15 @@ namespace Pux.UI
 			_iconSlots.AddRange(slots.Select(x => x.GetComponent<IconSlotBehaviour>()));
 		}
 		
-		public void DisplayEffect(Effect effect)
-		{
-			EditorDebug.LogWarning("DisplayEffect needs to be implemented again");
+		public void DisplayEffect(Effect effect){
+
 			var slot = FindLeftestEmptySlot();
 			slot.DisplayEffect(effect);
 			
 		}
 		
-		public void HideEffect(Effect effect)
-		{
-			EditorDebug.LogWarning("HideEffect needs to be implemented again");
+		public void HideEffect(Effect effect){
+		
 			// make copy
 			var effects = new List<Effect>();
 			effects.AddRange(_iconSlots.Where(x => x.IsOccupied).Select(x => x.ActiveEffect));
