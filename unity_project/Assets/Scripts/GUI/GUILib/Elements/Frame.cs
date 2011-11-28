@@ -174,7 +174,7 @@ public class Frame : MonoBehaviour
 	}
 	
 	private float getVerticalFloatPosition(){
-		float ret = RealRegionOnScreen.y;
+		float ret = RealRegionOnScreen.y + parent.RealRegionOnScreen.y;
 		switch(verticalFloat){
 			case VerticalFloatPositions.none:
 			break;
@@ -182,10 +182,10 @@ public class Frame : MonoBehaviour
 				ret =  0.0f;
 			break;
 			case VerticalFloatPositions.bottom:
-				ret =  (parent.RealRegionOnScreen.height - this.RealRegionOnScreen.height);
+				ret =  (parent.RealRegionOnScreen.height - this.RealRegionOnScreen.height) + parent.RealRegionOnScreen.y;
 			break;
 			case VerticalFloatPositions.center:
-				ret =  (parent.RealRegionOnScreen.height/2 - this.RealRegionOnScreen.height/2);
+				ret =  (parent.RealRegionOnScreen.height/2 - this.RealRegionOnScreen.height/2) + parent.RealRegionOnScreen.y;
 			break;
 			default:
 				EditorDebug.LogError("Unknown VerticalPosition: " + verticalFloat);

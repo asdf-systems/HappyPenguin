@@ -51,7 +51,7 @@ public class SymbolChainDisplay: Panel{
 			EditorDebug.LogError("Sign " + symbol + " is unkown");
 		else{ 
 			symbols.Add(sign);		
-			sign.transform.parent = activeScreen.transform;
+			sign.transform.parent = this.transform;
 			sign.CreateElement();
 			updateSymbolChain();
 			activeScreen.UpdateElement(); // Update Screeen because of new Objects
@@ -75,7 +75,7 @@ public class SymbolChainDisplay: Panel{
 		for(int i = 0; i < symbols.Count; i++){
 			var panel = symbols[i];
 			panel.VirtualRegionOnScreen = new Rect (signPosX,SignRegion.y+ VirtualRegionOnScreen.y,SignRegion.width,SignRegion.height);
-			panel.UpdateRegionOnScreen();
+			panel.UpdateElement();
 			signPosX += signPosXStep;
 			
 		}
