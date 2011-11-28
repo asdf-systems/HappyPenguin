@@ -29,7 +29,7 @@ public class GUIManager : MonoBehaviour {
 	private string symbolChain;
 	private Time textTimer;
 	private int poorMansBarrier;
-	
+	private bool firstUpdate = true;
 	public float ButtonSlideDistance {
 		get;
 		set;
@@ -58,6 +58,10 @@ public class GUIManager : MonoBehaviour {
 	}
 	
 	private void Update(){
+		if(firstUpdate){
+			HideExtraButtons();
+			firstUpdate = false;
+		}
 		if (needFrameUpdateCalls) {
 			buttonC.UpdateElement();
 			buttonE.UpdateElement();
@@ -74,6 +78,10 @@ public class GUIManager : MonoBehaviour {
 	}
 	
 	void Start(){
+		HideExtraButtons();
+	}
+	
+	public void HideExtraButtons(){
 		ResumeGameButton.Visibility = false;
 		CancelGameButton.Visibility = false;
 	}

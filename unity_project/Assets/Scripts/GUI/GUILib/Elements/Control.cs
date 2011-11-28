@@ -13,7 +13,7 @@ public class Control : Panel {
 	}
 	protected override void AwakeOverride(){
 		base.AwakeOverride();
-		initActiveRegion();
+		
 	}
 	
 	void Start () {
@@ -33,19 +33,31 @@ public class Control : Panel {
 #endif 
 	}
 	
+	public override void CreateElement (){
+		base.CreateElement ();
+		initActiveRegion();
+	}
 	public override bool checkMouseOverElement(){
 		if(ShowActiveRegion)
 			initActiveRegion();
-		Rect t = new Rect(VirtualRegionOnScreen.x+ ActiveRegion.x, 
-		                          VirtualRegionOnScreen.y + ActiveRegion.y, ActiveRegion.width, ActiveRegion.height);
-		return CameraScreen.cursorInside(t);
+		if(!this.Visibility)
+			return false;
+		
+		//Rect t = new Rect(VirtualRegionOnScreen.x+ ActiveRegion.x, 
+	//	                          VirtualRegionOnScreen.y + ActiveRegion.y, ActiveRegion.width, ActiveRegion.height);
+		
+		return CameraScreen.CursorInsidePhysicalRegion(realActiveRegion);
 	}
 	
 	// Caclulate the Absolute Values on the physical screen - because ActiveRegion is virtual an relative to the Control Position
 	private void initActiveRegion(){
-		realActiveRegion = new Rect(VirtualRegionOnScreen.x+ ActiveRegion.x, 
+		var activeRegion = activeScreen.GetPhysicalRegionFromRect(ActiveRegion);
+		realActiveRegion = new Rect(RealRegionOnScreen.x + activeRegion.x , RealRegionOnScreen.y + activeRegion.y, activeRegion.width, activeRegion.height);
+		/*realActiveRegion = new Rect(VirtualRegionOnScreen.x+ ActiveRegion.x, 
 		                            VirtualRegionOnScreen.y + ActiveRegion.y, ActiveRegion.width, ActiveRegion.height);
 		realActiveRegion = activeScreen.GetPhysicalRegionFromRect(realActiveRegion);
+		var position = activeScreen.GetFloatingPosition();
+		realActiveRegion = new Rect(position.x, position.y, RealRegionOnScreen.width, RealRegionOnScreen.height);*/
 	}
 
 }

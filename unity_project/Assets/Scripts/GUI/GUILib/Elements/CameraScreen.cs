@@ -37,12 +37,14 @@ public class CameraScreen : Frame {
 	}
 	
 	void Start(){
+		StartOverride();
+	}
+	
+	protected override void StartOverride(){
+		base.StartOverride();
 		CreateElement();
-		//CalculatePhysicalRegion();
+		
 		initEvents();
-		//LayoutElement();
-		
-		
 	}
 	
 	private void initEvents(){
@@ -69,15 +71,27 @@ public class CameraScreen : Frame {
 	}
 #endif	
 	
-	
-	private static Vector2 getFactor(){
+	public override void UpdateElement(){
+		this.RealRegionOnScreen = GetPhysicalRegionFromRect(VirtualRegionOnScreen,false);
+	}
+	private static Vector2 getFactor(bool withAspect = true){
 		// Get the right Hight and Width proportional to screen
-		float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
-		float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
+		float rightAspectHeight = Screen.height;
+		float rightAspectWidth = Screen.width;
+		float aspectRatio = (float)(Screen.width) / Screen.height;
+		if(withAspect && aspectRatio < ScreenConfig.Instance.ScreenAspect){
+			rightAspectHeight = (float)(Screen.width) / ScreenConfig.Instance.ScreenAspect;	
+		} else if(withAspect && aspectRatio > ScreenConfig.Instance.ScreenAspect){
+			rightAspectWidth = (float)(Screen.height) * ScreenConfig.Instance.ScreenAspect;
+		}
+		
+		float factorY = rightAspectHeight / (float)(ScreenConfig.Instance.TargetScreenHeight);
+		float factorX = rightAspectWidth / (float)(ScreenConfig.Instance.TargetScreenWidth);
 		return new Vector2(factorX, factorY);
 	}
 	
-	public Rect GetPhysicalRegionFromRect(Rect rect){
+	
+	public Rect GetPhysicalRegionFromRect(Rect rect, bool withAspect = true){
 		Rect camPosition = ScreenCamera.pixelRect;
 		// Move Camera is needed for Splitscreen
 		if(((int)ScreenCamera.pixelHeight) != Screen.height){
@@ -85,12 +99,16 @@ public class CameraScreen : Frame {
 			camPosition.y = ScreenCamera.pixelHeight - camPosition.y;
 		}
 		
-		Vector2 factor = getFactor();
+		Vector2 factor = getFactor(withAspect);
 		Vector2 newPosition = new Vector2((camPosition.x+rect.x)*factor.x, (camPosition.y +  rect.y)*factor.y);
 		Vector2 newSize = new Vector2(rect.width*factor.x,rect.height*factor.y);
 		
 		return new Rect (  newPosition.x, newPosition.y, newSize.x, newSize.y );
 	} 
+	
+	
+	
+	
 	
 	public static int GetPhysicalTextSize(int size) {
 		Vector2 factor = getFactor();
@@ -121,6 +139,22 @@ public class CameraScreen : Frame {
 		if (mousePosition.y >= elementPosition.y && (mousePosition.y <= (elementPosition.y + elementSize.y)))
 			flagY = true;
 		return (flagX && flagY);
+	}
+	
+	public static bool CursorInsidePhysicalRegion(Vector2 elementPosition, Vector2 elementSize){
+		bool flagX = false;
+		bool flagY = false;
+		
+		Vector2 mouse = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
+		if (mouse.x >= elementPosition.x && (mouse.x <= (elementPosition.x + elementSize.x)))
+			flagX = true;
+		if (mouse.y >= elementPosition.y && (mouse.y <= (elementPosition.y + elementSize.y)))
+			flagY = true;
+		return (flagX && flagY);
+	}
+	
+	public static bool CursorInsidePhysicalRegion(Rect physicalRegion){
+		return CursorInsidePhysicalRegion(new Vector2(physicalRegion.x, physicalRegion.y), new Vector2(physicalRegion.width, physicalRegion.height));
 	}
 	
 	
@@ -161,11 +195,13 @@ public class CameraScreen : Frame {
 		return screenPosition;
 	}*/
 	public static Vector2 PhysicalToVirtualScreenPosition(Vector2 screenPosition){
-		float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
-		float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
+		//float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
+		var factor = getFactor();
+		//float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
+		//float factorY = factorX / ScreenConfig.Instance.ScreenAspect;
 		screenPosition.y = Screen.height - screenPosition.y;
-		screenPosition.x /= factorX;
-		screenPosition.y /= factorY;
+		screenPosition.x /= factor.x;
+		screenPosition.y /= factor.y;
 		return screenPosition;
 	}
 	

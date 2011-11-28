@@ -5,15 +5,12 @@ using Pux.Resources;
 
 public class Panel : Frame {
 
-	public enum HorizontalFloatPositions {left, right, none}
-	public enum VerticalFloatPositions {top, bottom, none}
 	
-	public Rect VirtualRegionOnScreen; 
 	public LayoutBehaviour Layout;
 	public string help1 = "NOT WORKING LIVE:";
 	public int GUIDepth = 1;
-	public VerticalFloatPositions verticalFloat;
-	public HorizontalFloatPositions horizontalFloat;
+	
+	//public bool FullscreenElement = false;
 	
 	public bool Visibility{
 		get{
@@ -28,9 +25,7 @@ public class Panel : Frame {
 		}
 	}
 	
-	public string helpLate = "This option give possibilty to create Element Later via Code";
-	public bool LateCreation = false;
-	private bool created = false;
+	
 	
 	public Rect Uv;
 	
@@ -38,13 +33,10 @@ public class Panel : Frame {
 	
 	protected GUIPlane plane;
 
-	public Rect RealRegionOnScreen{
-		get;
-		set;
-	}	
+	
 	protected GUIStyle currentStyle;
 
-	public CameraScreen activeScreen;
+	
 	
 
 	// PROPERTYS
@@ -94,8 +86,8 @@ public class Panel : Frame {
 	// Use this for initialization
 	protected override void AwakeOverride(){
 		base.AwakeOverride();
-		if(!LateCreation)
-			CreateElement();
+		//if(!LateCreation)
+			//CreateElement();
 	}
 	
 
@@ -104,7 +96,8 @@ public class Panel : Frame {
 		
 	}
 	
-	protected virtual void StartOverride(){
+	protected override void StartOverride(){
+		base.StartOverride();
 		UpdateRegionOnScreen();
 	}
 	
@@ -124,7 +117,7 @@ public class Panel : Frame {
 	
 	protected override void UpdateOverride(){
 		base.UpdateOverride();
-		if(activeScreen.DebugModus ){
+		if(created && activeScreen.DebugModus ){
 			UpdateElement();
 		}
 	}
@@ -133,24 +126,18 @@ public class Panel : Frame {
 	
 	public override void CreateElement(){
 		base.CreateElement();
-		if(created){
-			EditorDebug.Log("Element: "+ gameObject.name + "already created");
-			return;
-		}
-		RealRegionOnScreen = new Rect(0,0,0,0);
-		activeScreen = CameraScreen.GetScreenForObject(this.gameObject);
+	
+
+		
 		this.createGUIElement();
 		created = true;
 		UpdateElement();
 	}
 	
-	public override void UpdateElement(){
-		base.UpdateElement();
-		this.RealRegionOnScreen = activeScreen.GetPhysicalRegionFromRect(this.VirtualRegionOnScreen);
-		UpdateRegionOnScreen();
-	}
 	
-	public virtual void UpdateRegionOnScreen(){
+	
+	public override void UpdateRegionOnScreen(){
+		base.UpdateRegionOnScreen();
 		if(plane != null)
 			plane.VirtualRegionOnScreen = RealRegionOnScreen;
 		
@@ -158,9 +145,6 @@ public class Panel : Frame {
 	}
 	
 	public virtual void createGUIElement(){
-		
-		if(created)
-			return;
 		
 		CreateGUIPlane();
 				

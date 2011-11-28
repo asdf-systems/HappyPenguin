@@ -38,7 +38,7 @@ public class TextPanel : Panel {
 	}
 	public override void LayoutElement(){
 		base.LayoutElement();
-		initTextRegion();
+		
 	}
 	
 	void OnGUI(){
@@ -76,6 +76,11 @@ public class TextPanel : Panel {
 		UpdateElement();
 	}
 	
+	public override void CreateElement (){
+		base.CreateElement ();
+		initTextRegion();
+	}
+	
 	private void changeFontForMobile(){
 		int index = 0;
 		int size = targetFontSize;
@@ -109,9 +114,8 @@ public class TextPanel : Panel {
 	
 	// Caclulate the Absolute Values on the physical screen - because TextRegion is virtual an relative to the Panel Position
 	private void initTextRegion(){
-		realTextRegion = new Rect(VirtualRegionOnScreen.x+ TextRegion.x, 
-		                            VirtualRegionOnScreen.y + TextRegion.y, TextRegion.width, TextRegion.height);
-		realTextRegion = activeScreen.GetPhysicalRegionFromRect(realTextRegion);
+		var textRegion = activeScreen.GetPhysicalRegionFromRect(TextRegion);
+		realTextRegion = new Rect(RealRegionOnScreen.x + textRegion.x , RealRegionOnScreen.y + textRegion.y, textRegion.width, textRegion.height);
 	}
 	
 	private void InvokeTextChanged(){
