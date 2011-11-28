@@ -25,9 +25,7 @@ public class Panel : Frame {
 		}
 	}
 	
-	public string helpLate = "This option give possibilty to create Element Later via Code";
-	public bool LateCreation = false;
-	private bool created = false;
+	
 	
 	public Rect Uv;
 	
@@ -119,7 +117,7 @@ public class Panel : Frame {
 	
 	protected override void UpdateOverride(){
 		base.UpdateOverride();
-		if(activeScreen.DebugModus ){
+		if(created && activeScreen.DebugModus ){
 			UpdateElement();
 		}
 	}
@@ -128,10 +126,7 @@ public class Panel : Frame {
 	
 	public override void CreateElement(){
 		base.CreateElement();
-		if(created){
-			EditorDebug.Log("Element: "+ gameObject.name + "already created");
-			return;
-		}
+	
 
 		
 		this.createGUIElement();
@@ -150,9 +145,6 @@ public class Panel : Frame {
 	}
 	
 	public virtual void createGUIElement(){
-		
-		if(created)
-			return;
 		
 		CreateGUIPlane();
 				

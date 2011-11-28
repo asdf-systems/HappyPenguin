@@ -20,6 +20,9 @@ public class Frame : MonoBehaviour
 	public HorizontalFloatPositions horizontalFloat = Panel.HorizontalFloatPositions.none;
 	
 	public bool FullscreenElement = false;
+	
+	protected bool created = false;
+	
 	public CameraScreen activeScreen{
 		get;
 		protected set;
@@ -137,6 +140,8 @@ public class Frame : MonoBehaviour
 	
 	public virtual void UpdateElement(){
 		
+		if(!created)
+			return;
 		//base.UpdateElement();
 		UpdateDirectChildren();
 		
@@ -212,13 +217,20 @@ public class Frame : MonoBehaviour
 		return ret;
 	}
 	public virtual void CreateElement(){
+		if(created){
+			EditorDebug.Log("Element: "+ gameObject.name + "already created");
+			return;
+		}
 		
+		if(activeScreen == null)
+			activeScreen = CameraScreen.GetScreenForObject(this.gameObject);
 		RealRegionOnScreen = new Rect(0,0,0,0);
 		UpdateDirectChildren();
 		UpdateElement();
 		foreach (var frame in directChildren){
 			frame.CreateElement();
 		}
+		created = true;
 		
 			
 		
