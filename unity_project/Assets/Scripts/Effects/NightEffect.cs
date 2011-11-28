@@ -8,6 +8,7 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world)
 		{
+			world.RegisterEffect(this);
 			RenderSettings.ambientLight = new Color(0.2f,0.2f,0.2f,0.7f);
 			world.IngameSounds.PlayBaddySound();
 		}
@@ -31,7 +32,7 @@ namespace Pux.Effects
 		#endregion
 		public NightEffect() {
 			Duration = TimeSpan.FromSeconds(6);
-			IconResourceKey = "UI/EffectIcons/night";
+			IconResourceUV = new Rect(1536,197,144,144);
 		}
 	}
 }

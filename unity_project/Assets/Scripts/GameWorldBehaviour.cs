@@ -200,6 +200,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			if(s != string.Empty)
 				guiManager.Alert(s);
 		}
+		EditorDebug.LogError("Register Effect: Icon: " + effect.IsIconAvailable + " D: " + effect.Duration );
 		if (effect.IsIconAvailable && effect.Duration > TimeSpan.Zero) {
 			iconSlotManager.DisplayEffect(effect);
 		}

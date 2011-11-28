@@ -4,21 +4,20 @@ using UnityEngine;
 
 public sealed class IconSlotBehaviour : Control
 {
+	private Rect emptyUV = new Rect(0,0,1,1);
 	public IconSlotBehaviour() {
 		
 	}
 	
 	
 	public void Clear() {
-		EditorDebug.LogWarning("Clear IconSlot need to be rewritten for new GUI System");
-		//inactiveStyle.normal.background = null;
+		Uv = emptyUV;
 		ActiveEffect = null;
 	}
 	
 	public void DisplayEffect(Effect effect) {
 		ActiveEffect = effect;
-		EditorDebug.LogWarning("Disolay Effects need to be rewritten for new GUI System");
-		//inactiveStyle.normal.background = Resources.Load(effect.IconResourceKey) as Texture2D;
+		Uv = effect.IconResourceUV;
 	}
 	
 	public Effect ActiveEffect {

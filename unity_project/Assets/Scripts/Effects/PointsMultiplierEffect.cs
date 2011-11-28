@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 namespace Pux.Effects
 {
 	public sealed class PointsMultiplierEffect : Effect
@@ -7,6 +8,7 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world)
 		{
+			world.RegisterEffect(this);
 			world.PointsMultiplier = _multiplier;
 		}
 		
@@ -25,9 +27,9 @@ namespace Pux.Effects
 			_multiplier = multiplier;
 			Duration = TimeSpan.FromSeconds(6);
 			if (multiplier > 2) {
-				IconResourceKey = "UI/EffectIcons/points_tripple";
+				IconResourceUV = new Rect(768,197,144,144);
 			} else{
-				IconResourceKey = "UI/EffectIcons/points_double";
+				IconResourceUV = new Rect(256,197,144,144);
 			}
 		}
 		

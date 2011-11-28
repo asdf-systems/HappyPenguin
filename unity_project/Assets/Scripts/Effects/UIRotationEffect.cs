@@ -1,24 +1,26 @@
 using System;
+using UnityEngine;
 
 namespace Pux.Effects
 {
 	public sealed class UIRotationEffect : Effect
 	{
 		private readonly ClockRotations[] clockRotations;
-		private readonly Random random;
+		private readonly System.Random random;
 		
 		public UIRotationEffect ()
 		{
-			random = new Random();
+			random = new System.Random();
 			clockRotations = new ClockRotations[2];
 			Duration = TimeSpan.FromSeconds(5);
-			IconResourceKey = "UI/EffectIcons/rotate_buttons";
+			IconResourceUV = new Rect(1792,425,144,144);
 		}
 		
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world)
 		{
 			world.IngameSounds.PlayBaddySound();
+			world.RegisterEffect(this);
 			var value = random.Next(0, 100);
 			if (value > 50) {
 				clockRotations[0] = ClockRotations.Clockwise;

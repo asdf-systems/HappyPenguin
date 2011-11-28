@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Pux.Effects
 {
@@ -25,7 +26,7 @@ namespace Pux.Effects
 		#endregion
 		public LessSymbolsEffect() {
 			Duration = TimeSpan.FromSeconds(10);
-			IconResourceKey = "UI/EffectIcons/minus_symbol_1";
+			IconResourceUV = new Rect(1024,197,144,144);
 		}
 		
 		public override string Description {

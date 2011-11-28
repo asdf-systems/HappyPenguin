@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 namespace Pux.Effects
 {
 	public sealed class SnowballSpeedModiferEffect : Effect
@@ -22,7 +23,7 @@ namespace Pux.Effects
 		#endregion
 		public SnowballSpeedModiferEffect() {
 			Duration = TimeSpan.FromSeconds(6);
-			IconResourceKey = "UI/EffectIcons/snowball_speed";
+			IconResourceUV = new Rect(512,197,144,144);
 		}
 		
 		public override string Description {

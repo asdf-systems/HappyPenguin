@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 namespace Pux.Effects
 {
 	public sealed class CreatureSlowdownEffect : Effect
@@ -6,6 +7,7 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world)
 		{
+			world.RegisterEffect(this);
 			world.ModifyCreatures((x) => x.Speed *= 0.8f);
 		}
 		
@@ -22,7 +24,7 @@ namespace Pux.Effects
 		#endregion
 		public CreatureSlowdownEffect() {
 			Duration = TimeSpan.FromSeconds(4);
-			IconResourceKey = "UI/EffectIcons/slow_creature";
+			IconResourceUV = new Rect(0,197,144,144);
 		}
 		
 		public override string Description {
