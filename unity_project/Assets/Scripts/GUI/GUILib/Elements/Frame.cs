@@ -140,13 +140,12 @@ public class Frame : MonoBehaviour
 	
 	public virtual void UpdateElement(){
 		
-		if(!created)
-			return;
 		//base.UpdateElement();
 		UpdateDirectChildren();
 		
 		
-		this.RealRegionOnScreen = activeScreen.GetPhysicalRegionFromRect(this.VirtualRegionOnScreen);
+		if(activeScreen != null)
+			this.RealRegionOnScreen = activeScreen.GetPhysicalRegionFromRect(this.VirtualRegionOnScreen);
 		
 		var position = GetFloatingPosition();
 		this.RealRegionOnScreen = new Rect(position.x, position.y, RealRegionOnScreen.width, RealRegionOnScreen.height);
