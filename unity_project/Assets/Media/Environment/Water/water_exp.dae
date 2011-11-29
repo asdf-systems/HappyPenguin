@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 2.60.0 r41226</authoring_tool>
+    </contributor>
+    <created>2011-11-29T20:52:18</created>
+    <modified>2011-11-29T20:52:18</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_cameras/>
+  <library_lights/>
+  <library_effects>
+    <effect id="water_geo2SG-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <phong>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <ambient>
+              <color sid="ambient">0 0 0 1</color>
+            </ambient>
+            <diffuse>
+              <color sid="diffuse">0 0 0 1</color>
+            </diffuse>
+            <specular>
+              <color sid="specular">0.5 0.5 0.5 1</color>
+            </specular>
+            <shininess>
+              <float sid="shininess">50</float>
+            </shininess>
+            <reflective>
+              <color>0 0 0 1</color>
+            </reflective>
+            <reflectivity>
+              <float>1</float>
+            </reflectivity>
+            <transparency>
+              <float sid="transparency">0</float>
+            </transparency>
+            <index_of_refraction>
+              <float sid="index_of_refraction">1</float>
+            </index_of_refraction>
+          </phong>
+        </technique>
+        <extra>
+          <technique profile="GOOGLEEARTH">
+            <double_sided>1</double_sided>
+          </technique>
+        </extra>
+      </profile_COMMON>
+      <extra><technique profile="MAX3D"><double_sided>1</double_sided></technique></extra>
+    </effect>
+  </library_effects>
+  <library_materials>
+    <material id="water_geo2SG-material" name="water_geo2SG">
+      <instance_effect url="#water_geo2SG-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="water_geo2-mesh">
+      <mesh>
+        <source id="water_geo2-mesh-positions">
+          <float_array id="water_geo2-mesh-positions-array" count="12">-283.1076 7.469037 -101.8838 -176.6724 5.078782 258.8236 278.9365 6.203352 124.3856 172.5014 6.188212 -236.3218</float_array>
+          <technique_common>
+            <accessor source="#water_geo2-mesh-positions-array" count="4" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="water_geo2-mesh-normals">
+          <float_array id="water_geo2-mesh-normals-array" count="3">0.001051366 0.9999951 0.00298202</float_array>
+          <technique_common>
+            <accessor source="#water_geo2-mesh-normals-array" count="1" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="water_geo2-mesh-map-0">
+          <float_array id="water_geo2-mesh-map-0-array" count="8">9.00718e-6 0.8046938 0.1953134 0.804701 0.1953096 1 0 1</float_array>
+          <technique_common>
+            <accessor source="#water_geo2-mesh-map-0-array" count="4" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="water_geo2-mesh-vertices">
+          <input semantic="POSITION" source="#water_geo2-mesh-positions"/>
+        </vertices>
+        <polylist material="water_geo2SG1" count="1">
+          <input semantic="VERTEX" source="#water_geo2-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#water_geo2-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#water_geo2-mesh-map-0" offset="2" set="0"/>
+          <vcount>4 </vcount>
+          <p>0 0 0 1 0 1 2 0 2 3 0 3</p>
+        </polylist>
+      </mesh>
+      <extra><technique profile="MAYA"><double_sided>1</double_sided></technique></extra>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="Mesh" type="NODE">
+        <translate sid="location">0 0 0</translate>
+        <rotate sid="rotationZ">0 0 1 0</rotate>
+        <rotate sid="rotationY">0 1 0 0</rotate>
+        <rotate sid="rotationX">1 0 0 90.00001</rotate>
+        <scale sid="scale">1 1 1</scale>
+        <instance_geometry url="#water_geo2-mesh">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="water_geo2SG1" target="#water_geo2SG-material">
+                <bind_vertex_input semantic="UVTex" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>

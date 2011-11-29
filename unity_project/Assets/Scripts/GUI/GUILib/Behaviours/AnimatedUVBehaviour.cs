@@ -17,6 +17,7 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 	private int currentColoum;
 	private int currentTexture;
 	//private int textureSize;
+	private bool changeTexture;
 	
 	// Use this for initialization
 	void Start () {
@@ -69,7 +70,12 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 	
 	private void changeFrame(){
 		
-		newUvs = new Rect(FrameSize*currentRow, FrameSize*(currentColoum*-1) , 1,1);		
+		if(changeTexture){
+			renderer.material.SetTexture("_MainTex", Textures[currentTexture]);
+			changeTexture = false;
+		}
+			
+		newUvs = new Rect(FrameSize*(currentColoum),FrameSize*(currentRow*-1) , 1,1);		
 		currentColoum++;
 		if(currentColoum >= FramesPerRow){
 			currentColoum = 0;
@@ -81,13 +87,14 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 			currentTexture++;
 			if(currentTexture >= Textures.Length)
 				currentTexture = 0;
-			renderer.material.SetTexture("_MainTex", Textures[currentTexture]);
+			changeTexture = true;
+			
 		}
 			
 		
 			
 		
-		//EditorDebug.Log("New UVs: " + newUvs + "Row: " + currentRow + "Coloumn: " + currentColoum);
+		EditorDebug.Log("New UVs: " + newUvs + "Row: " + currentRow + "Coloumn: " + currentColoum);
 		
 	}
 }
