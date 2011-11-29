@@ -25,6 +25,8 @@ public class GUIManager : MonoBehaviour {
 	public Button CancelGameButton;
 	
 	public TextPanel PointsDisplay;
+	
+	public Panel DarkScreen;
 
 	private string symbolChain;
 	private Time textTimer;
@@ -59,7 +61,7 @@ public class GUIManager : MonoBehaviour {
 	
 	private void Update(){
 		if(firstUpdate){
-			HideExtraButtons();
+			HideExtraElements();
 			firstUpdate = false;
 		}
 		if (needFrameUpdateCalls) {
@@ -78,12 +80,17 @@ public class GUIManager : MonoBehaviour {
 	}
 	
 	void Start(){
-		HideExtraButtons();
+		HideExtraElements();
 	}
 	
-	public void HideExtraButtons(){
+	public void HideExtraElements(){
 		ResumeGameButton.Visibility = false;
 		CancelGameButton.Visibility = false;
+		DarkScreen.Visibility = false;
+	}
+	
+	public void DarkenScreen(bool darken){
+		DarkScreen.Visibility = darken;
 	}
 	
 	private void CheckAssertions(){

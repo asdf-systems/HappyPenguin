@@ -276,7 +276,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	
 	public void OnGameResumed(object sender, EventArgs e){
 		if(Time.timeScale == 0){
-				RenderSettings.ambientLight = oldAmbientLight;
+				//RenderSettings.ambientLight = oldAmbientLight;
+				DarkenScreen(false);
 				Time.timeScale = 1;	
 		}
 	}
@@ -284,13 +285,15 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public void OnGamePaused(object sender, EventArgs e){
 		if(Time.timeScale > 0){
 			Time.timeScale = 0;
-			oldAmbientLight = RenderSettings.ambientLight;
-			RenderSettings.ambientLight = new Color(0.5f,0.5f,0.5f,1);
+			//oldAmbientLight = RenderSettings.ambientLight;
+			//RenderSettings.ambientLight = new Color(0.5f,0.5f,0.5f,1);
+			DarkenScreen(true);
 		}
 	}
 	
 	public void OnGameCanceld(object sender, EventArgs e){
 		Time.timeScale = 1;
+		DarkenScreen(false);
 		Application.LoadLevel(1);
 	}
 
@@ -389,6 +392,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		float val = random.Next(0,100);
 		if(val >= ProbabilityForCheers)
 			IngameSounds.PlayCheerSound();
+	}
+	
+	public void DarkenScreen(bool darken){
+		guiManager.DarkenScreen(darken);
 	}
 
 	public void Update() {

@@ -20,6 +20,7 @@ public class Frame : MonoBehaviour
 	public HorizontalFloatPositions horizontalFloat = Panel.HorizontalFloatPositions.none;
 	
 	public bool FullscreenElement = false;
+	public bool KeepAspectRatio = true;
 	
 	protected bool created = false;
 	
@@ -145,7 +146,7 @@ public class Frame : MonoBehaviour
 		
 		
 		if(activeScreen != null)
-			this.RealRegionOnScreen = activeScreen.GetPhysicalRegionFromRect(this.VirtualRegionOnScreen);
+			this.RealRegionOnScreen = activeScreen.GetPhysicalRegionFromRect(this.VirtualRegionOnScreen, KeepAspectRatio);
 		
 		var position = GetFloatingPosition();
 		this.RealRegionOnScreen = new Rect(position.x, position.y, RealRegionOnScreen.width, RealRegionOnScreen.height);

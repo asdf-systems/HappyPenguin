@@ -72,7 +72,7 @@ public class CameraScreen : Frame {
 #endif	
 	
 	public override void UpdateElement(){
-		this.RealRegionOnScreen = GetPhysicalRegionFromRect(VirtualRegionOnScreen,false);
+		this.RealRegionOnScreen = GetPhysicalRegionFromRect(VirtualRegionOnScreen,KeepAspectRatio);
 	}
 	private static Vector2 getFactor(bool withAspect = true){
 		// Get the right Hight and Width proportional to screen
