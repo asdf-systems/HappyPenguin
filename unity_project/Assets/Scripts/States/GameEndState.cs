@@ -15,7 +15,7 @@ public class GameEndState : MonoBehaviour {
 	private bool timeFreeze = false;
 	
 	void Awake(){
-		//EditorDebug.LogWarning("Points fix for testing!!!");	GameStatics.Points = 1010;
+		//EditorDebug.LogWarning("Points fix for testing!!!");	GameStatics.Points = 2011;
 	}
 	// Use this for initialization
 	void Start () {
@@ -32,13 +32,13 @@ public class GameEndState : MonoBehaviour {
 			checkHighscore();
 			firstCheck = false;
 		}
-		if(!timeFreeze)
-			time+= Time.deltaTime;
+		/*if(!timeFreeze)
+			time+= Time.deltaTime;*/
 		
 
-		if(time > 10){
+		/*if(time > 10){
 			Application.LoadLevel(5);
-		}
+		}*/
 	}
 	
 	public void usernameInputFinished(){
@@ -57,6 +57,7 @@ public class GameEndState : MonoBehaviour {
 	}
 	
 	private void checkHighscore(){
+		checkPersonalHighscore();
 		StartCoroutine(
 			HighscoreServer.GetHighscore(data=>{
 				checkForNewHighscore(data);
@@ -80,10 +81,7 @@ public class GameEndState : MonoBehaviour {
 			GameStatics.PersonalHighscore = GameStatics.Points;
 			alertElement.timer1.TimerFinished += OnHighscoreTimerFinished;
 			
-		} else{ 
-			checkPersonalHighscore();
-		}
-		
+		} 
 		
 		
 	}
