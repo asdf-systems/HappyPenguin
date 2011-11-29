@@ -19,7 +19,7 @@ namespace Pux.Effects
 		//public bool IsIconAvailable { get { return !string.IsNullOrEmpty(IconResourceUV); }}
 		public bool IsIconAvailable { 
 			get { 
-				return (IconResourceUV.x != 0 && IconResourceUV.y != 0 && IconResourceUV.width != 0 && IconResourceUV.height != 0);
+				return (IconResourceUV.x != 0 || IconResourceUV.y != 0 || IconResourceUV.width != 0 || IconResourceUV.height != 0);
 			}
 		}
 		

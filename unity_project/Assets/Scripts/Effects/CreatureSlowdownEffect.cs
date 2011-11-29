@@ -5,10 +5,9 @@ namespace Pux.Effects
 	public sealed class CreatureSlowdownEffect : Effect
 	{
 		#region implemented abstract members of Pux.Effects.Effect
-		public override void Start (GameWorldBehaviour world)
-		{
-			world.RegisterEffect(this);
-			world.ModifyCreatures((x) => x.Speed *= 0.8f);
+		public override void Start (GameWorldBehaviour world){
+
+			world.ModifyCreatures((x) => x.Speed *= 0.5f);
 		}
 		
 		public override void Update (GameWorldBehaviour world)

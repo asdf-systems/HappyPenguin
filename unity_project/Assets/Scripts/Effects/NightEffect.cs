@@ -6,9 +6,7 @@ namespace Pux.Effects
 	public sealed class NightEffect : Effect
 	{
 		#region implemented abstract members of Pux.Effects.Effect
-		public override void Start (GameWorldBehaviour world)
-		{
-			world.RegisterEffect(this);
+		public override void Start (GameWorldBehaviour world){
 			RenderSettings.ambientLight = new Color(0.2f,0.2f,0.2f,0.7f);
 			world.IngameSounds.PlayBaddySound();
 		}

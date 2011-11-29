@@ -6,9 +6,7 @@ namespace Pux.Effects
 	{
 		private readonly float _multiplier;
 		#region implemented abstract members of Pux.Effects.Effect
-		public override void Start (GameWorldBehaviour world)
-		{
-			world.RegisterEffect(this);
+		public override void Start (GameWorldBehaviour world){
 			world.PointsMultiplier = _multiplier;
 		}
 		
@@ -27,9 +25,10 @@ namespace Pux.Effects
 			_multiplier = multiplier;
 			Duration = TimeSpan.FromSeconds(6);
 			if (multiplier > 2) {
-				IconResourceUV = new Rect(768,197,144,144);
-			} else{
 				IconResourceUV = new Rect(256,197,144,144);
+			} else{
+				IconResourceUV = new Rect(768,197,144,144);
+				
 			}
 		}
 		
