@@ -43,6 +43,7 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 		currentColoum = 0;
 		currentTexture = 0;
 		frameCount = FramesPerRow * RowCount;
+		changeTexture = false;
 		
 	}
 	
@@ -70,12 +71,14 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 	
 	private void changeFrame(){
 		
+		newUvs = new Rect(FrameSize*(currentColoum),FrameSize*(currentRow*-1) , 1,1);	
 		if(changeTexture){
+			//EditorDebug.LogWarning("ChangeTExture");
 			renderer.material.SetTexture("_MainTex", Textures[currentTexture]);
 			changeTexture = false;
 		}
 			
-		newUvs = new Rect(FrameSize*(currentColoum),FrameSize*(currentRow*-1) , 1,1);		
+			
 		currentColoum++;
 		if(currentColoum >= FramesPerRow){
 			currentColoum = 0;
@@ -90,11 +93,7 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 			changeTexture = true;
 			
 		}
-			
-		
-			
-		
-		EditorDebug.Log("New UVs: " + newUvs + "Row: " + currentRow + "Coloumn: " + currentColoum);
+		//EditorDebug.Log("New UVs: " + newUvs + "Row: " + currentRow + "Coloumn: " + currentColoum);
 		
 	}
 }
