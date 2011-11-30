@@ -21,7 +21,8 @@ public class LoadingStart_GameState : MonoBehaviour {
 	}
 
 	private void OnTimerFinished (object sender, EventArgs e){
-		BackgroundRenderer.material.SetTexture("_MainTex", SecondScreenMaterial);
+		if(BackgroundRenderer != null)
+			BackgroundRenderer.material.SetTexture("_MainTex", SecondScreenMaterial);
 	}
 	
 	// Update is called once per frame
