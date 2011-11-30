@@ -18,6 +18,7 @@ public sealed class IconSlotBehaviour : Control
 	public void DisplayEffect(Effect effect) {
 		ActiveEffect = effect;
 		Uv = effect.IconResourceUV;
+		UpdateElement();
 	}
 	
 	public Effect ActiveEffect {

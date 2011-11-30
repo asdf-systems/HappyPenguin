@@ -44,7 +44,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public float SnowballSpeedModifier { get; set; }
 	
 	public Color DarkLight;
-	private Color oldAmbientLight;
 	private System.Random random;
 
 	public void Awake() {
@@ -90,7 +89,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 	
 	private void initAmbientLights(){
-		oldAmbientLight = RenderSettings.ambientLight;
+		//oldAmbientLight = RenderSettings.ambientLight;
 	}
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
