@@ -105,8 +105,11 @@ namespace Pux.Entities
 		}
 
 		public TargetableEntityBehaviour FindTargetable(string symbolChain) {
-			var targets = FindTargetables();
-			return targets.FirstOrDefault(x => x.SymbolChain == symbolChain);
+			var success = symbolManager.IsTargetableRegistered(symbolChain);
+			if (success) {
+				return symbolManager.GetTargetable(symbolChain);
+			}
+			return null;
 		}
 
 		public void AddEnvironmentalEntity(EnvironmentEntityBehaviour env) {
@@ -143,6 +146,7 @@ namespace Pux.Entities
 			if (type == CreatureTypes.Blowfish) {
 				creature.AttackEffects.Clear();
 				creature.HitEffects.Add(new NukeEffect(creature));
+				creature.AttackEffects.Add(new RetreatEffect(creature));
 			} else {
 				creature.HitEffects.Add(new RetreatEffect(creature));
 			}
@@ -189,14 +193,17 @@ namespace Pux.Entities
 			symbolManager.RegisterTargetable(perk);
 			entities.Add(perk);
 		}
-
+		
+		public void DeactivateTargetable(TargetableEntityBehaviour targetable){
+			symbolManager.VoidTargetable(targetable);
+		}
+		
 		public void VoidTargetable(TargetableEntityBehaviour targetable) {
 			if (targetable == null) {
 				return;
 			}
 			
 			entities.Remove(targetable);
-			
 			GameObject.Destroy(targetable.gameObject);
 		}
 
@@ -279,6 +286,9 @@ namespace Pux.Entities
 			gameObject.transform.position = leveledPosition;
 			gameObject.transform.rotation = quaternion;
 			gameObject.transform.parent = root.transform;
+			
+			var billboard = gameObject.GetComponentInChildren<BillboardBehaviour>();
+			billboard.ApplyOffset();
 			return gameObject.GetComponentInChildren<CreatureBehaviour>();
 		}
 

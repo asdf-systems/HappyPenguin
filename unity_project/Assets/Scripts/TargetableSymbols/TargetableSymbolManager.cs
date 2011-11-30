@@ -16,6 +16,10 @@ namespace Pux
 			random = new System.Random();
 		}
 		
+		public bool IsTargetableRegistered(string symbolChain){
+			return targets.ContainsKey(symbolChain);
+		}
+		
 		public void RegisterTargetable(TargetableEntityBehaviour entity)
 		{
 			if (entity == null) {
@@ -25,6 +29,10 @@ namespace Pux
 			
 			entity.SymbolChain = GenerateSymbolChain(entity.SymbolRange);
 			targets.Add(entity.SymbolChain, entity);
+		}
+		
+		public TargetableEntityBehaviour GetTargetable(string symbolChain){
+			return targets[symbolChain];
 		}
 		
 		public void VoidTargetable(TargetableEntityBehaviour entity)

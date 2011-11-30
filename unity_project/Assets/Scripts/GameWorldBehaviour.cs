@@ -270,6 +270,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			InvokePlayerMiss();
 			return;
 		}
+		entityManager.DeactivateTargetable(target);
 		InvokePlayerHit(target);
 	}
 
@@ -320,7 +321,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		if (!entityManager.Player.IsPlaying("throw")) {
 			entityManager.Player.PlayAnimation("throw");	
 		}
-		entityManager.ThrowSnowball(target, SnowballSpeedModifier);
+		var effect = new ActionEffect(() => {
+			entityManager.ThrowSnowball(target, SnowballSpeedModifier);	
+		});
+		ApplyEffect(new DelayedEffect(effect,TimeSpan.FromMilliseconds(200)));
 	}
 
 
@@ -328,7 +332,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
 		//ChangePlayerPoints(255);
 		//entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
-		ApplyEffect(new NightEffect());
+
 		IngameSounds.PlayBooSound();
 	}
 
