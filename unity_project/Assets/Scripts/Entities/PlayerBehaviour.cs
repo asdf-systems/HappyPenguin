@@ -36,15 +36,9 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		base.AwakeOverride();
 		Life = StartLife;
 		Points = StartPoints;
-		
-		
+		updateCloth();
 	}
 	
-	protected override void StartOverride(){
-		updateCloth();
-		//this.audio.clip = OtherSound;
-		//this.audio.Play();
-	}
 	public bool IsDead {
 		get {return Life < 1;}
 	}
@@ -59,6 +53,7 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		gameObject.animation.Play("happy");
 		gameObject.animation.PlayQueued("show01");
 	}
+	
 	private void changeHat(){
 		
 		var obj = GameStatics.loadPlayerHat();

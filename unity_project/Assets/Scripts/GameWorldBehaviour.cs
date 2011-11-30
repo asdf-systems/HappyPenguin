@@ -24,7 +24,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public GameObject Trebuchet;
 	public string PerkText;
 	public string WrongSymbolChainText;
-	public string LooseText;
+	public string LossText;
 	public IngameSoundEffects IngameSounds;
 	public int ProbabilityForCheers = 5;
 	
@@ -35,14 +35,41 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		set { entityManager.SymbolRangeModifer = value; }
 	}
 
-	// implemented
 	public float PointsMultiplier { get; set; }
-
-	// implemented
-	public float SnowballSpeedModifier { get; set; }
 	
-	public Color DarkLight;
-	private Color oldAmbientLight;
+	public int AdditionalStartLife { get; set; }
+	
+	
+	public float  DefaultBallSpeed { 
+		get{ return entityManager. DefaultBallSpeed;} 
+		set {entityManager. DefaultBallSpeed = value;} 
+	}
+	
+	public float  SnowballSpeedModifier { 
+		get{ return entityManager. SnowballSpeedModifier;} 
+		set {entityManager. SnowballSpeedModifier = value;} 
+	}
+	
+	public float CreatureSpeedModifier { 
+		get{ return entityManager.CreatureSpeedModifier;} 
+		set {entityManager.CreatureSpeedModifier = value;} 
+	}
+	
+	public float PositiveEffectDurationModifier {
+		get;
+		set;
+	}
+	
+	public float NegativeEffectDurationModifier {
+		get;
+		set;
+	}
+	
+	public float PerkSpawnTimeModifier {
+		get { return perkSpawner.PerkSpawnTimeModifier;}
+		set{ perkSpawner.PerkSpawnTimeModifier = value;}
+	}
+
 	private System.Random random;
 
 	public void Awake() {
@@ -56,16 +83,23 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitPerkNodes();
 		InitAttackZone();
 		InitStatics();
-		initAmbientLights();
-	}
-
-	void Start() {
 		InitUI();
-		PointsMultiplier = 1;
-		SnowballSpeedModifier = 1;
+		InitWorldConstants();
+		
+		ClothAdjustmentManager.ApplyAdjustments(this);
+	}
+	
+	private void InitMusic(){
 		PlayNormalBackgroundMusic();
 	}
-
+	
+	private void InitWorldConstants() {
+			DefaultBallSpeed = 350.0f;
+			SymbolRangeModifer = new Range(0, 0);
+			SnowballSpeedModifier = 1.0f;
+			PointsMultiplier = 1.0f;
+			CreatureSpeedModifier = 1.0f;
+	}
 
 // Init Functions
 	private void InitGameWorldBehaviour() {
@@ -86,9 +120,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		iconSlotManager = new IconSlotManager();
 	}
 	
-	private void initAmbientLights(){
-		oldAmbientLight = RenderSettings.ambientLight;
-	}
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
 		if (attackZone == null) {
@@ -195,12 +226,21 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		player.PlayAnimation("idle");
 		player.Points = 0;
 		player.Life = 0;
+		
+		
 	}
 
-// Effekt Handling
+// Effect Handling
 	public void ApplyEffect(Effect effect) {
 		if (!effectManager.CanRegisterEffect(effect)) {
 			return;
+		}
+		
+		var milliseconds = effect.Duration.TotalMilliseconds;
+		if (effect.IsPositive) {
+			effect.Duration = TimeSpan.FromMilliseconds(milliseconds * PositiveEffectDurationModifier);
+		} else {
+			effect.Duration = TimeSpan.FromMilliseconds(milliseconds * NegativeEffectDurationModifier);
 		}
 		
 		effectManager.RegisterEffect(effect);
@@ -297,8 +337,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		if(Time.timeScale > 0){
 			IngameSounds.PlayPauseStart();
 			Time.timeScale = 0;
-			//oldAmbientLight = RenderSettings.ambientLight;
-			//RenderSettings.ambientLight = new Color(0.5f,0.5f,0.5f,1);
 			DarkenScreen(true);
 		}
 	}
@@ -316,7 +354,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			entityManager.Player.PlayAnimation("throw");	
 		}
 		var effect = new ActionEffect(() => {
-			entityManager.ThrowSnowball(target, SnowballSpeedModifier);	
+			entityManager.ThrowSnowball(target);	
 		});
 		ApplyEffect(new DelayedEffect(effect,TimeSpan.FromMilliseconds(200)));
 	}

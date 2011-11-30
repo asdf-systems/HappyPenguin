@@ -7,8 +7,13 @@ namespace Pux.Effects
 	{
 		public Effect() {
 			Duration = EffectDuration.Instant;
+			IsPositive = true;
 		}
 		
+		public bool IsPositive {
+			get;
+			set;
+		}
 		public virtual bool IsStackable { get { return true; }}
 
 		public abstract void Start(GameWorldBehaviour world);
@@ -25,7 +30,7 @@ namespace Pux.Effects
 			}
 		}
 		
-		public TimeSpan Duration { get; protected set; }
+		public TimeSpan Duration { get; internal protected set; }
 
 		public Rect IconResourceUV { get; protected set; }
 

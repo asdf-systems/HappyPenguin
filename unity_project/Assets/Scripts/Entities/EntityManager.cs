@@ -16,6 +16,21 @@ namespace Pux.Entities
 	{
 		private readonly TargetableSymbolManager symbolManager;
 		private readonly List<EntityBehaviour> entities;
+		
+		public float CreatureSpeedModifier {
+			get;
+			set;
+		}
+		
+		public float SnowballSpeedModifier {
+			get;
+			set;
+		}
+		
+		public float DefaultBallSpeed {
+			get;
+			set;
+		}
 
 		public event EventHandler<EffectEventArgs> EffectsReleased;
 		private void InvokeEffectsReleased(IEnumerable<Effect> effects) {
@@ -27,14 +42,14 @@ namespace Pux.Entities
 			handler(this, e);
 		}
 
-		public void ThrowSnowball(TargetableEntityBehaviour target, float speedMultiplier) {
+		public void ThrowSnowball(TargetableEntityBehaviour target) {
 			Debug.Log("throwing snowball");
 			
 			target.TargetHit += OnTargetHit;
 			
 			var snowball = DisplaySnowball();
 			snowball.DedicatedTarget = target;
-			snowball.Speed = 350 * speedMultiplier;
+			snowball.Speed = DefaultBallSpeed * SnowballSpeedModifier;
 			snowball.Throw(target.gameObject);
 		}
 
@@ -107,7 +122,7 @@ namespace Pux.Entities
 		public TargetableEntityBehaviour FindTargetable(string symbolChain) {
 			var success = symbolManager.IsTargetableRegistered(symbolChain);
 			if (success) {
-				return symbolManager.FindTargetable(symbolChain);
+				return symbolManager.GetTargetable(symbolChain);
 			}
 			return null;
 		}
@@ -137,6 +152,7 @@ namespace Pux.Entities
 			if (creature == null) {
 				throw new ApplicationException(string.Format("Could not create creature of type '{0}'", type));
 			}
+			creature.DefaultSpeed = creature.DefaultSpeed * CreatureSpeedModifier;
 			creature.GrimReaperAppeared += (sender, e) => VoidTargetable(creature);
 			
 			var target = GameObjectRegistry.GetObject("attack_node");
@@ -179,7 +195,6 @@ namespace Pux.Entities
 			perk.GrimReaperAppeared += (sender, e) => VoidTargetable(perk);
 			perk.Speed = 240;
 			
-			
 			var arc = new ArcMovementController(perk, perkImpact, 48);
 			arc.ControllerFinished += (sender, e) => {
 				perk.Speed = 20;
@@ -220,7 +235,6 @@ namespace Pux.Entities
 				
 				{
 					perk.HitEffects.Add(new LifeEffect(1));
-				
 					break;
 				}
 
