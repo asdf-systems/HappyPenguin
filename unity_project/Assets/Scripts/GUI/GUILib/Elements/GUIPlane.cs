@@ -129,8 +129,10 @@ public class GUIPlane : MonoBehaviour {
 	}
 	
 	private void updateTextureFactor(){
-		Texture t = GUIMaterial.GetTexture("_MainTex");
-		textureFactor = (float)(t.width) / activeScreen.TextureSize;
+		if(GUIMaterial != null && activeScreen != null){
+			Texture t = GUIMaterial.GetTexture("_MainTex");
+			textureFactor = (float)(t.width) / activeScreen.TextureSize;
+		}
 		
 	}
 
