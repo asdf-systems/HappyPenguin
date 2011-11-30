@@ -8,7 +8,7 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world){
 			//RenderSettings.ambientLight = new Color(0.2f,0.2f,0.2f,0.7f);
-			world.DarkenScreen(true);
+			world.NightEffect(true);
 			world.IngameSounds.PlayBaddySound();
 		}
 		
@@ -19,7 +19,7 @@ namespace Pux.Effects
 		
 		public override void Stop (GameWorldBehaviour world)
 		{
-			world.DarkenScreen(false);
+			world.NightEffect(false);
 			//RenderSettings.ambientLight = new Color(1,1,1,1);
 		}
 		

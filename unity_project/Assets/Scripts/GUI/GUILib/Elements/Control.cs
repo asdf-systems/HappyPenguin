@@ -50,8 +50,8 @@ public class Control : Panel {
 	}
 	
 	public override void UpdateElement(){
+		base.UpdateElement();
 		initActiveRegion();
-		base.UpdateElement ();
 		
 	}
 	// Caclulate the Absolute Values on the physical screen - because ActiveRegion is virtual an relative to the Control Position

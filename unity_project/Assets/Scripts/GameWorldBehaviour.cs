@@ -328,7 +328,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
 		//ChangePlayerPoints(255);
 		//entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
-		ApplyEffect(new UIRotationEffect());
+		ApplyEffect(new NightEffect());
 		IngameSounds.PlayBooSound();
 	}
 
@@ -412,6 +412,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	
 	public void DarkenScreen(bool darken){
 		guiManager.DarkenScreen(darken);
+	}
+	
+	public void NightEffect(bool night){
+		guiManager.NightEffect(night);
 	}
 	public void PlayFastBackgroundMusic(){
 		audio.clip = SlowBackgroundMusic;

@@ -23,10 +23,12 @@ public class GUIManager : MonoBehaviour {
 	
 	public Button ResumeGameButton;
 	public Button CancelGameButton;
+	public Panel CancelResumeText;
 	
 	public TextPanel PointsDisplay;
 	
 	public Panel DarkScreen;
+	public Panel NightEffectScreen;
 
 	private string symbolChain;
 	private Time textTimer;
@@ -86,9 +88,14 @@ public class GUIManager : MonoBehaviour {
 	public void HideExtraElements(){
 		ResumeGameButton.Visibility = false;
 		CancelGameButton.Visibility = false;
+		CancelResumeText.Visibility = false;
+		NightEffectScreen.Visibility = false;
 		DarkScreen.Visibility = false;
 	}
 	
+	public void NightEffect(bool nihgt){
+		NightEffectScreen.Visibility = nihgt;
+	}
 	public void DarkenScreen(bool darken){
 		DarkScreen.Visibility = darken;
 	}
@@ -380,8 +387,7 @@ public class GUIManager : MonoBehaviour {
 	}
 	
 	public void InvokeGameResumed(){
-		CancelGameButton.Visibility = false;
-		ResumeGameButton.Visibility = false;
+		HideExtraElements();
 		var handler = GameResumed;
 		if (handler == null) {
 			return;
@@ -400,6 +406,7 @@ public class GUIManager : MonoBehaviour {
 	public void InvokeGamePaused(){
 		CancelGameButton.Visibility = true;
 		ResumeGameButton.Visibility = true;
+		CancelResumeText.Visibility = true;
 		var handler = GameResumed;
 		if (handler == null) {
 			return;
