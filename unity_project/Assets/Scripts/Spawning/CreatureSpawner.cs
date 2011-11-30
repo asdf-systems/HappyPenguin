@@ -22,13 +22,13 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	public static double MINIMAL_CREATURE_SPAWN_TIME = 0.1;
 	
 	// Factor to converge towards
-	public static double MIN_FACTOR = 0.4;
+	public static double MIN_FACTOR = 0.38;
 	// Period (=1/frequency) of the wave function (seconds)
-	public static double WAVE_PERIOD = 20;
-	public static double WAVE_AMPLITUDE = 0.1;
+	public static double WAVE_PERIOD = 15;
+	public static double WAVE_AMPLITUDE = 0.12;
 	// How fast is it going to get harder?
 	// Sorry, no actual units...
-	public static double STEEPNESS = 0.05;
+	public static double STEEPNESS = 0.07;
 
 	// This defines a curve which is a factor for nextSpawn.
 	// If you want to modify it, go to

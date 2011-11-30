@@ -25,7 +25,7 @@ namespace Pux.Effects
 		
 		#endregion
 		public LessSymbolsEffect() {
-			Duration = TimeSpan.FromSeconds(10);
+			Duration = TimeSpan.FromSeconds(12);
 			IconResourceUV = new Rect(1024,197,144,144);
 		}
 		

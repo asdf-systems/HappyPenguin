@@ -24,7 +24,7 @@ namespace Pux.Effects
 		
 		#endregion
 		public CreatureSlowdownEffect() {
-			Duration = TimeSpan.FromSeconds(4);
+			Duration = TimeSpan.FromSeconds(8);
 			IconResourceUV = new Rect(0,197,144,144);
 		}
 		
