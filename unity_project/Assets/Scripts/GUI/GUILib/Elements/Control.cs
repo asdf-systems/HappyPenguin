@@ -49,6 +49,11 @@ public class Control : Panel {
 		return CameraScreen.CursorInsidePhysicalRegion(realActiveRegion);
 	}
 	
+	public override void UpdateElement(){
+		initActiveRegion();
+		base.UpdateElement ();
+		
+	}
 	// Caclulate the Absolute Values on the physical screen - because ActiveRegion is virtual an relative to the Control Position
 	private void initActiveRegion(){
 		var activeRegion = activeScreen.GetPhysicalRegionFromRect(ActiveRegion, KeepAspectRatio);
