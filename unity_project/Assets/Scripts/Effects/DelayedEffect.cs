@@ -28,7 +28,7 @@ namespace Pux.Effects{
 		
 		public override void Stop (GameWorldBehaviour world)
 		{
-			world.RegisterEffect(effect);
+			world.ApplyEffect(effect);
 		}
 		
 		#endregion

@@ -8,6 +8,8 @@ namespace Pux.Effects
 		public Effect() {
 			Duration = EffectDuration.Instant;
 		}
+		
+		public virtual bool IsStackable { get { return true; }}
 
 		public abstract void Start(GameWorldBehaviour world);
 		public abstract void Update(GameWorldBehaviour world);

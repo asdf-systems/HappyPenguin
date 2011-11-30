@@ -7,14 +7,19 @@ namespace Pux.Effects
 	{
 		private readonly ClockRotations[] clockRotations;
 		private readonly System.Random random;
-		private bool isApplied;
+		
+		public override bool IsStackable {
+			get {
+				return false;
+			}
+		}
 		
 		public UIRotationEffect ()
 		{
 			random = new System.Random();
 			clockRotations = new ClockRotations[2];
 			Duration = TimeSpan.FromSeconds(5);
-			IconResourceUV = new Rect(1792,425,144,144);
+			IconResourceUV = new Rect(1792, 425, 144, 144);
 		}
 		
 		public UIRotationEffect (ClockRotations clockRotation)
@@ -26,10 +31,6 @@ namespace Pux.Effects
 		
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world){
-			if (!world.CanPerformUIRotation()) {
-				return;
-			}
-			isApplied = true;
 			world.IngameSounds.PlayBaddySound();
 			var value = random.Next(0, 100);
 			if (value > 50) {
@@ -52,9 +53,6 @@ namespace Pux.Effects
 		
 		public override void Stop (GameWorldBehaviour world)
 		{
-			if (!isApplied) {
-				return;
-			}
 			world.InvokeUIRotation(clockRotations[1], true);
 		}
 		

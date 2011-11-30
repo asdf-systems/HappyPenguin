@@ -29,7 +29,7 @@ namespace Pux.Effects
 			entity.transform.LookAt(Camera.main.transform);
 			
 			var delay = TimeSpan.FromMilliseconds(1500);
-			w.RegisterEffect(new DelayedEffect(new SinkEffect(entity), delay));
+			w.ApplyEffect(new DelayedEffect(new SinkEffect(entity), delay));
 			
 			entity.HideSymbols();
 			entity.PlayAnimation("explode");
@@ -38,7 +38,7 @@ namespace Pux.Effects
 			foreach (var creature in creatures.Where(x => !(x == entity))) {
 				var killEffects = creature.HitEffects;
 				foreach (var effect in killEffects) {
-					w.RegisterEffect(effect);
+					w.ApplyEffect(effect);
 				}
 			}
 		}
