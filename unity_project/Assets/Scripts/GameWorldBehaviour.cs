@@ -161,7 +161,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.SymbolsChanged += OnSymbolChanged;
 		guiManager.GamePaused += OnGamePaused;
 		guiManager.GameResumed += OnGameResumed;
-		guiManager.GameCanceld += OnGameCanceld;
+		guiManager.GameCanceld += OnGameCancelled;
 	}
 
 	private void InitPerkNodes() {
@@ -212,7 +212,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	public void RegisterEffects(IEnumerable<Effect> effects) {
 		foreach (var effect in effects) {
-			effectManager.RegisterEffect(effect);
+			RegisterEffect(effect);
 		}
 	}
 
@@ -250,7 +250,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private void OnEffectExpired(object sender, EffectEventArgs e) {
 		foreach (var effect in e.Effects) {
-			iconSlotManager.HideEffect(effect);
+			if (effect.IsIconAvailable) {
+				iconSlotManager.HideEffect(effect);	
+			}
 		}
 	}
 
@@ -280,10 +282,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	
 	public void OnGameResumed(object sender, EventArgs e){
 		if(Time.timeScale == 0){
-				IngameSounds.PlayPauseEnd();
-				//RenderSettings.ambientLight = oldAmbientLight;
-				DarkenScreen(false);
-				Time.timeScale = 1;	
+			IngameSounds.PlayPauseEnd();
+			DarkenScreen(false);
+			Time.timeScale = 1;	
 		}
 	}
 	
@@ -297,7 +298,11 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 	}
 	
-	public void OnGameCanceld(object sender, EventArgs e){
+	public bool CanPerformUIRotation(){
+		return guiManager.CanRotate();
+	}
+	
+	public void OnGameCancelled(object sender, EventArgs e){
 		Time.timeScale = 1;
 		DarkenScreen(false);
 		Application.LoadLevel(1);
@@ -305,13 +310,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 // Event Invoke
 	private void InvokePlayerHit(TargetableEntityBehaviour target) {
-
-		target.TargetHit += (sender, e) => { effectManager.RegisterEffects(target.HitEffects); };
-		
+		target.TargetHit += (sender, e) => { RegisterEffects(target.HitEffects); };
 		if (!entityManager.Player.IsPlaying("throw")) {
 			entityManager.Player.PlayAnimation("throw");	
 		}
-		
 		entityManager.ThrowSnowball(target, SnowballSpeedModifier);
 	}
 
@@ -320,6 +322,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
 		//ChangePlayerPoints(255);
 		//entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
+		RegisterEffect(new UIRotationEffect(ClockRotations.CounterClockwise));
 		IngameSounds.PlayBooSound();
 	}
 

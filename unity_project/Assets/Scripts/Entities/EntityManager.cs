@@ -26,24 +26,22 @@ namespace Pux.Entities
 			var e = new EffectEventArgs(effects);
 			handler(this, e);
 		}
-		
-		public void ReleaseSymbolChain(TargetableEntityBehaviour targetable){
-			targetable.HideSymbols();
-			symbolManager.VoidTargetable(targetable);
-		}
 
-		public void ThrowSnowball(TargetableEntityBehaviour target, float speedMutiplier) {
-			var snowball = DisplaySnowball();
-			snowball.Speed *= speedMutiplier;
+		public void ThrowSnowball(TargetableEntityBehaviour target, float speedMultiplier) {
+			Debug.Log("throwing snowball");
+			
 			target.TargetHit += OnTargetHit;
+			
+			var snowball = DisplaySnowball();
 			snowball.DedicatedTarget = target;
-			LaunchSnowball(snowball, target, speedMutiplier);
+			snowball.Speed = 350 * speedMultiplier;
+			snowball.Throw(target.gameObject);
 		}
 
 		private void OnTargetHit(object sender, BehaviourEventArgs<SnowballBehaviour> e) {
 			var target = sender as TargetableEntityBehaviour;
 			target.TargetHit -= OnTargetHit;
-			ReleaseSymbolChain(target);
+			target.HideSymbols();
 			target.ClearControllers();
 			
 			// die, snowball, die
@@ -52,26 +50,11 @@ namespace Pux.Entities
 			InvokeEffectsReleased(target.HitEffects);
 		}
 
-		private void LaunchSnowball(SnowballBehaviour snowball, TargetableEntityBehaviour target, float speedMultiplier) {
-			//creature got disposed while throwing
-			if (target == null) {
-				snowball.Dispose();
-				return;
-			}
-			
-			var root = GameObjectRegistry.GetObject("entity_root");
-			snowball.transform.parent = root.transform;
-			snowball.Speed = 350 * speedMultiplier;
-			snowball.Throw(target.gameObject);
-			snowball.IsReleased = true;
-		}
-
 		private SnowballBehaviour DisplaySnowball() {
 			
 			var instance = ResourceManager.CreateInstance<GameObject>("Environment/Snowball");
 			
-			instance.transform.parent = Player.rightHandPoint.transform;
-			instance.transform.localPosition = Vector3.zero;
+			instance.transform.position = Player.rightHandPoint.transform.position;
 			
 			var component = instance.GetComponentInChildren<SnowballBehaviour>();
 			if (component == null) {
