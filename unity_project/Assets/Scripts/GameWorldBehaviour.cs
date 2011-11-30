@@ -39,9 +39,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	public float PointsMultiplier { get; set; }
 	
-<<<<<<< HEAD
-	public Color DarkLight;
-=======
+
 	public int MaxLife { 
 		get {  return entityManager.Player.MaxLife; } 
 		set { entityManager.Player.MaxLife = value; } 
@@ -77,7 +75,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		set{ perkSpawner.PerkSpawnTimeModifier = value;}
 	}
 
->>>>>>> origin/wieser/failed_push
 	private System.Random random;
 
 	public void Awake() {
@@ -91,19 +88,14 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitAttackZone();
 		InitStatics();
 		InitUI();
-<<<<<<< HEAD
-		PointsMultiplier = 1;
-		SnowballSpeedModifier = 1;
-		oldTimeScale = Time.timeScale;
-=======
+
 		InitWorldConstants();
-		
 		ClothAdjustmentManager.ApplyAdjustments(this);
 		InitLifeBeacons();
 	}
 	
 	private void InitMusic(){
->>>>>>> origin/wieser/failed_push
+
 		PlayNormalBackgroundMusic();
 	}
 	
@@ -135,12 +127,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		iconSlotManager = new IconSlotManager();
 	}
 	
-<<<<<<< HEAD
-	private void initAmbientLights(){
-		//oldAmbientLight = RenderSettings.ambientLight;
-	}
-=======
->>>>>>> origin/wieser/failed_push
+
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
 		if (attackZone == null) {
@@ -381,14 +368,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 
 	private void InvokePlayerMiss() {
-<<<<<<< HEAD
-		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
-		//ChangePlayerPoints(255);
-		//entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
 
-=======
-		entityManager.SpawnCreature(CreatureTypes.Whale);
->>>>>>> origin/wieser/failed_push
 		IngameSounds.PlayBooSound();
 	}
 

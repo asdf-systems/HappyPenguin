@@ -19,23 +19,23 @@ public sealed class PerkBehaviour : TargetableEntityBehaviour
 		}
 		
 		switch (type) {
-		case PerkTypes.Health:
+		case PerkTypes.Health: // Red
 				component.newUvs = new Rect(128, 0, 1, 1);
 			break;
-		case PerkTypes.IncreasedBallSpeed:
+		case PerkTypes.IncreasedBallSpeed: // yellow
 				component.newUvs = new Rect(0, 0, 1, 1);
 			break;
 		case PerkTypes.TripplePoints:
-				component.newUvs = new Rect(0, 128, 1, 1);
+				component.newUvs = new Rect(0, -128, 1, 1);
 			break;
 		case PerkTypes.DoublePoints:
-				component.newUvs = new Rect(0,256, 1, 1);
+				component.newUvs = new Rect(0,-256, 1, 1);
 			break;
 		case PerkTypes.CreatureSlowdown:
-				component.newUvs = new Rect(128, 256, 1, 1);
+				component.newUvs = new Rect(128, -256, 1, 1);
 			break;
 		case PerkTypes.LessSymbols:
-				component.newUvs = new Rect(128, 128, 1, 1);
+				component.newUvs = new Rect(128, -128, 1, 1);
 			break;
 		}
 	}

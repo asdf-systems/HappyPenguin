@@ -23,13 +23,12 @@ namespace Pux.UI
 		public void DisplayEffect(Effect effect){
 
 			var slot = FindLeftestEmptySlot();
-<<<<<<< HEAD
+
 			if(slot != null)
 				slot.DisplayEffect(effect);
-			
-=======
+
 			slot.DisplayEffect(effect);
->>>>>>> origin/wieser/failed_push
+
 		}
 		
 		public void HideEffect(Effect effect){
