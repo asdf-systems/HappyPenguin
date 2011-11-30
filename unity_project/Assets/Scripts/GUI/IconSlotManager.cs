@@ -23,7 +23,8 @@ namespace Pux.UI
 		public void DisplayEffect(Effect effect){
 
 			var slot = FindLeftestEmptySlot();
-			slot.DisplayEffect(effect);
+			if(slot != null)
+				slot.DisplayEffect(effect);
 			
 		}
 		
