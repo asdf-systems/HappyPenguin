@@ -16,6 +16,12 @@ namespace Pux.Effects
 			IconResourceUV = new Rect(1792,425,144,144);
 		}
 		
+		public UIRotationEffect (ClockRotations clockRotation)
+			: this()
+		{
+			clockRotations[0] = clockRotation;
+		}
+		
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world){
 			world.IngameSounds.PlayBaddySound();
