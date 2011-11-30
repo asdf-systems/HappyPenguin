@@ -15,7 +15,8 @@ public class GUIManager : MonoBehaviour {
 	private static GUIManager instance;
 	
 	private bool restore;
-	private bool needFrameUpdateCalls;
+	private bool isSliding;
+	private bool isRotationCycleActive;
 	public CornerButton buttonC;
 	public CornerButton buttonE;
 	public CornerButton buttonQ;
@@ -64,7 +65,7 @@ public class GUIManager : MonoBehaviour {
 			HideExtraElements();
 			firstUpdate = false;
 		}
-		if (needFrameUpdateCalls) {
+		if (isSliding) {
 			buttonC.UpdateElement();
 			buttonE.UpdateElement();
 			buttonQ.UpdateElement();
@@ -139,13 +140,10 @@ public class GUIManager : MonoBehaviour {
 	private void StorePositions(){
 		positions.Clear();
 		positions.AddRange(new [] { buttonC.Position, buttonE.Position, buttonQ.Position, buttonY.Position });
-
-
 	}
 	
 	private void OnButtonsSlidOut(Action action, ClockRotations rotation)
 	{
-
 		poorMansBarrier ++;
 		if (poorMansBarrier < 4) {
 			return;
@@ -178,12 +176,21 @@ public class GUIManager : MonoBehaviour {
 	public void RotateSingleButton(Button button, float degrees){
 		button.SetRotationTransformations(new Vector2(0.5f,0.5f), degrees);	
 	}
+	
+	public bool CanRotate(){
+		return isRotationCycleActive;
+	}
 
 	public void PerformUIRotation(ClockRotations clockRotation, bool restore)
 	{
-		this.restore = restore;
-		needFrameUpdateCalls = true;
+		if (isRotationCycleActive) {
+			return;
+		}
+		
+		isSliding = true;
 		poorMansBarrier = 0;
+		this.restore = restore;
+		isRotationCycleActive = !restore;
 		if (clockRotation == ClockRotations.Clockwise) {
 			SlideButtonsOut(() => OnButtonsSlidOut(MoveClockwise, clockRotation));
 		} else{
@@ -245,7 +252,8 @@ public class GUIManager : MonoBehaviour {
 			return;
 		}
 		
-		needFrameUpdateCalls = false;
+		isSliding = false;
+		isRotationCycleActive = !restore;
 	}
 	
 	private Vector2 GetSnapPositionForButton(CornerButton button)

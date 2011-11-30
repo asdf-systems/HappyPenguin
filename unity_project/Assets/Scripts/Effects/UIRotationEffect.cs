@@ -7,6 +7,7 @@ namespace Pux.Effects
 	{
 		private readonly ClockRotations[] clockRotations;
 		private readonly System.Random random;
+		private bool isApplied;
 		
 		public UIRotationEffect ()
 		{
@@ -20,10 +21,15 @@ namespace Pux.Effects
 			: this()
 		{
 			clockRotations[0] = clockRotation;
+			clockRotations[1] = clockRotation == ClockRotations.Clockwise ? ClockRotations.CounterClockwise : ClockRotations.Clockwise;
 		}
 		
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world){
+			if (!world.CanPerformUIRotation()) {
+				return;
+			}
+			isApplied = true;
 			world.IngameSounds.PlayBaddySound();
 			var value = random.Next(0, 100);
 			if (value > 50) {
@@ -46,6 +52,9 @@ namespace Pux.Effects
 		
 		public override void Stop (GameWorldBehaviour world)
 		{
+			if (!isApplied) {
+				return;
+			}
 			world.InvokeUIRotation(clockRotations[1], true);
 		}
 		
