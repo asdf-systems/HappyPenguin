@@ -8,7 +8,9 @@ namespace Pux.Effects
 		public override void Start (GameWorldBehaviour world){
 
 			world.PlayFastBackgroundMusic();
-			world.ModifyCreatures((x) => x.Speed *= 0.2f);
+			Time.timeScale = 0.25f;
+			GUIManager.Instance.Alert("BulletTime", 0.5f);
+			//world.ModifyCreatures((x) => x.Speed *= 0.5f);
 		}
 		
 		public override void Update (GameWorldBehaviour world)
@@ -19,18 +21,19 @@ namespace Pux.Effects
 		public override void Stop (GameWorldBehaviour world)
 		{
 			world.PlayNormalBackgroundMusic();
-			world.ModifyCreatures((x) => x.Speed = x.DefaultSpeed);
+			Time.timeScale = 1;
+			//world.ModifyCreatures((x) => x.Speed = x.DefaultSpeed);
 		}
 		
 		#endregion
 		public CreatureSlowdownEffect() {
-			Duration = TimeSpan.FromSeconds(8);
+			Duration = TimeSpan.FromSeconds(2);
 			IconResourceUV = new Rect(0,197,144,144);
 		}
 		
 		public override string Description {
 			get {
-				return "Bullet Time!";
+				return string.Empty;
 			}
 		}
 	}

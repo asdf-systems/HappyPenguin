@@ -66,12 +66,15 @@ public class AlertTextPanel : TextPanel {
 	}
 	
 	public void ShowText(string value){
+		ShowText(value, ShowTimeInSeconds);
+	}
+	
+	public void ShowText(string value, float time){
 		initTimer();
 		textShow = true;
 		Text = value;
-		timer1.StartTimer();
+		timer1.StartTimer(time);
 	}
-	
 	public void HideText(){
 		textShow = false;
 	}

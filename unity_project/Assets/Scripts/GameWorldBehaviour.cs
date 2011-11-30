@@ -19,7 +19,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private List<LifeSpawnBeacon> lifeBeacons;
 
 	private AttackZoneBehaviour attackZone;
-
+	
+	private bool isPaused = false;
+	private float oldTimeScale;
 	public EntityManager entityManager { get; private set; }
 	public GameObject Trebuchet;
 	public string PerkText;
@@ -63,6 +65,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitUI();
 		PointsMultiplier = 1;
 		SnowballSpeedModifier = 1;
+		oldTimeScale = Time.timeScale;
 		PlayNormalBackgroundMusic();
 	}
 
@@ -281,16 +284,19 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 	
 	public void OnGameResumed(object sender, EventArgs e){
-		if(Time.timeScale == 0){
+		if(isPaused){
 			IngameSounds.PlayPauseEnd();
 			DarkenScreen(false);
-			Time.timeScale = 1;	
+			Time.timeScale = oldTimeScale;
+			isPaused = false;
 		}
 	}
 	
 	public void OnGamePaused(object sender, EventArgs e){
-		if(Time.timeScale > 0){
+		if(!isPaused){
+			isPaused = true;
 			IngameSounds.PlayPauseStart();
+			oldTimeScale = Time.timeScale;
 			Time.timeScale = 0;
 			//oldAmbientLight = RenderSettings.ambientLight;
 			//RenderSettings.ambientLight = new Color(0.5f,0.5f,0.5f,1);
@@ -321,7 +327,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private void InvokePlayerMiss() {
 		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
 		//ChangePlayerPoints(255);
-		//entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
+		entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
 		RegisterEffect(new UIRotationEffect(ClockRotations.CounterClockwise));
 		IngameSounds.PlayBooSound();
 	}

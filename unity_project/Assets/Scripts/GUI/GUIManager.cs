@@ -322,8 +322,11 @@ public class GUIManager : MonoBehaviour {
 	}
 
 	public void Alert(string value) {
-		EditorDebug.Log("Alert");
 		AlertTextEntity.ShowText(value);
+	}
+	
+	public void Alert(string value, float time){
+		AlertTextEntity.ShowText(value,time);
 	}
 
 	public void NotifyButtonHit(string symbol) {
