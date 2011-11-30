@@ -110,6 +110,7 @@ public class CameraScreen : Frame {
 	
 	
 	
+	
 	public static int GetPhysicalTextSize(int size) {
 		Vector2 factor = getFactor();
 		return (int)(size * factor.y);
@@ -186,20 +187,12 @@ public class CameraScreen : Frame {
 		
 	}
 	
-	/*public static Vector2 PhysicalToVirtualScreenPosition(Vector2 screenPosition){
-		float factorY = (float)(Screen.height) / (float)(ScreenConfig.TargetScreenHeight); 
-		float factorX = (float)(Screen.width) / (float)(ScreenConfig.TargetScreenWidth);
-		screenPosition.y = Screen.height - screenPosition.y;
-		screenPosition.x *= factorX;
-		screenPosition.y *= factorY;
-		return screenPosition;
-	}*/
 	public static Vector2 PhysicalToVirtualScreenPosition(Vector2 screenPosition){
 		//float factorY = (float)(Screen.height) / (float)(ScreenConfig.Instance.TargetScreenHeight); 
 		var factor = getFactor();
 		//float factorX = (float)(Screen.width) / (float)(ScreenConfig.Instance.TargetScreenWidth);
 		//float factorY = factorX / ScreenConfig.Instance.ScreenAspect;
-		screenPosition.y = Screen.height - screenPosition.y;
+		//screenPosition.y = Screen.height - screenPosition.y;
 		screenPosition.x /= factor.x;
 		screenPosition.y /= factor.y;
 		return screenPosition;

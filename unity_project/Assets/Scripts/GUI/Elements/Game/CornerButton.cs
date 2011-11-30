@@ -4,9 +4,24 @@ using Pux.Controllers;
 
 public sealed class CornerButton : Button
 {
+	private bool firstUpdate = true;
 	private ControlManager<CornerButton> controlManager;
 	public CornerButton() {
 		controlManager = new ControlManager<CornerButton>();
+	}
+	
+	protected override void StartOverride(){
+		base.StartOverride();
+		removeFloat();
+		
+	}
+	
+	private void removeFloat(){
+		var realPosition = new Vector2(this.RealRegionOnScreen.x, this.RealRegionOnScreen.y);
+		this.Position = CameraScreen.PhysicalToVirtualScreenPosition(realPosition);
+		this.horizontalFloat = Frame.HorizontalFloatPositions.none;
+		this.verticalFloat = Frame.VerticalFloatPositions.none;
+		StoreDefaultPosition();
 	}
 
 	public void QueueController(string name, Controller<CornerButton> controller) {
@@ -24,6 +39,11 @@ public sealed class CornerButton : Button
 	protected override void UpdateOverride() {
 		base.UpdateOverride();
 		controlManager.Update(this);
+		if(firstUpdate){
+			firstUpdate = false;
+			removeFloat();
+		}
+		
 	}
 	
 	public void RemoveController (string name) {
@@ -54,4 +74,6 @@ public sealed class CornerButton : Button
 		var y = VirtualRegionOnScreen.y;
 		DefaultPosition = new Vector2(x, y);
 	}
+	
+
 }
