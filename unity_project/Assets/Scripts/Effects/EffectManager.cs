@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
 using Pux.Collections;
@@ -45,6 +46,10 @@ namespace Pux.Effects
 				effects.Remove(e);
 				InvokeEffectExpired(e);
 			}
+		}
+		
+		public bool CanRegisterEffect(Effect effect) {
+			return effect.IsStackable || effects.Keys.FirstOrDefault(x => x.GetType() == effect.GetType()) == null;
 		}
 		
 		public void RegisterEffects(IEnumerable<Effect> effects)

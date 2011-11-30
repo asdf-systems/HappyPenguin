@@ -161,7 +161,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.SymbolsChanged += OnSymbolChanged;
 		guiManager.GamePaused += OnGamePaused;
 		guiManager.GameResumed += OnGameResumed;
-		guiManager.GameCanceld += OnGameCancelled;
+		guiManager.GameCancelled += OnGameCancelled;
 	}
 
 	private void InitPerkNodes() {
@@ -198,7 +198,11 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 
 // Effekt Handling
-	public void RegisterEffect(Effect effect) {
+	public void ApplyEffect(Effect effect) {
+		if (!effectManager.CanRegisterEffect(effect)) {
+			return;
+		}
+		
 		effectManager.RegisterEffect(effect);
 		if (effect.HasDescription) {
 			string s = effect.Description;
@@ -210,9 +214,9 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 	}
 
-	public void RegisterEffects(IEnumerable<Effect> effects) {
+	public void ApplyEffects(IEnumerable<Effect> effects) {
 		foreach (var effect in effects) {
-			RegisterEffect(effect);
+			ApplyEffect(effect);
 		}
 	}
 
@@ -244,7 +248,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private void OnEffectsReleased(object sender, EffectEventArgs e) {
 		foreach (var effect in e.Effects) {
-			RegisterEffect(effect);
+			ApplyEffect(effect);
 		}
 	}
 
@@ -298,10 +302,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		}
 	}
 	
-	public bool CanPerformUIRotation(){
-		return guiManager.CanRotate();
-	}
-	
 	public void OnGameCancelled(object sender, EventArgs e){
 		Time.timeScale = 1;
 		DarkenScreen(false);
@@ -310,7 +310,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 // Event Invoke
 	private void InvokePlayerHit(TargetableEntityBehaviour target) {
-		target.TargetHit += (sender, e) => { RegisterEffects(target.HitEffects); };
+		target.TargetHit += (sender, e) => { ApplyEffects(target.HitEffects); };
 		if (!entityManager.Player.IsPlaying("throw")) {
 			entityManager.Player.PlayAnimation("throw");	
 		}
@@ -322,14 +322,14 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
 		//ChangePlayerPoints(255);
 		//entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
-		RegisterEffect(new UIRotationEffect(ClockRotations.CounterClockwise));
+		ApplyEffect(new UIRotationEffect(ClockRotations.Clockwise));
 		IngameSounds.PlayBooSound();
 	}
 
 	private void OnAttackZoneEntered(object sender, BehaviourEventArgs<CreatureBehaviour> e) {
 		var creature = e.Behaviour;
 		if (creature != null) {
-			RegisterEffects(creature.AttackEffects);
+			ApplyEffects(creature.AttackEffects);
 		}
 	}
 

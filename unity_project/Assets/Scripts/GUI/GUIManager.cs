@@ -16,7 +16,6 @@ public class GUIManager : MonoBehaviour {
 	
 	private bool restore;
 	private bool isSliding;
-	private bool isRotationCycleActive;
 	public CornerButton buttonC;
 	public CornerButton buttonE;
 	public CornerButton buttonQ;
@@ -52,7 +51,7 @@ public class GUIManager : MonoBehaviour {
 	public event EventHandler<SwipeEventArgs> SwipeCommitted;
 	public event EventHandler GameResumed;
 	public event EventHandler GamePaused;
-	public event EventHandler GameCanceld;
+	public event EventHandler GameCancelled;
 	
 	
 	public static GUIManager Instance{
@@ -73,14 +72,14 @@ public class GUIManager : MonoBehaviour {
 		}
 	}
 	
-	private void Awake(){
+	private void Awake() {
 		Instance = this;
 		InitButtons();
 		CheckAssertions();
 		ButtonSlideDistance = 181; // magnitude of Vector2(128,128) 
 	}
 	
-	void Start(){
+	void Start() {
 		HideExtraElements();
 	}
 	
@@ -176,21 +175,12 @@ public class GUIManager : MonoBehaviour {
 	public void RotateSingleButton(Button button, float degrees){
 		button.SetRotationTransformations(new Vector2(0.5f,0.5f), degrees);	
 	}
-	
-	public bool CanRotate(){
-		return isRotationCycleActive;
-	}
 
 	public void PerformUIRotation(ClockRotations clockRotation, bool restore)
-	{
-		if (isRotationCycleActive) {
-			return;
-		}
-		
+	{	
 		isSliding = true;
 		poorMansBarrier = 0;
 		this.restore = restore;
-		isRotationCycleActive = !restore;
 		if (clockRotation == ClockRotations.Clockwise) {
 			SlideButtonsOut(() => OnButtonsSlidOut(MoveClockwise, clockRotation));
 		} else{
@@ -253,7 +243,6 @@ public class GUIManager : MonoBehaviour {
 		}
 		
 		isSliding = false;
-		isRotationCycleActive = !restore;
 	}
 	
 	private Vector2 GetSnapPositionForButton(CornerButton button)
@@ -384,7 +373,7 @@ public class GUIManager : MonoBehaviour {
 		if (handler == null) {
 			return;
 		}
-		GameCanceld(this, EventArgs.Empty);
+		GameCancelled(this, EventArgs.Empty);
 		
 	}
 	public void InvokeGamePaused(){
