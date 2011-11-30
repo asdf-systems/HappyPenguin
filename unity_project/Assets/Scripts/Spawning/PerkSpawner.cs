@@ -10,7 +10,12 @@ public sealed class PerkSpawner : Spawner<PerkTypes>
 	private System.Random random = new System.Random();
 	private TimeSpan timeSinceLastSpawn = TimeSpan.Zero;
 	private List<Action> spawnList = new List<Action>();
-
+	
+	public float PerkSpawnTimeModifier {
+		get;
+		set;
+	}
+	
 	public static int DEFAULT_PERK_SPAWN_TIME = 20;
 
 	public PerkSpawner() {
@@ -27,7 +32,7 @@ public sealed class PerkSpawner : Spawner<PerkTypes>
 	}
 
 	private double calculateSpawnTime() {
-		return (DEFAULT_PERK_SPAWN_TIME + (random.NextDouble() * 20));
+		return (DEFAULT_PERK_SPAWN_TIME + (random.NextDouble() * 20)) * 0.9f;
 	}
 
 	private void SpawnPerk() {

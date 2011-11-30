@@ -33,6 +33,7 @@ namespace Pux.Effects
 		public NightEffect() {
 			Duration = TimeSpan.FromSeconds(6);
 			IconResourceUV = new Rect(1536,197,144,144);
+			IsPositive = false;
 		}
 	}
 }

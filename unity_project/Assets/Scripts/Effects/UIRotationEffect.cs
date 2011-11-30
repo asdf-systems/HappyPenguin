@@ -16,6 +16,7 @@ namespace Pux.Effects
 		
 		public UIRotationEffect ()
 		{
+			IsPositive = false;
 			random = new System.Random();
 			clockRotations = new ClockRotations[2];
 			Duration = TimeSpan.FromSeconds(5);

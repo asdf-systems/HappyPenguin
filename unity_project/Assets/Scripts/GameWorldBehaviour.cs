@@ -26,7 +26,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public GameObject Trebuchet;
 	public string PerkText;
 	public string WrongSymbolChainText;
-	public string LooseText;
+	public string LossText;
 	public IngameSoundEffects IngameSounds;
 	public int ProbabilityForCheers = 5;
 	
@@ -37,13 +37,47 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		set { entityManager.SymbolRangeModifer = value; }
 	}
 
-	// implemented
 	public float PointsMultiplier { get; set; }
-
-	// implemented
-	public float SnowballSpeedModifier { get; set; }
 	
+<<<<<<< HEAD
 	public Color DarkLight;
+=======
+	public int MaxLife { 
+		get {  return entityManager.Player.MaxLife; } 
+		set { entityManager.Player.MaxLife = value; } 
+	}
+	
+	public float  DefaultBallSpeed { 
+		get{ return entityManager. DefaultBallSpeed;} 
+		set {entityManager. DefaultBallSpeed = value;} 
+	}
+	
+	public float  SnowballSpeedModifier { 
+		get{ return entityManager. SnowballSpeedModifier;} 
+		set {entityManager. SnowballSpeedModifier = value;} 
+	}
+	
+	public float CreatureSpeedModifier { 
+		get{ return entityManager.CreatureSpeedModifier;} 
+		set {entityManager.CreatureSpeedModifier = value;} 
+	}
+	
+	public float PositiveEffectDurationModifier {
+		get;
+		set;
+	}
+	
+	public float NegativeEffectDurationModifier {
+		get;
+		set;
+	}
+	
+	public float PerkSpawnTimeModifier {
+		get { return perkSpawner.PerkSpawnTimeModifier;}
+		set{ perkSpawner.PerkSpawnTimeModifier = value;}
+	}
+
+>>>>>>> origin/wieser/failed_push
 	private System.Random random;
 
 	public void Awake() {
@@ -51,23 +85,36 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitGameWorldBehaviour();
 		InitIconSlotManager();
 		InitPlayer();
-		InitLifeBeacons();
 		InitEntityRoot();
 		InitCreatureNodes();
 		InitPerkNodes();
 		InitAttackZone();
 		InitStatics();
-		initAmbientLights();
-	}
-
-	void Start() {
 		InitUI();
+<<<<<<< HEAD
 		PointsMultiplier = 1;
 		SnowballSpeedModifier = 1;
 		oldTimeScale = Time.timeScale;
+=======
+		InitWorldConstants();
+		
+		ClothAdjustmentManager.ApplyAdjustments(this);
+		InitLifeBeacons();
+	}
+	
+	private void InitMusic(){
+>>>>>>> origin/wieser/failed_push
 		PlayNormalBackgroundMusic();
 	}
-
+	
+	private void InitWorldConstants() {
+		MaxLife = 5;
+		DefaultBallSpeed = 350.0f;
+		SymbolRangeModifer = new Range(0, 0);
+		SnowballSpeedModifier = 1.0f;
+		PointsMultiplier = 1.0f;
+		CreatureSpeedModifier = 1.0f;
+	}
 
 // Init Functions
 	private void InitGameWorldBehaviour() {
@@ -88,9 +135,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		iconSlotManager = new IconSlotManager();
 	}
 	
+<<<<<<< HEAD
 	private void initAmbientLights(){
 		//oldAmbientLight = RenderSettings.ambientLight;
 	}
+=======
+>>>>>>> origin/wieser/failed_push
 	private void InitAttackZone() {
 		attackZone = gameObject.GetComponentInChildren<AttackZoneBehaviour>();
 		if (attackZone == null) {
@@ -140,7 +190,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			lifeBeacons.Add(beacon);
 		}
 		// this must be here, we need the player to do this
-		ChangePlayerHealth(entityManager.Player.MaxLife);
+		SetPlayerHealth(entityManager.Player.MaxLife);
 	}
 
 	private void InitEntityRoot() {
@@ -157,7 +207,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private void InitUI() {
 		guiManager = GUIManager.Instance;
-		guiManager.DisplayPoints(entityManager.Player.Points);
 		//guiManager.DisplayLife(entityManager.Player.Life);
 		guiManager.SwipeCommitted += OnSwipeCommitted;
 		guiManager.SymbolsChanged += OnSymbolChanged;
@@ -195,14 +244,19 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		entityManager.Player = player;
 		player.PlayAnimation("idle");
-		player.Points = 0;
-		player.Life = 0;
 	}
 
-// Effekt Handling
+// Effect Handling
 	public void ApplyEffect(Effect effect) {
 		if (!effectManager.CanRegisterEffect(effect)) {
 			return;
+		}
+		
+		var milliseconds = effect.Duration.TotalMilliseconds;
+		if (effect.IsPositive) {
+			effect.Duration = TimeSpan.FromMilliseconds(milliseconds * PositiveEffectDurationModifier);
+		} else {
+			effect.Duration = TimeSpan.FromMilliseconds(milliseconds * NegativeEffectDurationModifier);
 		}
 		
 		effectManager.RegisterEffect(effect);
@@ -220,6 +274,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		foreach (var effect in effects) {
 			ApplyEffect(effect);
 		}
+		
 	}
 
 // Symbol Modifikation
@@ -302,8 +357,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			IngameSounds.PlayPauseStart();
 			oldTimeScale = Time.timeScale;
 			Time.timeScale = 0;
-			//oldAmbientLight = RenderSettings.ambientLight;
-			//RenderSettings.ambientLight = new Color(0.5f,0.5f,0.5f,1);
 			DarkenScreen(true);
 		}
 	}
@@ -321,17 +374,21 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			entityManager.Player.PlayAnimation("throw");	
 		}
 		var effect = new ActionEffect(() => {
-			entityManager.ThrowSnowball(target, SnowballSpeedModifier);	
+			entityManager.ThrowSnowball(target);	
 		});
 		ApplyEffect(new DelayedEffect(effect,TimeSpan.FromMilliseconds(200)));
 	}
 
 
 	private void InvokePlayerMiss() {
+<<<<<<< HEAD
 		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
 		//ChangePlayerPoints(255);
 		//entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
 
+=======
+		entityManager.SpawnCreature(CreatureTypes.Whale);
+>>>>>>> origin/wieser/failed_push
 		IngameSounds.PlayBooSound();
 	}
 
@@ -362,7 +419,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		entityManager.Player.Life -= damage;
 	}
 
-	public void ChangePlayerHealth(float lifeChange) {
+	public void SetPlayerHealth(float lifeChange) {
 		var player = entityManager.Player;
 		var missingLife = player.MaxLife - player.Life;
 		var actualLifeChange = (int)Math.Min(missingLife, lifeChange);
@@ -405,9 +462,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		var points = change * PointsMultiplier;
 		
-		entityManager.Player.Points += points;
-		guiManager.DisplayPoints(entityManager.Player.Points);
-		GameStatics.Points = entityManager.Player.Points;
+		GameStatics.Points += points;
+		guiManager.DisplayPoints(GameStatics.Points);
 		float val = random.Next(0,100);
 		if(val >= ProbabilityForCheers)
 			IngameSounds.PlayCheerSound();

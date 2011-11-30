@@ -6,9 +6,8 @@ using Pux.Resources;
 
 public sealed class PlayerBehaviour : EntityBehaviour
 {
-	public float MaxLife = 5;
-	public float StartLife = 0;
-	public float StartPoints = 0;
+	public int MaxLife = 5;
+
 	public GameObject PenguinObject;
 	public GameObject mesh;
 	public GameObject hatPoint;
@@ -27,24 +26,11 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		set;
 	}
 	
-	public float Points {
-		get;
-		set;
-	}
-	
 	protected override void AwakeOverride() {
 		base.AwakeOverride();
-		Life = StartLife;
-		Points = StartPoints;
-		
-		
+		updateCloth();
 	}
 	
-	protected override void StartOverride(){
-		updateCloth();
-		//this.audio.clip = OtherSound;
-		//this.audio.Play();
-	}
 	public bool IsDead {
 		get {return Life < 1;}
 	}
@@ -59,6 +45,7 @@ public sealed class PlayerBehaviour : EntityBehaviour
 		gameObject.animation.Play("happy");
 		gameObject.animation.PlayQueued("show01");
 	}
+	
 	private void changeHat(){
 		
 		var obj = GameStatics.loadPlayerHat();

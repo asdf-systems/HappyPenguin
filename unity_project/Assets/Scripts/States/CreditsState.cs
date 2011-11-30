@@ -6,7 +6,6 @@ public class CreditsState : MonoBehaviour {
 
 	private float time; 
 	private List<string> texts;
-	private int currentText;
 	public TextPanel textElement; 
 	private bool flag;
 	public GameObject katapult;
@@ -28,7 +27,6 @@ public class CreditsState : MonoBehaviour {
 	}
 	
 	void InitCredits(){
-		currentText = 0;
 		texts.Add("Programming");
 		texts.Add("\n");
 		texts.Add("    Alexander Wieser");
