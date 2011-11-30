@@ -37,7 +37,7 @@ namespace Pux.UI
 				slot.Clear();
 			}
 			
-			foreach (var e in effects.Where(x => x.IsIconAvailable)) {
+			foreach (var e in effects) {
 				DisplayEffect(e);
 			}
 		}

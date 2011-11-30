@@ -100,6 +100,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		DefaultBallSpeed = 350.0f;
 		SymbolRangeModifer = new Range(0, 0);
 		SnowballSpeedModifier = 1.0f;
+		PositiveEffectDurationModifier = 1.0f;
+		NegativeEffectDurationModifier = 1.0f;
 		PointsMultiplier = 1.0f;
 		CreatureSpeedModifier = 1.0f;
 	}
@@ -234,11 +236,13 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			return;
 		}
 		
-		var milliseconds = effect.Duration.TotalMilliseconds;
-		if (effect.IsPositive) {
-			effect.Duration = TimeSpan.FromMilliseconds(milliseconds * PositiveEffectDurationModifier);
-		} else {
-			effect.Duration = TimeSpan.FromMilliseconds(milliseconds * NegativeEffectDurationModifier);
+		if (!(effect is DelayedEffect)) {
+			var milliseconds = effect.Duration.TotalMilliseconds;
+			if (effect.IsPositive) {
+				effect.Duration = TimeSpan.FromMilliseconds(milliseconds * PositiveEffectDurationModifier);
+			} else {
+				effect.Duration = TimeSpan.FromMilliseconds(milliseconds * NegativeEffectDurationModifier);
+			}	
 		}
 		
 		effectManager.RegisterEffect(effect);
@@ -348,7 +352,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 // Event Invoke
 	private void InvokePlayerHit(TargetableEntityBehaviour target) {
-		target.TargetHit += (sender, e) => { ApplyEffects(target.HitEffects); };
 		if (!entityManager.Player.IsPlaying("throw")) {
 			entityManager.Player.PlayAnimation("throw");	
 		}
@@ -360,7 +363,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 
 	private void InvokePlayerMiss() {
-		entityManager.SpawnCreature(CreatureTypes.Whale);
+		entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
 		IngameSounds.PlayBooSound();
 	}
 

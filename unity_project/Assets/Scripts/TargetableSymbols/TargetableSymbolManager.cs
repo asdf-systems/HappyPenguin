@@ -17,6 +17,9 @@ namespace Pux
 		}
 		
 		public bool IsTargetableRegistered(string symbolChain){
+			if (string.IsNullOrEmpty(symbolChain)) {
+				return false;
+			}
 			return targets.ContainsKey(symbolChain);
 		}
 		
