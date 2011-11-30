@@ -24,7 +24,6 @@ namespace Pux.UI
 
 			var slot = FindLeftestEmptySlot();
 			slot.DisplayEffect(effect);
-			
 		}
 		
 		public void HideEffect(Effect effect){

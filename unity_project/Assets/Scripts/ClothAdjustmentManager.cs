@@ -10,7 +10,7 @@ namespace Pux
 		static ClothAdjustmentManager() {
 			_adjustments = new Dictionary<string, Action<GameWorldBehaviour>>();
 			_adjustments.Add("pux_hexer_skin", (x) => { x.CreatureSpeedModifier = 0.9f; });
-			_adjustments.Add("pux_kenny_skin", (x) => { x.AdditionalStartLife = 1; });
+			_adjustments.Add("pux_kenny_skin", (x) => { x.MaxLife = 6; });
 			_adjustments.Add("pux_normal_skin", (x) => { });
 			_adjustments.Add("pux_priester_skin", (x) => {
 				x.PositiveEffectDurationModifier = 1.2f;

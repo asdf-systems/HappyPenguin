@@ -8,6 +8,7 @@ namespace Pux.Effects
 		public Effect() {
 			Duration = EffectDuration.Instant;
 			IsPositive = true;
+			IconResourceUV = new Rect(0,0,0,0);
 		}
 		
 		public bool IsPositive {

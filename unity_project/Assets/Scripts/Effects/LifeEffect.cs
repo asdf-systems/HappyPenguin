@@ -10,7 +10,7 @@ namespace Pux.Effects
 		}
 
 		public override void Start(GameWorldBehaviour world) {
-			world.ChangePlayerHealth(LifeChange);
+			world.SetPlayerHealth(LifeChange);
 		}
 
 		public override void Update(GameWorldBehaviour world) {

@@ -3,26 +3,16 @@ using System.Collections;
 using System;
 
 public class GameEndState : MonoBehaviour {
-
-	private float time;
-
 	public AlertTextPanel alertElement;
 	public GetNameAlert nameAlert;
 	public okayButton okayButton;
 	public Button nextButton;
 	
 	private bool firstCheck = true;
-	private bool timeFreeze = false;
 	
-	void Awake(){
-		//EditorDebug.LogWarning("Points fix for testing!!!");	GameStatics.Points = 2011;
-	}
 	// Use this for initialization
 	void Start () {
-		//EditorDebug.Log("Data Path: " + Application.persistentDataPath);
-		
 		EditorDebug.LogWarning("Points: " + GameStatics.Points);
-		time = 0.0f;
 		okayButton.Visibility = false;
 	}
 
@@ -32,17 +22,9 @@ public class GameEndState : MonoBehaviour {
 			checkHighscore();
 			firstCheck = false;
 		}
-		/*if(!timeFreeze)
-			time+= Time.deltaTime;*/
-		
-
-		/*if(time > 10){
-			Application.LoadLevel(5);
-		}*/
 	}
 	
 	public void usernameInputFinished(){
-		timeFreeze = false;
 		nextButton.Visibility = true;
 		int points = Convert.ToInt32(GameStatics.Points);
 		string username = GameStatics.Username;
@@ -53,7 +35,6 @@ public class GameEndState : MonoBehaviour {
 		EditorDebug.LogError("Username: " + username);
 		nameAlert.ShowText(username);
 		okayButton.Visibility = true;
-		timeFreeze = true;
 	}
 	
 	private void checkHighscore(){
@@ -61,12 +42,9 @@ public class GameEndState : MonoBehaviour {
 		StartCoroutine(
 			HighscoreServer.GetHighscore(data=>{
 				checkForNewHighscore(data);
-			})  );
-		
-		
+			}));	
 	}
 	
-
 	private void checkForNewHighscore(Entry[] data){
 		
 	 	int position = 1;
@@ -98,12 +76,10 @@ public class GameEndState : MonoBehaviour {
 		
 	}
 	
-	
 	private void alertNewPersonalHighscore(){
 		alertElement.ShowText("New Personal Highscore!\n"+GameStatics.Points);
 		GameStatics.PersonalHighscore = GameStatics.Points;
 	}
-	
 	
 	private void addEntry(string name, int points) {
 		

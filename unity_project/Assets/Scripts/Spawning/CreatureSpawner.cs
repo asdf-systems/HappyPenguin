@@ -58,7 +58,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	public double Difficulty;
 	public int CreditsTotal = 6;
 	// init
-	private TimeSpan timeSinceLastCreditGift = TimeSpan.Zero;
+	
 	private TimeSpan timeSinceLastSpawn = TimeSpan.Zero;
 	private double nextSpawn;
 

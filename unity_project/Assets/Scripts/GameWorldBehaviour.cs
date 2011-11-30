@@ -37,8 +37,10 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	public float PointsMultiplier { get; set; }
 	
-	public int AdditionalStartLife { get; set; }
-	
+	public int MaxLife { 
+		get {  return entityManager.Player.MaxLife; } 
+		set { entityManager.Player.MaxLife = value; } 
+	}
 	
 	public float  DefaultBallSpeed { 
 		get{ return entityManager. DefaultBallSpeed;} 
@@ -77,7 +79,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitGameWorldBehaviour();
 		InitIconSlotManager();
 		InitPlayer();
-		InitLifeBeacons();
 		InitEntityRoot();
 		InitCreatureNodes();
 		InitPerkNodes();
@@ -87,6 +88,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		InitWorldConstants();
 		
 		ClothAdjustmentManager.ApplyAdjustments(this);
+		InitLifeBeacons();
 	}
 	
 	private void InitMusic(){
@@ -94,11 +96,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	}
 	
 	private void InitWorldConstants() {
-			DefaultBallSpeed = 350.0f;
-			SymbolRangeModifer = new Range(0, 0);
-			SnowballSpeedModifier = 1.0f;
-			PointsMultiplier = 1.0f;
-			CreatureSpeedModifier = 1.0f;
+		MaxLife = 5;
+		DefaultBallSpeed = 350.0f;
+		SymbolRangeModifer = new Range(0, 0);
+		SnowballSpeedModifier = 1.0f;
+		PointsMultiplier = 1.0f;
+		CreatureSpeedModifier = 1.0f;
 	}
 
 // Init Functions
@@ -169,7 +172,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 			lifeBeacons.Add(beacon);
 		}
 		// this must be here, we need the player to do this
-		ChangePlayerHealth(entityManager.Player.MaxLife);
+		SetPlayerHealth(entityManager.Player.MaxLife);
 	}
 
 	private void InitEntityRoot() {
@@ -186,7 +189,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 	private void InitUI() {
 		guiManager = GUIManager.Instance;
-		guiManager.DisplayPoints(entityManager.Player.Points);
 		//guiManager.DisplayLife(entityManager.Player.Life);
 		guiManager.SwipeCommitted += OnSwipeCommitted;
 		guiManager.SymbolsChanged += OnSymbolChanged;
@@ -224,10 +226,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		entityManager.Player = player;
 		player.PlayAnimation("idle");
-		player.Points = 0;
-		player.Life = 0;
-		
-		
 	}
 
 // Effect Handling
@@ -258,6 +256,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		foreach (var effect in effects) {
 			ApplyEffect(effect);
 		}
+		
 	}
 
 // Symbol Modifikation
@@ -361,9 +360,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 
 	private void InvokePlayerMiss() {
-		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
-		//ChangePlayerPoints(255);
-		//entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
 		entityManager.SpawnCreature(CreatureTypes.Whale);
 		IngameSounds.PlayBooSound();
 	}
@@ -395,7 +391,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		entityManager.Player.Life -= damage;
 	}
 
-	public void ChangePlayerHealth(float lifeChange) {
+	public void SetPlayerHealth(float lifeChange) {
 		var player = entityManager.Player;
 		var missingLife = player.MaxLife - player.Life;
 		var actualLifeChange = (int)Math.Min(missingLife, lifeChange);
@@ -438,9 +434,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		var points = change * PointsMultiplier;
 		
-		entityManager.Player.Points += points;
-		guiManager.DisplayPoints(entityManager.Player.Points);
-		GameStatics.Points = entityManager.Player.Points;
+		GameStatics.Points += points;
+		guiManager.DisplayPoints(GameStatics.Points);
 		float val = random.Next(0,100);
 		if(val >= ProbabilityForCheers)
 			IngameSounds.PlayCheerSound();
