@@ -196,7 +196,7 @@ namespace Pux.Entities
 			}
 			
 			entities.Remove(targetable);
-			
+			symbolManager.VoidTargetable(targetable);
 			GameObject.Destroy(targetable.gameObject);
 		}
 
@@ -279,6 +279,9 @@ namespace Pux.Entities
 			gameObject.transform.position = leveledPosition;
 			gameObject.transform.rotation = quaternion;
 			gameObject.transform.parent = root.transform;
+			
+			var billboard = gameObject.GetComponentInChildren<BillboardBehaviour>();
+			billboard.ApplyOffset();
 			return gameObject.GetComponentInChildren<CreatureBehaviour>();
 		}
 

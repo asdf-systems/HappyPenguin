@@ -322,7 +322,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
 		//ChangePlayerPoints(255);
 		//entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
-		ApplyEffect(new UIRotationEffect(ClockRotations.Clockwise));
+		entityManager.SpawnCreature(CreatureTypes.Whale);
 		IngameSounds.PlayBooSound();
 	}
 
