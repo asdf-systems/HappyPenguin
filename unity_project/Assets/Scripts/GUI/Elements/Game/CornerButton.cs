@@ -16,7 +16,7 @@ public sealed class CornerButton : Button
 		
 	}
 	
-	private void removeFloat(){
+	public void removeFloat(){
 		var realPosition = new Vector2(this.RealRegionOnScreen.x, this.RealRegionOnScreen.y);
 		this.Position = CameraScreen.PhysicalToVirtualScreenPosition(realPosition);
 		this.horizontalFloat = Frame.HorizontalFloatPositions.none;

@@ -251,17 +251,35 @@ public class GUIManager : MonoBehaviour {
 		// left
 		if (button.Position.x < 480) {
 			if (button.Position.y > 320) {
-				return new Vector2(0, 640 - button.VirtualRegionOnScreen.height);
+				button.verticalFloat = Frame.VerticalFloatPositions.bottom;
+				button.horizontalFloat = Frame.HorizontalFloatPositions.left;
+				button.UpdateElement();
+				button.removeFloat();
+				//return new Vector2(0, 640 - button.VirtualRegionOnScreen.height);
+				
 			} else {
-				return new Vector2(0, 0);
+				button.verticalFloat = Frame.VerticalFloatPositions.top;
+				button.horizontalFloat = Frame.HorizontalFloatPositions.left;
+				button.UpdateElement();
+				button.removeFloat();
+				
 			}
 		} else {
 			if (button.Position.y > 320) {
-				return new Vector2(960 - button.VirtualRegionOnScreen.width, 640 - button.VirtualRegionOnScreen.height);
+				button.verticalFloat = Frame.VerticalFloatPositions.bottom;
+				button.horizontalFloat = Frame.HorizontalFloatPositions.right;
+				button.UpdateElement();
+				button.removeFloat();
+				//return new Vector2(960 - button.VirtualRegionOnScreen.width, 640 - button.VirtualRegionOnScreen.height);
 			} else {
-				return new Vector2(960 - button.VirtualRegionOnScreen.width, 0);
+				button.verticalFloat = Frame.VerticalFloatPositions.top;
+				button.horizontalFloat = Frame.HorizontalFloatPositions.right;
+				button.UpdateElement();
+				button.removeFloat();
+				//return new Vector2(960 - button.VirtualRegionOnScreen.width, 0);
 			}
 		}
+		return button.Position;
 	}
 	
 	private void PerformButtonSlide(CornerButton button, SlideDirections direction, Action postAction)

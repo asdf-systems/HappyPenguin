@@ -327,13 +327,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private void InvokePlayerMiss() {
 		//entityManager.SpawnCreature(CreatureTypes.Blowfish);
 		//ChangePlayerPoints(255);
-<<<<<<< HEAD
-		entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
-		RegisterEffect(new UIRotationEffect(ClockRotations.CounterClockwise));
-=======
 		//entityManager.SpawnPerk(PerkTypes.CreatureSlowdown);
-		ApplyEffect(new UIRotationEffect(ClockRotations.Clockwise));
->>>>>>> origin/wieser/failed_push
+		ApplyEffect(new UIRotationEffect());
 		IngameSounds.PlayBooSound();
 	}
 

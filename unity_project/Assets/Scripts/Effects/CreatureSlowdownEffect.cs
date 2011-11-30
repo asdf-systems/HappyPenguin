@@ -27,11 +27,7 @@ namespace Pux.Effects
 		
 		#endregion
 		public CreatureSlowdownEffect() {
-<<<<<<< HEAD
-			Duration = TimeSpan.FromSeconds(2);
-=======
 			Duration = TimeSpan.FromSeconds(5);
->>>>>>> origin/wieser/failed_push
 			IconResourceUV = new Rect(0,197,144,144);
 		}
 		
