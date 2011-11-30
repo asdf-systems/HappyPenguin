@@ -161,6 +161,7 @@ public class InputEvents : MonoBehaviour{
 		if (handler == null){
 			return;
 		}
+		direction = new Vector2(direction.x, direction.y*-1);
 		var e = new MouseEventArgs(direction);
 		handler(this, e);
 	}

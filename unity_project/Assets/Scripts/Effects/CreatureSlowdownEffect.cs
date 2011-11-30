@@ -7,7 +7,8 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world){
 
-			world.ModifyCreatures((x) => x.Speed *= 0.5f);
+			world.PlayFastBackgroundMusic();
+			world.ModifyCreatures((x) => x.Speed *= 0.2f);
 		}
 		
 		public override void Update (GameWorldBehaviour world)
@@ -17,6 +18,7 @@ namespace Pux.Effects
 		
 		public override void Stop (GameWorldBehaviour world)
 		{
+			world.PlayNormalBackgroundMusic();
 			world.ModifyCreatures((x) => x.Speed = x.DefaultSpeed);
 		}
 		

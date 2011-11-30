@@ -7,6 +7,8 @@ public class IngameSoundEffects : MonoBehaviour {
 	public AudioClip BooSound;
 	public AudioClip CheerSound;
 	public AudioClip BaddySound;
+	public AudioClip PauseStart;
+	public AudioClip PauseEnd;
 	
 	// Use this for initialization
 	void Start () {
@@ -26,6 +28,15 @@ public class IngameSoundEffects : MonoBehaviour {
 	
 	public void PlayBaddySound(){
 		audio.clip = BaddySound;
+		audio.Play();
+	}
+	
+	public void PlayPauseStart(){
+		audio.clip = PauseStart;
+		audio.Play();
+	}
+	public void PlayPauseEnd(){
+		audio.clip = PauseEnd;
 		audio.Play();
 	}
 }
