@@ -16,7 +16,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 {
 	//	Constants
 	// SpawnTime in Seconds
-	public static double DEFAULT_CREATURE_SPAWN_TIME = 5;
+	public static double DEFAULT_CREATURE_SPAWN_TIME = 4.5;
 	public static double DEFAULT_CREATURE_SPAWN_TIME_DEVIATION = 0.3;
 	// What ever you do - The Creature Spawntime never goes under this value
 	public static double MINIMAL_CREATURE_SPAWN_TIME = 0.25;

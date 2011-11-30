@@ -23,7 +23,7 @@ namespace Pux.Effects
 		#endregion
 		public PointsMultiplierEffect(float multiplier) {
 			_multiplier = multiplier;
-			Duration = TimeSpan.FromSeconds(12);
+			Duration = TimeSpan.FromSeconds(8);
 			if (multiplier > 2) {
 				IconResourceUV = new Rect(256,197,144,144);
 			} else{

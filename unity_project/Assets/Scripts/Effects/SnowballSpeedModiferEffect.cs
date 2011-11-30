@@ -22,7 +22,7 @@ namespace Pux.Effects
 		
 		#endregion
 		public SnowballSpeedModiferEffect() {
-			Duration = TimeSpan.FromSeconds(12);
+			Duration = TimeSpan.FromSeconds(8);
 			IconResourceUV = new Rect(512,197,144,144);
 		}
 		
