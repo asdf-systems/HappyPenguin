@@ -17,7 +17,7 @@ namespace Pux
 				x.PerkSpawnTimeModifier = 0.9f;
 			});
 			_adjustments.Add("Cowboy_Hat", (x) => { x.SnowballSpeedModifier = 1.3f; });
-			_adjustments.Add("Hexer_Cap", (x) => {x.NegativeEffectDurationModifier = 0.9f; });
+			_adjustments.Add("Hexer_Hat", (x) => {x.NegativeEffectDurationModifier = 0.9f; });
 			_adjustments.Add("Kenny_Hat", (x) => { });
 			_adjustments.Add("None_Hat", (x) => { });
 			_adjustments.Add("Red_Hat", (x) => { });
@@ -33,7 +33,7 @@ namespace Pux
 		
 		private static void ApplyEffect(string clothName, GameWorldBehaviour behaviour){
 			if (!_adjustments.ContainsKey(clothName)) {
-				var message = string.Format("unknown cloth name '0}'", clothName);
+				var message = string.Format("unknown cloth name '{0}'", clothName);
 				throw new ApplicationException(message);
 			}	
 			_adjustments[clothName](behaviour);
