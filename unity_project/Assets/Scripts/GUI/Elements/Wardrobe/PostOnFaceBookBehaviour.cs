@@ -21,9 +21,9 @@ public class PostOnFaceBookBehaviour : InteractionBehaviour {
 				MESSAGE, // Message
 				imglink, // Image URL
 				"", // Link?
-				"Pux the Glaciator", // Title
+				"Pux the Glaciator - Beta", // Title
 				"Fighting for his life", // Subtitle
-				"Get the game for iPhone, iPad and Android on the AppStore.", // Description
+				"Coming soon for iPhone, iPad and Android. Register for Beta: http://www.asdf-systems.de", // Description
 				(success2, data) => {
 					if(success2 == Facebook.REQUEST_FAIL) {
 						Alert.ShowText("Post failed");
