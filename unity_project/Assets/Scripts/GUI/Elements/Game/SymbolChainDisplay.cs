@@ -40,10 +40,10 @@ public class SymbolChainDisplay: Panel{
 		if(activeScreen.DebugModus)
 			updateSymbolChain();
 #endif
-		if(firstUpdate){
+		/*if(firstUpdate){
 			firstUpdate = false;
 			removeFloat();
-		}
+		}*/
 			
 	}
 	void OnSymbolsChanged(object sender, SymbolEventArgs e){
