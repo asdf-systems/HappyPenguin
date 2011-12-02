@@ -19,10 +19,10 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	public static double DEFAULT_CREATURE_SPAWN_TIME = 4.5;
 	public static double DEFAULT_CREATURE_SPAWN_TIME_DEVIATION = 0.3;
 	// What ever you do - The Creature Spawntime never goes under this value
-	public static double MINIMAL_CREATURE_SPAWN_TIME = 0.25;
+	public static double MINIMAL_CREATURE_SPAWN_TIME = 0.5;
 	
 	// Factor to converge towards
-	public static double MIN_FACTOR = 0.38;
+	public static double MIN_FACTOR = 0.4;
 	// Period (=1/frequency) of the wave function (seconds)
 	public static double WAVE_PERIOD = 15;
 	public static double WAVE_AMPLITUDE = 0.12;

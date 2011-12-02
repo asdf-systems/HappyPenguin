@@ -31,12 +31,20 @@ public class SymbolChainDisplay: Panel{
 		symbols = new List<Panel>();
 	}
 	
+	void Update(){
+		UpdateOverride();
+	}
 	protected override void UpdateOverride(){
 		base.UpdateOverride();
 #if UNITY_EDITOR
 		if(activeScreen.DebugModus)
 			updateSymbolChain();
 #endif
+		if(firstUpdate){
+			firstUpdate = false;
+			removeFloat();
+		}
+			
 	}
 	void OnSymbolsChanged(object sender, SymbolEventArgs e){
 		if(e.SymbolChain == string.Empty){

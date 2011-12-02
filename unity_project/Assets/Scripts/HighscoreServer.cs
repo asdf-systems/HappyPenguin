@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 public class Entry {
 	public static Entry fromJSONObject(JSONObject obj) {
@@ -32,12 +33,20 @@ public class HighscoreServer {
 	private static IEnumerator callREST(string data, RestCallback cb) {
 		WWW www = new WWW(ADDRESS, StringToByteArray(data));
 		yield return www;
-		cb(www.text);
+		cb(www.text);	// This line caused an Error
+		/*You are trying to load data from a www stream which had the following error when downloading.
+Could not resolve host: pux.asdf-systems.de (Could not contact DNS servers)
+UnityEngine.WWW:get_text()
+<callREST>c__Iterator0:MoveNext() (at Assets/Scripts/HighscoreServer.cs:37)*/
+		
+		
 	}
 
 	public static IEnumerator GetHighscore(HighscoreCallback cb) {
 		return callREST(GETHIGHSCORE_CALL, data => {
 				var results = new JSONObject(data);
+				if(results == null)
+					return;
 				LinkedList<Entry> entry_list = new LinkedList<Entry>();
 				for(int i = 0; i < results[0].Count; i++) {
 					JSONObject entry = results[0][i];

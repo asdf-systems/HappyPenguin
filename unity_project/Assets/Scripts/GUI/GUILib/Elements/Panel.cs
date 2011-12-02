@@ -39,31 +39,7 @@ public class Panel : Frame {
 	
 	
 
-	// PROPERTYS
-	public Vector2 Position{
-		get{
-			return new Vector2(VirtualRegionOnScreen.x, VirtualRegionOnScreen.y);
-		}
-		set{
-			VirtualRegionOnScreen.x = value.x; 
-			VirtualRegionOnScreen.y = value.y;
-		}
-	}
-
-	public void SetRotationTransformations(Vector2 localCenter, float degrees){
-		plane.RotationAngle = degrees;
-		plane.RotationCenter = localCenter;
-	}
-
-	public Vector2 Size{
-		get{
-			return new Vector2(VirtualRegionOnScreen.xMax, VirtualRegionOnScreen.yMin);
-		}
-		set{
-			VirtualRegionOnScreen.width = value.x; 
-			VirtualRegionOnScreen.height = value.y; 
-		}
-	}
+	
 	
 	
 	
@@ -163,6 +139,11 @@ public class Panel : Frame {
 		plane.UV = Uv;
 		plane.VirtualRegionOnScreen = RealRegionOnScreen;
 			
+	}
+	
+	public void SetRotationTransformations(Vector2 localCenter, float degrees){
+		plane.RotationAngle = degrees;
+		plane.RotationCenter = localCenter;
 	}
 	
 	private Vector3 WorldToLocalCoordinates(Vector3 worldCoordinates){

@@ -4,7 +4,7 @@ using Pux.Controllers;
 
 public sealed class CornerButton : Button
 {
-	private bool firstUpdate = true;
+	
 	private ControlManager<CornerButton> controlManager;
 	public CornerButton() {
 		controlManager = new ControlManager<CornerButton>();
@@ -16,13 +16,7 @@ public sealed class CornerButton : Button
 		
 	}
 	
-	public void removeFloat(){
-		var realPosition = new Vector2(this.RealRegionOnScreen.x, this.RealRegionOnScreen.y);
-		this.Position = CameraScreen.PhysicalToVirtualScreenPosition(realPosition);
-		this.horizontalFloat = Frame.HorizontalFloatPositions.none;
-		this.verticalFloat = Frame.VerticalFloatPositions.none;
-		StoreDefaultPosition();
-	}
+
 
 	public void QueueController(string name, Controller<CornerButton> controller) {
 		controlManager.QueueController(name, controller);
@@ -42,6 +36,7 @@ public sealed class CornerButton : Button
 		if(firstUpdate){
 			firstUpdate = false;
 			removeFloat();
+			StoreDefaultPosition();
 		}
 		
 	}

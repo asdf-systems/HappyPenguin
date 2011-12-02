@@ -23,6 +23,7 @@ public class Frame : MonoBehaviour
 	public bool KeepAspectRatio = true;
 	
 	protected bool created = false;
+	protected bool firstUpdate = true;
 	
 	public CameraScreen activeScreen{
 		get;
@@ -32,6 +33,29 @@ public class Frame : MonoBehaviour
 	public Rect RealRegionOnScreen{
 		get;
 		set;
+	}
+	
+	// PROPERTYS
+	public Vector2 Position{
+		get{
+			return new Vector2(VirtualRegionOnScreen.x, VirtualRegionOnScreen.y);
+		}
+		set{
+			VirtualRegionOnScreen.x = value.x; 
+			VirtualRegionOnScreen.y = value.y;
+		}
+	}
+
+	
+
+	public Vector2 Size{
+		get{
+			return new Vector2(VirtualRegionOnScreen.xMax, VirtualRegionOnScreen.yMin);
+		}
+		set{
+			VirtualRegionOnScreen.width = value.x; 
+			VirtualRegionOnScreen.height = value.y; 
+		}
 	}
 	
 	protected Frame parent;
@@ -160,6 +184,14 @@ public class Frame : MonoBehaviour
 		foreach (Panel panel in directChildren){
 			panel.UpdateElement();
 		}*/	
+	}
+	
+	public void removeFloat(){
+		var realPosition = new Vector2(this.RealRegionOnScreen.x, this.RealRegionOnScreen.y);
+		this.Position = CameraScreen.PhysicalToVirtualScreenPosition(realPosition);
+		this.horizontalFloat = Frame.HorizontalFloatPositions.none;
+		this.verticalFloat = Frame.VerticalFloatPositions.none;
+		
 	}
 	
 	public virtual void UpdateRegionOnScreen(){
