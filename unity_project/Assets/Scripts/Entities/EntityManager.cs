@@ -351,6 +351,9 @@ namespace Pux.Entities
 			case CreatureTypes.Blowfish:
 				name = "Creatures/Blowfish";
 				break;
+			case CreatureTypes.RedShark:
+				name = "Creatures/RedShark";
+				break;
 			}
 			if (string.IsNullOrEmpty(name)) {
 				throw new ApplicationException("creature type unknown.");

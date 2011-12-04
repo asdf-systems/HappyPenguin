@@ -100,10 +100,11 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	}
 
 	private	static ItemProbability[] items = {
-			new ItemProbability(CreatureTypes.Shark, 0.5),
+			new ItemProbability(CreatureTypes.Shark, 0.47),
 			new ItemProbability(CreatureTypes.Pike, 0.3),
 			new ItemProbability(CreatureTypes.Whale, 0.15),
-			new ItemProbability(CreatureTypes.Blowfish, 0.05),
+			new ItemProbability(CreatureTypes.Blowfish, 0.03),
+			new ItemProbability(CreatureTypes.RedShark, 0.05),
 		};
 //	What Creature do I spawn?
 	private void SpawnCreatures() {

@@ -371,7 +371,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 
 	private void InvokePlayerMiss() {
-
+		entityManager.SpawnCreature(CreatureTypes.RedShark);
 		IngameSounds.PlayBooSound();
 	}
 
