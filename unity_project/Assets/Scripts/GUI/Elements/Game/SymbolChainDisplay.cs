@@ -77,13 +77,21 @@ public class SymbolChainDisplay: Panel{
 		symbols.Clear();
 		
 	}
+	
+	/*public override void UpdateElement (){
+		base.UpdateElement();
+		updateSymbolChain();
+	}*/
+	
 	void updateSymbolChain(){
-		float signPosX = VirtualRegionOnScreen.x + SignRegion.x;
+		float signPosX = SignRegion.x;
 		
 		for(int i = 0; i < symbols.Count; i++){
 			var panel = symbols[i];
-			panel.VirtualRegionOnScreen = new Rect (signPosX,SignRegion.y+ VirtualRegionOnScreen.y,SignRegion.width,SignRegion.height);
+			panel.VirtualRegionOnScreen = new Rect (signPosX,SignRegion.y,SignRegion.width,SignRegion.height);
+			//EditorDebug.Log("BEFORE Sign Real Pos: " + panel.RealRegionOnScreen);
 			panel.UpdateElement();
+			//EditorDebug.Log("Sign Real Pos: " + panel.RealRegionOnScreen);
 			signPosX += signPosXStep;
 			
 		}

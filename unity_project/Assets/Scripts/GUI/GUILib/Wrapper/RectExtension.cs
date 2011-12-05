@@ -9,4 +9,9 @@ public static class RectExtension  {
 		return rect;
 	}
 	
+	public static Rect AddPosition(this Rect rect, Vector2 position){
+		rect.x += position.x;
+		rect.y += position.y;
+		return rect;
+	}
 }
