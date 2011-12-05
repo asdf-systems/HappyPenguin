@@ -32,7 +32,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	
 	public AudioClip SlowBackgroundMusic;
 	public AudioClip NormalBackgroundMusic;
-
+	public AudioClip FastBackgroundMusic;
+	
 	public Range SymbolRangeModifer {
 		set { entityManager.SymbolRangeModifer = value; }
 	}
@@ -460,6 +461,11 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		guiManager.NightEffect(night);
 	}
 	public void PlayFastBackgroundMusic(){
+		audio.clip = FastBackgroundMusic;
+		audio.Play();
+	}
+
+	public void PlaySlowBackgroundMusic(){
 		audio.clip = SlowBackgroundMusic;
 		audio.Play();
 	}

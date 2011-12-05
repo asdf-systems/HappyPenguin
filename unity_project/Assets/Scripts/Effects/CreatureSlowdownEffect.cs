@@ -7,9 +7,9 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world){
 
-			world.PlayFastBackgroundMusic();
+			world.PlaySlowBackgroundMusic();
 			Time.timeScale = 0.25f;
-			GUIManager.Instance.Alert("BulletTime", 0.5f);
+			GUIManager.Instance.Alert("Slowmotion", 0.5f);
 			//world.ModifyCreatures((x) => x.Speed *= 0.5f);
 		}
 		
@@ -27,7 +27,7 @@ namespace Pux.Effects
 		
 		#endregion
 		public CreatureSlowdownEffect() {
-			Duration = TimeSpan.FromSeconds(5);
+			Duration = TimeSpan.FromSeconds(3);
 			IconResourceUV = new Rect(0,197,144,144);
 		}
 		

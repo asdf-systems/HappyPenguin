@@ -27,6 +27,9 @@ public class CreditsState : MonoBehaviour {
 	}
 	
 	void InitCredits(){
+		texts.Add("asdf-systems");
+		texts.Add("\n");
+		texts.Add("\n");
 		texts.Add("Programming");
 		texts.Add("\n");
 		texts.Add("    Alexander Wieser");
@@ -61,6 +64,14 @@ public class CreditsState : MonoBehaviour {
 		texts.Add("    Philipp Laemmel");
 		texts.Add("\n");
 		texts.Add("    Felix Dietz");
+		texts.Add("\n");
+		texts.Add("\n");
+		texts.Add("Font");
+		texts.Add("Nigel Babb");
+		texts.Add("\n");
+		texts.Add("\n");
+		texts.Add("www.asdf-systems.de\n");
+		texts.Add("www.facebook.com/asdfsystems");
 		
 	}
 	// Update is called once per frame

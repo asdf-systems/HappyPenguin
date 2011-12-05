@@ -23,7 +23,11 @@ namespace Pux.Effects
 		
 		public override string Description {
 			get {
-				return "Life +1";
+				if(LifeChange > 0)
+					return "Life +1";
+				else {
+					return string.Empty;
+				}
 			}
 		}
 	}

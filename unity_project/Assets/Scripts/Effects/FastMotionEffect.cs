@@ -9,8 +9,8 @@ namespace Pux.Effects
 		public override void Start (GameWorldBehaviour world)
 		{
 			Time.timeScale = 1.5f;
-			
 			GUIManager.Instance.Alert("fast motion");
+			world.PlayFastBackgroundMusic();
 		}
 		
 		
@@ -27,6 +27,7 @@ namespace Pux.Effects
 		
 		#endregion
 		public FastMotionEffect() {
+			Duration = TimeSpan.FromSeconds(9);
 			IconResourceUV = new Rect(1280,197,144,144);
 			IsPositive = false;
 		}
