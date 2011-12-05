@@ -87,7 +87,7 @@ public class Facebook : MonoBehaviour {
 		rcb(REQUEST_SUCCESS, data);
 	}
 
-	#if UNITY_EDITOR
+	#if UNITY_EDITOR || UNITY_STANDALONE_WIN || UNITY_STANDALONE_MAC
 		private static void _init(string AppId) {}
 		private static void _authorize(int permissions) {getInstance().loggedOut();}
 		private static void _logout() {getInstance().loggedOut();}
