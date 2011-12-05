@@ -22,8 +22,8 @@ public class HighscoreServer {
 
 	private const string ADDENTRY_CALL = "{\"MethodName\": \"AddEntry\", \"Parameters\": [{0}, \""+PASSWORD+"\"]}";
 
-	private delegate void RestCallback(string data);
-	public delegate void HighscoreCallback(Entry[] highscore);
+	private delegate void RestCallback(string data, bool success);
+	public delegate void HighscoreCallback(Entry[] highscore, bool success);
 
 	private static byte[] StringToByteArray(string str) {
 		System.Text.ASCIIEncoding enc = new System.Text.ASCIIEncoding();
@@ -33,17 +33,18 @@ public class HighscoreServer {
 	private static IEnumerator callREST(string data, RestCallback cb) {
 		WWW www = new WWW(ADDRESS, StringToByteArray(data));
 		yield return www;
-		cb(www.text);	// This line caused an Error
-		/*You are trying to load data from a www stream which had the following error when downloading.
-Could not resolve host: pux.asdf-systems.de (Could not contact DNS servers)
-UnityEngine.WWW:get_text()
-<callREST>c__Iterator0:MoveNext() (at Assets/Scripts/HighscoreServer.cs:37)*/
-		
-		
+		if(www.error == null) {
+			cb(www.text, true);
+		} else {
+			cb(null, false);
+		}
 	}
 
 	public static IEnumerator GetHighscore(HighscoreCallback cb) {
-		return callREST(GETHIGHSCORE_CALL, data => {
+		return callREST(GETHIGHSCORE_CALL, (data, success) => {
+				if(!success) {
+					cb(null, false);
+				}
 				var results = new JSONObject(data);
 				if(results == null)
 					return;
@@ -52,7 +53,7 @@ UnityEngine.WWW:get_text()
 					JSONObject entry = results[0][i];
 					entry_list.AddLast(Entry.fromJSONObject(entry));
 				}
-				cb(Enumerable.ToArray<Entry>(entry_list));
+				cb(Enumerable.ToArray<Entry>(entry_list), success);
 			});
 	}
 
@@ -62,6 +63,6 @@ UnityEngine.WWW:get_text()
 		obj.AddField("Points", points);
 		var call = ADDENTRY_CALL.Replace("{0}", obj.ToString());
 		EditorDebug.Log("CALL: " + call);
-		return callREST(call, data => {});
+		return callREST(call, (data, success) => {});
 	}
 }
