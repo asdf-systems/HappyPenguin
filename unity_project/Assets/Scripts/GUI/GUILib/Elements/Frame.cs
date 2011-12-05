@@ -171,8 +171,7 @@ public class Frame : MonoBehaviour
 		
 		//base.UpdateElement();
 		
-		EditorDebug.LogWarning("Update Element: " + gameObject.name);
-		UpdateParent();
+		//EditorDebug.LogWarning("Update Element: " + gameObject.name);
 		UpdateDirectChildren();
 		
 		

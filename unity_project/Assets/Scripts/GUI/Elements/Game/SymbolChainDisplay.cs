@@ -61,6 +61,7 @@ public class SymbolChainDisplay: Panel{
 			symbols.Add(sign);		
 			sign.transform.parent = this.transform;
 			sign.CreateElement();
+			sign.UpdateParent();
 			updateSymbolChain();
 			activeScreen.UpdateElement(); // Update Screeen because of new Objects
 		}
