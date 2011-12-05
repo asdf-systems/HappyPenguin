@@ -96,6 +96,7 @@ public class TextPanel : Panel {
 			textStyle.font = ScreenConfig.Instance.Fonts[index];
 		} else
 			EditorDebug.LogWarning("No Font found that matches TargetFontSize: " + targetFontSize + " index: " + index + "Object: " + gameObject.name);
+		textStyle.fontSize = 0;
 		
 	}
 	private void formatMultilineText(){

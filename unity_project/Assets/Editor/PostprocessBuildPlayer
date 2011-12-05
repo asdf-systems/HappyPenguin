@@ -17,7 +17,7 @@ if not "CFBundleURLSchemes" in data:
 			<dict>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>fb[YOUR APP ID]</string>
+					<string>fb171761319577109</string>
 				</array>
 			</dict>
 		</array>
