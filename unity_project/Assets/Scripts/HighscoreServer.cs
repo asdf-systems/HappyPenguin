@@ -44,10 +44,13 @@ public class HighscoreServer {
 		return callREST(GETHIGHSCORE_CALL, (data, success) => {
 				if(!success) {
 					cb(null, false);
+					return;
 				}
 				var results = new JSONObject(data);
-				if(results == null)
+				if(results == null || results.Count <= 0) {
+					cb(null, false);
 					return;
+				}
 				LinkedList<Entry> entry_list = new LinkedList<Entry>();
 				for(int i = 0; i < results[0].Count; i++) {
 					JSONObject entry = results[0][i];
