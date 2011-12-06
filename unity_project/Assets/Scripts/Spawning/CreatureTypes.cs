@@ -8,7 +8,8 @@ namespace Pux.Spawning
 		Shark,
 		Whale,
 		Blowfish,
-		RedShark
+		RedShark,
+		RedPike
 	}
 }
 

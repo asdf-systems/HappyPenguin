@@ -167,7 +167,7 @@ namespace Pux.Entities
 				creature.HitEffects.Add(new RetreatEffect(creature));
 			}
 			
-			if (type == CreatureTypes.Shark || type == CreatureTypes.Whale) {
+			if (type == CreatureTypes.Shark || type == CreatureTypes.Whale || type == CreatureTypes.RedShark) {
 				creature.EquipWithRandomBaddy();
 			}
 			
@@ -353,6 +353,9 @@ namespace Pux.Entities
 				break;
 			case CreatureTypes.RedShark:
 				name = "Creatures/RedShark";
+				break;
+			case CreatureTypes.RedPike:
+				name = "Creatures/RedPike";
 				break;
 			}
 			if (string.IsNullOrEmpty(name)) {

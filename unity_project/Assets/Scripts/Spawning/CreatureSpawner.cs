@@ -19,7 +19,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	public static double DEFAULT_CREATURE_SPAWN_TIME = 5;
 	public static double DEFAULT_CREATURE_SPAWN_TIME_DEVIATION = 0.3;
 	// What ever you do - The Creature Spawntime never goes under this value
-	public static double MINIMAL_CREATURE_SPAWN_TIME = 1.0;
+	public static double MINIMAL_CREATURE_SPAWN_TIME = 1.2;
 	
 	// Factor to converge towards
 	public static double MIN_FACTOR = 0.5;
@@ -28,7 +28,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	public static double WAVE_AMPLITUDE = 0.12;
 	// How fast is it going to get harder?
 	// Sorry, no actual units...
-	public static double STEEPNESS = 0.07;
+	public static double STEEPNESS = 0.06;
 
 	// This defines a curve which is a factor for nextSpawn.
 	// If you want to modify it, go to
@@ -100,11 +100,12 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 	}
 
 	private	static ItemProbability[] items = {
-			new ItemProbability(CreatureTypes.Shark, 0.47),
+			new ItemProbability(CreatureTypes.Shark, 0.4),
 			new ItemProbability(CreatureTypes.Pike, 0.3),
 			new ItemProbability(CreatureTypes.Whale, 0.15),
 			new ItemProbability(CreatureTypes.Blowfish, 0.03),
 			new ItemProbability(CreatureTypes.RedShark, 0.05),
+			new ItemProbability(CreatureTypes.RedShark, 0.07),
 		};
 //	What Creature do I spawn?
 	private void SpawnCreatures() {

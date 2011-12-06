@@ -372,7 +372,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 
 
 	private void InvokePlayerMiss() {
-		entityManager.SpawnCreature(CreatureTypes.RedShark);
+		entityManager.SpawnCreature(CreatureTypes.RedPike);
 		IngameSounds.PlayBooSound();
 	}
 
@@ -449,7 +449,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		GameStatics.Points += points;
 		guiManager.DisplayPoints(GameStatics.Points);
 		float val = random.Next(0,100);
-		if(val >= ProbabilityForCheers)
+		if(val <= ProbabilityForCheers)
 			IngameSounds.PlayCheerSound();
 	}
 	
