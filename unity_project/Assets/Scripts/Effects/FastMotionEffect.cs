@@ -8,7 +8,7 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world)
 		{
-			Time.timeScale = 1.5f;
+			Time.timeScale = 1.2f;
 			GUIManager.Instance.Alert("fast motion");
 			world.PlayFastBackgroundMusic();
 		}
@@ -23,6 +23,7 @@ namespace Pux.Effects
 		public override void Stop (GameWorldBehaviour world)
 		{
 			Time.timeScale = 1;
+			world.PlayNormalBackgroundMusic();
 		}
 		
 		#endregion

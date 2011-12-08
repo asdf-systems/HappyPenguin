@@ -40,7 +40,7 @@ namespace Pux.Effects
 					return "Points 300%";
 				}
 				if (_multiplier == 2) {
-					return "Points 300%";
+					return "Points 200%";
 				}
 				
 				return "Points 50%";
