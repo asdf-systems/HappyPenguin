@@ -23,11 +23,11 @@ namespace Pux.Effects
 			_multiplier = multiplier;
 			IsPositive = multiplier > 1;
 			Duration = TimeSpan.FromSeconds(6);
-			if (multiplier == 3) {
+			if (multiplier == 2) {
 				IconResourceUV = new Rect(256, 197, 144, 144);
 				return;
 			}
-			if (multiplier == 2) {
+			if (multiplier == 3) {
 				IconResourceUV = new Rect(768, 197, 144, 144);
 				return;
 			}
