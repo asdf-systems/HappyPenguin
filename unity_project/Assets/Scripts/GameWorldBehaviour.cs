@@ -356,7 +356,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public void OnGameCancelled(object sender, EventArgs e){
 		Time.timeScale = 1;
 		DarkenScreen(false);
-		Application.LoadLevel(1);
+		Application.LoadLevel(3);
 	}
 
 // Event Invoke
