@@ -28,7 +28,7 @@ namespace Pux.Effects
 		
 		#endregion
 		public FastMotionEffect() {
-			Duration = TimeSpan.FromSeconds(9);
+			Duration = TimeSpan.FromSeconds(7);
 			IconResourceUV = new Rect(1280,197,144,144);
 			IsPositive = false;
 		}

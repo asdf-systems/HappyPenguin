@@ -16,16 +16,16 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 {
 	//	Constants
 	// SpawnTime in Seconds
-	public static double DEFAULT_CREATURE_SPAWN_TIME = 5;
+	public static double DEFAULT_CREATURE_SPAWN_TIME = 4;
 	public static double DEFAULT_CREATURE_SPAWN_TIME_DEVIATION = 0.3;
 	// What ever you do - The Creature Spawntime never goes under this value
-	public static double MINIMAL_CREATURE_SPAWN_TIME = 1.2;
+	public static double MINIMAL_CREATURE_SPAWN_TIME = 1.5;
 	
 	// Factor to converge towards
-	public static double MIN_FACTOR = 0.5;
+	public static double MIN_FACTOR = 1.0;
 	// Period (=1/frequency) of the wave function (seconds)
-	public static double WAVE_PERIOD = 20;
-	public static double WAVE_AMPLITUDE = 0.12;
+	public static double WAVE_PERIOD = 15;
+	public static double WAVE_AMPLITUDE = 0.2;
 	// How fast is it going to get harder?
 	// Sorry, no actual units...
 	public static double STEEPNESS = 0.06;
@@ -104,7 +104,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 			new ItemProbability(CreatureTypes.Pike, 0.3),
 			new ItemProbability(CreatureTypes.Whale, 0.15),
 			new ItemProbability(CreatureTypes.Blowfish, 0.03),
-			new ItemProbability(CreatureTypes.RedShark, 0.05),
+			new ItemProbability(CreatureTypes.RedPike, 0.05),
 			new ItemProbability(CreatureTypes.RedShark, 0.07),
 		};
 //	What Creature do I spawn?
@@ -112,6 +112,7 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 
 		timeSinceLastSpawn = timeSinceLastSpawn.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
 		var nextSpawnTime = nextSpawn*DifficultyFactor;
+		EditorDebug.LogWarning("Next SpawnTime: " + nextSpawnTime);
 		if(nextSpawnTime < MINIMAL_CREATURE_SPAWN_TIME)
 			nextSpawnTime = MINIMAL_CREATURE_SPAWN_TIME;
 		
