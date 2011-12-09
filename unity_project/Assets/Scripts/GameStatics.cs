@@ -25,6 +25,8 @@ public static class GameStatics {
 	private static string loadValue(string key, string default_val){
 		try{
 				string tmp = LocalStorage.ReadUTF8File(key);
+				if(tmp == string.Empty)
+					tmp =  default_val;
 				return tmp;
 		} catch(Exception e){
 				EditorDebug.LogWarning(e.Message);

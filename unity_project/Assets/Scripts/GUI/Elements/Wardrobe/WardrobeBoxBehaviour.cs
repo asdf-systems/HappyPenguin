@@ -11,6 +11,7 @@ public class WardrobeBoxBehaviour : Button {
 	
 	public string help2 = "ONLY FOR EditorDebug USE:";
 	public bool Locked = false;
+	public bool Unlocked = false;
 
 	public Texture2D Skin;
 	
@@ -28,8 +29,8 @@ public class WardrobeBoxBehaviour : Button {
 
 	
 	protected virtual void init(){
-		if((int)GameStatics.PersonalHighscore < points || Locked){
-			currentText = "you need " + points + "to unlock this items";
+		if(!Unlocked &&  ( (int)GameStatics.PersonalHighscore < points || Locked ) ){
+			currentText = "you need " + points + " points \nto unlock this items";
 			Uv = UV_locked;
 			hoverUV = UV_locked_active;
 			activeUV = UV_locked_active;

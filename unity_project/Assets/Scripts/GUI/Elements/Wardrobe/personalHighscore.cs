@@ -26,12 +26,10 @@ public class personalHighscore : InteractionBehaviour {
 	
 	void Start(){
 		username = GameStatics.Username;
-		if(username == string.Empty)
-			username = "Your name";
 		TextPanel[] text = gameObject.GetComponents<TextPanel>() as TextPanel[];
 		if(text != null && text.Length >= 2){
 			text[0].Text = username; 
-			text[1].Text = "               SCORE\n " + GameStatics.FormatPoints(GameStatics.PersonalHighscore);
+			text[1].Text = "\nSCORE: " + GameStatics.FormatPoints(GameStatics.PersonalHighscore);
 		} else{
 			EditorDebug.LogWarning("Personal Highscore need Two no TextPanels Attached, second is the name");
 		}
