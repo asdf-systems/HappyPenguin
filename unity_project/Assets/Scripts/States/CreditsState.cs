@@ -59,6 +59,10 @@ public class CreditsState : MonoBehaviour {
 		texts.Add("    Fabian Reif");
 		texts.Add("\n");
 		texts.Add("\n");
+		texts.Add("Quality Managment\n");
+		texts.Add("    Pauline Altmann");
+		texts.Add("\n");
+		texts.Add("\n");
 		texts.Add("Trainees");
 		texts.Add("\n");
 		texts.Add("    Philipp Laemmel");
@@ -66,8 +70,8 @@ public class CreditsState : MonoBehaviour {
 		texts.Add("    Felix Dietz");
 		texts.Add("\n");
 		texts.Add("\n");
-		texts.Add("Font");
-		texts.Add("Nigel Babb");
+		texts.Add("Font\n");
+		texts.Add("    Nigel Babb");
 		texts.Add("\n");
 		texts.Add("\n");
 		texts.Add("www.asdf-systems.de\n");
