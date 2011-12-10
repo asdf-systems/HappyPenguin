@@ -39,11 +39,11 @@ public class personalHighscore : InteractionBehaviour {
 	
 	public override void TextChanged(string text){
 		if(textPanels != null && textPanels.Length > 1){
-			Debug.LogWarning("TextChanged: " + text);
+			//Debug.LogWarning("TextChanged: " + text);
 			string value = textPanels[0].Text;
 			if(value.Trim() != string.Empty)
 				GameStatics.Username = value;
-			Debug.LogWarning("Username: " + GameStatics.Username + "XX");	
+			//Debug.LogWarning("Username: " + GameStatics.Username + "XX");	
 		}
 		
 	}
