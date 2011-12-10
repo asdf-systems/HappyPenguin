@@ -273,12 +273,8 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	private void HighlightSymbols(string chain) {
 		var targetables = entityManager.FindTargetables();
 		if(targetables == null)
-			EditorDebug.Log("AAAH!!!!"+targetables);
+			
 		foreach (var entity in targetables) {
-			EditorDebug.Log("AAAH! E="+entity);
-			EditorDebug.Log("AAAH! C="+chain);
-
-
 			if (entity.SymbolChain.StartsWith(chain)) {
 				entity.HighlightSymbols(chain.Length);
 			}
@@ -452,7 +448,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		
 		var points = change * PointsMultiplier;
 		
-		GameStatics.Points += points;
+		GameStatics.Points += (int)points;
 		guiManager.DisplayPoints(GameStatics.Points);
 		float val = random.Next(0,100);
 		if(val <= ProbabilityForCheers)
