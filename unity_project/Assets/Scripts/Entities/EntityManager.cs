@@ -202,11 +202,12 @@ namespace Pux.Entities
 				perk.transform.localRotation = Quaternion.identity;
 				perk.MoveTo(perkRetreat.transform.position, false);
 				perk.QueueController("impact", new WaterImpactController(Environment.SeaLevel) { Strength = 12, Duration = TimeSpan.FromSeconds(10) });
+				symbolManager.RegisterTargetable(perk);
 			};
 			perk.QueueController("move", arc);
 			
 			AdjustSymbolChainRange(perk);
-			symbolManager.RegisterTargetable(perk);
+			
 			entities.Add(perk);
 		}
 		
