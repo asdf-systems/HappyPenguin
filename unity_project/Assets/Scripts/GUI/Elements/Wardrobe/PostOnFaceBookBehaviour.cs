@@ -31,7 +31,7 @@ public class PostOnFaceBookBehaviour : InteractionBehaviour {
 						return;
 					}
 			});
-			Alert.ShowText("Highscore Postet");	
+			Alert.ShowText("Highscore Posted");	
 		});
 	}
 	
