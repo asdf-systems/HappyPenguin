@@ -112,7 +112,6 @@ public sealed class CreatureSpawner : Spawner<CreatureTypes>
 
 		timeSinceLastSpawn = timeSinceLastSpawn.Add(TimeSpan.FromSeconds((double)Time.deltaTime));
 		var nextSpawnTime = nextSpawn*DifficultyFactor;
-		EditorDebug.LogWarning("Next SpawnTime: " + nextSpawnTime);
 		if(nextSpawnTime < MINIMAL_CREATURE_SPAWN_TIME)
 			nextSpawnTime = MINIMAL_CREATURE_SPAWN_TIME;
 		

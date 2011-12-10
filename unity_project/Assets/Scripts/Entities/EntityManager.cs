@@ -117,7 +117,7 @@ namespace Pux.Entities
 		}
 
 		public IEnumerable<TargetableEntityBehaviour> FindTargetables() {
-			return Entities.Where(x => x is TargetableEntityBehaviour).Select(x => x as TargetableEntityBehaviour).ToList();
+			return Entities.Where(x => x is TargetableEntityBehaviour && !string.IsNullOrEmpty((x as TargetableEntityBehaviour).SymbolChain)).Select(x => x as TargetableEntityBehaviour).ToList();
 		}
 
 		public TargetableEntityBehaviour FindTargetable(string symbolChain) {

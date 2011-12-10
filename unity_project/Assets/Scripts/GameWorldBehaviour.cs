@@ -272,7 +272,13 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 // Symbol Modifikation
 	private void HighlightSymbols(string chain) {
 		var targetables = entityManager.FindTargetables();
+		if(targetables == null)
+			EditorDebug.Log("AAAH!!!!"+targetables);
 		foreach (var entity in targetables) {
+			EditorDebug.Log("AAAH! E="+entity);
+			EditorDebug.Log("AAAH! C="+chain);
+
+
 			if (entity.SymbolChain.StartsWith(chain)) {
 				entity.HighlightSymbols(chain.Length);
 			}
