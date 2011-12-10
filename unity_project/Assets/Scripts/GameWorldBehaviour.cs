@@ -272,7 +272,6 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 // Symbol Modifikation
 	private void HighlightSymbols(string chain) {
 		var targetables = entityManager.FindTargetables();
-		if(targetables == null)
 			
 		foreach (var entity in targetables) {
 			if (entity.SymbolChain.StartsWith(chain)) {

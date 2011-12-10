@@ -15,15 +15,10 @@ public class LoadingStart_GameState : MonoBehaviour {
 	void Start () {
 		hideNextButton();
 		LoadResourceBehaviour.LoadingFinished += OnFinishedLoading;
-		timer = new Timer(5);
-		timer.TimerFinished += OnTimerFinished;
-		timer.StartTimer();
+		
 	}
 
-	private void OnTimerFinished (object sender, EventArgs e){
-		if(BackgroundRenderer != null)
-			BackgroundRenderer.material.SetTexture("_MainTex", SecondScreenMaterial);
-	}
+
 	
 	// Update is called once per frame
 	void Update () {

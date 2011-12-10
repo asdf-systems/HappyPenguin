@@ -12,6 +12,7 @@ public class GameEndState : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		//GameStatics.Points = 1000000;
 		EditorDebug.LogWarning("Points: " + GameStatics.Points);
 		okayButton.Visibility = false;
 		Time.timeScale = 1;

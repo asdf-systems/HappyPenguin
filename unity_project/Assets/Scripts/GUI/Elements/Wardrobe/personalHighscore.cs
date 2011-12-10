@@ -28,7 +28,7 @@ public class personalHighscore : InteractionBehaviour {
 	void Start(){
 		textPanels = gameObject.GetComponents<TextPanel>() as TextPanel[];
 		username = GameStatics.Username;
-		Debug.LogWarning("Start Username: " + username);
+		//Debug.LogWarning("Start Username: " + username);
 		if(textPanels != null && textPanels.Length >= 2){
 			textPanels[0].Text = username; 
 			textPanels[1].Text = "SCORE: " + GameStatics.FormatPoints(GameStatics.PersonalHighscore);
