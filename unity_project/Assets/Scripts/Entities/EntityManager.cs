@@ -98,6 +98,7 @@ namespace Pux.Entities
 			var balloon = beacon.Balloon;
 			balloon.transform.parent = null;
 			var behaviour = balloon.GetComponent<EnvironmentEntityBehaviour>();
+			behaviour.QueueController("float", new BalloonFloatingController(behaviour));
 			behaviour.MoveTo(behaviour.transform.position + new Vector3(0, 1000, 0), false);
 		}
 
@@ -220,6 +221,10 @@ namespace Pux.Entities
 			
 			entities.Remove(targetable);
 			GameObject.Destroy(targetable.gameObject);
+		}
+		
+		public IEnumerable<CreatureBehaviour> GetAttackingCreatures(){
+			return symbolManager.Targetables.Where(x => x is CreatureBehaviour).Select(x => x as CreatureBehaviour);
 		}
 
 		private PerkBehaviour DisplayPerk(PerkTypes type, Vector3 position) {

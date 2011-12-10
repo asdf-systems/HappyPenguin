@@ -34,7 +34,7 @@ namespace Pux.Effects
 			entity.HideSymbols();
 			entity.PlayAnimation("explode");
 			
-			var creatures = w.entityManager.FindCreatures();
+			var creatures = w.entityManager.GetAttackingCreatures();
 			foreach (var creature in creatures.Where(x => !(x == entity))) {
 				var killEffects = creature.HitEffects;
 				foreach (var effect in killEffects) {

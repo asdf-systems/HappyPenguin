@@ -34,6 +34,10 @@ namespace Pux
 			targets.Add(entity.SymbolChain, entity);
 		}
 		
+		public IEnumerable<TargetableEntityBehaviour> Targetables {
+			get{ return targets.Values; }
+		}
+		
 		public TargetableEntityBehaviour GetTargetable(string symbolChain){
 			return targets[symbolChain];
 		}
@@ -43,7 +47,6 @@ namespace Pux
 			targets.Remove(entity.SymbolChain);
 		}
 		
-	
 		internal string GenerateSymbolChain(Range range)
 		{
 			string chain = string.Empty; 
