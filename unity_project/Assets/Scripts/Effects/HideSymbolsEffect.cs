@@ -14,6 +14,8 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 
 		public override void Start(GameWorldBehaviour world) {
+			if(entity == null)
+				return;
 			entity.HideSymbols();
 		}
 

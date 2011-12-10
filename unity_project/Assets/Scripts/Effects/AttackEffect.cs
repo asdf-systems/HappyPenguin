@@ -13,6 +13,10 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 
 		public override void Start(GameWorldBehaviour world) {
+			if(targetable == null)
+				return;
+			if(targetable.audio == null)
+				return;
 			targetable.audio.clip = targetable.AttackSound;
 			targetable.audio.Play();
 		}

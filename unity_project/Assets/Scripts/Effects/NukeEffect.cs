@@ -22,6 +22,10 @@ namespace Pux.Effects
 		}
 
 		public override void Start(GameWorldBehaviour w) {
+			if(entity == null)
+				return;
+			if(entity.audio == null)
+				return;
 			entity.audio.clip = entity.DeathSound;
 			entity.audio.Play();
 			entity.ClearControllers();

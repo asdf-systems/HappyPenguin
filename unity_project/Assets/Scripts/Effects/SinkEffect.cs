@@ -11,6 +11,11 @@ namespace Pux.Effects
 		#region implemented abstract members of Pux.Effects.Effect
 		public override void Start (GameWorldBehaviour world)
 		{
+			if(entity == null)
+				return;
+			if(entity.audio == null)
+				return;
+			
 			entity.audio.clip = entity.DeathSound;
 			entity.audio.Play();
 			var ground = entity.transform.position + new Vector3(0, -100, 0);

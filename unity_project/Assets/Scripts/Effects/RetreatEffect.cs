@@ -14,8 +14,11 @@ namespace Pux.Effects
 
 		public override void Start(GameWorldBehaviour w) {
 			if(creature != null){
-				creature.audio.clip = creature.DeathSound;
-				creature.audio.Play();
+				if(creature.audio != null){
+					creature.audio.clip = creature.DeathSound;
+					creature.audio.Play();
+				}
+				
 				var creatureRetreat = GameObjectRegistry.GetObject("creature_retreat");
 				creature.IsRetreating = true;
 				creature.Speed = 30;
