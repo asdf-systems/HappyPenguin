@@ -52,17 +52,12 @@ namespace Pux
 		
 		internal string GenerateSymbolChain(Range range)
 		{
-			var misses = -1;
 			string chain = string.Empty; 
 			int rnd1;
 			do {
 				chain = string.Empty;
 				rnd1 = random.Next((int)range.From, (int)range.To+1);
 				for (int i = 1; i <= rnd1; i++) {
-					if (misses == range.To) {
-						range = new Range(range.From, range.To + 1);
-					}
-					misses++;
 					int rnd = random.Next(1, 5);
 				
 					switch (rnd) {
