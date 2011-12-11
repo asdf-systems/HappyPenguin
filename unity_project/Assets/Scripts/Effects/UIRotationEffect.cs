@@ -20,7 +20,7 @@ namespace Pux.Effects
 			random = new System.Random();
 			clockRotations = new ClockRotations[2];
 			Duration = TimeSpan.FromSeconds(5);
-			IconResourceUV = new Rect(1792, 425, 144, 144);
+			IconResourceUV = new Rect(1792, 433, 144, 144);
 		}
 		
 		public UIRotationEffect (ClockRotations clockRotation)
