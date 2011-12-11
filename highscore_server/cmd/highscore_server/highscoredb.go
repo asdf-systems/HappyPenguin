@@ -1,7 +1,7 @@
 package main
 
 import (
-	"json"
+	"encoding/json"
 	"log"
 	"os"
 	"fmt"
@@ -28,9 +28,9 @@ type HighscoreDB struct {
 
 func NewHighscoreDB(path string) *HighscoreDB {
 	hsdb := &HighscoreDB{path: path}
-	hsdb.readTop10()
-	hsdb.diskop = make(chan diskop_command)
 	hsdb.top10 = make([]Entry, NUM_PLACES)
+	hsdb.diskop = make(chan diskop_command)
+	hsdb.readTop10()
 	go hsdb.diskOperator()
 	return hsdb
 }
@@ -52,7 +52,7 @@ func (this *HighscoreDB) GetHighscore() []Entry {
 func (this *HighscoreDB) readTop10() {
 	f, e := os.Open(this.path + "/" + TOP10_FILE)
 	if e != nil {
-		log.Printf("Could not open top10 file: %s\n", e.String())
+		log.Printf("Could not open top10 file: %s\n", e)
 		log.Printf("Starting over\n")
 		return
 	}
@@ -61,11 +61,11 @@ func (this *HighscoreDB) readTop10() {
 	decoder := json.NewDecoder(f)
 	e = decoder.Decode(&this.top10)
 	if e != nil {
-		log.Printf("Could not decode top10 file: %s\n", e.String())
+		log.Printf("Could not decode top10 file: %s\n", e)
 		log.Printf("Starting over. Backing up old file\n")
-		e := os.Rename(TOP10_FILE, fmt.Sprintf("%s-%s.txt", TOP10_FILE, time.LocalTime().String()))
+		e := os.Rename(TOP10_FILE, fmt.Sprintf("%s-%s.txt", TOP10_FILE, time.Now().String()))
 		if e != nil {
-			log.Printf("Could not backup old file: %s\n", e.String())
+			log.Printf("Could not backup old file: %s\n", e)
 			log.Printf("Not caring.")
 		}
 	}
@@ -74,27 +74,27 @@ func (this *HighscoreDB) readTop10() {
 func (this *HighscoreDB) saveTop10() {
 	f, e := os.OpenFile(this.path+"/"+TOP10_FILE, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0644)
 	if e != nil {
-		log.Printf("Could not save top10 file: %s\n", e.String())
+		log.Printf("Could not save top10 file: %s\n", e)
 	}
 	defer f.Close()
 
 	encoder := json.NewEncoder(f)
 	e = encoder.Encode(this.top10)
 	if e != nil {
-		log.Printf("Could not encode top10 file: %s\n", e.String())
+		log.Printf("Could not encode top10 file: %s\n", e)
 	}
 }
 
 func (this *HighscoreDB) saveNewEntry(entry Entry) {
 	f, e := os.OpenFile(this.path+"/"+ALL_FILE, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 	if e != nil {
-		log.Printf("Could not open file for new entry: %s\n", e.String())
+		log.Printf("Could not open file for new entry: %s\n", e)
 	}
 	defer f.Close()
 
 	encoder := json.NewEncoder(f)
 	e = encoder.Encode(entry)
 	if e != nil {
-		log.Printf("Could not encode new entry: %s\n", e.String())
+		log.Printf("Could not encode new entry: %s\n", e)
 	}
 }
