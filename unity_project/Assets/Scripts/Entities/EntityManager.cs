@@ -54,14 +54,20 @@ namespace Pux.Entities
 		}
 
 		private void OnTargetHit(object sender, BehaviourEventArgs<SnowballBehaviour> e) {
-			var target = sender as TargetableEntityBehaviour;
-			target.TargetHit -= OnTargetHit;
-			target.HideSymbols();
-			target.ClearControllers();
 			
 			// die, snowball, die
-			e.Behaviour.Dispose();
+			VoidEnvironmental(e.Behaviour);
 			
+			var target = sender as TargetableEntityBehaviour;
+			target.TargetHit -= OnTargetHit;
+			if (target is CreatureBehaviour) {
+				var creature = target as CreatureBehaviour;
+				if (creature.IsRetreating) {
+					return;
+				}
+			}
+			target.HideSymbols();
+			target.ClearControllers();
 			InvokeEffectsReleased(target.HitEffects);
 		}
 
