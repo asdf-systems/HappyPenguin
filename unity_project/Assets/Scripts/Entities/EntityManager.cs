@@ -229,6 +229,9 @@ namespace Pux.Entities
 				return;
 			}
 			
+			if (symbolManager.IsTargetableRegistered(targetable)) {
+				symbolManager.VoidTargetable(targetable);
+			}
 			entities.Remove(targetable);
 			GameObject.Destroy(targetable.gameObject);
 		}
