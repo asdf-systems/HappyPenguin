@@ -63,7 +63,8 @@ public class GameEndState : MonoBehaviour {
 			GameStatics.PersonalHighscore = GameStatics.Points;
 			alertElement.timer1.TimerFinished += OnHighscoreTimerFinished;
 
-		}
+		} else
+			addEntry(GameStatics.Username, Convert.ToInt32(GameStatics.Points));
 
 
 	}
