@@ -231,7 +231,7 @@ namespace Pux.Entities
 		}
 		
 		public IEnumerable<CreatureBehaviour> GetAttackingCreatures(){
-			return symbolManager.Targetables.Where(x => x is CreatureBehaviour).Select(x => x as CreatureBehaviour);
+			return symbolManager.Targetables.Where(x => x is CreatureBehaviour).Select(x => x as CreatureBehaviour).ToList();
 		}
 
 		private PerkBehaviour DisplayPerk(PerkTypes type, Vector3 position) {
