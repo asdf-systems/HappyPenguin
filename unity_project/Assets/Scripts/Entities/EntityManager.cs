@@ -43,8 +43,6 @@ namespace Pux.Entities
 		}
 
 		public void ThrowSnowball(TargetableEntityBehaviour target) {
-			Debug.Log("throwing snowball");
-			
 			target.TargetHit += OnTargetHit;
 			
 			var snowball = DisplaySnowball();
@@ -229,7 +227,7 @@ namespace Pux.Entities
 				return;
 			}
 			
-			if (symbolManager.IsTargetableRegistered(targetable)) {
+			if (symbolManager.IsTargetableRegistered(targetable.SymbolChain)) {
 				symbolManager.VoidTargetable(targetable);
 			}
 			entities.Remove(targetable);

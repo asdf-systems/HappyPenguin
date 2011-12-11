@@ -39,7 +39,7 @@ namespace Pux
 		}
 		
 		public TargetableEntityBehaviour GetTargetable(string symbolChain){
-			return targets[symbolChain];
+			return targets[symbolChain];	
 		}
 		
 		public void VoidTargetable(TargetableEntityBehaviour entity)
