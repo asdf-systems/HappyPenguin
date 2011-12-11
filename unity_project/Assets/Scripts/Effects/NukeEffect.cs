@@ -40,7 +40,6 @@ namespace Pux.Effects
 			
 			var creatures = w.entityManager.GetAttackingCreatures();
 			foreach (var creature in creatures.Where(x => !(x == entity))) {
-				w.entityManager.DeactivateTargetable(entity);
 				var killEffects = creature.HitEffects;
 				foreach (var effect in killEffects) {
 					w.ApplyEffect(effect);

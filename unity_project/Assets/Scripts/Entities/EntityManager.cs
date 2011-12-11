@@ -52,7 +52,6 @@ namespace Pux.Entities
 		}
 
 		private void OnTargetHit(object sender, BehaviourEventArgs<SnowballBehaviour> e) {
-			
 			// die, snowball, die
 			VoidEnvironmental(e.Behaviour);
 			
@@ -180,8 +179,8 @@ namespace Pux.Entities
 			}
 			
 			AdjustSymbolChainRange(creature);
-			symbolManager.RegisterTargetable(creature);
 			entities.Add(creature);
+			symbolManager.RegisterTargetable(creature);
 		}
 		
 		private void AdjustSymbolChainRange(TargetableEntityBehaviour behaviour){
@@ -227,9 +226,6 @@ namespace Pux.Entities
 				return;
 			}
 			
-			if (symbolManager.IsTargetableRegistered(targetable.SymbolChain)) {
-				symbolManager.VoidTargetable(targetable);
-			}
 			entities.Remove(targetable);
 			GameObject.Destroy(targetable.gameObject);
 		}

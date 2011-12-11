@@ -17,6 +17,7 @@ namespace Pux.Effects
 				return;
 			if(targetable.audio == null)
 				return;
+			
 			targetable.audio.clip = targetable.AttackSound;
 			targetable.audio.Play();
 		}

@@ -44,7 +44,10 @@ namespace Pux
 		
 		public void VoidTargetable(TargetableEntityBehaviour entity)
 		{
-			targets.Remove(entity.SymbolChain);
+			if (targets.ContainsKey(entity.SymbolChain)) {
+				targets.Remove(entity.SymbolChain);	
+				return;
+			}
 		}
 		
 		internal string GenerateSymbolChain(Range range)
