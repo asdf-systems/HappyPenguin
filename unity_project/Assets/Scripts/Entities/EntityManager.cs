@@ -159,12 +159,11 @@ namespace Pux.Entities
 			if (creature == null) {
 				throw new ApplicationException(string.Format("Could not create creature of type '{0}'", type));
 			}
-			creature.DefaultSpeed = creature.DefaultSpeed * CreatureSpeedModifier;
+			creature.Speed = creature.DefaultSpeed * CreatureSpeedModifier;
 			creature.GrimReaperAppeared += (sender, e) => VoidTargetable(creature);
 			
 			var target = GameObjectRegistry.GetObject("attack_node");
 			creature.SwimTo(target.transform.position).Float();
-			
 			
 			if (type == CreatureTypes.Blowfish) {
 				creature.AttackEffects.Clear();
@@ -226,6 +225,7 @@ namespace Pux.Entities
 				return;
 			}
 			
+			DeactivateTargetable(targetable);
 			entities.Remove(targetable);
 			GameObject.Destroy(targetable.gameObject);
 		}
