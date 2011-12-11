@@ -26,11 +26,14 @@ namespace Pux
 		public void RegisterTargetable(TargetableEntityBehaviour entity)
 		{
 			if (entity == null) {
-				EditorDebug.Log("perk still null");
+				EditorDebug.Log("targetable is null");
 				return;
 			}
 			
+			
 			entity.SymbolChain = GenerateSymbolChain(entity.SymbolRange);
+			var message = string.Format("registering {0}: {1}", entity.SymbolChain, entity);
+			EditorDebug.Log(message);
 			targets.Add(entity.SymbolChain, entity);
 		}
 		
@@ -45,24 +48,22 @@ namespace Pux
 		public void VoidTargetable(TargetableEntityBehaviour entity)
 		{
 			if (targets.ContainsKey(entity.SymbolChain)) {
+				var message = string.Format("unregistering {0}: {1}", entity.SymbolChain, entity);
+				EditorDebug.Log(message);
 				targets.Remove(entity.SymbolChain);	
+				entity.SymbolChain = string.Empty;
 				return;
 			}
 		}
 		
 		internal string GenerateSymbolChain(Range range)
 		{
-			var misses = -1;
 			string chain = string.Empty; 
 			int rnd1;
 			do {
 				chain = string.Empty;
 				rnd1 = random.Next((int)range.From, (int)range.To+1);
 				for (int i = 1; i <= rnd1; i++) {
-					if (misses == range.To) {
-						range = new Range(range.From, range.To + 1);
-					}
-					misses++;
 					int rnd = random.Next(1, 5);
 				
 					switch (rnd) {
