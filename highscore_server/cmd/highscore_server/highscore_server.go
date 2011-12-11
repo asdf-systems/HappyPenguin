@@ -1,7 +1,7 @@
 package main
 
 import (
-	"http"
+	"net/http"
 	"jsonrpc"
 	"log"
 	"io"
@@ -23,7 +23,7 @@ func main() {
 	http.HandleFunc("/", handler)
 	e := http.ListenAndServe(":8080", nil)
 	if e != nil {
-		log.Fatalf("Could not start server: %s\n", e.String())
+		log.Fatalf("Could not start server: %s\n", e)
 	}
 }
 
@@ -34,7 +34,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	data, e := rpc.Execute(buf.String())
 	if e != nil {
-		log.Printf("Could not handle %s request: %s\n", r.RemoteAddr, e.String())
+		log.Printf("Could not handle %s request: %s\n", r.RemoteAddr, e)
 	}
 	w.Write([]byte(data))
 }
