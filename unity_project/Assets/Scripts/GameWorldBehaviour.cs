@@ -34,6 +34,7 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 	public AudioClip NormalBackgroundMusic;
 	public AudioClip FastBackgroundMusic;
 	
+	private float lastSave = 0;
 	public Range SymbolRangeModifer {
 		set { entityManager.SymbolRangeModifer = value; }
 	}
@@ -452,6 +453,12 @@ public sealed class GameWorldBehaviour : MonoBehaviour
 		float val = random.Next(0,100);
 		if(val <= ProbabilityForCheers)
 			IngameSounds.PlayCheerSound();
+		lastSave += (float)points;
+		if(GameStatics.Points > GameStatics.PersonalHighscore && lastSave > 500){
+			lastSave = 0.0f;
+			GameStatics.PersonalHighscore = GameStatics.Points;
+		}
+			
 	}
 	
 	public void DarkenScreen(bool darken){
