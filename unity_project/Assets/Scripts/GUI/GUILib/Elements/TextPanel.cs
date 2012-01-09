@@ -50,6 +50,8 @@ public class TextPanel : Panel {
 	protected override void OnGUIOverride(){
 		base.OnGUIOverride();
 		formatText();
+		if(!this.Visibility)
+			return;
 		if(Editable)
 			Text = UnityEngine.GUI.TextField(realTextRegion, formatetText, MaxInputTextLength, textStyle);
 		else
@@ -60,10 +62,14 @@ public class TextPanel : Panel {
 			UnityEngine.GUI.Box(realTextRegion, "");	
 		}
 #endif 
+
 	}
 	
 	
 	private void formatText(){
+		if(!created)
+			return;
+		//EditorDebug.Log("Format Text Element: " + gameObject.name);
 		if(activeScreen.DebugModus)
 			initTextRegion();
 		//textStyle.fontSize = targetFontSize;
@@ -81,7 +87,7 @@ public class TextPanel : Panel {
 		if(activeScreen.DebugModus)
 			formatMultilineText();
 #endif
-		UpdateElement();
+		//UpdateElement();
 	}
 	
 
@@ -125,8 +131,13 @@ public class TextPanel : Panel {
 	
 	// Caclulate the Absolute Values on the physical screen - because TextRegion is virtual an relative to the Panel Position
 	private void initTextRegion(){
+		if(!created)
+			return;
+		
 		var textRegion = activeScreen.GetPhysicalRegionFromRect(TextRegion);
-		realTextRegion = new Rect(RealRegionOnScreen.x + textRegion.x , RealRegionOnScreen.y + textRegion.y, textRegion.width, textRegion.height);
+		realTextRegion = new Rect(RealRegionOnScreen.x + textRegion.x , RealRegionOnScreen.y + textRegion.y, textRegion.width, textRegion.height);			
+		
+		
 	}
 	
 	private void InvokeTextChanged(){

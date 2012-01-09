@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Pux.Controllers;
 
 
 public sealed class SampleUIController : Controller<MonoBehaviour>
