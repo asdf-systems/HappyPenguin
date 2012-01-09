@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System;
-using Pux.Resources;
+using asdf.Resources;
 
 public static class GameStatics {
 

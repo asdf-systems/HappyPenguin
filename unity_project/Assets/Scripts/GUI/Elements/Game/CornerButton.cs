@@ -33,16 +33,18 @@ public sealed class CornerButton : Button
 	protected override void UpdateOverride() {
 		base.UpdateOverride();
 		controlManager.Update(this);
-		if(firstUpdate){
-			firstUpdate = false;
-			removeFloat();
-			StoreDefaultPosition();
-		}
+		
 		
 	}
 	
+	protected override void firstUpdate (){
+		base.firstUpdate ();
+		removeFloat();
+		StoreDefaultPosition();
+	}
+	
 	public void RemoveController (string name) {
-		controlManager.RemoveController(name);
+		controlManager.DequeueController(name);
 	}
 
 	protected override void AwakeOverride() {

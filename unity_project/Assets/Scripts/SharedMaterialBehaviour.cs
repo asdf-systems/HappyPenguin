@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections;
-using Pux.Resources;
+using asdf.Resources;
 
 public class SharedMaterialBehaviour : MonoBehaviour {
 

@@ -61,7 +61,7 @@ public class GameEndState : MonoBehaviour {
 			nextButton.Visibility = false;
 			alertElement.ShowText("New Highscore!!\n Position: " + position); //, 8, new Vector2(alertElement.positionX, alertElement.positionY));
 			GameStatics.PersonalHighscore = GameStatics.Points;
-			alertElement.timer1.TimerFinished += OnHighscoreTimerFinished;
+			alertElement.HidingTimer.TimerFinished += OnHighscoreTimerFinished;
 
 		} else
 			addEntry(GameStatics.Username, Convert.ToInt32(GameStatics.Points));

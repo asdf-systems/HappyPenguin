@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Pux.Resources;
+using asdf.Resources;
 
 
 public sealed class StartResourceLoadingBehaviour : ResourceLoadingBehaviour
@@ -22,7 +22,7 @@ public sealed class StartResourceLoadingBehaviour : ResourceLoadingBehaviour
 	}
 	
 	void Start(){
-		timer.StartTimer();
+		timer.StartTimer(4);
 		
 	}
 	

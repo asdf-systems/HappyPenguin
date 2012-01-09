@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Pux;
-using Pux.Resources;
+using asdf.Resources;
 
 public class SymbolChainDisplay: Panel{
 		

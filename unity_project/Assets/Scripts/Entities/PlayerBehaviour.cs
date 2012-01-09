@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 using Pux.Entities;
-using Pux.Resources;
+using asdf.Resources;
 
 public sealed class PlayerBehaviour : EntityBehaviour
 {

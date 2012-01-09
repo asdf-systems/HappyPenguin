@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using Pux.Resources;
+using asdf.Resources;
 
 
 public sealed class PlayResourceLoadingBehaviour : ResourceLoadingBehaviour

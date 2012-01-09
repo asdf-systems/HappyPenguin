@@ -8,7 +8,7 @@ using Pux.Spawning;
 using Pux.Unity;
 using Pux.Controllers;
 using Pux.Effects;
-using Pux.Resources;
+using asdf.Resources;
 
 namespace Pux.Entities
 {

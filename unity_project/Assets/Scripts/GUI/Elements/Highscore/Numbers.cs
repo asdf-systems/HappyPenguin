@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using Pux.Resources;
+using asdf.Resources;
 
 public class Numbers : MonoBehaviour {
 
