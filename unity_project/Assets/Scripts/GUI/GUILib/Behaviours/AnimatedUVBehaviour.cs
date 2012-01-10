@@ -62,7 +62,7 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 			
 			var framesPlayed = (int)(frameTime*MovieSpeedFPS);
   			currentFrameNumber = (currentFrameNumber + framesPlayed) % TotalFramesCount;
-  			frameTime -= framesPlayed/MovieSpeedFPS;
+  			frameTime -= (float)(framesPlayed)/MovieSpeedFPS;
   			changeFrame();
 			
 			
@@ -80,7 +80,7 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 			
 			
 		currentRow = (int)(currentFrameNumber%framesPerTexture)/ColumnCount;
-		currentColoum = (int)(currentFrameNumber%framesPerTexture)/RowCount;
+		currentColoum = (int)(currentFrameNumber%ColumnCount);
 		int oldTexture = currentTexture;
 		currentTexture = (int)(currentFrameNumber/framesPerTexture);
 		if(oldTexture != currentTexture)
