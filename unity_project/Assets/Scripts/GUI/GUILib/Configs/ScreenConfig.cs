@@ -7,6 +7,7 @@ public class ScreenConfig : MonoBehaviour {
 	public int TargetScreenHeight = 640;
 	public double SwipeMinTime = 0.01;
 	public float SwipeMinDistance = 150;
+	public Font DynamicFont;
 	
 	public float ScreenAspect{
 		get;

@@ -76,6 +76,7 @@ public class TextPanel : Panel {
 #if UNITY_IPHONE || UNITY_ANDROID
 		changeFontForMobile();
 #elif UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_WEBPLAYER
+		textStyle.font = ScreenConfig.Instance.DynamicFont;
 		textStyle.fontSize = CameraScreen.GetPhysicalTextSize(textStyle.fontSize);
 #endif
 		
