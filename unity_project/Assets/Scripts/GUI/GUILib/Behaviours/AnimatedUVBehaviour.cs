@@ -80,7 +80,7 @@ public class AnimatedUVBehaviour : UVMoveBehaviour {
 			
 			
 		currentRow = (int)(currentFrameNumber%framesPerTexture)/ColumnCount;
-		currentColoum = (int)(currentFrameNumber%ColumnCount);
+		currentColoum = (int)(currentFrameNumber%framesPerTexture%ColumnCount);
 		int oldTexture = currentTexture;
 		currentTexture = (int)(currentFrameNumber/framesPerTexture);
 		if(oldTexture != currentTexture)
