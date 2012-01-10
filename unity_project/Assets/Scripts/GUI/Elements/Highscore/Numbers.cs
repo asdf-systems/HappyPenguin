@@ -57,7 +57,7 @@ public class Numbers : MonoBehaviour {
 			var sign = numberPanels[i];
 			sign.VirtualRegionOnScreen = VirtualRegionOnScreen;
 			sign.VirtualRegionOnScreen.x  += xOff; 
-			xOff += (int)(sign.VirtualRegionOnScreen.width) - 30;	
+			xOff += (int)(sign.VirtualRegionOnScreen.width) - 10;	
 			sign.UpdateElement();
 		}
 		

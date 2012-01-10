@@ -72,10 +72,11 @@ public class TextPanel : Panel {
 		//EditorDebug.Log("Format Text Element: " + gameObject.name);
 		if(activeScreen.DebugModus)
 			initTextRegion();
-		//textStyle.fontSize = targetFontSize;
+		
 #if UNITY_IPHONE || UNITY_ANDROID
 		changeFontForMobile();
 #elif UNITY_EDITOR || UNITY_STANDALONE_OSX || UNITY_STANDALONE_WIN || UNITY_WEBPLAYER
+		textStyle.fontSize = targetFontSize;
 		textStyle.font = ScreenConfig.Instance.DynamicFont;
 		textStyle.fontSize = CameraScreen.GetPhysicalTextSize(textStyle.fontSize);
 #endif
